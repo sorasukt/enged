@@ -4,36 +4,31 @@
   <meta charset="UTF-8">
   <title>ระบบบันทึกการสังเกต 1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- iOS App Icon -->
   <link rel="apple-touch-icon" href="/icon/icon-512.png" sizes="180x180">
-  <link rel="apple-touch-icon" href="/icon/icon-512.png" sizes="167x167">
-  <link rel="apple-touch-icon" href="/icon/icon-512.png" sizes="152x152">
-  <meta name="apple-mobile-web-app-title" content="ระบบบันทึกการสังเกต 1">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <!-- ฟอนต์ Kanit Light -->
+
+  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
-    /* --- Reset & Base --- */
     body {
       margin: 0;
-      padding: 0;
       font-family: 'Kanit', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f4f4f5;
+      background: #f2f2f4;
       color: #1a1a1a;
-      -webkit-font-smoothing: antialiased;
-      transition: background 0.3s, color 0.3s;
+      transition: .3s;
     }
 
-    /* --- Header แบบ Apple --- */
+    /* Header */
     header {
-      width: 100%;
       padding: 14px 20px;
       background: #ffffffcc;
       backdrop-filter: blur(12px);
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -46,61 +41,150 @@
       font-weight: 500;
     }
 
-    /* ปุ่ม Dark Mode */
-    .toggle-btn {
-      font-size: 16px;
-      background: none;
-      border: none;
+    /* Hamburger */
+    .hamburger {
+      width: 30px;
+      height: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       cursor: pointer;
-      padding: 6px 10px;
+      padding: 5px;
     }
 
-    /* --- iframe container --- */
+    .bar {
+      height: 3px;
+      width: 100%;
+      background: #333;
+      border-radius: 3px;
+      transition: .3s;
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+    .hamburger.active .bar:nth-child(2) { opacity: 0; }
+    .hamburger.active .bar:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* Mobile Menu (full width) */
+    .menu {
+      position: fixed;
+      top: 58px;
+      left: 0;
+      width: 100%;
+      background: #ffffffee;
+      backdrop-filter: blur(14px);
+      border-top: 1px solid #e6e6e6;
+      display: none;
+      flex-direction: column;
+      z-index: 19;
+      animation: menuFade .25s ease;
+    }
+
+    @keyframes menuFade {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .menu a {
+      padding: 16px 22px;
+      text-decoration: none;
+      color: #333;
+      font-size: 16px;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .menu a:last-child {
+      border-bottom: 0;
+    }
+
+    /* Iframe */
     .app-frame {
-      position: relative;
       width: 100%;
       height: calc(100vh - 10px);
-      overflow: hidden;
-      background: #fff;
+      background: white;
     }
-
     .app-frame iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       border: 0;
     }
 
-    /* --- Dark Mode --- */
+    /* Dark Mode */
     body.dark {
       background: #1a1a1a;
-      color: #e5e5e5;
+      color: #eaeaea;
     }
 
     body.dark header {
       background: #000000cc;
-      border-bottom-color: #333;
+      border-bottom-color: #444;
+    }
+
+    body.dark .menu {
+      background: #000000df;
+      border-color: #555;
+    }
+
+    body.dark .menu a {
+      color: white;
+      border-bottom-color: #444;
     }
   </style>
 </head>
 
 <body>
-  <!-- IFRAME เว็บแอป -->
-  <div class="app-frame">
-    <iframe 
-      src="https://script.google.com/macros/s/AKfycbz5mlUHP8E1hZLQpthrAq5BICBe-3ni22V-ek381L5pTc8T8NvH2K8-AeLIU6J90YH_/exec?page=indexE"
-      allow="fullscreen">
-    </iframe>
-  </div>
 
-  <script>
-    // Toggle Dark Mode
-    function toggleMode() {
-      document.body.classList.toggle('dark');
+<header>
+  <h1>ระบบบันทึกการสังเกต</h1>
+
+  <!-- Hamburger -->
+  <div class="hamburger" id="menuBtn">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+</header>
+
+<!-- Full-width mobile menu -->
+<nav class="menu" id="menuPanel">
+  <a href="https://stnetradio.com">หน้าแรก</a>
+  <a href="https://tally.so/r/yPPPqx">กรอกข้อมูล</a>
+  <a href="#" onclick="toggleMode()">สลับโหมดกลางวัน/กลางคืน</a>
+</nav>
+
+<!-- Iframe -->
+<div class="app-frame">
+  <iframe 
+    src="https://script.google.com/macros/s/AKfycbz5mlUHP8E1hZLQpthrAq5BICBe-3ni22V-ek381L5pTc8T8NvH2K8-AeLIU6J90YH_/exec?page=indexE">
+  </iframe>
+</div>
+
+<script>
+  const btn = document.getElementById("menuBtn");
+  const panel = document.getElementById("menuPanel");
+
+  // Toggle menu
+  btn.onclick = () => {
+    btn.classList.toggle("active");
+    panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+  };
+
+  // ปิดเมนูถ้ากดนอกกรอบ
+  document.addEventListener("click", e => {
+    if (!btn.contains(e.target) && !panel.contains(e.target)) {
+      panel.style.display = "none";
+      btn.classList.remove("active");
     }
-  </script>
+  });
+
+  // Toggle dark mode
+  function toggleMode() {
+    document.body.classList.toggle('dark');
+  }
+</script>
 
 </body>
 </html>
