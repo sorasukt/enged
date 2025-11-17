@@ -1,43 +1,106 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <title>ระบบบันทึกการสังเกต 1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>แบบบันทึกการสังเกต</title>
-
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0071e3">
-
-  <!-- iOS Install Prompt -->
+  <link rel="apple-touch-icon" href="/icon/icon-512.png" sizes="180x180">
+  <link rel="apple-touch-icon" href="/icon/icon-512.png" sizes="167x167">
+  <link rel="apple-touch-icon" href="/icon/icon-512.png" sizes="152x152">
+  <meta name="apple-mobile-web-app-title" content="ระบบบันทึกการสังเกต 1">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <!-- ฟอนต์ Kanit Light -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
-    html, body {
+    /* --- Reset & Base --- */
+    body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      background: #000;
-      display: flex;
+      font-family: 'Kanit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f4f4f5;
+      color: #1a1a1a;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.3s, color 0.3s;
     }
-    iframe {
+
+    /* --- Header แบบ Apple --- */
+    header {
+      width: 100%;
+      padding: 14px 20px;
+      background: #ffffffcc;
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    /* ปุ่ม Dark Mode */
+    .toggle-btn {
+      font-size: 16px;
+      background: none;
       border: none;
+      cursor: pointer;
+      padding: 6px 10px;
+    }
+
+    /* --- iframe container --- */
+    .app-frame {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .app-frame iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
+      border: 0;
+    }
+
+    /* --- Dark Mode --- */
+    body.dark {
+      background: #1a1a1a;
+      color: #e5e5e5;
+    }
+
+    body.dark header {
+      background: #000000cc;
+      border-bottom-color: #333;
     }
   </style>
 </head>
 
 <body>
-  <iframe src="https://script.google.com/macros/s/AKfycbz5mlUHP8E1hZLQpthrAq5BICBe-3ni22V-ek381L5pTc8T8NvH2K8-AeLIU6J90YH_/exec"></iframe>
+  <!-- IFRAME เว็บแอป -->
+  <div class="app-frame">
+    <iframe 
+      src="https://script.google.com/macros/s/AKfycbz5mlUHP8E1hZLQpthrAq5BICBe-3ni22V-ek381L5pTc8T8NvH2K8-AeLIU6J90YH_/exec?page=indexE"
+      allow="fullscreen">
+    </iframe>
+  </div>
 
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js');
+    // Toggle Dark Mode
+    function toggleMode() {
+      document.body.classList.toggle('dark');
     }
   </script>
+
 </body>
 </html>
