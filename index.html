@@ -82,7 +82,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* แก้ไข: จัดกึ่งกลางแนวนอนสำหรับ flex item */
         }
 
         /* Icon */
@@ -118,11 +117,9 @@
             border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 2rem;
-            /* แก้ไข: เปลี่ยนจาก inline-block เป็น block ธรรมดาเพื่อให้จัดการ layout ง่ายขึ้น */
             display: block;
             width: 100%;
             max-width: 600px;
-            /* แก้ไข: ใช้ margin auto เพื่อความมั่นใจว่าจะอยู่ตรงกลางแน่นอน */
             margin-left: auto;
             margin-right: auto;
         }
@@ -180,7 +177,6 @@
             text-align: left;
             max-width: 600px;
             width: 100%;
-            /* เพิ่ม width 100% เพื่อความชัวร์ */
             margin: 0 auto 3rem auto;
         }
 
@@ -327,7 +323,6 @@
             border-radius: 3px;
         }
 
-        /* User message override to keep white text readable */
         .message.user code {
             background-color: rgba(255, 255, 255, 0.2);
         }
@@ -495,9 +490,9 @@
         <div class="schedule-box">
             <p class="schedule-time">
                 ระบบจะปิดให้บริการตั้งแต่
-                <span>14 มกราคม 2569 เวลา 12:00 น.</span>
+                <span>12 มกราคม 2569 เวลา 23:00 น.</span>
                 ถึง
-                <span>15 มกราคม 2569 เวลา 12:00 น.</span>
+                <span>13 มกราคม 2569 เวลา 12:00 น.</span>
             </p>
         </div>
 
@@ -539,8 +534,7 @@
         </div>
 
         <footer>
-            &copy; 2026 English Education, Faculty of Education, Loei Rajabhat University. All rights reserved.
-            (Developed by: Surasuk Thongkam)
+            &copy; 2026 English Education, All rights reserved.
         </footer>
     </div>
 
@@ -573,11 +567,9 @@
     </div>
 
     <script>
-        // Use DOMContentLoaded to ensure elements are ready before attaching listeners
         document.addEventListener('DOMContentLoaded', () => {
-
-            // --- Countdown Timer Logic ---
-            const countDownDate = new Date("Jan 15, 2026 12:00:00").getTime();
+            // Countdown Logic
+            const countDownDate = new Date("Jan 13, 2026 12:00:00").getTime();
             const x = setInterval(function () {
                 const now = new Date().getTime();
                 const distance = countDownDate - now;
@@ -604,18 +596,15 @@
                 }
             }, 1000);
 
-            // --- Attach Event Listeners ---
+            // Attach Listeners
             document.getElementById('toggleChatBtn').addEventListener('click', toggleChat);
             document.getElementById('closeChatBtn').addEventListener('click', toggleChat);
             document.getElementById('sendBtn').addEventListener('click', sendMessage);
             document.getElementById('userInput').addEventListener('keypress', function (event) {
-                if (event.key === 'Enter') {
-                    sendMessage();
-                }
+                if (event.key === 'Enter') sendMessage();
             });
         });
 
-        // --- Chat Widget Logic ---
         function toggleChat() {
             const chatWindow = document.getElementById('chatWindow');
             const currentDisplay = window.getComputedStyle(chatWindow).display;
@@ -632,7 +621,7 @@
             const messagesDiv = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message', sender);
-            messageDiv.innerHTML = text; // Now contains HTML processed from Markdown for AI
+            messageDiv.innerHTML = text;
             messagesDiv.appendChild(messageDiv);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
@@ -644,17 +633,12 @@
 
             if (!message) return;
 
-            // Add user message (Simple text to avoid XSS from user input)
-            // We use createTextNode or innerText safety manually if preferred, 
-            // but for this simple context we keep innerHTML for potential emoji/basic consistency.
-            // The prompt asked for AI Markdown support specifically.
             addMessage(message, 'user');
 
             input.value = '';
             input.disabled = true;
             sendBtn.disabled = true;
 
-            // Add loading indicator
             const loadingId = 'loading-' + Date.now();
             const messagesDiv = document.getElementById('chatMessages');
             const loadingDiv = document.createElement('div');
@@ -665,58 +649,94 @@
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
             try {
-                const apiKey = ""; // API Key will be injected by the environment
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: message
-                            }]
-                        }],
-                        systemInstruction: {
-                            parts: [{
-                                text: `คุณคือผู้ช่วย AI ประจำหน้าแจ้งปิดปรับปรุงระบบ (Maintenance Bot) ที่เป็นมิตรและช่วยเหลือได้ดี 
-                                ข้อมูลสำคัญ:
-                                1. ระบบปิดปรับปรุงตั้งแต่วันที่ 14 มกราคม 2569 เวลา 12:00 น. ถึง 15 มกราคม 2569 เวลา 12.00 น.
-                                2. ผู้ใช้ต้องรอก่อนถึงจะค้นหา Token Key ได้ (หลังระบบเปิด)
-                                3. ถ้าผู้ใช้ถามเรื่อง Token Key ให้บอกว่า "ใจเย็นๆ นะครับ รอระบบเปิดตอนเที่ยงพรุ่งนี้แล้วจะค้นหาได้แน่นอน"
-                                4. ถ้าผู้ใช้เบื่อ ชวนคุยเรื่องตลก หรือเล่าเกร็ดความรู้สั้นๆ สนุกๆ ได้
-                                5. ตอบเป็นภาษาไทยเสมอ
-                                6. ใช้ Markdown ในการจัดรูปแบบคำตอบให้อ่านง่าย เช่น ตัวหนา (**text**) หรือ รายการ (- item) 
-                                7. หากต้องการติดต่อเรื่องอื่น ๆ หรือติดต่อเจ้าหน้าที่ ให้ติดต่อที่เบอร์ 0633130922`
-                            }]
-                        }
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                const data = await response.json();
-                const aiResponse = data.candidates[0].content.parts[0].text;
+                // Call API with Retry Logic
+                const aiResponseText = await callGeminiAPI(message);
 
                 // Remove loading
                 const loadingEl = document.getElementById(loadingId);
                 if (loadingEl) loadingEl.remove();
 
-                // Parse Markdown to HTML
-                const parsedResponse = marked.parse(aiResponse);
+                // Parse Markdown
+                const parsedResponse = marked.parse(aiResponseText);
                 addMessage(parsedResponse, 'ai');
 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Final Error:', error);
                 const loadingEl = document.getElementById(loadingId);
                 if (loadingEl) loadingEl.remove();
-                addMessage('ขออภัยครับ ระบบ AI ขัดข้องชั่วคราว ลองใหม่อีกครั้งนะครับ', 'ai');
+
+                // Friendly error message for user
+                let errorMsg = 'ขออภัยครับ ระบบ AI ขัดข้องชั่วคราว ลองใหม่อีกครั้งนะครับ';
+                if (error.message.includes('API Key is missing')) {
+                    errorMsg = 'ขออภัยครับ ไม่พบ API Key (หากรันบนเครื่องส่วนตัว จำเป็นต้องใส่ Key ในโค้ดครับ)';
+                }
+                addMessage(errorMsg, 'ai');
             } finally {
                 input.disabled = false;
                 sendBtn.disabled = false;
                 input.focus();
+            }
+        }
+
+        // Helper function for exponential backoff
+        async function callGeminiAPI(userMessage) {
+            const apiKey = ""; // API Key will be injected by the environment
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: userMessage }]
+                }],
+                systemInstruction: {
+                    parts: [{
+                        text: `คุณคือผู้ช่วย AI ประจำหน้าแจ้งปิดปรับปรุงระบบ (Maintenance Bot) ที่เป็นมิตรและช่วยเหลือได้ดี 
+                        ข้อมูลสำคัญ:
+                        1. ระบบปิดปรับปรุงตั้งแต่วันที่ 12 มกราคม 2569 เวลา 23:00 น. ถึง 13 มกราคม 2569 เวลา 12.00 น.
+                        2. ผู้ใช้ต้องรอก่อนถึงจะค้นหา Token Key ได้ (หลังระบบเปิด)
+                        3. ถ้าผู้ใช้ถามเรื่อง Token Key ให้บอกว่า "ใจเย็นๆ นะครับ รอระบบเปิดตอนเที่ยงพรุ่งนี้แล้วจะค้นหาได้แน่นอน"
+                        4. ถ้าผู้ใช้เบื่อ ชวนคุยเรื่องตลก หรือเล่าเกร็ดความรู้สั้นๆ สนุกๆ ได้
+                        5. ตอบเป็นภาษาไทยเสมอ
+                        6. ใช้ Markdown ในการจัดรูปแบบคำตอบให้อ่านง่าย เช่น ตัวหนา (**text**) หรือ รายการ (- item)`
+                    }]
+                }
+            };
+
+            let delay = 1000; // Start delay at 1 second
+            const maxRetries = 5;
+
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        // Throw error to trigger catch block and retry
+                        // If it's a 400 bad request (likely API Key issue), we might want to stop retrying immediately
+                        // But for simplicity in this robust-retry context, we treat it as a failure.
+                        if (response.status === 400 && apiKey === "") {
+                            throw new Error("API Key is missing");
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    return data.candidates[0].content.parts[0].text;
+
+                } catch (error) {
+                    console.warn(`Attempt ${i + 1} failed: ${error.message}`);
+
+                    // If it's the last attempt, throw the error up
+                    if (i === maxRetries - 1) throw error;
+
+                    // Wait before retrying
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2; // Exponential backoff: 1s, 2s, 4s, 8s...
+                }
             }
         }
     </script>
