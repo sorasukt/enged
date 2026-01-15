@@ -274,6 +274,121 @@
             text-align: center
         }
 
+        /* Time status overlay */
+        .time-status-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem
+        }
+
+        .time-status-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            animation: fadeInUp 0.5s ease-out
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .time-status-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: #1976d2
+        }
+
+        .time-status-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-main)
+        }
+
+        .time-status-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem
+        }
+
+        .time-status-countdown {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem
+        }
+
+        .time-status-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 0.75rem;
+            min-width: 60px
+        }
+
+        .time-status-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            line-height: 1
+        }
+
+        .time-status-label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: all 0.3s ease
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3)
+        }
+
+        .hidden {
+            display: none !important
+        }
+
         @media(max-width:600px) {
             body {
                 padding: 1rem
@@ -299,6 +414,41 @@
 <body>
     <div class="bg-shape shape-1"></div>
     <div class="bg-shape shape-2"></div>
+
+    <!-- Time Status Overlay - shown when voting has not started -->
+    <div id="timeStatusOverlay" class="time-status-overlay hidden">
+        <div class="time-status-card">
+            <div class="time-status-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h2 class="time-status-title">ยังไม่ถึงเวลาเลือกตั้ง</h2>
+            <p class="time-status-subtitle">ผลการเลือกตั้งจะแสดงเมื่อเปิดการเลือกตั้งแล้ว</p>
+
+            <div class="time-status-countdown" id="timeStatusCountdown">
+                <div class="time-status-box">
+                    <span class="time-status-value" id="statusDays">00</span>
+                    <span class="time-status-label">วัน</span>
+                </div>
+                <div class="time-status-box">
+                    <span class="time-status-value" id="statusHours">00</span>
+                    <span class="time-status-label">ชั่วโมง</span>
+                </div>
+                <div class="time-status-box">
+                    <span class="time-status-value" id="statusMinutes">00</span>
+                    <span class="time-status-label">นาที</span>
+                </div>
+                <div class="time-status-box">
+                    <span class="time-status-value" id="statusSeconds">00</span>
+                    <span class="time-status-label">วินาที</span>
+                </div>
+            </div>
+
+            <a href="index.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i>
+                กลับหน้าหลักเลือกตั้ง
+            </a>
+        </div>
+    </div>
     <div class="container">
         <a href="../index.html" class="back-link"><i class="fas fa-chevron-left"></i>กลับหน้าหลัก</a>
         <div class="icon-box"><i class="fas fa-chart-bar"></i></div>
@@ -371,7 +521,48 @@
                     console.error('API Error:', err);
                 });
         }
-        loadResults();
+
+        // Time checking - results available after voting starts (and after voting ends too)
+        const startDate = new Date('2026-01-28T08:00:00+07:00').getTime();
+
+        function checkVotingTime() {
+            const now = new Date().getTime();
+            const distanceToStart = startDate - now;
+
+            const overlay = document.getElementById('timeStatusOverlay');
+
+            // Voting not started yet - show overlay, don't load results
+            if (distanceToStart > 0) {
+                overlay.classList.remove('hidden');
+
+                const days = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distanceToStart % (1000 * 60)) / 1000);
+
+                document.getElementById('statusDays').textContent = String(days).padStart(2, '0');
+                document.getElementById('statusHours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('statusMinutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('statusSeconds').textContent = String(seconds).padStart(2, '0');
+                return false; // Don't load results
+            }
+
+            // Voting has started (or ended) - hide overlay, allow results
+            overlay.classList.add('hidden');
+            return true; // Load results
+        }
+
+        // Check time first, then load results if allowed
+        if (checkVotingTime()) {
+            loadResults();
+        }
+
+        // Keep checking time every second (for countdown)
+        setInterval(() => {
+            if (checkVotingTime() && document.getElementById('resultsList').innerHTML === '') {
+                loadResults();
+            }
+        }, 1000);
     </script>
 </body>
 
