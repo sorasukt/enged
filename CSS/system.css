@@ -1,0 +1,233 @@
+        :root {
+            --primary-color: #d32f2f;
+            --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            --ai-gradient: linear-gradient(135deg, #EF5350 0%, #C62828 100%);
+            --bg-gradient: radial-gradient(circle at 10% 20%, rgb(255, 240, 240) 0%, rgb(255, 255, 255) 90%);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.9);
+            --text-main: #2c3e50;
+            --text-muted: #636e72;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 580px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: #ffcdd2;
+            top: -100px;
+            left: -100px;
+        }
+
+        .shape-2 {
+            width: 250px;
+            height: 250px;
+            background: #ffebee;
+            bottom: -50px;
+            right: -50px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 8px 32px 0 rgba(211, 47, 47, 0.1);
+            padding: 48px 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        h3 {
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .custom-input-group {
+            position: relative;
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid #eee;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .custom-input {
+            border: none;
+            background: transparent;
+            padding: 16px 20px;
+            width: 100%;
+            font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
+            font-size: 1rem;
+            color: #333;
+            border-radius: var(--radius-md);
+            outline: none;
+        }
+
+        .custom-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1.25rem center;
+            background-size: 16px 12px;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .btn-search {
+            width: 100%;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 16px;
+            box-shadow: 0 10px 20px rgba(211, 47, 47, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-search:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(211, 47, 47, 0.35);
+        }
+
+        .btn-search:disabled {
+            background: #e0e0e0;
+            color: #999;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        #resultArea {
+            margin-top: 30px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-info {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 24px;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f0f0f0;
+            transition: all 0.2s;
+        }
+
+        .code-pill,
+        .token-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-family: 'Inter', monospace;
+            font-weight: 600;
+        }
+
+        .code-pill {
+            background: #f8f9fa;
+            border: 1px dashed #ced4da;
+            color: #333;
+        }
+
+        .token-badge {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+        }

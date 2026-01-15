@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - ไม่พบหน้าที่ต้องการ | English Education</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
+
+    <style>
+        :root {
+            --primary-red: #d32f2f;
+            --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #ffffff 50%, #fef2f2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.8);
+            --text-main: #1a1a2e;
+            --text-muted: #64748b;
+            --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans Thai', 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Background Shapes */
+        .bg-shape {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.5;
+            animation: float 25s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(229, 57, 53, 0.15) 0%, rgba(255, 82, 82, 0.1) 100%);
+            top: -100px;
+            left: -100px;
+        }
+
+        .shape-2 {
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, rgba(255, 82, 82, 0.12) 0%, rgba(229, 57, 53, 0.08) 100%);
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -8s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(-20px, 30px) scale(0.95);
+            }
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        /* Error Card */
+        .error-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+            padding: 3rem 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 404 Number */
+        .error-code {
+            font-size: 8rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 1rem;
+            font-family: 'Inter', sans-serif;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+        }
+
+        .error-message {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--primary-gradient);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(211, 47, 47, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(211, 47, 47, 0.35);
+        }
+
+        .back-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        @media (max-width: 480px) {
+            .error-code {
+                font-size: 6rem;
+            }
+
+            h1 {
+                font-size: 1.25rem;
+            }
+
+            .error-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <div class="container">
+        <div class="error-card">
+            <div class="error-code">404</div>
+            <div class="error-icon">🔍</div>
+            <h1>ไม่พบหน้าที่คุณต้องการ</h1>
+            <p class="error-message">
+                ขออภัย หน้าเว็บที่คุณกำลังมองหาอาจถูกลบไปแล้ว<br>
+                หรือลิงก์อาจไม่ถูกต้อง
+            </p>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-home"></i>
+                <span>กลับหน้าหลัก</span>
+            </a>
+        </div>
+
+        <footer>
+            &copy; 2026 English Education, Loei Rajabhat University
+        </footer>
+    </div>
+
+</body>
+
+</html>
