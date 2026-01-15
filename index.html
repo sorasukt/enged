@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ปิดปรับปรุงระบบชั่วคราว | System Maintenance</title>
 
-    <!-- Google Fonts: IBM Plex Sans Thai -->
+    <!-- Google Fonts: IBM Plex Sans Thai + Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- Marked.js for Markdown Parsing -->
@@ -18,15 +19,18 @@
     <style>
         /* CSS Variables & Reset */
         :root {
-            --primary-red: #D32F2F;
-            /* สีแดงหลัก */
+            --primary-red: #E53935;
             --light-red: #FFEBEE;
-            /* สีแดงอ่อนสำหรับพื้นหลัง */
-            --dark-red: #B71C1C;
+            --dark-red: #C62828;
+            --accent-red: #FF5252;
             --white: #FFFFFF;
-            --text-dark: #212121;
-            --text-grey: #757575;
-            --chat-bg: #F5F5F5;
+            --text-dark: #1a1a2e;
+            --text-grey: #64748b;
+            --chat-bg: #f8fafc;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --shadow-soft: 0 8px 32px rgba(229, 57, 53, 0.12);
+            --shadow-glow: 0 0 60px rgba(229, 57, 53, 0.15);
         }
 
         * {
@@ -36,8 +40,8 @@
         }
 
         body {
-            font-family: 'IBM Plex Sans Thai', sans-serif;
-            background-color: var(--white);
+            font-family: 'IBM Plex Sans Thai', 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffffff 50%, #fef2f2 100%);
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
@@ -47,33 +51,81 @@
             position: relative;
         }
 
-        /* Decorative Background Elements */
-        .bg-circle {
-            position: absolute;
-            border-radius: 50%;
-            z-index: -1;
-            opacity: 0.1;
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(229, 57, 53, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(229, 57, 53, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 82, 82, 0.03) 0%, transparent 70%);
+            z-index: -2;
+            pointer-events: none;
         }
 
-        .circle-1 {
+        /* Floating Blobs */
+        .floating-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(229, 57, 53, 0.12) 0%, rgba(255, 82, 82, 0.08) 100%);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
             width: 300px;
             height: 300px;
-            background-color: var(--primary-red);
-            top: -50px;
-            left: -50px;
+            background: linear-gradient(135deg, rgba(255, 82, 82, 0.1) 0%, rgba(229, 57, 53, 0.06) 100%);
+            bottom: -50px;
+            right: -50px;
+            animation-delay: -5s;
         }
 
-        .circle-2 {
+        .blob-3 {
             width: 200px;
             height: 200px;
-            background-color: var(--primary-red);
-            bottom: 50px;
-            right: -50px;
+            background: linear-gradient(135deg, rgba(229, 57, 53, 0.08) 0%, rgba(255, 205, 210, 0.12) 100%);
+            top: 50%;
+            right: 10%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(20px, -30px) rotate(5deg);
+            }
+
+            50% {
+                transform: translate(-10px, 20px) rotate(-5deg);
+            }
+
+            75% {
+                transform: translate(30px, 10px) rotate(3deg);
+            }
         }
 
         /* Main Container */
         .container {
-            max-width: 800px;
+            max-width: 900px;
             padding: 2rem;
             width: 100%;
             text-align: center;
@@ -82,68 +134,139 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
 
         /* Icon */
         .icon-container {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .icon-ring {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--accent-red) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+                0 20px 50px rgba(229, 57, 53, 0.25),
+                0 0 0 15px rgba(229, 57, 53, 0.08);
+            animation: pulse-ring 3s ease-in-out infinite;
         }
 
         .icon-maintenance {
-            width: 120px;
-            height: 120px;
-            fill: var(--primary-red);
-            animation: pulse 2s infinite;
+            width: 70px;
+            height: 70px;
+            fill: var(--white);
+        }
+
+        @keyframes pulse-ring {
+
+            0%,
+            100% {
+                box-shadow:
+                    0 20px 50px rgba(229, 57, 53, 0.25),
+                    0 0 0 15px rgba(229, 57, 53, 0.08);
+            }
+
+            50% {
+                box-shadow:
+                    0 25px 60px rgba(229, 57, 53, 0.3),
+                    0 0 0 20px rgba(229, 57, 53, 0.12);
+            }
+        }
+
+        @keyframes rotate-slow {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Typography */
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             font-weight: 700;
-            color: var(--primary-red);
-            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
         }
 
         h2 {
-            font-size: 1.25rem;
-            font-weight: 500;
+            font-size: 1.15rem;
+            font-weight: 400;
             color: var(--text-grey);
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            max-width: 500px;
         }
 
+        /* Schedule Box - Glass Effect */
         .schedule-box {
-            background-color: var(--light-red);
-            border: 1px solid var(--primary-red);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            display: block;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
             width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 550px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .schedule-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-red) 0%, var(--accent-red) 100%);
         }
 
         .schedule-time {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--text-dark);
-            line-height: 1.6;
-            font-weight: 500;
+            line-height: 1.8;
+            font-weight: 400;
         }
 
         .schedule-time span {
             color: var(--primary-red);
-            font-weight: 700;
+            font-weight: 600;
             display: block;
-            margin: 5px 0;
+            margin: 8px 0;
+            font-size: 1.1rem;
         }
 
         /* Countdown Timer */
+        .countdown-label {
+            margin-bottom: 1.5rem;
+            color: var(--text-grey);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
         .countdown-container {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            gap: 1rem;
+            margin-bottom: 3rem;
             flex-wrap: wrap;
         }
 
@@ -151,144 +274,284 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 80px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.25rem 1.5rem;
+            min-width: 90px;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .time-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(229, 57, 53, 0.18);
         }
 
         .time-value {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            color: var(--primary-red);
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--accent-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             line-height: 1;
+            font-family: 'Inter', sans-serif;
         }
 
         .time-label {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-grey);
-            margin-top: 5px;
+            margin-top: 8px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        /* Notification Box (Token Key) */
+        /* Notice Card - Glass Effect */
         .notice-card {
-            background: var(--white);
-            border-left: 5px solid var(--primary-red);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            border-radius: 8px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--primary-red);
+            box-shadow: var(--shadow-soft);
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
             text-align: left;
-            max-width: 600px;
+            max-width: 550px;
             width: 100%;
             margin: 0 auto 3rem auto;
         }
 
         .notice-title {
-            font-weight: 700;
+            font-weight: 600;
             color: var(--primary-red);
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 0.5rem;
+            gap: 10px;
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+        }
+
+        .notice-icon {
+            width: 22px;
+            height: 22px;
+            stroke: var(--primary-red);
         }
 
         .notice-text {
             color: var(--text-dark);
-            font-size: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .notice-text strong {
+            color: var(--primary-red);
+            font-weight: 600;
         }
 
         /* --- AI Chat Widget Styling --- */
         .ai-chat-btn {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--primary-red);
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--accent-red) 100%);
             color: white;
             border: none;
             border-radius: 50px;
-            padding: 12px 24px;
+            padding: 14px 28px;
             font-family: 'IBM Plex Sans Thai', sans-serif;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.4);
+            box-shadow: 0 8px 30px rgba(229, 57, 53, 0.35);
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: transform 0.2s, background-color 0.2s;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
         }
 
         .ai-chat-btn:hover {
-            transform: translateY(-2px);
-            background-color: var(--dark-red);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(229, 57, 53, 0.45);
+        }
+
+        .ai-chat-btn:active {
+            transform: translateY(0) scale(0.98);
         }
 
         .chat-window {
             position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 350px;
-            height: 500px;
-            background-color: var(--white);
-            border-radius: 16px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            bottom: 90px;
+            right: 24px;
+            width: 380px;
+            height: 520px;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
             display: none;
-            /* Hidden by default */
             flex-direction: column;
             overflow: hidden;
             z-index: 1000;
-            border: 1px solid #eee;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .chat-header {
-            background-color: var(--primary-red);
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--accent-red) 100%);
             color: white;
-            padding: 15px;
+            padding: 18px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-avatar {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
         }
 
         .chat-close {
-            background: none;
+            background: rgba(255, 255, 255, 0.15);
             border: none;
             color: white;
             cursor: pointer;
             font-size: 1.2rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .chat-close:hover {
+            background: rgba(255, 255, 255, 0.25);
         }
 
         .chat-messages {
             flex-grow: 1;
-            padding: 15px;
+            padding: 20px;
             overflow-y: auto;
-            background-color: var(--chat-bg);
+            background: var(--chat-bg);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
+            padding-bottom: 5px;
+            /* Add some padding at bottom */
+        }
+
+        /* Chat Suggestions Styling */
+        .chat-suggestions {
+            padding: 10px 15px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            white-space: nowrap;
+            background-color: var(--white);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            /* Hide scrollbar */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE 10+ */
+        }
+
+        .chat-suggestions::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari */
+        }
+
+        .suggestion-chip {
+            background: var(--light-red);
+            border: 1px solid rgba(229, 57, 53, 0.2);
+            color: var(--primary-red);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-weight: 500;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
         }
 
         .message {
             max-width: 85%;
-            padding: 10px 14px;
-            border-radius: 12px;
+            width: fit-content;
+            min-width: 40px;
+            padding: 12px 16px;
+            border-radius: 16px;
             font-size: 0.9rem;
-            line-height: 1.5;
+            line-height: 1.6;
             word-wrap: break-word;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .message.ai {
             background-color: var(--white);
             align-self: flex-start;
-            border-bottom-left-radius: 2px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             color: var(--text-dark);
         }
 
         .message.user {
-            background-color: var(--primary-red);
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--accent-red) 100%);
             color: white;
             align-self: flex-end;
-            border-bottom-right-radius: 2px;
-            box-shadow: 0 1px 2px rgba(211, 47, 47, 0.2);
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 2px 12px rgba(229, 57, 53, 0.25);
         }
 
         /* Markdown Content Styling within Messages */
@@ -319,88 +582,123 @@
         .message code {
             font-family: 'Courier New', Courier, monospace;
             background-color: rgba(0, 0, 0, 0.08);
-            padding: 2px 4px;
-            border-radius: 3px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85em;
         }
 
         .message.user code {
             background-color: rgba(255, 255, 255, 0.2);
         }
 
-        .loading-dots {
-            display: inline-block;
-            width: 30px;
-            text-align: center;
+        /* Typing Indicator Styling - Not a bubble */
+        .typing-indicator {
+            padding: 0 15px 5px 15px;
+            font-size: 0.8rem;
+            color: var(--text-grey);
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: fadeIn 0.3s ease;
         }
 
-        .loading-dots:after {
-            content: '.';
-            animation: dots 1.5s steps(5, end) infinite;
+        .typing-dots {
+            display: flex;
+            gap: 3px;
         }
 
-        @keyframes dots {
+        .dot {
+            width: 4px;
+            height: 4px;
+            background-color: var(--text-grey);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
 
             0%,
-            20% {
-                content: '.';
+            80%,
+            100% {
+                transform: scale(0);
             }
 
             40% {
-                content: '..';
-            }
-
-            60% {
-                content: '...';
-            }
-
-            80%,
-            100% {
-                content: '';
+                transform: scale(1);
             }
         }
 
         .chat-input-area {
-            padding: 15px;
+            padding: 16px 20px;
             background-color: var(--white);
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            align-items: flex-end;
+            /* Align to bottom so button stays down when input grows */
         }
 
         .chat-input {
             flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
+            padding: 12px 18px;
+            border: 2px solid #e2e8f0;
             border-radius: 20px;
             outline: none;
             font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            resize: none;
+            /* Prevent manual resize */
+            overflow-y: hidden;
+            /* Hide scrollbar initially */
+            min-height: 48px;
+            /* Initial height matching padding/border */
+            max-height: 120px;
+            /* Max height before scrolling */
+            line-height: 1.5;
         }
 
         .chat-input:focus {
             border-color: var(--primary-red);
+            box-shadow: 0 0 0 4px rgba(229, 57, 53, 0.1);
         }
 
         .chat-send-btn {
-            background-color: var(--primary-red);
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--accent-red) 100%);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            margin-bottom: 2px;
+            /* Align with input bottom */
         }
 
         .chat-send-btn:hover {
-            background-color: var(--dark-red);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(229, 57, 53, 0.35);
         }
 
         .chat-send-btn:disabled {
-            background-color: #ccc;
+            background: #cbd5e1;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         /* Footer */
@@ -408,60 +706,79 @@
             margin-top: auto;
             margin-bottom: 2rem;
             font-size: 0.85rem;
-            color: #999;
+            color: var(--text-grey);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Animations */
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.05);
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+        footer::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--primary-red);
+            border-radius: 50%;
         }
 
         /* Responsive */
         @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+            }
+
             h1 {
-                font-size: 1.8rem;
-            }
-
-            .countdown-container {
-                gap: 1rem;
-            }
-
-            .time-value {
                 font-size: 2rem;
             }
 
+            h2 {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .icon-ring {
+                width: 110px;
+                height: 110px;
+            }
+
+            .icon-maintenance {
+                width: 50px;
+                height: 50px;
+            }
+
+            .countdown-container {
+                gap: 0.75rem;
+            }
+
+            .time-value {
+                font-size: 1.8rem;
+            }
+
             .time-box {
-                min-width: 60px;
+                min-width: 70px;
+                padding: 1rem 1.25rem;
             }
 
             .schedule-box {
-                padding: 1rem;
+                padding: 1.5rem;
             }
 
             .chat-window {
                 width: 100%;
-                height: 60vh;
+                height: 65vh;
                 bottom: 0;
                 right: 0;
-                border-radius: 16px 16px 0 0;
+                left: 0;
+                border-radius: 24px 24px 0 0;
             }
 
             .ai-chat-btn {
-                bottom: 15px;
-                right: 15px;
+                bottom: 16px;
+                right: 16px;
+                padding: 12px 20px;
+            }
+
+            .floating-blob {
+                display: none;
             }
         }
     </style>
@@ -469,17 +786,21 @@
 
 <body>
 
-    <!-- Decorative Circles -->
-    <div class="bg-circle circle-1"></div>
-    <div class="bg-circle circle-2"></div>
+    <!-- Background Elements -->
+    <div class="bg-gradient"></div>
+    <div class="floating-blob blob-1"></div>
+    <div class="floating-blob blob-2"></div>
+    <div class="floating-blob blob-3"></div>
 
     <div class="container">
         <!-- Icon Section -->
         <div class="icon-container">
-            <svg class="icon-maintenance" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
-            </svg>
+            <div class="icon-ring">
+                <svg class="icon-maintenance" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
+                </svg>
+            </div>
         </div>
 
         <!-- Header -->
@@ -497,7 +818,7 @@
         </div>
 
         <!-- Countdown Timer -->
-        <p style="margin-bottom: 1rem; color: var(--text-grey);">ระบบจะเปิดใช้งานในอีก</p>
+        <p class="countdown-label">ระบบจะเปิดใช้งานในอีก</p>
         <div class="countdown-container" id="countdown">
             <div class="time-box">
                 <span class="time-value" id="days">00</span>
@@ -520,7 +841,7 @@
         <!-- Specific Message (Token Key) -->
         <div class="notice-card">
             <div class="notice-title">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                <svg class="notice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -540,22 +861,37 @@
 
     <!-- AI Chat Widget -->
     <button class="ai-chat-btn" id="toggleChatBtn">
-        <span>✨ สอบถาม AI</span>
+        <span>✨</span>
+        <span>สอบถาม AI</span>
     </button>
 
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
-            <span>ผู้ช่วยระบบ (AI Support)</span>
+            <div class="chat-header-info">
+                <div class="chat-avatar">🤖</div>
+                <span>ผู้ช่วยระบบ AI</span>
+            </div>
             <button class="chat-close" id="closeChatBtn">✕</button>
         </div>
+
         <div class="chat-messages" id="chatMessages">
             <div class="message ai">
                 สวัสดีครับ! ผมเป็น AI ผู้ช่วยอัจฉริยะ ✨<br>
                 มีข้อสงสัยเกี่ยวกับการปิดปรับปรุงระบบ หรืออยากให้ผมเล่าเรื่องตลกให้ฟังระหว่างรอไหมครับ?
             </div>
         </div>
+
+        <!-- Suggestions Chips -->
+        <div class="chat-suggestions" id="chatSuggestions">
+            <div class="suggestion-chip" onclick="sendSuggestion('Token Key คืออะไรครับ?')">Token Key คืออะไร?</div>
+            <div class="suggestion-chip" onclick="sendSuggestion('ระบบจะเปิดใช้งานได้ตอนไหนครับ?')">ระบบเปิดตอนไหน?
+            </div>
+            <div class="suggestion-chip" onclick="sendSuggestion('เล่าเรื่องตลกให้ฟังหน่อย')">เล่าเรื่องตลก</div>
+            <div class="suggestion-chip" onclick="sendSuggestion('มีอะไรให้ทำแก้เบื่อบ้าง?')">ทำอะไรดีระหว่างรอ?</div>
+        </div>
+
         <div class="chat-input-area">
-            <input type="text" class="chat-input" id="userInput" placeholder="พิมพ์ข้อความ...">
+            <textarea class="chat-input" id="userInput" placeholder="พิมพ์ข้อความ..." rows="1"></textarea>
             <button class="chat-send-btn" id="sendBtn">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -591,18 +927,30 @@
                     clearInterval(x);
                     const countdownEl = document.getElementById("countdown");
                     if (countdownEl) {
-                        countdownEl.innerHTML = "<h2 style='color: var(--primary-red);'>ระบบเปิดให้บริการแล้ว</h2>";
+                        countdownEl.innerHTML = "<h2 style='color: var(--primary-red); font-size: 1.5rem;'>🎉 ระบบเปิดให้บริการแล้ว</h2>";
                     }
                 }
             }, 1000);
+
+            // Chat & Auto-expand Textarea Logic
+            const textarea = document.getElementById('userInput');
+
+            textarea.addEventListener('input', function () {
+                this.style.height = 'auto'; // Reset height
+                this.style.height = (this.scrollHeight) + 'px'; // Set to scroll height
+            });
+
+            textarea.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault(); // Prevent new line
+                    sendMessage();
+                }
+            });
 
             // Attach Listeners
             document.getElementById('toggleChatBtn').addEventListener('click', toggleChat);
             document.getElementById('closeChatBtn').addEventListener('click', toggleChat);
             document.getElementById('sendBtn').addEventListener('click', sendMessage);
-            document.getElementById('userInput').addEventListener('keypress', function (event) {
-                if (event.key === 'Enter') sendMessage();
-            });
         });
 
         function toggleChat() {
@@ -617,6 +965,12 @@
             }
         }
 
+        function sendSuggestion(text) {
+            const input = document.getElementById('userInput');
+            input.value = text;
+            sendMessage();
+        }
+
         function addMessage(text, sender) {
             const messagesDiv = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
@@ -624,6 +978,72 @@
             messageDiv.innerHTML = text;
             messagesDiv.appendChild(messageDiv);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        // New Typewriter Function for AI messages
+        function typeWriterMessage(htmlText, sender) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+            messagesDiv.appendChild(messageDiv);
+
+            // Calculate text length for dynamic speed
+            const textLength = htmlText.replace(/<[^>]*>/g, '').length;
+
+            // Speed Calculation:
+            // Short (< 50 chars): 40ms (slow & natural)
+            // Medium (50-150 chars): 20ms
+            // Long (> 150 chars): 5ms (fast)
+            let speed = 20;
+            if (textLength < 50) speed = 40;
+            else if (textLength > 150) speed = 5;
+
+            let i = 0;
+            let currentHTML = '';
+
+            function type() {
+                if (i < htmlText.length) {
+                    // Handle HTML Tags (Skip typing, append instantly)
+                    if (htmlText.charAt(i) === '<') {
+                        const tagEnd = htmlText.indexOf('>', i);
+                        if (tagEnd !== -1) {
+                            currentHTML += htmlText.substring(i, tagEnd + 1);
+                            i = tagEnd + 1;
+                            // Recursive call to skip delay for tags
+                            type();
+                            return;
+                        }
+                    }
+
+                    // Handle HTML Entities (e.g. &amp;)
+                    if (htmlText.charAt(i) === '&') {
+                        const entityEnd = htmlText.indexOf(';', i);
+                        if (entityEnd !== -1 && entityEnd - i < 10) {
+                            currentHTML += htmlText.substring(i, entityEnd + 1);
+                            i = entityEnd + 1;
+                            messageDiv.innerHTML = currentHTML;
+                            setTimeout(type, speed);
+                            return;
+                        }
+                    }
+
+                    currentHTML += htmlText.charAt(i);
+                    messageDiv.innerHTML = currentHTML;
+                    i++;
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                    setTimeout(type, speed);
+                }
+            }
+
+            type();
+        }
+
+        function resetTextarea() {
+            const textarea = document.getElementById('userInput');
+            textarea.value = '';
+            textarea.style.height = 'auto'; // Reset size
+            textarea.disabled = false;
+            textarea.focus();
         }
 
         async function sendMessage() {
@@ -635,16 +1055,24 @@
 
             addMessage(message, 'user');
 
-            input.value = '';
             input.disabled = true;
             sendBtn.disabled = true;
 
             const loadingId = 'loading-' + Date.now();
             const messagesDiv = document.getElementById('chatMessages');
+
+            // New Loading Indicator
             const loadingDiv = document.createElement('div');
-            loadingDiv.classList.add('message', 'ai');
+            loadingDiv.classList.add('typing-indicator');
             loadingDiv.id = loadingId;
-            loadingDiv.innerHTML = '<span class="loading-dots">กำลังคิด</span>';
+            loadingDiv.innerHTML = `
+                <span>✨ AI กำลังคิด</span>
+                <div class="typing-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            `;
             messagesDiv.appendChild(loadingDiv);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
@@ -658,7 +1086,9 @@
 
                 // Parse Markdown
                 const parsedResponse = marked.parse(aiResponseText);
-                addMessage(parsedResponse, 'ai');
+
+                // Use Typewriter for AI response
+                typeWriterMessage(parsedResponse, 'ai');
 
             } catch (error) {
                 console.error('Final Error:', error);
@@ -668,19 +1098,37 @@
                 // Friendly error message for user
                 let errorMsg = 'ขออภัยครับ ระบบ AI ขัดข้องชั่วคราว ลองใหม่อีกครั้งนะครับ';
                 if (error.message.includes('API Key is missing')) {
-                    errorMsg = 'ขออภัยครับ ไม่พบ API Key (หากรันบนเครื่องส่วนตัว จำเป็นต้องใส่ Key ในโค้ดครับ)';
+                    errorMsg = 'กรุณาใส่ API Key ของคุณเพื่อใช้งาน (ระบบจะถามหา Key เมื่อคุณกดส่งข้อความใหม่)';
                 }
                 addMessage(errorMsg, 'ai');
             } finally {
-                input.disabled = false;
                 sendBtn.disabled = false;
-                input.focus();
+                resetTextarea();
             }
         }
 
-        // Helper function for exponential backoff
+        // Helper function for exponential backoff and API Key management
         async function callGeminiAPI(userMessage) {
-            const apiKey = ""; // API Key will be injected by the environment
+
+            // 1. Try to get key from code (Preview env) or LocalStorage (Public env)
+            let apiKey = "AIzaSyAVnHFCrWdeB1SsUymal-nvENSqvYnPMWw";
+            const storedKey = localStorage.getItem('gemini_api_key');
+
+            if (apiKey === "") {
+                if (storedKey) {
+                    apiKey = storedKey;
+                } else {
+                    // 2. Prompt user for key if missing
+                    const userKey = prompt("กรุณาใส่ Google Gemini API Key ของคุณเพื่อใช้งาน AI Chat (Key จะถูกบันทึกในเครื่องของคุณเท่านั้น):");
+                    if (userKey && userKey.trim() !== "") {
+                        apiKey = userKey.trim();
+                        localStorage.setItem('gemini_api_key', apiKey);
+                    } else {
+                        throw new Error("User cancelled API Key prompt");
+                    }
+                }
+            }
+
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
             const payload = {
@@ -691,7 +1139,7 @@
                     parts: [{
                         text: `คุณคือผู้ช่วย AI ประจำหน้าแจ้งปิดปรับปรุงระบบ (Maintenance Bot) ที่เป็นมิตรและช่วยเหลือได้ดี 
                         ข้อมูลสำคัญ:
-                        1. ระบบปิดปรับปรุงตั้งแต่วันที่ 12 มกราคม 2569 เวลา 23:00 น. ถึง 13 มกราคม 2569 เวลา 12.00 น.
+                        1. ระบบปิดปรับปรุงตั้งแต่วันที่ 12 มกราคม 2569 เวลา 23:00 น. ถึง 16 มกราคม 2569 เวลา 12.00 น.
                         2. ผู้ใช้ต้องรอก่อนถึงจะค้นหา Token Key ได้ (หลังระบบเปิด)
                         3. ถ้าผู้ใช้ถามเรื่อง Token Key ให้บอกว่า "ใจเย็นๆ นะครับ รอระบบเปิดตอนเที่ยงพรุ่งนี้แล้วจะค้นหาได้แน่นอน"
                         4. ถ้าผู้ใช้เบื่อ ชวนคุยเรื่องตลก หรือเล่าเกร็ดความรู้สั้นๆ สนุกๆ ได้
@@ -715,11 +1163,10 @@
                     });
 
                     if (!response.ok) {
-                        // Throw error to trigger catch block and retry
-                        // If it's a 400 bad request (likely API Key issue), we might want to stop retrying immediately
-                        // But for simplicity in this robust-retry context, we treat it as a failure.
-                        if (response.status === 400 && apiKey === "") {
-                            throw new Error("API Key is missing");
+                        // Handle Invalid Key Specifically
+                        if (response.status === 400) {
+                            localStorage.removeItem('gemini_api_key'); // Clear bad key
+                            throw new Error("API Key Invalid or Missing");
                         }
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
@@ -728,14 +1175,13 @@
                     return data.candidates[0].content.parts[0].text;
 
                 } catch (error) {
+                    // Don't retry if it's an API Key issue
+                    if (error.message.includes("API Key")) throw error;
+
                     console.warn(`Attempt ${i + 1} failed: ${error.message}`);
-
-                    // If it's the last attempt, throw the error up
                     if (i === maxRetries - 1) throw error;
-
-                    // Wait before retrying
                     await new Promise(resolve => setTimeout(resolve, delay));
-                    delay *= 2; // Exponential backoff: 1s, 2s, 4s, 8s...
+                    delay *= 2;
                 }
             }
         }
