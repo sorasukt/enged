@@ -18,7 +18,7 @@ window.onload = function () {
     fetchActivities();
 
     const urlParams = new URLSearchParams(window.location.search);
-    const paramName = urlParams.get('name') || urlParams.get('activity');
+    const paramName = urlParams.get('name') || urlParams.get('activity') || urlParams.get('code');
     const paramId = urlParams.get('id');
 
     if (paramName && paramId) {
@@ -34,7 +34,7 @@ window.onload = function () {
 // --- Main System Logic ---
 function checkAutoSearch() {
     const p = new URLSearchParams(window.location.search);
-    const name = p.get('name') || p.get('activity');
+    const name = p.get('name') || p.get('activity') || p.get('code');
     const id = p.get('id');
     if (name && id) {
         document.getElementById('inputSection').classList.add('hidden-mode');
@@ -159,17 +159,25 @@ function showResult(data, isAuto) {
                              <small class="text-muted fw-bold">รายการที่ ${index + 1}</small>
                         </div>
                         <div class="d-flex flex-wrap gap-3 align-items-center justify-content-between">
-                             <div class="code-pill" onclick="copyText('${item.code}')">
-                                 <i class="fas fa-hashtag text-secondary"></i> ${item.code}
+                             <div class="code-pill" onclick="copyText('${item.code}', this)" title="คลิกเพื่อคัดลอก">
+                                 <i class="fas fa-hashtag text-secondary"></i> ${item.code} <i class="fas fa-copy ms-2 text-muted opacity-50"></i>
                              </div>
-                             <div class="token-badge" onclick="copyText('${item.token}')">
-                                 <i class="fas fa-key"></i> ${item.token}
+                             <div class="token-badge" onclick="copyText('${item.token}', this)" title="คลิกเพื่อคัดลอก">
+                                 <i class="fas fa-key"></i> ${item.token} <i class="fas fa-copy ms-2 opacity-50"></i>
                              </div>
                         </div>
                     </div>`;
         }
     });
     document.getElementById('activitiesList').innerHTML = html;
+
+    // Setup Share Button
+    const shareBtn = document.getElementById('shareBtn');
+    if (shareBtn) {
+        shareBtn.style.display = 'inline-block';
+        shareBtn.onclick = () => copyResultLink(data.data.studentId, data.data.activityName);
+    }
+
     document.getElementById('resultArea').style.display = 'block';
 }
 
@@ -208,9 +216,21 @@ function resetSearch() {
     }
 }
 
-function copyText(txt) {
+function copyText(txt, el) {
     if (!txt) return;
-    navigator.clipboard.writeText(txt).then(() => alert("คัดลอก: " + txt));
+    navigator.clipboard.writeText(txt).then(() => {
+        if (el) {
+            const icon = el.querySelector('.fa-copy');
+            if (icon) {
+                icon.classList.remove('fa-copy');
+                icon.classList.add('fa-check');
+                setTimeout(() => {
+                    icon.classList.remove('fa-check');
+                    icon.classList.add('fa-copy');
+                }, 2000);
+            }
+        }
+    });
 }
 
 function enableNotification() {
@@ -225,7 +245,7 @@ function startMonitoring() {
     document.getElementById('btnEnableNotify').style.display = 'none';
     document.getElementById('monitoringStatus').style.display = 'block';
     const id = document.getElementById('studentId').value.trim() || new URLSearchParams(window.location.search).get('id');
-    const act = document.getElementById('activitySelect').value || new URLSearchParams(window.location.search).get('name');
+    const act = document.getElementById('activitySelect').value || new URLSearchParams(window.location.search).get('name') || new URLSearchParams(window.location.search).get('activity') || new URLSearchParams(window.location.search).get('code');
     monitorInterval = setInterval(() => checkUpdate(id, act), 60000);
 }
 
@@ -240,3 +260,19 @@ function checkUpdate(id, act) {
             }
         });
 }
+
+function copyResultLink(id, act) {
+    const url = `${window.location.protocol}//${window.location.host}${window.location.pathname}?id=${encodeURIComponent(id)}&activity=${encodeURIComponent(act)}`;
+    navigator.clipboard.writeText(url).then(() => {
+        const btn = document.getElementById('shareBtn');
+        const orgHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check me-1"></i> คัดลอกแล้ว';
+        btn.classList.replace('btn-outline-danger', 'btn-success');
+        setTimeout(() => {
+            btn.innerHTML = orgHtml;
+            btn.classList.replace('btn-success', 'btn-outline-danger');
+        }, 2000);
+    });
+}
+
+

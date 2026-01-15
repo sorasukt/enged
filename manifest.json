@@ -1,0 +1,21 @@
+{
+  "name": "English Education, LRU App",
+  "short_name": "EngEd App",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#d32f2f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/img/enged-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/enged-192.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

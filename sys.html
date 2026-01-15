@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#d32f2f">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/img/enged-192.png">
     <title>ระบบค้นหา Token Key สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,6 +27,10 @@
     <div class="main-wrapper">
         <div class="bg-shape shape-1"></div>
         <div class="bg-shape shape-2"></div>
+
+        <a href="index.html" class="back-home-btn text-decoration-none">
+            <i class="fas fa-chevron-left"></i> หน้าหลัก
+        </a>
 
         <!-- Configuration Alert -->
         <div id="configAlert" class="alert alert-warning text-center shadow-sm mb-4"
@@ -128,6 +135,10 @@
                 <h6 class="text-muted fw-bold mb-3 ms-1"><i class="fas fa-list-check me-2"></i>รายการ Token</h6>
                 <div id="activitiesList"></div>
                 <div class="text-center mt-4">
+                    <button type="button" id="shareBtn" class="btn btn-outline-danger rounded-pill me-2"
+                        style="display:none">
+                        <i class="fas fa-share-alt me-1"></i> แชร์ลิงก์
+                    </button>
                     <button type="button" onclick="resetSearch()"
                         class="btn btn-link text-muted text-decoration-none"><i class="fas fa-rotate-right me-1"></i>
                         ค้นหารายการอื่น</button>
@@ -152,7 +163,8 @@
                     <h5 class="fw-bold mb-3 text-dark">แจ้งเตือนสำคัญ</h5>
                     <p class="mb-4 text-muted">ให้นักศึกษานำรหัสกิจกรรมไปค้นหาบนเว็บไซต์ระบบกิจกรรมของมหาวิทยาลัย
                         <br><br>Token
-                        Key มีระยะเวลาที่จำกัด โปรดกรอกทันทีที่ประกาศ</p>
+                        Key มีระยะเวลาที่จำกัด โปรดกรอกทันทีที่ประกาศ
+                    </p>
                     <div class="d-grid gap-2">
                         <a href="https://act.lru.ac.th/std_System/index.php" target="_blank"
                             class="btn btn-search text-white text-decoration-none">
@@ -168,6 +180,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="JavaScript/system.js"></script>
+    <script src="JavaScript/pwa.js"></script>
 </body>
 
 </html>
