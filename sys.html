@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบค้นหา Token Key สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #d32f2f;
+            --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            --bg-gradient: radial-gradient(circle at 10% 20%, rgb(255, 240, 240) 0%, rgb(255, 255, 255) 90%);
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.9);
+            --glass-shadow: 0 8px 32px 0 rgba(211, 47, 47, 0.1);
+            --text-main: #2c3e50;
+            --text-muted: #636e72;
+            --input-bg: #f8f9fa;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 580px;
+            position: relative;
+        }
+
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: #ffcdd2;
+            top: -100px;
+            left: -100px;
+        }
+
+        .shape-2 {
+            width: 250px;
+            height: 250px;
+            background: #ffebee;
+            bottom: -50px;
+            right: -50px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--glass-shadow);
+            padding: 48px 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        h3 {
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #444;
+            margin-bottom: 8px;
+            margin-left: 4px;
+        }
+
+        .custom-input-group {
+            position: relative;
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .custom-input-group:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.1);
+        }
+
+        .custom-input {
+            border: none;
+            background: transparent;
+            padding: 16px 20px;
+            width: 100%;
+            font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
+            font-size: 1rem;
+            color: #333;
+            border-radius: var(--radius-md);
+        }
+
+        .custom-input:focus {
+            outline: none;
+        }
+
+        .custom-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1.25rem center;
+            background-size: 16px 12px;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .btn-search {
+            width: 100%;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 16px;
+            box-shadow: 0 10px 20px rgba(211, 47, 47, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-search:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(211, 47, 47, 0.35);
+        }
+
+        .btn-search:disabled {
+            background: #e0e0e0;
+            color: #999;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        #resultArea {
+            margin-top: 30px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-info {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 24px;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f0f0f0;
+            transition: all 0.2s;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            border-color: rgba(211, 47, 47, 0.1);
+        }
+
+        .code-pill {
+            background: #f8f9fa;
+            border: 1px dashed #ced4da;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-family: 'Inter', monospace;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .code-pill:hover {
+            background: #fff5f5;
+            border-color: #ffcdd2;
+            color: var(--primary-color);
+        }
+
+        .token-badge {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-family: 'Inter', monospace;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .token-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(211, 47, 47, 0.3);
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 40px;
+        }
+
+        .footer-text a {
+            color: #777;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-text a:hover {
+            color: var(--primary-color);
+        }
+
+        .spinner-custom {
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid rgba(211, 47, 47, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .hidden-mode {
+            display: none !important;
+        }
+
+        @media (max-width: 576px) {
+            .glass-card {
+                padding: 32px 24px;
+            }
+
+            .token-badge {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .code-pill {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <!-- Configuration Alert Banner -->
+        <div id="configAlert" class="alert alert-warning text-center shadow-sm mb-4"
+            style="display: none; border-radius: 16px;">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>แจ้งเตือน:</strong> <span id="alertMsg">ยังไม่ได้ตั้งค่า URL หรือการเชื่อมต่อมีปัญหา</span>
+        </div>
+
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+
+        <div class="glass-card">
+            <div class="text-center">
+                <div class="logo-container">
+                    <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico"
+                        class="logo-img" alt="Logo">
+                </div>
+                <h3>ระบบค้นหา Token Key</h3>
+                <p class="subtitle" id="welcomeText">สาขาวิชาภาษาอังกฤษ มหาวิทยาลัยราชภัฏเลย</p>
+            </div>
+
+            <!-- Input Section -->
+            <div id="inputSection">
+                <div class="mb-4">
+                    <label class="form-label">เลือกกิจกรรม</label>
+                    <div class="custom-input-group">
+                        <select id="activitySelect" class="custom-input custom-select">
+                            <option value="" selected disabled>กำลังโหลดรายชื่อกิจกรรม...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4 pt-1">
+                    <label class="form-label">รหัสนักศึกษา</label>
+                    <div class="custom-input-group">
+                        <input type="text" id="studentId" class="custom-input" placeholder="กรอกรหัสนักศึกษา"
+                            inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            onkeypress="handleEnter(event)">
+                        <i class="fas fa-id-card input-icon"></i>
+                    </div>
+                </div>
+
+                <button id="searchBtn" class="btn-search" onclick="searchData()" disabled>
+                    <span>ค้นหาข้อมูล</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading" class="text-center py-4" style="display:none;">
+                <div class="spinner-custom mx-auto mb-2"></div>
+                <p class="text-muted small">กำลังตรวจสอบข้อมูล...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMsg" class="alert alert-danger border-0 bg-soft-danger mt-4"
+                style="display:none; background: #fff5f5; color: #c62828; border-radius: var(--radius-sm);">
+                <div class="d-flex align-items-center mb-2">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <span class="fw-bold" id="errorTitle">ไม่พบข้อมูล</span>
+                </div>
+                <p class="small mb-2 opacity-75" id="errorDetail">
+                    โปรดตรวจสอบรหัสนักศึกษาและชื่อกิจกรรม หากข้อมูลถูกต้อง โปรดติดต่อผู้ดูแลระบบพร้อมหลักฐาน
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="https://m.me/sorasukt" target="_blank" class="btn btn-sm btn-outline-danger rounded-pill"
+                        style="font-size: 0.75rem;">
+                        <i class="fab fa-facebook-messenger me-1"></i> ส่งหลักฐาน
+                    </a>
+                    <a href="imessage:sorasukt@icloud.com?body=I%20would%20like%20to%20submit%20supporting%20documents%20to%20request%20a%20backup%20Token%20Key.%0AActivity%20name%3A%0AStudent%20ID%3A"
+                        target="_blank" class="btn btn-sm btn-outline-dark rounded-pill" style="font-size: 0.75rem;">
+                        <i class="fab fa-apple me-1"></i> iPhone/Mac
+                    </a>
+                </div>
+                <button onclick="resetSearch()" id="retryBtn" class="btn btn-secondary btn-sm mt-3 w-100"
+                    style="display:none;">
+                    <i class="fas fa-arrow-left me-2"></i>กลับไปค้นหาด้วยตัวเอง
+                </button>
+            </div>
+
+            <!-- Result Area -->
+            <div id="resultArea" style="display:none;">
+                <div class="result-info">
+                    <div class="d-flex align-items-center text-danger mb-2">
+                        <i class="fas fa-bookmark me-2"></i>
+                        <span id="resActivity" class="fw-bold"></span>
+                    </div>
+                    <h5 id="resName" class="fw-bold mb-1" style="color: #1a1a1a;"></h5>
+                    <div class="text-muted small" style="font-family: 'Inter', sans-serif;">
+                        ID: <span id="resId"></span> | Group: <span id="resGroup"></span>
+                    </div>
+                </div>
+
+                <h6 class="text-muted fw-bold mb-3 ms-1"><i class="fas fa-list-check me-2"></i>รายการ Token</h6>
+                <div id="activitiesList"></div>
+
+                <div class="text-center mt-4">
+                    <button onclick="resetSearch()" class="btn btn-link text-muted text-decoration-none">
+                        <i class="fas fa-rotate-right me-1"></i> ค้นหารายการอื่น
+                    </button>
+                </div>
+            </div>
+
+            <footer class="footer-text">
+                <p class="mb-1">© 2024 English Education, Loei Rajabhat University</p>
+                <p class="mb-0">Designed by Sorasuk Thongkum</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // ************************************************
+        // 🚨 สำคัญมาก: โปรดตรวจสอบว่าคุณได้ Deploy "New Version" แล้ว
+        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxNif4pv3SL70z-xSRNHoU1fwvAEOwp7QmgqQZbH7yITzeWycZPKcbb0cSCu7g2TJiWog/exec";
+        // ************************************************
+
+        window.onload = function () {
+            // โหลดรายชื่อกิจกรรม
+            fetchActivities();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const paramName = urlParams.get('name') || urlParams.get('activity');
+            const paramId = urlParams.get('id');
+
+            if (paramName && paramId) {
+                console.log("Auto search initiated:", paramName, paramId);
+                document.getElementById('inputSection').classList.add('hidden-mode');
+                document.getElementById('welcomeText').innerHTML = '<span class="text-danger"><div class="spinner-border spinner-border-sm me-1"></div> กำลังค้นหาข้อมูลอัตโนมัติ...</span>';
+                performSearch(paramId, paramName, true);
+            }
+        };
+
+        function fetchActivities() {
+            // เพิ่ม debug: พิมพ์ URL ที่กำลังเรียกใช้งาน
+            console.log("Fetching from:", GAS_API_URL);
+
+            fetch(`${GAS_API_URL}?action=getActivities`)
+                .then(response => {
+                    // ตรวจสอบว่า Response เป็น JSON จริงหรือไม่ (เพื่อจับผิดกรณีส่งกลับเป็น HTML error page)
+                    const contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        return response.json();
+                    } else {
+                        // ถ้าไม่ใช่ JSON แสดงว่า Backend ยังเป็น Code เก่า หรือ Deploy ผิด
+                        throw new Error("เซิร์ฟเวอร์ส่งกลับเป็น HTML ไม่ใช่ JSON (กรุณา Deploy 'New Version' ใน Apps Script)");
+                    }
+                })
+                .then(activities => {
+                    populateActivities(activities);
+                })
+                .catch(error => {
+                    console.error('Error fetching activities:', error);
+                    const select = document.getElementById('activitySelect');
+                    select.innerHTML = '<option disabled>เชื่อมต่อไม่ได้ (ดู Console)</option>';
+
+                    // แสดงแจ้งเตือนบนหน้าเว็บ
+                    document.getElementById('configAlert').style.display = 'block';
+                    document.getElementById('alertMsg').innerHTML = `<strong>เชื่อมต่อล้มเหลว:</strong> ${error.message}`;
+                });
+        }
+
+        function populateActivities(activities) {
+            const select = document.getElementById('activitySelect');
+            select.innerHTML = '<option value="" selected disabled>กรุณาเลือกกิจกรรม</option>';
+
+            if (!activities || activities.length === 0) {
+                select.innerHTML += '<option disabled>ไม่พบรายการกิจกรรม</option>';
+                return;
+            }
+
+            activities.forEach(function (act) {
+                var option = document.createElement("option");
+                option.text = act;
+                option.value = act;
+                select.add(option);
+            });
+
+            document.getElementById('searchBtn').disabled = false;
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') searchData();
+        }
+
+        function searchData() {
+            const activitySelect = document.getElementById('activitySelect');
+            const selectedActivity = activitySelect.value;
+            const studentId = document.getElementById('studentId').value.trim();
+
+            if (!selectedActivity) {
+                alert("กรุณาเลือกกิจกรรมก่อนค้นหา");
+                activitySelect.focus();
+                return;
+            }
+
+            if (!studentId) {
+                alert("กรุณากรอกรหัสนักศึกษา");
+                document.getElementById('studentId').focus();
+                return;
+            }
+
+            performSearch(studentId, selectedActivity, false);
+        }
+
+        function performSearch(id, activityName, isAutoMode) {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultArea').style.display = 'none';
+            document.getElementById('errorMsg').style.display = 'none';
+
+            if (!isAutoMode) {
+                const btn = document.getElementById('searchBtn');
+                btn.disabled = true;
+                btn.innerHTML = '<div class="spinner-border spinner-border-sm me-2"></div> กำลังค้นหา...';
+            }
+
+            fetch(`${GAS_API_URL}?action=search&id=${encodeURIComponent(id)}&criteria=${encodeURIComponent(activityName)}`)
+                .then(response => {
+                    const contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        return response.json();
+                    } else {
+                        throw new Error("ได้รับ HTML แทนที่จะเป็น JSON (ตรวจสอบ Backend Deployment)");
+                    }
+                })
+                .then(response => {
+                    showResult(response, isAutoMode);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showError({ message: error.message });
+                });
+        }
+
+        function showResult(response, isAutoMode) {
+            document.getElementById('loading').style.display = 'none';
+
+            const btn = document.getElementById('searchBtn');
+            btn.disabled = false;
+            btn.innerHTML = '<span>ค้นหาข้อมูล</span><i class="fas fa-arrow-right"></i>';
+
+            if (!response.found) {
+                document.getElementById('errorMsg').style.display = 'block';
+
+                if (isAutoMode) {
+                    document.getElementById('welcomeText').innerHTML = 'สาขาวิชาภาษาอังกฤษ มหาวิทยาลัยราชภัฏเลย';
+                    document.getElementById('inputSection').classList.add('hidden-mode');
+                    document.getElementById('errorTitle').innerText = 'ไม่พบข้อมูลจากลิงก์';
+                    document.getElementById('errorDetail').innerText = 'ระบบไม่พบข้อมูลที่ตรงกับลิงก์นี้ อาจเกิดจากลิงก์ผิดพลาด หรือไม่มีข้อมูลในระบบ';
+                    document.getElementById('retryBtn').style.display = 'block';
+                } else {
+                    document.getElementById('errorTitle').innerText = 'ไม่พบข้อมูล';
+                    document.getElementById('errorDetail').innerText = 'โปรดตรวจสอบรหัสนักศึกษาและชื่อกิจกรรม หากข้อมูลถูกต้อง โปรดติดต่อผู้ดูแลระบบพร้อมหลักฐาน';
+                    document.getElementById('retryBtn').style.display = 'none';
+                }
+                return;
+            }
+
+            if (isAutoMode) {
+                document.getElementById('welcomeText').style.display = 'none';
+            }
+
+            document.getElementById('resActivity').innerText = response.data.activityName;
+            document.getElementById('resName').innerText = response.data.name;
+            document.getElementById('resId').innerText = response.data.studentId;
+            document.getElementById('resGroup').innerText = response.data.group;
+
+            let html = '';
+            response.data.activities.forEach((a, i) => {
+                if (a.code || a.token) {
+                    html += `
+                    <div class="activity-card">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                             <small class="text-muted fw-bold">รายการที่ ${i + 1}</small>
+                        </div>
+                        <div class="d-flex flex-wrap gap-3 align-items-center justify-content-between">
+                             <div class="code-pill" onclick="copyText('${a.code}', this)" title="คลิกเพื่อคัดลอกรหัส">
+                                 <i class="fas fa-hashtag text-secondary"></i>
+                                 <span>${a.code}</span>
+                                 <i class="fas fa-copy ms-auto small text-muted"></i>
+                             </div>
+                             <div class="token-badge" onclick="copyText('${a.token}', this)" title="คลิกเพื่อคัดลอก Token">
+                                 <i class="fas fa-key text-white-50"></i>
+                                 <span>${a.token}</span>
+                                 <i class="fas fa-copy ms-auto small text-white-50"></i>
+                             </div>
+                        </div>
+                    </div>`;
+                }
+            });
+
+            document.getElementById('activitiesList').innerHTML = html;
+            document.getElementById('resultArea').style.display = 'block';
+        }
+
+        function showError(err) {
+            document.getElementById('loading').style.display = 'none';
+            const btn = document.getElementById('searchBtn');
+            btn.disabled = false;
+            btn.innerHTML = '<span>ค้นหาข้อมูล</span><i class="fas fa-arrow-right"></i>';
+
+            document.getElementById('errorMsg').style.display = 'block';
+            document.getElementById('errorTitle').innerText = 'เกิดข้อผิดพลาด';
+            document.getElementById('errorDetail').innerText = err.message;
+        }
+
+        function resetSearch() {
+            document.getElementById('resultArea').style.display = 'none';
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('studentId').value = '';
+            document.getElementById('welcomeText').innerHTML = 'สาขาวิชาภาษาอังกฤษ มหาวิทยาลัยราชภัฏเลย';
+            document.getElementById('welcomeText').style.display = 'block';
+            document.getElementById('retryBtn').style.display = 'none';
+            document.getElementById('inputSection').classList.remove('hidden-mode');
+
+            const select = document.getElementById('activitySelect');
+            if (select.options.length <= 1) {
+                select.innerHTML = '<option value="" selected disabled>กำลังโหลดรายชื่อกิจกรรม...</option>';
+                fetchActivities();
+            }
+
+            if (window.history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                window.history.pushState({ path: newurl }, '', newurl);
+            }
+        }
+
+        function copyText(text, btnElement) {
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => {
+                const icon = btnElement.querySelector('.fa-copy');
+                if (icon) {
+                    icon.className = 'fas fa-check';
+                    setTimeout(() => {
+                        icon.className = 'fas fa-copy';
+                    }, 1500);
+                } else {
+                    alert("คัดลอกแล้ว: " + text);
+                }
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('ไม่สามารถคัดลอกได้');
+            });
+        }
+    </script>
+</body>
+
+</html>
