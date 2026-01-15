@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ปิดปรับปรุงระบบชั่วคราว | System Maintenance</title>
+    <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico"
+        type="image/x-icon">
 
     <!-- Google Fonts: IBM Plex Sans Thai + Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +18,7 @@
     <!-- Marked.js for Markdown Parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <link rel="stylesheet" href="CSS/maintenance.css">
+    <link rel="stylesheet" href="/CSS/maintenance.css">
 </head>
 
 <body>
@@ -45,10 +47,8 @@
         <!-- Time Schedule -->
         <div class="schedule-box">
             <p class="schedule-time">
-                ระบบจะปิดให้บริการตั้งแต่
-                <span>12 มกราคม 2569 เวลา 23:00 น.</span>
-                ถึง
-                <span>16 มกราคม 2569 เวลา 12:00 น.</span>
+                ระบบจะเปิดให้เลือกตั้งในวันที่
+                <span>4 กุมภาพันธ์ 2569 เวลา 08:00 น.</span>
             </p>
         </div>
 
@@ -85,59 +85,15 @@
                 ข้อควรทราบ
             </div>
             <p class="notice-text">
-                คุณจะสามารถค้นหารหัสกิจกรรมพร้อม <strong>Token Key</strong> ได้หลังเวลาปิดปรับปรุงระบบเสร็จสิ้น
+                ระบบจะเปิดใช้งานในวันเลือกตั้ง ตามที่ประกาศไว้ ตรวจสอบสิทธิ์การเลือกตั้งได้ที่ <a href=/vote/info>กกต
+                    Eng.Ed</a>
             </p>
         </div>
 
         <footer>
             &copy; 2026 English Education, All rights reserved.
         </footer>
-    </div>
-
-    <!-- AI Chat Widget -->
-    <button class="ai-chat-btn" id="toggleChatBtn">
-        <span>✨</span>
-        <span>สอบถาม AI</span>
-    </button>
-
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <div class="chat-header-info">
-                <div class="chat-avatar">🤖</div>
-                <span>ผู้ช่วยระบบ AI</span>
-            </div>
-            <button class="chat-close" id="closeChatBtn">✕</button>
-        </div>
-
-        <div class="chat-messages" id="chatMessages">
-            <div class="message ai">
-                สวัสดีครับ! ผมเป็น AI ผู้ช่วยอัจฉริยะ ✨<br>
-                มีข้อสงสัยเกี่ยวกับการปิดปรับปรุงระบบ หรืออยากให้ผมเล่าเรื่องตลกให้ฟังระหว่างรอไหมครับ?
-            </div>
-        </div>
-
-        <!-- Suggestions Chips -->
-        <div class="chat-suggestions" id="chatSuggestions">
-            <div class="suggestion-chip" onclick="sendSuggestion('Token Key คืออะไรครับ?')">Token Key คืออะไร?</div>
-            <div class="suggestion-chip" onclick="sendSuggestion('ระบบจะเปิดใช้งานได้ตอนไหนครับ?')">ระบบเปิดตอนไหน?
-            </div>
-            <div class="suggestion-chip" onclick="sendSuggestion('เล่าเรื่องตลกให้ฟังหน่อย')">เล่าเรื่องตลก</div>
-            <div class="suggestion-chip" onclick="sendSuggestion('มีอะไรให้ทำแก้เบื่อบ้าง?')">ทำอะไรดีระหว่างรอ?</div>
-        </div>
-
-        <div class="chat-input-area">
-            <textarea class="chat-input" id="userInput" placeholder="พิมพ์ข้อความ..." rows="1"></textarea>
-            <button class="chat-send-btn" id="sendBtn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-            </button>
-        </div>
-    </div>
-
-    <script src="JavaScript/maintenance.js"></script>
+        <script src="/JavaScript/maintenance.js"></script>
 </body>
 
 </html>
