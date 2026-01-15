@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Countdown Logic
-    const countDownDate = new Date("Jan 16, 2026 12:00:00").getTime();
+    const countDownDate = new Date("Feb 4, 2026 08:00:00").getTime();
     const x = setInterval(function () {
         const now = new Date().getTime();
         const distance = countDownDate - now;

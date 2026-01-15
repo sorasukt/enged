@@ -226,6 +226,33 @@ h1 {
 }
 
 /* Primary Card (highlighted) */
+.service-card.vote {
+    background: linear-gradient(135deg, #0095ff 0%, #000000 100%);
+    border: none;
+    color: white;
+}
+
+.service-card.vote::before {
+    display: none;
+}
+
+.service-card.vote .card-icon {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.service-card.vote .card-content p {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.service-card.vote .card-arrow {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.service-card.vote:hover .card-arrow {
+    color: white;
+}
+
 .service-card.primary {
     background: var(--accent-gradient);
     border: none;
