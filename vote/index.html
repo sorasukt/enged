@@ -4,96 +4,424 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ปิดปรับปรุงระบบชั่วคราว | System Maintenance</title>
-    <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico"
-        type="image/x-icon">
+    <title>ระบบเลือกตั้ง | English Education</title>
+    <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
 
-    <!-- Google Fonts: IBM Plex Sans Thai + Inter -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Marked.js for Markdown Parsing -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://sorasukt.github.io/enged/CSS/maintenance.css">
+    <style>
+        :root {
+            --primary-red: #d32f2f;
+            --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #ffffff 50%, #fef2f2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.8);
+            --text-main: #1a1a2e;
+            --text-muted: #64748b;
+            --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.08);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --success-color: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .bg-shape {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.5;
+            animation: float 25s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .shape-1 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(229, 57, 53, 0.15) 0%, rgba(255, 82, 82, 0.1) 100%);
+            top: -150px;
+            left: -150px;
+        }
+
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(255, 82, 82, 0.12) 0%, rgba(229, 57, 53, 0.08) 100%);
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -8s;
+        }
+
+        .shape-3 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(255, 205, 210, 0.3) 0%, rgba(255, 235, 238, 0.2) 100%);
+            top: 40%;
+            right: 5%;
+            animation-delay: -15s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(30px, -40px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-20px, 30px) scale(0.95);
+            }
+
+            75% {
+                transform: translate(40px, 20px) scale(1.02);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            padding-top: 1rem;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .back-link:hover {
+            color: var(--primary-red);
+        }
+
+        .icon-container {
+            width: 80px;
+            height: 80px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--primary-red);
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            padding: 2rem;
+            width: 100%;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .schedule-box {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            text-align: center;
+            margin: 1.5rem 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .schedule-time {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .schedule-time span {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-top: 0.5rem;
+        }
+
+        .countdown-label {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .time-box {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            min-width: 70px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .time-value {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            line-height: 1;
+        }
+
+        .time-label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .notice-card {
+            background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
+            border: 1px solid rgba(211, 47, 47, 0.2);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .notice-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .notice-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .notice-text a {
+            color: var(--primary-red);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .notice-text a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: auto;
+            padding-top: 2rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .glass-card {
+                padding: 1.5rem;
+                border-radius: var(--radius-md);
+            }
+
+            .icon-container {
+                width: 64px;
+                height: 64px;
+                font-size: 1.5rem;
+            }
+
+            .countdown-container {
+                gap: 0.5rem;
+            }
+
+            .time-box {
+                min-width: 60px;
+                padding: 0.75rem;
+            }
+
+            .time-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-
-    <!-- Background Elements -->
-    <div class="bg-gradient"></div>
-    <div class="floating-blob blob-1"></div>
-    <div class="floating-blob blob-2"></div>
-    <div class="floating-blob blob-3"></div>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
 
     <div class="container">
-        <!-- Icon Section -->
+        <a href="../index.html" class="back-link"><i class="fas fa-chevron-left"></i>กลับหน้าหลัก</a>
         <div class="icon-container">
-            <div class="icon-ring">
-                <svg class="icon-maintenance" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
-                </svg>
+            <i class="fas fa-tools"></i>
+        </div>
+
+        <div class="glass-card">
+            <h1>ปิดปรับปรุงระบบชั่วคราว</h1>
+            <p class="subtitle">ขออภัยในความไม่สะดวก ขณะนี้ยังไม่ถึงเวลาเลือกตั้ง</p>
+
+            <div class="schedule-box">
+                <p class="schedule-time">
+                    ระบบจะเปิดให้เลือกตั้งในวันที่
+                    <span>4 กุมภาพันธ์ 2569 เวลา 08:00 น.</span>
+                </p>
+            </div>
+
+            <p class="countdown-label">ระบบจะเปิดใช้งานในอีก</p>
+            <div class="countdown-container" id="countdown">
+                <div class="time-box">
+                    <span class="time-value" id="days">00</span>
+                    <span class="time-label">วัน</span>
+                </div>
+                <div class="time-box">
+                    <span class="time-value" id="hours">00</span>
+                    <span class="time-label">ชั่วโมง</span>
+                </div>
+                <div class="time-box">
+                    <span class="time-value" id="minutes">00</span>
+                    <span class="time-label">นาที</span>
+                </div>
+                <div class="time-box">
+                    <span class="time-value" id="seconds">00</span>
+                    <span class="time-label">วินาที</span>
+                </div>
+            </div>
+
+            <div class="notice-card">
+                <div class="notice-title">
+                    <i class="fas fa-circle-info"></i>
+                    ข้อควรทราบ
+                </div>
+                <p class="notice-text">
+                    ระบบจะเปิดใช้งานในวันเลือกตั้ง ตามที่ประกาศไว้ ตรวจสอบสิทธิ์การเลือกตั้งได้ที่
+                    <a href="info.html">กกต Eng.Ed</a>
+                </p>
             </div>
         </div>
 
-        <!-- Header -->
-        <h1>ปิดปรับปรุงระบบชั่วคราว</h1>
-        <h2>ขออภัยในความไม่สะดวก ขณะนี้ยังไม่ถึงเวลาเลือกตั้ง</h2>
+        <footer>&copy; 2026 English Education, All rights reserved.</footer>
+    </div>
 
-        <!-- Time Schedule -->
-        <div class="schedule-box">
-            <p class="schedule-time">
-                ระบบจะเปิดให้เลือกตั้งในวันที่
-                <span>4 กุมภาพันธ์ 2569 เวลา 08:00 น.</span>
-            </p>
-        </div>
+    <script>
+        const targetDate = new Date('2026-02-04T08:00:00+07:00').getTime();
 
-        <!-- Countdown Timer -->
-        <p class="countdown-label">ระบบจะเปิดใช้งานในอีก</p>
-        <div class="countdown-container" id="countdown">
-            <div class="time-box">
-                <span class="time-value" id="days">00</span>
-                <span class="time-label">วัน</span>
-            </div>
-            <div class="time-box">
-                <span class="time-value" id="hours">00</span>
-                <span class="time-label">ชั่วโมง</span>
-            </div>
-            <div class="time-box">
-                <span class="time-value" id="minutes">00</span>
-                <span class="time-label">นาที</span>
-            </div>
-            <div class="time-box">
-                <span class="time-value" id="seconds">00</span>
-                <span class="time-label">วินาที</span>
-            </div>
-        </div>
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
 
-        <!-- Specific Message (Token Key) -->
-        <div class="notice-card">
-            <div class="notice-title">
-                <svg class="notice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-                ข้อควรทราบ
-            </div>
-            <p class="notice-text">
-                ระบบจะเปิดใช้งานในวันเลือกตั้ง ตามที่ประกาศไว้ ตรวจสอบสิทธิ์การเลือกตั้งได้ที่ <a href=/vote/info>กกต
-                    Eng.Ed</a>
-            </p>
-        </div>
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = '<p style="color: #10b981; font-weight: 600;">ระบบพร้อมใช้งานแล้ว!</p>';
+                return;
+            }
 
-        <footer>
-            &copy; 2026 English Education, All rights reserved.
-        </footer>
-        <script src="https://sorasukt.github.io/enged/JavaScript/maintenance.js"></script>
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
 </body>
 
 </html>
