@@ -34,6 +34,106 @@
             --success-color: #10b981;
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #0f0f13 0%, #1a1a1e 50%, #111115 100%);
+                --glass-bg: rgba(30, 30, 35, 0.85);
+                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+                --text-main: #f0f0f5;
+                --text-muted: #94a3b8;
+                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+
+            .bg-shape {
+                opacity: 0.2;
+            }
+
+            .glass-card {
+                background: var(--glass-bg) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .icon-container {
+                background: rgba(59, 130, 246, 0.15) !important;
+            }
+
+            .icon-container.active {
+                background: rgba(16, 185, 129, 0.15) !important;
+            }
+
+            .schedule-box,
+            .time-box,
+            .closing-time-box {
+                background: rgba(255, 255, 255, 0.05) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: #e0e0e0 !important;
+            }
+
+            .schedule-time {
+                color: #e0e0e0 !important;
+            }
+
+            .time-value {
+                color: var(--primary-red) !important;
+            }
+
+            .time-label {
+                color: #94a3b8 !important;
+            }
+
+            .notice-card {
+                background: rgba(211, 47, 47, 0.1) !important;
+                border-color: rgba(211, 47, 47, 0.3) !important;
+            }
+
+            .notice-title {
+                color: var(--primary-red) !important;
+            }
+
+            .notice-text {
+                color: #e0e0e0 !important;
+            }
+
+            .closing-countdown {
+                background: rgba(255, 152, 0, 0.1) !important;
+                border-color: rgba(255, 152, 0, 0.3) !important;
+            }
+
+            .voting-instructions {
+                background: rgba(16, 185, 129, 0.1) !important;
+                border-color: rgba(16, 185, 129, 0.3) !important;
+                color: #e0e0e0 !important;
+            }
+
+            .voting-instructions li {
+                color: #e0e0e0 !important;
+            }
+
+            .btn-secondary {
+                background: transparent !important;
+                border-color: var(--primary-red) !important;
+                color: var(--primary-red) !important;
+            }
+
+            .btn-secondary:hover {
+                background: rgba(211, 47, 47, 0.1) !important;
+            }
+
+            .icon-container.closed {
+                background: rgba(255, 255, 255, 0.1) !important;
+                color: #757575 !important;
+            }
+
+            footer {
+                color: #6b7280 !important;
+            }
+
+            /* Fix white edges on mobile */
+            html {
+                background: #0f0f13 !important;
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;

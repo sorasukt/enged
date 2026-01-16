@@ -11,6 +11,159 @@
             --radius-md: 16px;
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+                --glass-bg: rgba(30, 30, 35, 0.85);
+                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+                --text-main: #e0e0e0;
+                --text-muted: #a0a0a0;
+            }
+
+            .logo-container {
+                background: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            h3 {
+                color: #e0e0e0 !important;
+            }
+
+            .form-label {
+                color: #ccc !important;
+            }
+
+            .custom-input-group {
+                background: rgba(255, 255, 255, 0.05) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .custom-input {
+                color: #fff !important;
+            }
+
+            .custom-select {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23e0e0e0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+            }
+
+            .back-home-btn {
+                background: rgba(30, 30, 35, 0.8) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: #ccc !important;
+            }
+
+            .back-home-btn:hover {
+                background: rgba(50, 50, 60, 0.9) !important;
+                color: var(--primary-color) !important;
+            }
+
+            .result-info {
+                background: rgba(30, 30, 35, 0.9) !important;
+                border-left: 4px solid var(--primary-color) !important;
+            }
+
+            h5#resName.text-dark,
+            .text-dark {
+                color: #e0e0e0 !important;
+            }
+
+            .activity-card {
+                background: rgba(40, 40, 45, 0.6) !important;
+                border-color: rgba(255, 255, 255, 0.05) !important;
+                color: #e0e0e0 !important;
+            }
+
+            .code-pill {
+                background: rgba(255, 255, 255, 0.05) !important;
+                border-color: rgba(255, 255, 255, 0.2) !important;
+                color: #e0e0e0 !important;
+            }
+
+            /* Fix hardcoded white backgrounds */
+            .alert,
+            .modal-content,
+            .bg-white,
+            #monitoringStatus {
+                background: rgba(30, 30, 35, 0.95) !important;
+                color: #e0e0e0 !important;
+            }
+
+            .alert-warning,
+            #pendingMsg {
+                background: rgba(245, 158, 11, 0.15) !important;
+                color: #fbbf24 !important;
+                border-color: rgba(245, 158, 11, 0.3) !important;
+            }
+
+            .alert-danger,
+            #errorMsg {
+                background: rgba(220, 38, 38, 0.15) !important;
+                color: #f87171 !important;
+            }
+
+            #technicalError {
+                background: rgba(255, 255, 255, 0.05) !important;
+                color: #9ca3af !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .text-muted {
+                color: #a0a0a0 !important;
+            }
+
+            .text-secondary {
+                color: #9ca3af !important;
+            }
+
+            .text-dark {
+                color: #e0e0e0 !important;
+            }
+
+            .border,
+            .border-warning {
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .spinner-border.text-danger {
+                border-color: transparent !important;
+                border-top-color: var(--primary-color) !important;
+            }
+
+            /* Fix buttons */
+            .btn-outline-secondary {
+                color: #9ca3af !important;
+                border-color: #64748b !important;
+            }
+
+            .btn-outline-secondary:hover {
+                background: rgba(255, 255, 255, 0.1) !important;
+                color: #e0e0e0 !important;
+            }
+
+            .btn-secondary {
+                background: #4b5563 !important;
+                color: #e0e0e0 !important;
+            }
+
+            .btn-light {
+                background: rgba(255, 255, 255, 0.1) !important;
+                color: #e0e0e0 !important;
+            }
+
+            .btn-outline-danger {
+                color: var(--primary-color) !important;
+                border-color: var(--primary-color) !important;
+            }
+
+            footer.text-muted {
+                color: #6b7280 !important;
+            }
+
+            /* Fix white edges on mobile */
+            html {
+                background: #121212 !important;
+            }
+        }
+
         body {
             font-family: 'IBM Plex Sans Thai', sans-serif;
             background: var(--bg-gradient);

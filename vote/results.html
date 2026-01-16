@@ -24,6 +24,105 @@
             --radius-md: 16px
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #0f0f13 0%, #1a1a1e 50%, #111115 100%);
+                --glass-bg: rgba(30, 30, 35, 0.85);
+                --text-main: #f0f0f5;
+                --text-muted: #94a3b8;
+                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+
+            .bg-shape {
+                opacity: 0.2;
+            }
+
+            .glass-card {
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .icon-box,
+            .time-status-icon {
+                background: rgba(59, 130, 246, 0.15) !important;
+            }
+
+            .disclaimer {
+                background: rgba(245, 158, 11, 0.15) !important;
+                border-color: rgba(245, 158, 11, 0.3) !important;
+                color: #fbbf24 !important;
+            }
+
+            .result-item {
+                color: #e0e0e0 !important;
+            }
+
+            .result-name {
+                color: #e0e0e0 !important;
+            }
+
+            .result-bar {
+                background: #333 !important;
+            }
+
+            .loader {
+                border-color: #333 !important;
+                border-top-color: var(--primary-red) !important;
+            }
+
+            .total-votes {
+                background: rgba(255, 255, 255, 0.05) !important;
+                color: #94a3b8 !important;
+            }
+
+            .total-votes strong {
+                color: #fff !important;
+            }
+
+            /* Time status card - CRITICAL: need !important to override inline white */
+            .time-status-card {
+                background: #1e1e23 !important;
+                color: #f0f0f5 !important;
+            }
+
+            .time-status-card h2 {
+                color: var(--primary-red) !important;
+            }
+
+            .time-status-card p {
+                color: #94a3b8 !important;
+            }
+
+            .time-status-title {
+                color: #f0f0f5 !important;
+            }
+
+            .time-status-subtitle {
+                color: #94a3b8 !important;
+            }
+
+            .time-status-box {
+                background: rgba(255, 255, 255, 0.05) !important;
+                color: #e0e0e0 !important;
+            }
+
+            .time-value {
+                color: var(--primary-red) !important;
+            }
+
+            .time-label {
+                color: #94a3b8 !important;
+            }
+
+            footer {
+                color: #6b7280 !important;
+            }
+
+            /* Fix white edges on mobile */
+            html {
+                background: #0f0f13 !important;
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;

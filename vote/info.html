@@ -27,6 +27,67 @@
             --blue: #3b82f6
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #0f0f13 0%, #1a1a1e 50%, #111115 100%);
+                --glass-bg: rgba(30, 30, 35, 0.85);
+                --text-main: #000000;
+                --text-muted: #94a3b8;
+                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+
+            .bg-shape {
+                opacity: 0.2;
+            }
+
+            .glass-card {
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .icon-box {
+                background: rgba(59, 130, 246, 0.15);
+            }
+
+            .input-field {
+                background: rgba(255, 255, 255, 0.05) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: #fff !important;
+            }
+
+            .input-field::placeholder {
+                color: #6b7280 !important;
+            }
+
+            .loader {
+                border-color: #333;
+                border-top-color: var(--primary-red);
+            }
+
+            .result-card.eligible {
+                background: rgba(16, 185, 129, 0.15);
+                border-color: rgba(16, 185, 129, 0.3);
+            }
+
+            .result-card.voted {
+                background: rgba(245, 158, 11, 0.15);
+                border-color: rgba(245, 158, 11, 0.3);
+            }
+
+            .result-card.not-eligible {
+                background: rgba(220, 38, 38, 0.15);
+                border-color: rgba(220, 38, 38, 0.3);
+            }
+
+            .result-info {
+                color: #000000;
+            }
+
+            .result-info strong {
+                color: #000000;
+            }
+            
+        }
+
         * {
             margin: 0;
             padding: 0;

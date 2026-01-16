@@ -29,6 +29,30 @@
             --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.08);
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #0f0f13 0%, #1a1a1e 50%, #111115 100%);
+                --glass-bg: rgba(30, 30, 35, 0.85);
+                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+                --text-main: #f0f0f5;
+                --text-muted: #94a3b8;
+                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+
+            .bg-shape {
+                opacity: 0.2;
+            }
+
+            .error-card {
+                background: var(--glass-bg) !important;
+                border: var(--glass-border);
+            }
+
+            footer {
+                color: #6b7280 !important;
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;

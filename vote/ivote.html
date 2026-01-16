@@ -33,6 +33,149 @@
             --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #0f0f13 0%, #1a1a1e 50%, #111115 100%);
+                --glass-bg: rgba(30, 30, 35, 0.85);
+                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+                --text-main: #f0f0f5;
+                --text-muted: #94a3b8;
+                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+                --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.4);
+            }
+
+            .bg-shape {
+                opacity: 0.2;
+            }
+
+            .glass-card {
+                background: var(--glass-bg) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .icon-container {
+                background: rgba(59, 130, 246, 0.15) !important;
+            }
+
+            .icon-container.success {
+                background: rgba(16, 185, 129, 0.15) !important;
+            }
+
+            .input-field {
+                background: rgba(255, 255, 255, 0.05) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: #fff !important;
+            }
+
+            .input-field::placeholder {
+                color: #6b7280 !important;
+            }
+
+            .user-info {
+                background: rgba(255, 255, 255, 0.05) !important;
+                color: #e0e0e0 !important;
+            }
+
+            .user-info strong {
+                color: #fff !important;
+            }
+
+            .candidate-card {
+                background: rgba(255, 255, 255, 0.03) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: #e0e0e0 !important;
+            }
+
+            .candidate-card:hover {
+                border-color: var(--primary-red) !important;
+                background: rgba(211, 47, 47, 0.05) !important;
+            }
+
+            .candidate-card.selected {
+                background: rgba(211, 47, 47, 0.15) !important;
+                border-color: var(--primary-red) !important;
+            }
+
+            .candidate-info {
+                color: #e0e0e0 !important;
+            }
+
+            .candidate-party {
+                color: #94a3b8 !important;
+            }
+
+            .candidate-radio {
+                border-color: #64748b !important;
+            }
+
+            .btn:disabled {
+                background: rgba(255, 255, 255, 0.1) !important;
+                color: #757575 !important;
+            }
+
+            .loader {
+                border-color: #333 !important;
+                border-top-color: var(--primary-red) !important;
+            }
+
+            /* Time status specific - CRITICAL: !important to override white background */
+            .time-status-card {
+                background: #1e1e23 !important;
+                color: #f0f0f5 !important;
+            }
+
+            .time-status-card h2 {
+                color: var(--primary-red) !important;
+            }
+
+            .time-status-card p {
+                color: #94a3b8 !important;
+            }
+
+            .time-status-title {
+                color: #f0f0f5 !important;
+            }
+
+            .time-status-subtitle {
+                color: #94a3b8 !important;
+            }
+
+            .time-status-box {
+                background: rgba(255, 255, 255, 0.05) !important;
+                color: #e0e0e0 !important;
+            }
+
+            .time-value {
+                color: var(--primary-red) !important;
+            }
+
+            .time-label {
+                color: #94a3b8 !important;
+            }
+
+            .time-status-icon {
+                background: rgba(59, 130, 246, 0.15) !important;
+            }
+
+            .time-status-icon.waiting {
+                background: rgba(25, 118, 210, 0.15) !important;
+            }
+
+            .time-status-icon.closed {
+                background: rgba(255, 255, 255, 0.1) !important;
+                color: #757575 !important;
+            }
+
+            footer {
+                color: #6b7280 !important;
+            }
+
+            /* Fix white edges on mobile */
+            html {
+                background: #0f0f13 !important;
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;

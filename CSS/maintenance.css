@@ -14,6 +14,71 @@
             --shadow-glow: 0 0 60px rgba(229, 57, 53, 0.15);
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --white: #1e1e23;
+                --text-dark: #f0f0f5;
+                --text-grey: #94a3b8;
+                --chat-bg: #121212;
+                --glass-bg: rgba(30, 30, 35, 0.85);
+                --glass-border: rgba(255, 255, 255, 0.1);
+                --light-red: rgba(229, 57, 53, 0.15);
+                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+
+            body {
+                background: linear-gradient(135deg, #0f0f13 0%, #1a1a1e 50%, #111115 100%) !important;
+            }
+
+            .bg-gradient {
+                opacity: 0.2;
+            }
+
+            .floating-blob {
+                opacity: 0.3;
+            }
+
+            .schedule-box {
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .notice-card {
+                background: rgba(30, 30, 35, 0.9);
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .chat-window {
+                background: #1e1e23;
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .chat-input-area {
+                background-color: #1e1e23;
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .chat-input {
+                background: rgba(255, 255, 255, 0.05);
+                border-color: rgba(255, 255, 255, 0.1);
+                color: #fff;
+            }
+
+            .chat-suggestions {
+                background-color: #1e1e23;
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .message.ai {
+                background-color: rgba(255, 255, 255, 0.05);
+                color: #e0e0e0;
+            }
+
+            /* Fix white edges on mobile */
+            html {
+                background: #0f0f13 !important;
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;

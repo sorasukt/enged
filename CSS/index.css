@@ -13,6 +13,86 @@
     --radius-md: 16px;
 }
 
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-gradient: linear-gradient(135deg, #0f0f13 0%, #1a1a1e 50%, #111115 100%);
+        --glass-bg: rgba(30, 30, 35, 0.85);
+        --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        --text-main: #f0f0f5;
+        --text-muted: #94a3b8;
+        --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+        --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .bg-shape {
+        opacity: 0.2;
+    }
+
+    .logo-container {
+        background: rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    /* Only apply glass background to NON-colored cards */
+    .service-card:not(.vote):not(.primary) {
+        background: var(--glass-bg) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Keep colored cards visible with adjusted shadows */
+    .service-card.vote,
+    .service-card.primary {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* Card icons for non-colored cards */
+    .service-card:not(.vote):not(.primary) .card-icon {
+        background: rgba(211, 47, 47, 0.15) !important;
+        color: #ff5252 !important;
+    }
+
+    .card-icon.vote {
+        background: rgba(25, 118, 210, 0.15) !important;
+        color: #64b5f6 !important;
+    }
+
+    .card-icon.info {
+        background: rgba(56, 142, 60, 0.15) !important;
+        color: #81c784 !important;
+    }
+
+    .card-icon.results {
+        background: rgba(211, 47, 47, 0.15) !important;
+        color: #ff5252 !important;
+    }
+
+    /* Card content for non-colored cards */
+    .service-card:not(.vote):not(.primary) .card-content h3 {
+        color: #f0f0f5 !important;
+    }
+
+    .service-card:not(.vote):not(.primary) .card-content p {
+        color: #94a3b8 !important;
+    }
+
+    .service-card:not(.vote):not(.primary) .card-arrow {
+        color: #64748b !important;
+    }
+
+    .service-card:not(.vote):not(.primary):hover .card-arrow {
+        color: #ff5252 !important;
+    }
+
+    footer {
+        color: #94a3b8 !important;
+    }
+
+    /* Fix white edges on mobile */
+    html {
+        background: #0f0f13 !important;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
