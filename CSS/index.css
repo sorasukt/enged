@@ -420,6 +420,136 @@ h1 {
     transform: translateX(4px);
 }
 
+/* Slider */
+.slider-container {
+    width: 100%;
+    margin-bottom: 2rem;
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: var(--glass-border);
+    box-shadow: var(--shadow-soft);
+    animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.slider {
+    width: 100%;
+    position: relative;
+}
+
+.slide {
+    display: none;
+    width: 100%;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.slide.active {
+    display: block;
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    border-radius: var(--radius-lg);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--primary-red);
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.slider-btn:hover {
+    background: var(--primary-red);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.slider-btn.prev {
+    left: 12px;
+}
+
+.slider-btn.next {
+    right: 12px;
+}
+
+.slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 0;
+    background: transparent;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(211, 47, 47, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: var(--primary-red);
+    transform: scale(1.2);
+}
+
+.dot:hover {
+    background: var(--primary-red);
+}
+
+/* Slider Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .slider-btn {
+        background: rgba(50, 50, 55, 0.9);
+        color: #ff5252;
+    }
+
+    .slider-btn:hover {
+        background: #ff5252;
+        color: white;
+    }
+
+    .dot {
+        background: rgba(255, 82, 82, 0.3);
+    }
+
+    .dot.active,
+    .dot:hover {
+        background: #ff5252;
+    }
+}
+
 /* Footer */
 footer {
     margin-top: auto;

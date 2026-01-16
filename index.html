@@ -40,6 +40,28 @@
             <p class="subtitle">สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</p>
         </header>
 
+        <!-- Image Slider -->
+        <section class="slider-container">
+            <div class="slider">
+                <div class="slide"><img src="/img/slider/front.png" alt="หน้าแรก"></div>
+                <div class="slide">
+                    <img src="/img/slider/วิธีค้นหา Token Key.png" alt="วิธีค้นหา Token Key">
+                </div>
+                <div class="slide">
+                    <img src="/img/slider/วิธีตรวจสอบสิทธิ์เลือกตั้ง.png" alt="วิธีตรวจสอบสิทธิ์เลือกตั้ง">
+                </div>
+                <!-- เพิ่มรูปอื่นๆ ได้ที่นี่ -->
+                <!-- <div class="slide"><img src="/img/slider/filename.png" alt="description"></div> -->
+            </div>
+            <button class="slider-btn prev" onclick="prevSlide()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-btn next" onclick="nextSlide()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="slider-dots"></div>
+        </section>
+
         <!-- Service Cards -->
         <section class="services-grid">
             <a href="sys.html" class="service-card primary">
@@ -95,6 +117,65 @@
     </div>
 
     <script src="JavaScript/pwa.js"></script>
+    <script>
+        // Slider functionality
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.querySelector('.slider-dots');
+        let currentSlide = 0;
+        let slideInterval;
+
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.onclick = () => goToSlide(index);
+            dotsContainer.appendChild(dot);
+        });
+
+        function updateSlider() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) slide.classList.add('active');
+            });
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === currentSlide) dot.classList.add('active');
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+            resetInterval();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+            resetInterval();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+            resetInterval();
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        // Auto-slide every 5 seconds
+        slideInterval = setInterval(nextSlide, 5000);
+
+        // Hide buttons if only one slide
+        if (slides.length <= 1) {
+            document.querySelectorAll('.slider-btn').forEach(btn => btn.style.display = 'none');
+            document.querySelector('.slider-dots').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>
