@@ -44,16 +44,19 @@
         <section class="slider-container">
             <div class="slider">
                 <div class="slide">
-                    <img src="/enged/img/slider/front.png" alt="หน้าแรก" loading="eager" decoding="async"
+                    <img src="/enged/img/slider/1.png" alt="หน้าแรก" loading="eager" decoding="async"
                         fetchpriority="high">
                 </div>
                 <div class="slide">
-                    <img src="/enged/img/slider/วิธีค้นหา Token Key.png" alt="วิธีค้นหา Token Key" loading="lazy"
+                    <img src="/enged/img/slider/วิธีค้นหา-TokenKey.png" alt="วิธีค้นหา Token Key" loading="lazy"
                         decoding="async">
                 </div>
                 <div class="slide">
                     <img src="/enged/img/slider/วิธีตรวจสอบสิทธิ์เลือกตั้ง.png" alt="วิธีตรวจสอบสิทธิ์เลือกตั้ง"
                         loading="lazy" decoding="async">
+                </div>
+                <div class="slide">
+                    <img src="/enged/img/slider/วิธีเลือกตั้ง.png" alt="วิธีเลือกตั้ง" loading="lazy" decoding="async">
                 </div>
                 <!-- เพิ่มรูปอื่นๆ ได้ที่นี่ -->
                 <!-- <div class="slide"><img src="/img/slider/filename.png" alt="description"></div> -->
@@ -121,6 +124,13 @@
             </footer>
     </div>
 
+    <!-- Image Popup Modal -->
+    <div id="imageModal" class="image-modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="modal-caption" id="modalCaption"></div>
+    </div>
+
     <script src="JavaScript/pwa.js"></script>
     <script>
         // Slider functionality
@@ -179,6 +189,46 @@
         if (slides.length <= 1) {
             document.querySelectorAll('.slider-btn').forEach(btn => btn.style.display = 'none');
             document.querySelector('.slider-dots').style.display = 'none';
+        }
+
+        // Image Modal Functionality
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const closeBtn = document.querySelector('.modal-close');
+
+        // Add click event to all slider images
+        document.querySelectorAll('.slide img').forEach(img => {
+            img.addEventListener('click', function () {
+                modal.style.display = 'block';
+                modalImg.src = this.src;
+                modalCaption.textContent = this.alt;
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+                clearInterval(slideInterval); // Pause slider
+            });
+        });
+
+        // Close modal when clicking X
+        closeBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside image
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                closeModal();
+            }
+        });
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+            slideInterval = setInterval(nextSlide, 5000); // Resume slider
         }
     </script>
 </body>

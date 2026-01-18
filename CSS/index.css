@@ -560,6 +560,94 @@ footer {
     text-align: center;
 }
 
+/* Image Modal Popup */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalZoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.image-modal .modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    animation: modalZoomIn 0.3s ease;
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10000;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: var(--primary-red);
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.modal-caption {
+    margin: 15px auto;
+    text-align: center;
+    color: #ccc;
+    font-size: 1rem;
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    max-width: 80%;
+}
+
+/* Make slider images clickable */
+.slide img {
+    cursor: zoom-in;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     body {
@@ -588,5 +676,18 @@ footer {
 
     .card-content h3 {
         font-size: 1rem;
+    }
+
+    /* Image Modal Responsive */
+    .image-modal .modal-content {
+        max-width: 95%;
+    }
+
+    .modal-close {
+        top: 10px;
+        right: 15px;
+        font-size: 30px;
+        width: 40px;
+        height: 40px;
     }
 }
