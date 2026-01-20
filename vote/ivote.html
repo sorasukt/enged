@@ -509,6 +509,14 @@
             color: var(--text-muted);
         }
 
+        .candidate-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
         .loader {
             width: 40px;
             height: 40px;
@@ -852,9 +860,10 @@
                                 <label class="candidate-card" onclick="selectCandidate('${c.number}', this)">
                                     <input type="radio" name="candidate" value="${c.number}">
                                     <div class="candidate-radio"></div>
+                                    <img src="img/${c.number}.png" alt="พรรคหมายเลข ${c.number}" class="candidate-img" onerror="this.style.display='none'">
                                     <div class="candidate-info">
                                         <div class="candidate-number">หมายเลข ${c.number}</div>
-                                        <div class="candidate-party">พรรค: ${c.party}</div>
+                                        <div class="candidate-party">พรรค${c.party}</div>
                                     </div>
                                 </label>
                             `;
