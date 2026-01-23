@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#d32f2f" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f0f13" media="(prefers-color-scheme: dark)">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/img/enged-192.png">
+    <title>English Education - Loei Rajabhat University</title>
+    <link id="favicon" rel="icon"
+        href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="CSS/index.css">
+    <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
+</head>
+
+<body>
+
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="logo-container">
+                <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico"
+                    alt="English Education Logo" class="logo-img">
+            </div>
+            <h1>ยินดีต้อนรับสู่ระบบสารสนเทศ</h1>
+            <p class="subtitle">สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</p>
+        </header>
+
+        <!-- Image Slider -->
+        <section class="slider-container">
+            <div class="slider">
+                <div class="slide">
+                    <img src="/enged/img/slider/1.png" alt="หน้าแรก" loading="eager" decoding="async"
+                        fetchpriority="high">
+                </div>
+                <div class="slide">
+                    <img src="/enged/img/slider/วิธีค้นหา-TokenKey.png" alt="วิธีค้นหา Token Key" loading="lazy"
+                        decoding="async">
+                </div>
+                <div class="slide">
+                    <img src="/enged/img/slider/วิธีตรวจสอบสิทธิ์เลือกตั้ง.png" alt="วิธีตรวจสอบสิทธิ์เลือกตั้ง"
+                        loading="lazy" decoding="async">
+                </div>
+                <div class="slide">
+                    <img src="/enged/img/slider/วิธีเลือกตั้ง.png" alt="วิธีเลือกตั้ง" loading="lazy" decoding="async">
+                </div>
+                <!-- เพิ่มรูปอื่นๆ ได้ที่นี่ -->
+                <!-- <div class="slide"><img src="/img/slider/filename.png" alt="description"></div> -->
+            </div>
+            <button class="slider-btn prev" onclick="prevSlide()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-btn next" onclick="nextSlide()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="slider-dots"></div>
+        </section>
+
+        <!-- Service Cards -->
+        <section class="services-grid">
+            <a href="sys.html" class="service-card primary">
+                <div class="card-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div class="card-content">
+                    <h3>ค้นหา Token Key</h3>
+                    <p>ค้นหารหัสกิจกรรมสำหรับนักศึกษา</p>
+                </div>
+                <i class="fas fa-arrow-right card-arrow"></i>
+            </a>
+        </section>
+
+        <footer>
+            &copy; 2026 English Education, Loei Rajabhat University <br>
+            Made with ❤️ by Sorasuk Thongkum
+        </footer>
+    </div>
+
+    <!-- Image Popup Modal -->
+    <div id="imageModal" class="image-modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="modal-caption" id="modalCaption"></div>
+    </div>
+
+    <script src="JavaScript/pwa.js"></script>
+    <script>
+        // Slider functionality
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.querySelector('.slider-dots');
+        let currentSlide = 0;
+        let slideInterval;
+
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.onclick = () => goToSlide(index);
+            dotsContainer.appendChild(dot);
+        });
+
+        function updateSlider() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) slide.classList.add('active');
+            });
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === currentSlide) dot.classList.add('active');
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+            resetInterval();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+            resetInterval();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+            resetInterval();
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        // Auto-slide every 5 seconds
+        slideInterval = setInterval(nextSlide, 5000);
+
+        // Hide buttons if only one slide
+        if (slides.length <= 1) {
+            document.querySelectorAll('.slider-btn').forEach(btn => btn.style.display = 'none');
+            document.querySelector('.slider-dots').style.display = 'none';
+        }
+
+        // Image Modal Functionality
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const closeBtn = document.querySelector('.modal-close');
+
+        // Add click event to all slider images
+        document.querySelectorAll('.slide img').forEach(img => {
+            img.addEventListener('click', function () {
+                modal.style.display = 'block';
+                modalImg.src = this.src;
+                modalCaption.textContent = this.alt;
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+                clearInterval(slideInterval); // Pause slider
+            });
+        });
+
+        // Close modal when clicking X
+        closeBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside image
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                closeModal();
+            }
+        });
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+            slideInterval = setInterval(nextSlide, 5000); // Resume slider
+        }
+    </script>
+</body>
+
+</html>
