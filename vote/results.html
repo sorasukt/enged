@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ผลการเลือกตั้ง | English Education</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ผลการเลือกตั้ง | English Education">
+    <meta property="og:url" content="https://sorasukt.github.com/enged/vote/results">
+    <meta property="og:image" content="https://sorasukt.github.io/enged/img/og/vote.png">
+    <meta property="og:description"
+        content="ผลการเลือกตั้ง | English Education สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย">
     <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,21 +21,23 @@
         :root {
             --primary-red: #d32f2f;
             --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
-            --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #fff 50%, #fef2f2 100%);
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --text-main: #1a1a2e;
-            --text-muted: #64748b;
-            --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.08);
+            --bg-gradient: radial-gradient(circle at 10% 20%, rgb(255, 240, 240) 0%, rgb(255, 255, 255) 90%);
+            --glass-bg: rgba(255, 255, 255, 0.92);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.9);
+            --text-main: #2c3e50;
+            --text-muted: #636e72;
+            --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.1);
             --radius-lg: 24px;
             --radius-md: 16px
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-gradient: linear-gradient(135deg, #0f0f13 0%, #1a1a1e 50%, #111115 100%);
+                --bg-gradient: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
                 --glass-bg: rgba(30, 30, 35, 0.85);
-                --text-main: #f0f0f5;
-                --text-muted: #94a3b8;
+                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+                --text-main: #e0e0e0;
+                --text-muted: #a0a0a0;
                 --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
             }
 
@@ -39,6 +47,17 @@
 
             .glass-card {
                 border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .back-home-btn {
+                background: rgba(30, 30, 35, 0.8) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: #ccc !important;
+            }
+
+            .back-home-btn:hover {
+                background: rgba(50, 50, 60, 0.9) !important;
+                color: var(--primary-red) !important;
             }
 
             .icon-box,
@@ -135,37 +154,35 @@
             min-height: 100vh;
             color: var(--text-main);
             display: flex;
-            flex-direction: column;
             align-items: center;
-            padding: 2rem;
+            justify-content: center;
+            padding: 20px;
             overflow-x: hidden
         }
 
         .bg-shape {
             position: fixed;
             border-radius: 50%;
-            filter: blur(80px);
+            filter: blur(60px);
             z-index: -1;
-            opacity: 0.5;
-            animation: float 25s ease-in-out infinite;
+            opacity: 0.6;
             pointer-events: none
         }
 
         .shape-1 {
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(135deg, rgba(229, 57, 53, 0.15) 0%, rgba(255, 82, 82, 0.1) 100%);
-            top: -150px;
-            left: -150px
+            width: 300px;
+            height: 300px;
+            background: #ffcdd2;
+            top: -100px;
+            left: -100px
         }
 
         .shape-2 {
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, rgba(255, 82, 82, 0.12) 0%, rgba(229, 57, 53, 0.08) 100%);
-            bottom: -100px;
-            right: -100px;
-            animation-delay: -8s
+            width: 250px;
+            height: 250px;
+            background: #ffebee;
+            bottom: -50px;
+            right: -50px
         }
 
         @keyframes float {
@@ -182,29 +199,41 @@
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 580px;
             z-index: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            flex-grow: 1;
-            padding-top: 1rem
+            flex-grow: 1
         }
 
-        .back-link {
+        /* Floating back button like sys.html */
+        .back-home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            z-index: 100;
+            text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-            transition: color 0.3s ease;
-            align-self: flex-start
+            gap: 0.5rem
         }
 
-        .back-link:hover {
-            color: var(--primary-red)
+        .back-home-btn:hover {
+            background: white;
+            color: var(--primary-red);
+            transform: translateX(-3px);
+            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.15)
         }
 
         .icon-box {
@@ -223,11 +252,17 @@
         .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
             border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-soft);
-            padding: 2rem;
-            width: 100%
+            box-shadow: 0 8px 32px 0 rgba(211, 47, 47, 0.1);
+            padding: 48px 40px;
+            width: 100%;
+            transition: transform 0.3s ease
+        }
+
+        .glass-card:hover {
+            transform: translateY(-2px)
         }
 
         h1 {
@@ -329,6 +364,19 @@
             font-weight: 700;
             font-size: 1.25rem;
             flex-shrink: 0;
+        }
+
+        .result-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .result-item.leading .result-img {
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .result-info {
@@ -617,29 +665,39 @@
                 height: 64px;
                 font-size: 1.5rem
             }
+
+            .status-bar {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                padding: 0.75rem;
+                margin-bottom: 1.5rem;
+                font-family: 'Courier New', monospace;
+                font-size: 0.75rem;
+                color: #ffffff;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                align-items: center;
+                justify-content: center;
+            }
         }
 
         /* Base 44 Status Bar */
         .status-bar {
-            background: rgba(15, 23, 42, 0.05);
-            border: 1px solid rgba(15, 23, 42, 0.1);
+            background: rgba(255, 255, 255, 0.047);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             padding: 0.75rem;
             margin-bottom: 1.5rem;
             font-family: 'Courier New', monospace;
             font-size: 0.75rem;
-            color: #334155;
+            color: #ffffff;
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
             align-items: center;
             justify-content: center;
-        }
-
-        .dark-mode .status-bar {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.1);
-            color: #94a3b8;
         }
 
         .status-item {
@@ -734,24 +792,29 @@
             </a>
         </div>
     </div>
+
+    <!-- Floating back button -->
+    <a href="../index.html" class="back-home-btn">
+        <i class="fas fa-chevron-left"></i> หน้าหลัก
+    </a>
+
     <div class="container">
-        <a href="../index" class="back-link"><i class="fas fa-chevron-left"></i>กลับหน้าหลัก</a>
         <div class="icon-box"><i class="fas fa-chart-bar"></i></div>
         <div class="glass-card">
             <h1>ผลการเลือกตั้ง</h1>
             <p class="subtitle">ผลการนับคะแนนเลือกตั้งคณะกรรมการนักศึกษา</p>
 
-            <div class="status-bar">
+            <div class="status-bar" id="statusBar">
                 <div class="status-item">
-                    <div class="status-indicator"></div>
-                    <span>System: Verified</span>
+                    <div class="status-indicator" id="statusIndicator"></div>
+                    <span id="systemStatus">System: Verified</span>
                 </div>
                 <div class="status-item">
                     <span>ID: <span id="integrityHash">a1b2...c3d4</span></span>
                 </div>
                 <div class="status-item">
                     <i class="fas fa-network-wired" style="font-size: 0.75rem;"></i>
-                    <span>Nodes: Online</span>
+                    <span id="nodesStatus">Nodes: Online</span>
                 </div>
             </div>
 
@@ -779,6 +842,57 @@
 
     <script>
         const APP_URL = "https://script.google.com/macros/s/AKfycbzMAhUcwoYV-OuYne_h6qeIczrI0qGfv58_qgls9k8ONWJEdZGoZgqofrtVCNxZu3qk1w/exec";
+
+        // Global state for system online/offline status
+        let isSystemOnline = true;
+        let hashUpdateInterval = null;
+
+        function setSystemOffline() {
+            isSystemOnline = false;
+            const indicator = document.getElementById('statusIndicator');
+            const systemStatus = document.getElementById('systemStatus');
+            const nodesStatus = document.getElementById('nodesStatus');
+            const hashElement = document.getElementById('integrityHash');
+
+            if (indicator) {
+                indicator.style.backgroundColor = '#dc2626';
+                indicator.style.boxShadow = '0 0 10px #dc2626';
+                indicator.style.animation = 'none';
+            }
+            if (systemStatus) {
+                systemStatus.textContent = 'System: Offline Unverified';
+            }
+            if (nodesStatus) {
+                nodesStatus.textContent = 'Nodes: Disconnected';
+            }
+            if (hashElement) {
+                hashElement.textContent = '----...----';
+                hashElement.style.opacity = '0.5';
+            }
+        }
+
+        function setSystemOnline() {
+            isSystemOnline = true;
+            const indicator = document.getElementById('statusIndicator');
+            const systemStatus = document.getElementById('systemStatus');
+            const nodesStatus = document.getElementById('nodesStatus');
+            const hashElement = document.getElementById('integrityHash');
+
+            if (indicator) {
+                indicator.style.backgroundColor = '#22c55e';
+                indicator.style.boxShadow = '0 0 10px #22c55e';
+                indicator.style.animation = 'blink 2s infinite';
+            }
+            if (systemStatus) {
+                systemStatus.textContent = 'System: Verified';
+            }
+            if (nodesStatus) {
+                nodesStatus.textContent = 'Nodes: Online';
+            }
+            if (hashElement) {
+                hashElement.style.opacity = '1';
+            }
+        }
 
         function displayResults(data) {
             const list = document.getElementById('resultsList');
@@ -818,6 +932,7 @@
                             <div class="result-number-badge" style="background-color: ${isLeading ? 'var(--primary-red)' : '#e2e8f0'}; color: ${isLeading ? '#fff' : '#64748b'};">
                                 ${c.number}
                             </div>
+                            <img src="img/${c.number}.png" alt="หัวหน้าพรรค ${c.party}" class="result-img" onerror="this.style.display='none'">
                             <div class="result-info">
                                 <div class="result-party">${c.party}</div>
                                 <div class="result-subtitle">หมายเลข ${c.number}</div>
@@ -836,28 +951,129 @@
             document.getElementById('totalVotes').style.display = 'block';
         }
 
+        // Cookie/localStorage helper functions
+        function saveResultsToCache(data) {
+            const cacheData = {
+                results: data,
+                lastUpdated: new Date().toISOString()
+            };
+            localStorage.setItem('electionResultsCache', JSON.stringify(cacheData));
+        }
+
+        function getResultsFromCache() {
+            const cached = localStorage.getItem('electionResultsCache');
+            if (cached) {
+                return JSON.parse(cached);
+            }
+            return null;
+        }
+
+        function formatLastUpdated(isoString) {
+            const date = new Date(isoString);
+            return date.toLocaleString('th-TH', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        function showLastUpdateInfo(lastUpdated, isOffline = false) {
+            let updateInfo = document.getElementById('updateInfo');
+            if (!updateInfo) {
+                updateInfo = document.createElement('div');
+                updateInfo.id = 'updateInfo';
+                updateInfo.style.cssText = `
+                    text-align: center;
+                    padding: 0.75rem;
+                    margin-bottom: 1rem;
+                    border-radius: 8px;
+                    font-size: 0.85rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                `;
+                const disclaimer = document.querySelector('.disclaimer');
+                if (disclaimer) {
+                    disclaimer.after(updateInfo);
+                }
+            }
+
+            if (isOffline) {
+                updateInfo.style.background = '#fef3c7';
+                updateInfo.style.color = '#92400e';
+                updateInfo.style.border = '1px solid rgba(245, 158, 11, 0.3)';
+                updateInfo.innerHTML = `<i class="fas fa-wifi-slash"></i> ข้อมูลออฟไลน์ - อัพเดทล่าสุด: ${formatLastUpdated(lastUpdated)}`;
+            } else {
+                updateInfo.style.background = '#d1fae5';
+                updateInfo.style.color = '#065f46';
+                updateInfo.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+                updateInfo.innerHTML = `<i class="fas fa-check-circle"></i> อัพเดทล่าสุด: ${formatLastUpdated(lastUpdated)}`;
+            }
+
+            // Dark mode support
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                if (isOffline) {
+                    updateInfo.style.background = 'rgba(245, 158, 11, 0.15)';
+                    updateInfo.style.color = '#fbbf24';
+                } else {
+                    updateInfo.style.background = 'rgba(16, 185, 129, 0.15)';
+                    updateInfo.style.color = '#34d399';
+                }
+            }
+        }
+
         function loadResults() {
             fetch(`${APP_URL}?action=getResults`)
                 .then(res => res.json())
                 .then(json => {
                     document.getElementById('loader').style.display = 'none';
                     if (json.status === 'success' && json.data) {
+                        // Save to cache
+                        saveResultsToCache(json.data);
                         displayResults(json.data);
+                        showLastUpdateInfo(new Date().toISOString(), false);
+                        document.getElementById('errorMsg').style.display = 'none';
+                        setSystemOnline();
                     } else {
-                        document.getElementById('errorMsg').textContent = json.message || 'ไม่สามารถโหลดข้อมูลได้';
-                        document.getElementById('errorMsg').style.display = 'block';
+                        // Try to show cached data
+                        setSystemOffline();
+                        const cached = getResultsFromCache();
+                        if (cached) {
+                            displayResults(cached.results);
+                            showLastUpdateInfo(cached.lastUpdated, true);
+                            document.getElementById('errorMsg').textContent = 'ไม่สามารถโหลดข้อมูลใหม่ได้ - แสดงข้อมูลจากแคช';
+                            document.getElementById('errorMsg').style.display = 'block';
+                        } else {
+                            document.getElementById('errorMsg').textContent = json.message || 'ไม่สามารถโหลดข้อมูลได้';
+                            document.getElementById('errorMsg').style.display = 'block';
+                        }
                     }
                 })
                 .catch(err => {
                     document.getElementById('loader').style.display = 'none';
-                    document.getElementById('errorMsg').textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อ';
-                    document.getElementById('errorMsg').style.display = 'block';
                     console.error('API Error:', err);
+                    setSystemOffline();
+
+                    // Try to show cached data on error
+                    const cached = getResultsFromCache();
+                    if (cached) {
+                        displayResults(cached.results);
+                        showLastUpdateInfo(cached.lastUpdated, true);
+                        document.getElementById('errorMsg').textContent = 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ - แสดงข้อมูลจากแคช';
+                        document.getElementById('errorMsg').style.display = 'block';
+                    } else {
+                        document.getElementById('errorMsg').textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อ และไม่มีข้อมูลแคช';
+                        document.getElementById('errorMsg').style.display = 'block';
+                    }
                 });
         }
 
         // Time checking - results available after voting starts (and after voting ends too)
-        const startDate = new Date('2026-01-01T13:00:00+07:00').getTime();
+        const startDate = new Date('2026-01-28T13:00:00+07:00').getTime();
 
         function checkVotingTime() {
             const now = new Date().getTime();
@@ -937,6 +1153,11 @@
     <script>
         // Override the hash simulation function correctly
         updateIntegrityHash = function () {
+            // Only update hash when system is online
+            if (!isSystemOnline) {
+                return;
+            }
+
             const characters = 'abcdef0123456789';
             let hash = '';
             // Generate a fake hash segment

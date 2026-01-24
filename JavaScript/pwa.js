@@ -1,47 +1,47 @@
 // Register Service Worker
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker
-            .register('/service-worker.js')
-            .then((registration) => {
-                console.log(
-                    'ServiceWorker registration successful with scope: ',
-                    registration.scope
-                );
-            })
-            .catch((err) => {
-                console.log('ServiceWorker registration failed: ', err);
-            });
-    });
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/service-worker.js')
+      .then((registration) => {
+        console.log(
+          'ServiceWorker registration successful with scope: ',
+          registration.scope
+        );
+      })
+      .catch((err) => {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+  });
 }
 
 // Optional: Listen for "beforeinstallprompt" event
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent the mini-infobar from appearing on mobile
-    e.preventDefault();
-    // Stash the event so it can be triggered later.
-    deferredPrompt = e;
-    // Update UI notify the user they can install the PWA
-    console.log('PWA Install Triggered');
+  // Prevent the mini-infobar from appearing on mobile
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  // Update UI notify the user they can install the PWA
+  console.log('PWA Install Triggered');
 });
 
 // iOS PWA Install Prompt Logic
 (function () {
-    // Detect iOS
-    const isIos = () => {
-        const userAgent = window.navigator.userAgent.toLowerCase();
-        return /iphone|ipad|ipod/.test(userAgent);
-    };
+  // Detect iOS
+  const isIos = () => {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+  };
 
-    // Detect Standalone Mode
-    const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+  // Detect Standalone Mode
+  const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
 
-    // Only run on iOS and not in standalone mode
-    if (isIos() && !isInStandaloneMode()) {
-        // Inject Styles
-        const style = document.createElement('style');
-        style.innerHTML = `
+  // Only run on iOS and not in standalone mode
+  if (isIos() && !isInStandaloneMode()) {
+    // Inject Styles
+    const style = document.createElement('style');
+    style.innerHTML = `
       .ios-pwa-btn {
         position: fixed;
         bottom: 24px;
@@ -177,18 +177,18 @@ window.addEventListener('beforeinstallprompt', (e) => {
         to { transform: translateY(0); opacity: 1; }
       }
     `;
-        document.head.appendChild(style);
+    document.head.appendChild(style);
 
-        // Create Button
-        const btn = document.createElement('button');
-        btn.className = 'ios-pwa-btn';
-        btn.innerHTML = '<i class="fas fa-download"></i> เปิดในแอป';
-        document.body.appendChild(btn);
+    // Create Button
+    const btn = document.createElement('button');
+    btn.className = 'ios-pwa-btn';
+    btn.innerHTML = '<i class="fas fa-download"></i> เปิดในแอป';
+    document.body.appendChild(btn);
 
-        // Create Modal
-        const modalOverlay = document.createElement('div');
-        modalOverlay.className = 'ios-modal-overlay';
-        modalOverlay.innerHTML = `
+    // Create Modal
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'ios-modal-overlay';
+    modalOverlay.innerHTML = `
       <div class="ios-modal">
         <button class="ios-close-btn" onclick="this.closest('.ios-modal-overlay').classList.remove('active')">
             <i class="fas fa-times"></i>
@@ -225,17 +225,17 @@ window.addEventListener('beforeinstallprompt', (e) => {
         </div>
       </div>
     `;
-        document.body.appendChild(modalOverlay);
+    document.body.appendChild(modalOverlay);
 
-        // Event Listeners
-        btn.addEventListener('click', () => {
-            modalOverlay.classList.add('active');
-        });
+    // Event Listeners
+    btn.addEventListener('click', () => {
+      modalOverlay.classList.add('active');
+    });
 
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-                modalOverlay.classList.remove('active');
-            }
-        });
-    }
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.remove('active');
+      }
+    });
+  }
 })();

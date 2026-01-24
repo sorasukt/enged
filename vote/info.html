@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ตรวจสอบสิทธิ์เลือกตั้ง | English Education</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ตรวจสอบสิทธิ์เลือกตั้ง | English Education">
+    <meta property="og:url" content="https://sorasukt.github.com/enged/vote/info">
+    <meta property="og:image" content="https://sorasukt.github.io/enged/img/og/vote.png">
+    <meta property="og:description"
+        content="ตรวจสอบสิทธิ์เลือกตั้ง | English Education สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย">
     <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,11 +21,12 @@
         :root {
             --primary-red: #d32f2f;
             --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
-            --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #fff 50%, #fef2f2 100%);
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --text-main: #1a1a2e;
-            --text-muted: #64748b;
-            --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.08);
+            --bg-gradient: radial-gradient(circle at 10% 20%, rgb(255, 240, 240) 0%, rgb(255, 255, 255) 90%);
+            --glass-bg: rgba(255, 255, 255, 0.92);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.9);
+            --text-main: #2c3e50;
+            --text-muted: #636e72;
+            --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.1);
             --radius-lg: 24px;
             --radius-md: 16px;
             --success: #10b981;
@@ -29,10 +36,11 @@
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-gradient: linear-gradient(135deg, #0f0f13 0%, #1a1a1e 50%, #111115 100%);
+                --bg-gradient: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
                 --glass-bg: rgba(30, 30, 35, 0.85);
-                --text-main: #000000;
-                --text-muted: #94a3b8;
+                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+                --text-main: #e0e0e0;
+                --text-muted: #a0a0a0;
                 --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
             }
 
@@ -42,6 +50,17 @@
 
             .glass-card {
                 border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .back-home-btn {
+                background: rgba(30, 30, 35, 0.8) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: #ccc !important;
+            }
+
+            .back-home-btn:hover {
+                background: rgba(50, 50, 60, 0.9) !important;
+                color: var(--primary-red) !important;
             }
 
             .icon-box {
@@ -79,13 +98,20 @@
             }
 
             .result-info {
-                color: #000000;
+                color: #e0e0e0;
             }
 
             .result-info strong {
-                color: #000000;
+                color: #fff;
             }
-            
+
+            footer {
+                color: #6b7280 !important;
+            }
+
+            html {
+                background: #121212 !important;
+            }
         }
 
         * {
@@ -100,37 +126,35 @@
             min-height: 100vh;
             color: var(--text-main);
             display: flex;
-            flex-direction: column;
             align-items: center;
-            padding: 2rem;
+            justify-content: center;
+            padding: 20px;
             overflow-x: hidden
         }
 
         .bg-shape {
             position: fixed;
             border-radius: 50%;
-            filter: blur(80px);
+            filter: blur(60px);
             z-index: -1;
-            opacity: 0.5;
-            animation: float 25s ease-in-out infinite;
+            opacity: 0.6;
             pointer-events: none
         }
 
         .shape-1 {
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(135deg, rgba(229, 57, 53, 0.15) 0%, rgba(255, 82, 82, 0.1) 100%);
-            top: -150px;
-            left: -150px
+            width: 300px;
+            height: 300px;
+            background: #ffcdd2;
+            top: -100px;
+            left: -100px
         }
 
         .shape-2 {
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, rgba(255, 82, 82, 0.12) 0%, rgba(229, 57, 53, 0.08) 100%);
-            bottom: -100px;
-            right: -100px;
-            animation-delay: -8s
+            width: 250px;
+            height: 250px;
+            background: #ffebee;
+            bottom: -50px;
+            right: -50px
         }
 
         @keyframes float {
@@ -147,29 +171,41 @@
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 580px;
             z-index: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            flex-grow: 1;
-            padding-top: 1rem
+            flex-grow: 1
         }
 
-        .back-link {
+        /* Floating back button */
+        .back-home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            z-index: 100;
+            text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-            transition: color 0.3s ease;
-            align-self: flex-start
+            gap: 0.5rem
         }
 
-        .back-link:hover {
-            color: var(--primary-red)
+        .back-home-btn:hover {
+            background: white;
+            color: var(--primary-red);
+            transform: translateX(-3px);
+            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.15)
         }
 
         .icon-box {
@@ -387,8 +423,13 @@
 <body>
     <div class="bg-shape shape-1"></div>
     <div class="bg-shape shape-2"></div>
+
+    <!-- Floating back button -->
+    <a href="../index.html" class="back-home-btn">
+        <i class="fas fa-chevron-left"></i> หน้าหลัก
+    </a>
+
     <div class="container">
-        <a href="../index.html" class="back-link"><i class="fas fa-chevron-left"></i>กลับหน้าหลัก</a>
         <div class="icon-box"><i class="fas fa-user-check"></i></div>
         <div class="glass-card">
             <h1>ตรวจสอบสิทธิ์เลือกตั้ง</h1>
