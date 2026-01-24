@@ -3,179 +3,234 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#d32f2f">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#d32f2f" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f0f13" media="(prefers-color-scheme: dark)">
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="/img/enged-192.png">
-    <title>ระบบค้นหา Token Key สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <title>English Education - Loei Rajabhat University</title>
+    <link id="favicon" rel="icon"
+        href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-
-
-    <link rel="stylesheet" href="CSS/system.css">
+    <link rel="stylesheet" href="CSS/index.css">
+    <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
 </head>
 
 <body>
 
-    <div class="main-wrapper">
-        <div class="bg-shape shape-1"></div>
-        <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
 
-        <a href="index.html" class="back-home-btn text-decoration-none">
-            <i class="fas fa-chevron-left"></i> หน้าหลัก
-        </a>
-
-        <!-- Configuration Alert -->
-        <div id="configAlert" class="alert alert-warning text-center shadow-sm mb-4"
-            style="display: none; border-radius: 16px;">
-            <i class="fas fa-exclamation-triangle me-2"></i>
-            <strong>แจ้งเตือน:</strong> <span id="alertMsg">ยังไม่ได้ตั้งค่า URL</span>
-        </div>
-
-        <div class="glass-card">
-            <div class="text-center">
-                <div class="logo-container">
-                    <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico"
-                        class="logo-img" alt="Logo">
-                </div>
-                <h3>ระบบค้นหา Token Key</h3>
-                <p class="subtitle" id="welcomeText">สาขาวิชาภาษาอังกฤษ มหาวิทยาลัยราชภัฏเลย</p>
+    <div class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="logo-container">
+                <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico"
+                    alt="English Education Logo" class="logo-img">
             </div>
+            <h1>ยินดีต้อนรับสู่ระบบสารสนเทศ</h1>
+            <p class="subtitle">สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</p>
+        </header>
 
-            <!-- Form -->
-            <form id="inputSection" onsubmit="return false;">
-                <div class="mb-4">
-                    <label class="form-label">เลือกกิจกรรม</label>
-                    <div class="custom-input-group">
-                        <select id="activitySelect" class="custom-input custom-select">
-                            <option value="" selected disabled>กำลังโหลดรายชื่อกิจกรรม...</option>
-                        </select>
+        <!-- Image Slider -->
+        <section class="slider-container">
+            <div class="slider">
+                <div class="slide">
+                    <img src="/enged/img/slider/1.png" alt="หน้าแรก" loading="eager" decoding="async"
+                        fetchpriority="high">
+                </div>
+                <div class="slide">
+                    <img src="/enged/img/slider/วิธีค้นหา-TokenKey.png" alt="วิธีค้นหา Token Key" loading="lazy"
+                        decoding="async">
+                </div>
+                <div class="slide">
+                    <img src="/enged/img/slider/วิธีตรวจสอบสิทธิ์เลือกตั้ง.png" alt="วิธีตรวจสอบสิทธิ์เลือกตั้ง"
+                        loading="lazy" decoding="async">
+                </div>
+                <div class="slide">
+                    <img src="/enged/img/slider/วิธีเลือกตั้ง.png" alt="วิธีเลือกตั้ง" loading="lazy" decoding="async">
+                </div>
+                <!-- เพิ่มรูปอื่นๆ ได้ที่นี่ -->
+                <!-- <div class="slide"><img src="/img/slider/filename.png" alt="description"></div> -->
+            </div>
+            <button class="slider-btn prev" onclick="prevSlide()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-btn next" onclick="nextSlide()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="slider-dots"></div>
+        </section>
+
+        <!-- Service Cards -->
+        <section class="services-grid">
+            <a href="sys.html" class="service-card primary">
+                <div class="card-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div class="card-content">
+                    <h3>ค้นหา Token Key</h3>
+                    <p>ค้นหารหัสกิจกรรมสำหรับนักศึกษา</p>
+                </div>
+                <i class="fas fa-arrow-right card-arrow"></i>
+            </a>
+
+            <section class="services-grid">
+                <a href="vote/index.html" class="service-card vote">
+                    <div class="card-icon">
+                        <i class="fas fa-vote-yea"></i>
                     </div>
-                </div>
-
-                <div class="mb-4 pt-1">
-                    <label class="form-label">รหัสนักศึกษา</label>
-                    <div class="custom-input-group">
-                        <input type="text" id="studentId" class="custom-input" placeholder="กรอกรหัสนักศึกษา"
-                            inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                            onkeypress="handleEnter(event)">
-                        <i class="fas fa-id-card input-icon"></i>
+                    <div class="card-content">
+                        <h3>เลือกตั้งกรรมการนักศึกษา</h3>
+                        <p>ระบบเลือกตั้งกรรมการนักศึกษา</p>
                     </div>
-                </div>
+                    <i class="fas fa-arrow-right card-arrow"></i>
+                </a>
 
-                <button type="button" id="searchBtn" class="btn-search" onclick="searchData()" disabled>
-                    <span>ค้นหาข้อมูล</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </form>
-
-            <!-- Loading -->
-            <div id="loading" class="text-center py-4" style="display:none;">
-                <div class="spinner-border text-danger" role="status"></div>
-                <p class="text-muted small mt-2">กำลังตรวจสอบข้อมูล...</p>
-            </div>
-
-            <!-- Pending Message -->
-            <div id="pendingMsg" class="alert alert-warning border-0 mt-4"
-                style="display:none; background: #fff8e1; border: 1px solid #ffe57f; color: #b71c1c;">
-                <div class="d-flex align-items-center mb-3">
-                    <i class="fas fa-hourglass-half fa-lg me-2 text-warning"></i>
-                    <span class="fw-bold">กำลังดำเนินการจัดขอรหัส</span>
-                </div>
-                <p class="mb-3 opacity-75 small">สาขาวิชากำลังดำเนินการจัดขอรหัสกิจกรรมอยู่
-                    หากเสร็จสิ้นระบบจะแจ้งให้ทราบอีกครั้ง</p>
-                <button type="button" id="btnEnableNotify" onclick="enableNotification()"
-                    class="btn btn-warning w-100 rounded-pill text-dark fw-bold border-0 mb-2">
-                    <i class="fas fa-bell me-2"></i> แจ้งเตือนเมื่อได้รับรหัส
-                </button>
-                <div id="monitoringStatus" style="display:none"
-                    class="text-center text-muted small bg-white p-2 rounded-pill border border-warning mb-2">
-                    <i class="fas fa-sync fa-spin text-warning me-1"></i> กำลังตรวจสอบอัตโนมัติ
-                </div>
-                <button type="button" onclick="resetSearch()"
-                    class="btn btn-outline-secondary btn-sm w-100 rounded-pill">ค้นหาใหม่</button>
-            </div>
-
-            <!-- Error Message -->
-            <div id="errorMsg" class="alert alert-danger border-0 mt-4"
-                style="display:none; background: #fff5f5; color: #c62828;">
-                <div class="d-flex align-items-center mb-2">
-                    <i class="fas fa-exclamation-circle me-2"></i> <span class="fw-bold">พบข้อผิดพลาด</span>
-                </div>
-                <div class="small opacity-75 mb-2" id="errorDetail">โปรดตรวจสอบข้อมูล หรือติดต่อผู้ดูแลระบบ</div>
-                <div class="small bg-white p-2 border rounded text-secondary mb-2"
-                    style="font-family: monospace; font-size: 0.75rem;" id="technicalError"></div>
-
-                <div id="deployHint" style="display:none" class="small text-danger fst-italic">
-                    <i class="fas fa-lightbulb me-1"></i> คำแนะนำ: ลองกด <strong>Deploy > New Deployment</strong> ใน
-                    Apps Script แล้วนำ URL ใหม่มาใส่อีกครั้ง
-                </div>
-
-                <button type="button" onclick="resetSearch()" id="retryBtn"
-                    class="btn btn-secondary btn-sm mt-3 w-100 rounded-pill">กลับไปค้นหา</button>
-            </div>
-
-            <!-- Result -->
-            <div id="resultArea" style="display:none;">
-                <div class="result-info">
-                    <div class="d-flex align-items-center text-danger mb-2">
-                        <i class="fas fa-bookmark me-2"></i> <span id="resActivity" class="fw-bold"></span>
+                <a href="vote/info.html" class="service-card">
+                    <div class="card-icon info">
+                        <i class="fas fa-user-check"></i>
                     </div>
-                    <h5 id="resName" class="fw-bold mb-1 text-dark"></h5>
-                    <div class="text-muted small">ID: <span id="resId"></span> | Group: <span id="resGroup"></span>
+                    <div class="card-content">
+                        <h3>ตรวจสอบสิทธิ์</h3>
+                        <p>ตรวจสอบสิทธิ์การเลือกตั้ง</p>
                     </div>
-                </div>
-                <h6 class="text-muted fw-bold mb-3 ms-1"><i class="fas fa-list-check me-2"></i>รายการ Token</h6>
-                <div id="activitiesList"></div>
-                <div class="text-center mt-4">
-                    <button type="button" id="shareBtn" class="btn btn-outline-danger rounded-pill me-2"
-                        style="display:none">
-                        <i class="fas fa-share-alt me-1"></i> แชร์ลิงก์
-                    </button>
-                    <button type="button" onclick="resetSearch()"
-                        class="btn btn-link text-muted text-decoration-none"><i class="fas fa-rotate-right me-1"></i>
-                        ค้นหารายการอื่น</button>
-                </div>
-            </div>
+                    <i class="fas fa-arrow-right card-arrow"></i>
+                </a>
 
-            <footer class="text-center mt-5 small text-muted">
-                © 2026 English Education, Loei Rajabhat University<br>Made with ❤️ by Sorasuk Thongkum
+                <a href="vote/results.html" class="service-card">
+                    <div class="card-icon results">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>ผลการเลือกตั้ง</h3>
+                        <p>ตรวจสอบผลการเลือกตั้งอย่างไม่เป็นทางการ</p>
+                    </div>
+                    <i class="fas fa-arrow-right card-arrow"></i>
+                </a>
+            </section>
+
+            <footer>
+                &copy; 2026 English Education, Loei Rajabhat University <br>
+                Made with ❤️ by Sorasuk Thongkum
             </footer>
-        </div>
     </div>
 
-
-
-    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content glass-card p-0 border-0">
-                <div class="modal-body text-center p-4">
-                    <div class="mb-3">
-                        <i class="fas fa-bullhorn text-danger fa-3x"></i>
-                    </div>
-                    <h5 class="fw-bold mb-3 text-dark">แจ้งเตือนสำคัญ</h5>
-                    <p class="mb-4 text-muted">ระบบจะถูกปิดปรับปรุงชั่วคราว
-                        เพื่อพัฒนาและปรับปรุงระบบ<br>ขอบคุณที่สนับสนุนผมมาโดยตลอด ขออภัยในความไม่สะดวก
-                    </p>
-                    <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-light text-muted" data-bs-dismiss="modal">ปิด</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Image Popup Modal -->
+    <div id="imageModal" class="image-modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="modal-caption" id="modalCaption"></div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="JavaScript/system.js"></script>
     <script src="JavaScript/pwa.js"></script>
+    <script>
+        // Slider functionality
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.querySelector('.slider-dots');
+        let currentSlide = 0;
+        let slideInterval;
+
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.onclick = () => goToSlide(index);
+            dotsContainer.appendChild(dot);
+        });
+
+        function updateSlider() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) slide.classList.add('active');
+            });
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === currentSlide) dot.classList.add('active');
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+            resetInterval();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+            resetInterval();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+            resetInterval();
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        // Auto-slide every 5 seconds
+        slideInterval = setInterval(nextSlide, 5000);
+
+        // Hide buttons if only one slide
+        if (slides.length <= 1) {
+            document.querySelectorAll('.slider-btn').forEach(btn => btn.style.display = 'none');
+            document.querySelector('.slider-dots').style.display = 'none';
+        }
+
+        // Image Modal Functionality
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const closeBtn = document.querySelector('.modal-close');
+
+        // Add click event to all slider images
+        document.querySelectorAll('.slide img').forEach(img => {
+            img.addEventListener('click', function () {
+                modal.style.display = 'block';
+                modalImg.src = this.src;
+                modalCaption.textContent = this.alt;
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+                clearInterval(slideInterval); // Pause slider
+            });
+        });
+
+        // Close modal when clicking X
+        closeBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside image
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                closeModal();
+            }
+        });
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+            slideInterval = setInterval(nextSlide, 5000); // Resume slider
+        }
+    </script>
 </body>
 
 </html>
