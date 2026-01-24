@@ -677,6 +677,7 @@
         }
 
         .info-btn {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
             background: none;
             border: none;
             color: var(--text-muted);
@@ -685,129 +686,12 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            text-decoration: underline;
+            text-decoration: none;
             transition: color 0.2s;
         }
 
         .info-btn:hover {
             color: var(--primary-red);
-        }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: #fff;
-            width: 90%;
-            max-width: 600px;
-            max-height: 85vh;
-            border-radius: var(--radius-lg);
-            overflow-y: auto;
-            position: relative;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .modal-content {
-                background: #1e1e23;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                color: #f0f0f5;
-            }
-
-            .modal-header {
-                border-bottom-color: rgba(255, 255, 255, 0.1) !important;
-            }
-
-            .topic-item {
-                background: rgba(255, 255, 255, 0.03) !important;
-            }
-        }
-
-        .modal-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background: inherit;
-            z-index: 10;
-        }
-
-        .modal-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary-red);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        .modal-body {
-            padding: 2rem;
-            line-height: 1.6;
-        }
-
-        .topic-item {
-            margin-bottom: 2rem;
-            background: #f8fafc;
-            padding: 1.5rem;
-            border-radius: var(--radius-md);
-        }
-
-        .topic-title {
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--text-main);
-        }
-
-        .topic-content ul {
-            padding-left: 1.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .topic-content li {
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
         }
     </style>
 </head>
@@ -851,7 +735,7 @@
         </div>
     </div>
     <div class="container">
-        <a href="../index.html" class="back-link"><i class="fas fa-chevron-left"></i>กลับหน้าหลัก</a>
+        <a href="../index" class="back-link"><i class="fas fa-chevron-left"></i>กลับหน้าหลัก</a>
         <div class="icon-box"><i class="fas fa-chart-bar"></i></div>
         <div class="glass-card">
             <h1>ผลการเลือกตั้ง</h1>
@@ -872,10 +756,10 @@
             </div>
 
             <div class="info-btn-wrapper">
-                <button class="info-btn" onclick="openModal()">
+                <a href="base44.html" class="info-btn">
                     <i class="fas fa-info-circle"></i>
                     เกี่ยวกับระบบตรวจสอบผล (Base 44)
-                </button>
+                </a>
             </div>
             <div class="disclaimer"><i class="fas fa-exclamation-triangle"></i>ผลการเลือกตั้งนี้เป็นผลอย่างไม่เป็นทางการ
             </div>
@@ -889,108 +773,10 @@
             Made with ❤️ by Sorasuk Thongkum</footer>
     </div>
 
-    <!-- Base 44 Modal -->
-    <div class="modal-overlay" id="base44Modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">
-                    <i class="fas fa-shield-alt"></i>
-                    ระบบตรวจสอบ (Base 44)
-                </h3>
-                <button class="modal-close" onclick="closeModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="topic-item">
-                    <div class="topic-title">
-                        <i class="fas fa-sitemap" style="color: #64748b;"></i>
-                        ภาพรวมการทำงาน (System Architecture)
-                    </div>
-                    <div class="topic-content">
-                        <div
-                            style="background: #1e293b; color: #f8fafc; padding: 1rem; border-radius: 8px; font-family: monospace; white-space: pre-wrap; font-size: 0.8rem; overflow-x: auto;">
-                            ┌────────────┐ HTTP Request ┌───────────────┐ Read/Write ┌──────────────┐
-                            │ หน้าเว็บ │ ◄────────────────► │ Google Script │ ◄──────────────► │ Google Sheet │
-                            │ (HTML) │ JSON Response │ (Backend) │ │ (Database) │
-                            └────────────┘ └───────────────┘ └──────────────┘</div>
-                    </div>
-                </div>
 
-                <div class="topic-item">
-                    <div class="topic-title">
-                        <i class="fas fa-database" style="color: #10b981;"></i>
-                        1. Google Sheet (Database)
-                    </div>
-                    <div class="topic-content">
-                        <p>มี 3 ชีทหลักในการจัดเก็บข้อมูล:</p>
-                        <ul>
-                            <li><b>รายชื่อนักศึกษา:</b> เก็บข้อมูลผู้มีสิทธิ์เลือกตั้ง (รหัส, กลุ่ม, ชื่อ)</li>
-                            <li><b>ข้อมูลผู้สมัคร:</b> เก็บหมายเลขและชื่อพรรค/ผู้สมัคร</li>
-                            <li><b>การเลือกตั้ง:</b> บันทึกผลการลงคะแนน (ใครโหวตหมายเลขอะไร)</li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="topic-item">
-                    <div class="topic-title">
-                        <i class="fas fa-cogs" style="color: #f59e0b;"></i>
-                        2. Google Script (Backend)
-                    </div>
-                    <div class="topic-content">
-                        <p>ทำหน้าที่เป็น API Server รับ Request และส่งข้อมูลกลับ:</p>
-                        <ul>
-                            <li><code>checkRights()</code>: ตรวจสอบสิทธิ์และสถานะการโหวต</li>
-                            <li><code>getCandidates()</code>: ดึงรายชื่อผู้สมัคร</li>
-                            <li><code>saveVote()</code>: บันทึกคะแนน + ส่งแจ้งเตือน Discord</li>
-                            <li><code>getResults()</code>: นับคะแนนและส่งผลกลับเป็น JSON</li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="topic-item">
-                    <div class="topic-title">
-                        <i class="fas fa-desktop" style="color: #3b82f6;"></i>
-                        3. หน้าเว็บ (Frontend) & Features
-                    </div>
-                    <div class="topic-content">
-                        <p>ขั้นตอนการทำงานและฟีเจอร์:</p>
-                        <ul>
-                            <li><b>Real-time Check:</b> ตรวจสอบเวลาเลือกตั้งอัตโนมัติ</li>
-                            <li><b>Auto Refresh:</b> โหลดผลคะแนนใหม่ทุก 30 วินาที 🔄</li>
-                            <li><b>Leading Badge:</b> แสดงสัญลักษณ์ผู้ที่มีคะแนนนำ 🏆</li>
-                            <li><b>Progress Bar:</b> แสดง % คะแนนพร้อม Animation 📊</li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="topic-item">
-                    <div class="topic-title">
-                        <i class="fas fa-shield-alt" style="color: #ef4444;"></i>
-                        4. ระบบ Base 44 (จำลอง)
-                    </div>
-                    <div class="topic-content">
-                        <p>องค์ประกอบเพื่อแสดงความโปร่งใส (Transparency Simulation):</p>
-                        <ul>
-                            <li><b>Status Dot:</b> แสดงสถานะการเชื่อมต่อ (Online)</li>
-                            <li><b>Integrity Hash:</b> แสดง ID สุ่มเพื่อจำลองการตรวจสอบข้อมูล (เปลี่ยนทุก 5 วินาที)</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="topic-item">
-                    <div class="topic-title">
-                        <i class="fab fa-discord" style="color: #5865F2;"></i>
-                        5. Notification
-                    </div>
-                    <div class="topic-content">
-                        <p>เมื่อมีการโหวต ระบบจะส่ง Webhook ไปยัง Discord เพื่อแจ้งเตือนแบบ Real-time: "📢
-                            มีผู้ลงคะแนนใหม่ให้กับ หมายเลข X"</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <script>
         const APP_URL = "https://script.google.com/macros/s/AKfycbzMAhUcwoYV-OuYne_h6qeIczrI0qGfv58_qgls9k8ONWJEdZGoZgqofrtVCNxZu3qk1w/exec";
 
@@ -1071,7 +857,7 @@
         }
 
         // Time checking - results available after voting starts (and after voting ends too)
-        const startDate = new Date('2026-01-28T13:00:00+07:00').getTime();
+        const startDate = new Date('2026-01-01T13:00:00+07:00').getTime();
 
         function checkVotingTime() {
             const now = new Date().getTime();
@@ -1122,23 +908,7 @@
         // Update Integrity Hash every 5 seconds - Moved to end of script to ensure function is defined
         // setInterval(updateIntegrityHash, 5000);
 
-        // Base 44 Modal Simulation Logic
-        function openModal() {
-            document.getElementById('base44Modal').classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
-        }
 
-        function closeModal() {
-            document.getElementById('base44Modal').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('base44Modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('base44Modal')) {
-                closeModal();
-            }
-        });
 
         // Simulating Real-time Hash Updates
         function updateIntegrityHash() {
@@ -1161,6 +931,8 @@
             // I'll update the text in the status bar to match this dynamic format more closely if needed.
             // Currently implemented simple structure. Let's make the hash stable for now to imply integrity.
         }
+
+
     </script>
     <script>
         // Override the hash simulation function correctly
