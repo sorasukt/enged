@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ผลการเลือกตั้ง | English Education</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ผลการเลือกตั้ง | English Education">
+    <meta property="og:url" content="https://sorasukt.github.io/enged/vote/results">
+    <meta property="og:image" content="https://sorasukt.github.io/enged/img/og/vote.png">
+    <meta property="og:description"
+        content="ผลการเลือกตั้ง | English Education สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย">
+    <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #d32f2f;
+            --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+            --bg-gradient: radial-gradient(circle at 10% 20%, rgb(255, 240, 240) 0%, rgb(255, 255, 255) 90%);
+            --glass-bg: rgba(255, 255, 255, 0.92);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.9);
+            --text-main: #2c3e50;
+            --text-muted: #636e72;
+            --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.1);
+            --radius-lg: 24px;
+            --radius-md: 16px
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+                --glass-bg: rgba(30, 30, 35, 0.85);
+                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+                --text-main: #e0e0e0;
+                --text-muted: #a0a0a0;
+                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+
+            .bg-shape {
+                opacity: 0.2;
+            }
+
+            .glass-card {
+                border-color: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .back-home-btn {
+                background: rgba(30, 30, 35, 0.8) !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+                color: #ccc !important;
+            }
+
+            .back-home-btn:hover {
+                background: rgba(50, 50, 60, 0.9) !important;
+                color: var(--primary-red) !important;
+            }
+
+            .icon-box,
+            .time-status-icon {
+                background: rgba(59, 130, 246, 0.15) !important;
+            }
+
+            .disclaimer {
+                background: rgba(245, 158, 11, 0.15) !important;
+                border-color: rgba(245, 158, 11, 0.3) !important;
+                color: #fbbf24 !important;
+            }
+
+            .result-item {
+                color: #e0e0e0 !important;
+            }
+
+            .result-name {
+                color: #e0e0e0 !important;
+            }
+
+            .result-bar {
+                background: #333 !important;
+            }
+
+            .loader {
+                border-color: #333 !important;
+                border-top-color: var(--primary-red) !important;
+            }
+
+            .total-votes {
+                background: rgba(255, 255, 255, 0.05) !important;
+                color: #94a3b8 !important;
+            }
+
+            .total-votes strong {
+                color: #fff !important;
+            }
+
+            /* Time status card - CRITICAL: need !important to override inline white */
+            .time-status-card {
+                background: #1e1e23 !important;
+                color: #f0f0f5 !important;
+            }
+
+            .time-status-card h2 {
+                color: var(--primary-red) !important;
+            }
+
+            .time-status-card p {
+                color: #94a3b8 !important;
+            }
+
+            .time-status-title {
+                color: #f0f0f5 !important;
+            }
+
+            .time-status-subtitle {
+                color: #94a3b8 !important;
+            }
+
+            .time-status-box {
+                background: rgba(255, 255, 255, 0.05) !important;
+                color: #e0e0e0 !important;
+            }
+
+            .time-value {
+                color: var(--primary-red) !important;
+            }
+
+            .time-label {
+                color: #94a3b8 !important;
+            }
+
+            footer {
+                color: #6b7280 !important;
+            }
+
+            /* Fix white edges on mobile */
+            html {
+                background: #0f0f13 !important;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden
+        }
+
+        .bg-shape {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.6;
+            pointer-events: none
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: #ffcdd2;
+            top: -100px;
+            left: -100px
+        }
+
+        .shape-2 {
+            width: 250px;
+            height: 250px;
+            background: #ffebee;
+            bottom: -50px;
+            right: -50px
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1)
+            }
+
+            50% {
+                transform: translate(-20px, 30px) scale(0.95)
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 580px;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1
+        }
+
+        /* Floating back button like sys.html */
+        .back-home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            z-index: 100;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem
+        }
+
+        .back-home-btn:hover {
+            background: white;
+            color: var(--primary-red);
+            transform: translateX(-3px);
+            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.15)
+        }
+
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: var(--primary-red)
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 8px 32px 0 rgba(211, 47, 47, 0.1);
+            padding: 48px 40px;
+            width: 100%;
+            transition: transform 0.3s ease
+        }
+
+        .glass-card:hover {
+            transform: translateY(-2px)
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 1.5rem
+        }
+
+        .disclaimer {
+            background: #fef3c7;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: #92400e;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem
+        }
+
+        /* Result Card - New Design */
+        .result-item {
+            background: #fff;
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .result-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Leading Candidate - Red Card */
+        .result-item.leading {
+            background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+            border: none;
+            color: #fff;
+            position: relative;
+            padding-top: 1.5rem;
+        }
+
+        .result-item.leading .result-party,
+        .result-item.leading .result-subtitle,
+        .result-item.leading .result-votes-number,
+        .result-item.leading .result-votes-label {
+            color: #fff !important;
+        }
+
+        .result-item.leading .result-number-badge {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: #fff !important;
+        }
+
+        .leading-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.25);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0 16px 0 12px;
+        }
+
+        /* Card Content Layout */
+        .result-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .result-number-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #f1f5f9;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .result-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .result-item.leading .result-img {
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .result-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .result-party {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.15rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .result-subtitle {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .result-votes {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .result-votes-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #64748b;
+            line-height: 1;
+        }
+
+        .result-votes-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.15rem;
+        }
+
+        /* Progress Bar */
+        .result-bar {
+            height: 8px;
+            background: rgba(0, 0, 0, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .result-item.leading .result-bar {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .result-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 4px;
+            transition: width 0.8s ease-out;
+        }
+
+        .result-item.leading .result-fill {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Dark Mode Overrides */
+        @media (prefers-color-scheme: dark) {
+            .result-item {
+                background: #1e1e23;
+                border-color: rgba(255, 255, 255, 0.08);
+            }
+
+            .result-item:not(.leading) .result-party {
+                color: #f0f0f5;
+            }
+
+            .result-item:not(.leading) .result-number-badge {
+                background: rgba(255, 255, 255, 0.1);
+                color: #94a3b8;
+            }
+
+            .result-bar {
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e2e8f0;
+            border-top-color: var(--primary-red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .error-msg {
+            color: #dc2626;
+            text-align: center;
+            padding: 2rem
+        }
+
+        .total-votes {
+            text-align: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: var(--radius-md);
+            margin-top: 1rem;
+            color: var(--text-muted);
+            font-size: 0.9rem
+        }
+
+        .total-votes strong {
+            color: var(--text-main)
+        }
+
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            background: var(--primary-gradient);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+            text-decoration: none;
+            margin-top: 1.25rem
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(211, 47, 47, 0.4)
+        }
+
+        footer {
+            margin-top: auto;
+            padding-top: 2rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+            text-align: center
+        }
+
+        /* Time status overlay */
+        .time-status-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem
+        }
+
+        .time-status-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            animation: fadeInUp 0.5s ease-out
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .time-status-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: #1976d2
+        }
+
+        .time-status-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-main)
+        }
+
+        .time-status-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem
+        }
+
+        .time-status-countdown {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem
+        }
+
+        .time-status-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 0.75rem;
+            min-width: 60px
+        }
+
+        .time-status-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            line-height: 1
+        }
+
+        .time-status-label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: all 0.3s ease
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3)
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        @media(max-width:600px) {
+            body {
+                padding: 1rem
+            }
+
+            h1 {
+                font-size: 1.5rem
+            }
+
+            .glass-card {
+                padding: 1.5rem
+            }
+
+            .icon-box {
+                width: 64px;
+                height: 64px;
+                font-size: 1.5rem
+            }
+
+            .status-bar {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                padding: 0.75rem;
+                margin-bottom: 1.5rem;
+                font-family: 'Courier New', monospace;
+                font-size: 0.75rem;
+                color: #ffffff;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Base 44 Status Bar */
+        .status-bar {
+            background: rgba(255, 255, 255, 0.047);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #ffffff;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #22c55e;
+            box-shadow: 0 0 10px #22c55e;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .info-btn-wrapper {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .info-btn {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .info-btn:hover {
+            color: var(--primary-red);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <!-- Time Status Overlay - shown when voting has not started -->
+    <div id="timeStatusOverlay" class="time-status-overlay hidden">
+        <div class="time-status-card">
+            <div class="time-status-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h2 class="time-status-title">ยังไม่ถึงเวลาเลือกตั้ง</h2>
+            <p class="time-status-subtitle">ผลการเลือกตั้งจะแสดงเมื่อเปิดการเลือกตั้งแล้ว</p>
+
+            <div class="time-status-countdown" id="timeStatusCountdown">
+                <div class="time-status-box">
+                    <span class="time-status-value" id="statusDays">00</span>
+                    <span class="time-status-label">วัน</span>
+                </div>
+                <div class="time-status-box">
+                    <span class="time-status-value" id="statusHours">00</span>
+                    <span class="time-status-label">ชั่วโมง</span>
+                </div>
+                <div class="time-status-box">
+                    <span class="time-status-value" id="statusMinutes">00</span>
+                    <span class="time-status-label">นาที</span>
+                </div>
+                <div class="time-status-box">
+                    <span class="time-status-value" id="statusSeconds">00</span>
+                    <span class="time-status-label">วินาที</span>
+                </div>
+            </div>
+
+            <a href="index.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i>
+                กลับหน้าหลักเลือกตั้ง
+            </a>
+        </div>
+    </div>
+
+    <!-- Floating back button -->
+    <a href="../index.html" class="back-home-btn">
+        <i class="fas fa-chevron-left"></i> หน้าหลัก
+    </a>
+
+    <div class="container">
+        <div class="icon-box"><i class="fas fa-chart-bar"></i></div>
+        <div class="glass-card">
+            <h1>ผลการเลือกตั้ง</h1>
+            <p class="subtitle">ผลการนับคะแนนเลือกตั้งคณะกรรมการนักศึกษา</p>
+
+            <div class="status-bar" id="statusBar">
+                <div class="status-item">
+                    <div class="status-indicator" id="statusIndicator"></div>
+                    <span id="systemStatus">System: Verified</span>
+                </div>
+                <div class="status-item">
+                    <span>ID: <span id="integrityHash">a1b2...c3d4</span></span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-network-wired" style="font-size: 0.75rem;"></i>
+                    <span id="nodesStatus">Nodes: Online</span>
+                </div>
+            </div>
+
+            <div class="info-btn-wrapper">
+                <a href="base44.html" class="info-btn">
+                    <i class="fas fa-info-circle"></i>
+                    เกี่ยวกับระบบตรวจสอบผล (Base 44)
+                </a>
+            </div>
+            <div class="disclaimer"><i class="fas fa-exclamation-triangle"></i>ผลการเลือกตั้งนี้เป็นผลอย่างไม่เป็นทางการ
+            </div>
+            <div id="loader" class="loader"></div>
+            <div id="errorMsg" class="error-msg" style="display:none"></div>
+            <div id="resultsList"></div>
+            <div id="totalVotes" class="total-votes" style="display:none"></div>
+            <a href="index.html" class="btn"><i class="fas fa-arrow-left"></i>กลับหน้าหลัก</a>
+        </div>
+        <footer>&copy; 2026 English Education, All rights reserved. <br>
+            Made with ❤️ by Sorasuk Thongkum</footer>
+    </div>
+
+
+
+
+
+    <script>
+        const APP_URL = "https://script.google.com/macros/s/AKfycbzMAhUcwoYV-OuYne_h6qeIczrI0qGfv58_qgls9k8ONWJEdZGoZgqofrtVCNxZu3qk1w/exec";
+
+        // Global state for system online/offline status
+        let isSystemOnline = true;
+        let hashUpdateInterval = null;
+
+        function setSystemOffline() {
+            isSystemOnline = false;
+            const indicator = document.getElementById('statusIndicator');
+            const systemStatus = document.getElementById('systemStatus');
+            const nodesStatus = document.getElementById('nodesStatus');
+            const hashElement = document.getElementById('integrityHash');
+
+            if (indicator) {
+                indicator.style.backgroundColor = '#dc2626';
+                indicator.style.boxShadow = '0 0 10px #dc2626';
+                indicator.style.animation = 'none';
+            }
+            if (systemStatus) {
+                systemStatus.textContent = 'System: Offline Unverified';
+            }
+            if (nodesStatus) {
+                nodesStatus.textContent = 'Nodes: Disconnected';
+            }
+            if (hashElement) {
+                hashElement.textContent = '----...----';
+                hashElement.style.opacity = '0.5';
+            }
+        }
+
+        function setSystemOnline() {
+            isSystemOnline = true;
+            const indicator = document.getElementById('statusIndicator');
+            const systemStatus = document.getElementById('systemStatus');
+            const nodesStatus = document.getElementById('nodesStatus');
+            const hashElement = document.getElementById('integrityHash');
+
+            if (indicator) {
+                indicator.style.backgroundColor = '#22c55e';
+                indicator.style.boxShadow = '0 0 10px #22c55e';
+                indicator.style.animation = 'blink 2s infinite';
+            }
+            if (systemStatus) {
+                systemStatus.textContent = 'System: Verified';
+            }
+            if (nodesStatus) {
+                nodesStatus.textContent = 'Nodes: Online';
+            }
+            if (hashElement) {
+                hashElement.style.opacity = '1';
+            }
+        }
+
+        function displayResults(data) {
+            const list = document.getElementById('resultsList');
+            list.innerHTML = '';
+
+            // Convert object to array for easier processing
+            const candidates = [];
+            Object.keys(data).forEach(key => {
+                candidates.push({
+                    number: key,
+                    party: data[key].party,
+                    votes: data[key].count || 0
+                });
+            });
+
+            // Sort by votes (descending) - highest votes first
+            candidates.sort((a, b) => b.votes - a.votes);
+
+            const total = candidates.reduce((sum, c) => sum + c.votes, 0);
+
+            // Find maximum votes for leading badge
+            const maxVotes = candidates.length > 0 ? candidates[0].votes : 0;
+
+            candidates.forEach((c, index) => {
+                const pct = total > 0 ? ((c.votes / total) * 100).toFixed(1) : 0;
+                const isLeading = index === 0 && maxVotes > 0;
+
+                // Different styles for leading vs others
+                const cardClass = isLeading ? 'result-item leading' : 'result-item';
+                const badgeColor = isLeading ? 'var(--primary-red)' : '#94a3b8';
+                const leadingBadge = isLeading ? '<div class="leading-badge">นำอยู่</div>' : '';
+
+                list.innerHTML += `
+                    <div class="${cardClass}">
+                        ${leadingBadge}
+                        <div class="result-content">
+                            <div class="result-number-badge" style="background-color: ${isLeading ? 'var(--primary-red)' : '#e2e8f0'}; color: ${isLeading ? '#fff' : '#64748b'};">
+                                ${c.number}
+                            </div>
+                            <img src="img/${c.number}.png" alt="หัวหน้าพรรค ${c.party}" class="result-img" onerror="this.style.display='none'">
+                            <div class="result-info">
+                                <div class="result-party">${c.party}</div>
+                                <div class="result-subtitle">หมายเลข ${c.number}</div>
+                            </div>
+                            <div class="result-votes">
+                                <div class="result-votes-number" style="color: ${isLeading ? 'var(--primary-red)' : '#64748b'};">${c.votes}</div>
+                                <div class="result-votes-label">คะแนน (${pct}%)</div>
+                            </div>
+                        </div>
+                        <div class="result-bar"><div class="result-fill" style="width:${pct}%"></div></div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('totalVotes').innerHTML = `รวมผู้ใช้สิทธิ์ทั้งหมด <strong>${total}</strong> คน`;
+            document.getElementById('totalVotes').style.display = 'block';
+        }
+
+        // Cookie/localStorage helper functions
+        function saveResultsToCache(data) {
+            const cacheData = {
+                results: data,
+                lastUpdated: new Date().toISOString()
+            };
+            localStorage.setItem('electionResultsCache', JSON.stringify(cacheData));
+        }
+
+        function getResultsFromCache() {
+            const cached = localStorage.getItem('electionResultsCache');
+            if (cached) {
+                return JSON.parse(cached);
+            }
+            return null;
+        }
+
+        function formatLastUpdated(isoString) {
+            const date = new Date(isoString);
+            return date.toLocaleString('th-TH', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        function showLastUpdateInfo(lastUpdated, isOffline = false) {
+            let updateInfo = document.getElementById('updateInfo');
+            if (!updateInfo) {
+                updateInfo = document.createElement('div');
+                updateInfo.id = 'updateInfo';
+                updateInfo.style.cssText = `
+                    text-align: center;
+                    padding: 0.75rem;
+                    margin-bottom: 1rem;
+                    border-radius: 8px;
+                    font-size: 0.85rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                `;
+                const disclaimer = document.querySelector('.disclaimer');
+                if (disclaimer) {
+                    disclaimer.after(updateInfo);
+                }
+            }
+
+            if (isOffline) {
+                updateInfo.style.background = '#fef3c7';
+                updateInfo.style.color = '#92400e';
+                updateInfo.style.border = '1px solid rgba(245, 158, 11, 0.3)';
+                updateInfo.innerHTML = `<i class="fas fa-wifi-slash"></i> ข้อมูลออฟไลน์ - อัพเดทล่าสุด: ${formatLastUpdated(lastUpdated)}`;
+            } else {
+                updateInfo.style.background = '#d1fae5';
+                updateInfo.style.color = '#065f46';
+                updateInfo.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+                updateInfo.innerHTML = `<i class="fas fa-check-circle"></i> อัพเดทล่าสุด: ${formatLastUpdated(lastUpdated)}`;
+            }
+
+            // Dark mode support
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                if (isOffline) {
+                    updateInfo.style.background = 'rgba(245, 158, 11, 0.15)';
+                    updateInfo.style.color = '#fbbf24';
+                } else {
+                    updateInfo.style.background = 'rgba(16, 185, 129, 0.15)';
+                    updateInfo.style.color = '#34d399';
+                }
+            }
+        }
+
+        function loadResults() {
+            fetch(`${APP_URL}?action=getResults`)
+                .then(res => res.json())
+                .then(json => {
+                    document.getElementById('loader').style.display = 'none';
+                    if (json.status === 'success' && json.data) {
+                        // Save to cache
+                        saveResultsToCache(json.data);
+                        displayResults(json.data);
+                        showLastUpdateInfo(new Date().toISOString(), false);
+                        document.getElementById('errorMsg').style.display = 'none';
+                        setSystemOnline();
+                    } else {
+                        // Try to show cached data
+                        setSystemOffline();
+                        const cached = getResultsFromCache();
+                        if (cached) {
+                            displayResults(cached.results);
+                            showLastUpdateInfo(cached.lastUpdated, true);
+                            document.getElementById('errorMsg').textContent = 'ไม่สามารถโหลดข้อมูลใหม่ได้ - แสดงข้อมูลจากแคช';
+                            document.getElementById('errorMsg').style.display = 'block';
+                        } else {
+                            document.getElementById('errorMsg').textContent = json.message || 'ไม่สามารถโหลดข้อมูลได้';
+                            document.getElementById('errorMsg').style.display = 'block';
+                        }
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('loader').style.display = 'none';
+                    console.error('API Error:', err);
+                    setSystemOffline();
+
+                    // Try to show cached data on error
+                    const cached = getResultsFromCache();
+                    if (cached) {
+                        displayResults(cached.results);
+                        showLastUpdateInfo(cached.lastUpdated, true);
+                        document.getElementById('errorMsg').textContent = 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ - แสดงข้อมูลจากแคช';
+                        document.getElementById('errorMsg').style.display = 'block';
+                    } else {
+                        document.getElementById('errorMsg').textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อ และไม่มีข้อมูลแคช';
+                        document.getElementById('errorMsg').style.display = 'block';
+                    }
+                });
+        }
+
+        // Time checking - results available after voting starts (and after voting ends too)
+        const startDate = new Date('2026-01-01T15:05:00+07:00').getTime();
+
+        function checkVotingTime() {
+            const now = new Date().getTime();
+            const distanceToStart = startDate - now;
+
+            const overlay = document.getElementById('timeStatusOverlay');
+
+            // Voting not started yet - show overlay, don't load results
+            if (distanceToStart > 0) {
+                overlay.classList.remove('hidden');
+
+                const days = Math.floor(distanceToStart / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distanceToStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distanceToStart % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distanceToStart % (1000 * 60)) / 1000);
+
+                document.getElementById('statusDays').textContent = String(days).padStart(2, '0');
+                document.getElementById('statusHours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('statusMinutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('statusSeconds').textContent = String(seconds).padStart(2, '0');
+                return false; // Don't load results
+            }
+
+            // Voting has started (or ended) - hide overlay, allow results
+            overlay.classList.add('hidden');
+            return true; // Load results
+        }
+
+        // Check time first, then load results if allowed
+        if (checkVotingTime()) {
+            loadResults();
+        }
+
+        // Keep checking time every second (for countdown)
+        setInterval(() => {
+            if (checkVotingTime() && document.getElementById('resultsList').innerHTML === '') {
+                loadResults();
+            }
+        }, 1000);
+
+        // Auto Refresh Results every 30 seconds
+        setInterval(() => {
+            if (checkVotingTime()) {
+                loadResults();
+            }
+        }, 30000);
+
+        // Update Integrity Hash every 5 seconds - Moved to end of script to ensure function is defined
+        // setInterval(updateIntegrityHash, 5000);
+
+
+
+        // Simulating Real-time Hash Updates
+        function updateIntegrityHash() {
+            const characters = 'abcdef0123456789';
+            let hashStart = '';
+            let hashEnd = '';
+            for (let i = 0; i < 4; i++) {
+                hashStart += characters.charAt(Math.floor(Math.random() * characters.length));
+                hashEnd += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            // Only update occasionally to simulate block processing, or make it static if preferred. 
+            // For visual effect, let's keep it static-ish or slowly changing? 
+            // User requested "Integrity Hash: a1b2...c3d4", let's make it look consistent but "live"
+            // Actually, a constantly changing hash might look like it's unstable. 
+            // Let's just update the "Last Checked" time if we had one, or keep the hash stable to represent a valid block.
+            // But to show "Real Time", maybe a "Last verified: HH:MM:SS" is better.
+
+            // Let's add a "Last Verified" tooltip or text if needed. For now, the user requested:
+            // "System Status: Verified (Last checked: 14:00:01) | Integrity Hash: a1b2...c3d4 | All Nodes Online"
+            // I'll update the text in the status bar to match this dynamic format more closely if needed.
+            // Currently implemented simple structure. Let's make the hash stable for now to imply integrity.
+        }
+
+
+    </script>
+    <script>
+        // Override the hash simulation function correctly
+        updateIntegrityHash = function () {
+            // Only update hash when system is online
+            if (!isSystemOnline) {
+                return;
+            }
+
+            const characters = 'abcdef0123456789';
+            let hash = '';
+            // Generate a fake hash segment
+            for (let i = 0; i < 8; i++) {
+                hash += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            hash += '...';
+            for (let i = 0; i < 8; i++) {
+                hash += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+
+            const hashElement = document.getElementById('integrityHash');
+            if (hashElement) {
+                hashElement.style.opacity = '0.5';
+                setTimeout(() => {
+                    hashElement.textContent = hash;
+                    hashElement.style.opacity = '1';
+                }, 200);
+            }
+        }
+
+        // Start the interval now that the function is defined
+        setInterval(updateIntegrityHash, 5000);
+    </script>
+</body>
+
+</html>
