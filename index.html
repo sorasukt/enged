@@ -49,53 +49,10 @@
             <p class="subtitle">สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</p>
         </header>
 
-        <!-- Image Slider -->
-        <section class="slider-container">
-            <div class="slider">
-                <div class="slide">
-                    <img src="/enged/img/slider/1.png" alt="หน้าแรก" loading="eager" decoding="async"
-                        fetchpriority="high">
-                </div>
-                <div class="slide">
-                    <img src="/enged/img/slider/วิธีค้นหา-TokenKey.png" alt="วิธีค้นหา Token Key" loading="lazy"
-                        decoding="async">
-                </div>
-                <div class="slide">
-                    <img src="/enged/img/slider/วิธีตรวจสอบสิทธิ์เลือกตั้ง.png" alt="วิธีตรวจสอบสิทธิ์เลือกตั้ง"
-                        loading="lazy" decoding="async">
-                </div>
-                <div class="slide">
-                    <img src="/enged/img/slider/วิธีเลือกตั้ง.png" alt="วิธีเลือกตั้ง" loading="lazy" decoding="async">
-                </div>
-                <!-- เพิ่มรูปอื่นๆ ได้ที่นี่ -->
-                <!-- <div class="slide"><img src="/img/slider/filename.png" alt="description"></div> -->
-            </div>
-            <button class="slider-btn prev" onclick="prevSlide()">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="slider-btn next" onclick="nextSlide()">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="slider-dots"></div>
-        </section>
-
-        <!-- Service Cards -->
-        <section class="services-grid">
-            <a href="sys.html" class="service-card primary">
-                <div class="card-icon">
-                    <i class="fas fa-key"></i>
-                </div>
-                <div class="card-content">
-                    <h3>ค้นหา Token Key</h3>
-                    <p>ค้นหารหัสกิจกรรมสำหรับนักศึกษา</p>
-                </div>
-                <i class="fas fa-arrow-right card-arrow"></i>
-            </a>
-
-            <footer>
-                &copy; 2026 English Education, Loei Rajabhat University <br>
-                Made with ❤️ by Sorasuk Thongkum
-            </footer>
+        <footer>
+            &copy; 2026 English Education, Loei Rajabhat University <br>
+            Made with ❤️ by Sorasuk Thongkum
+        </footer>
     </div>
 
     <!-- Image Popup Modal -->
@@ -112,16 +69,20 @@
             <div class="modal-icon-wrapper">
                 <i class="fas fa-tools"></i>
             </div>
-            <h2>อยู่ระหว่างปรับปรุงระบบ</h2>
-            <p>ขออภัยในความไม่สะดวก <br> ระบบกำลังดำเนินการปรับปรุงเพื่อให้บริการที่ดียิ่งขึ้น</p>
-            <p>ระบบจะใช้งานปกติอีกครั้ง
-                <br>ในวันที่ 28 มกราคม 2569 เวลา 09.00 น.
+            <h2>แจ้งเตือนสำคัญ</h2>
+            <p>ระบบค้นหา Token Key ของสาขาวิชา
+                <br> จะถูกปิดในวันที่ <b>30 มกราคม พ.ศ. 2569 <br>ตั้งแต่เวลา 18.00 น. เป็นต้นไป</b>
             </p>
-            <button class="system-modal-btn" onclick="closeSystemModal()">รับทราบและเข้าใช้งานต่อ</button>
+            <p>นักศึกษาสามารถดำเนินการค้นหา Token Key ได้ในระยะเวลาดังกล่าว</p>
+            <p>ขอบคุณที่สนับสนุนมาตลอด ขอบคุณครับ!</p>
+            <p><i><b>sorasukt</b></i></p>
+            <!-- <button class="system-modal-btn" onclick="closeSystemModal()" href="sys.html">ไปหน้าค้นหา Token Key</button> -->
+            <a style="text-decoration: none;" class="system-modal-btn" href="sys.html" target="_blank">ไปหน้าค้นหา Token
+                Key</a>
         </div>
     </div>
 
-    <!-- Important Notification Modal -->
+    <!-- Important Notification Modal 
     <div id="infoModal" class="modal fade" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -134,28 +95,22 @@
                         ระบบค้นหา Token Key ของสาขาวิชา
                         <br> จะถูกปิดในวันที่ <b>30 มกราคม พ.ศ. 2569 เวลา 18.00 น.</b>
                         <br> นักศึกษาสามารถดำเนินการค้นหา Token Key ได้ในระยะเวลาดังกล่าว
-                        หลังจากนั้นระบบจะปิดและไม่สามารถค้นหาได้
+                        หลังจากนั้นระบบจะปิดและไม่สามารถใช้งานได้
                         <br><br>
                         ขอบคุณที่สนับสนุนมาตลอด ขอบคุณครับ!
                     </p>
-                    <div class="d-grid gap-2">
-                        <a href="sys" target="_self" class="btn btn-search text-white text-decoration-none">
-                            <i class="fas fa-external-link-alt me-2"></i>ระบบ Token Key
-                        </a>
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">รับทราบ</button>
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <script src="JavaScript/pwa.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // System Status Configuration (ตั้งเวลาปิดปรับปรุงระบบ)
         // ใช้ ISO 8601 format พร้อม timezone GMT+7
-        const SYSTEM_MAINTENANCE_START = new Date('2026-01-28T00:00:00+07:00'); // 28 Jan 2026 00:00:00 GMT+7
-        const SYSTEM_MAINTENANCE_END = new Date('2026-01-28T09:00:00+07:00');   // 28 Jan 2026 09:00:00 GMT+7
+        const SYSTEM_MAINTENANCE_START = new Date('2026-01-30T00:00:00+07:00'); // 28 Jan 2026 00:00:00 GMT+7
+        const SYSTEM_MAINTENANCE_END = new Date('2027-01-30T00:00:00+07:00');   // 28 Jan 2026 09:00:00 GMT+7
 
         let systemModalAcknowledged = false;
 
@@ -191,8 +146,11 @@
 
         // Show Info Modal on Load
         document.addEventListener('DOMContentLoaded', function () {
-            var infoModal = new bootstrap.Modal(document.getElementById('infoModal'));
-            infoModal.show();
+            var infoModalElement = document.getElementById('infoModal');
+            if (infoModalElement) {
+                var infoModal = new bootstrap.Modal(infoModalElement);
+                infoModal.show();
+            }
 
             // Start checking system status
             checkSystemStatus();
