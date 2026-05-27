@@ -3,244 +3,605 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบเช็คชื่อเข้าร่วมกิจกรรม</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>เช็คชื่อเข้าร่วมกิจกรรม</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
     <style>
-        * {
-            box-sizing: border-box;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --black:   #111111;
+            --gray-90: #1c1c1c;
+            --gray-70: #444444;
+            --gray-50: #888888;
+            --gray-30: #cccccc;
+            --gray-15: #e4e4e4;
+            --gray-07: #f3f3f3;
+            --white:   #ffffff;
+            --r-sm: 8px;
+            --r-md: 14px;
+            --r-lg: 22px;
         }
-        body {
-            font-family: 'Sarabun', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
-            margin: 0;
-            padding: 20px;
+
+        /* ─── Loading Screen ─── */
+        #loadScreen {
+            position: fixed;
+            inset: 0;
+            background: var(--black);
+            z-index: 9999;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .load-icon {
+            width: 64px; height: 64px;
+            border: 2.5px solid rgba(255,255,255,.12);
+            border-top-color: var(--white);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        .load-text {
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255,255,255,.45);
+            letter-spacing: .08em;
+        }
+
+        .load-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 28px; height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: var(--white);
+        }
+
+        .load-ring-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #loadScreen.fade-out {
+            animation: fadeOut .5s cubic-bezier(.4,0,1,1) forwards;
+        }
+
+        /* ─── Body ─── */
+        html { -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: 'Noto Sans Thai', sans-serif;
+            background: var(--gray-07);
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+            opacity: 0;
+            transition: opacity .4s ease;
         }
-        .container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+
+        body.visible { opacity: 1; }
+
+        /* ─── Card ─── */
+        .card {
             width: 100%;
-            max-width: 450px;
+            max-width: 420px;
+            background: var(--white);
+            border-radius: var(--r-lg);
+            border: 1.5px solid var(--gray-15);
+            box-shadow: 0 20px 60px rgba(0,0,0,.11);
+            overflow: hidden;
         }
-        h2 {
-            margin-top: 0;
-            margin-bottom: 24px;
-            font-size: 24px;
-            text-align: center;
-            color: #0f172a;
+
+        /* top bar */
+        .card-top {
+            background: var(--black);
+            padding: 24px 28px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
-        .form-group {
-            margin-bottom: 20px;
+
+        .top-icon-box {
+            width: 40px; height: 40px;
+            border: 1.5px solid rgba(255,255,255,.18);
+            border-radius: 11px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+            color: var(--white);
+            flex-shrink: 0;
         }
-        label {
-            display: block;
+
+        .top-text { flex: 1; }
+
+        .top-eyebrow {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,.38);
+        }
+
+        .top-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--white);
+            margin-top: 3px;
+            letter-spacing: -.01em;
+        }
+
+        .top-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255,255,255,.45);
+            letter-spacing: .06em;
+        }
+
+        .live-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: blink 2s ease infinite;
+        }
+
+        /* form body */
+        .card-body { padding: 28px; }
+
+        /* ─── Field ─── */
+        .field { margin-bottom: 20px; }
+        .field:last-of-type { margin-bottom: 0; }
+
+        .field-label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--gray-70);
+            letter-spacing: .06em;
+            text-transform: uppercase;
             margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 15px;
-            color: #334155;
-            white-space: normal;
-            word-wrap: break-word;
         }
+
+        .field-label i {
+            font-size: 11px;
+            color: var(--gray-50);
+            width: 14px;
+            text-align: center;
+        }
+
         input[type="text"] {
             width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 16px;
-            font-family: inherit;
-            color: #1e293b;
-            transition: all 0.2s ease;
-        }
-        input[type="text"]:focus {
+            background: var(--gray-07);
+            border: 1.5px solid var(--gray-15);
+            border-radius: var(--r-sm);
+            padding: 11px 14px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 14px;
+            color: var(--black);
             outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            transition: border-color .18s, box-shadow .18s, background .18s;
+            -webkit-appearance: none;
         }
-        button {
+
+        input[type="text"]:focus {
+            background: var(--white);
+            border-color: var(--black);
+            box-shadow: 0 0 0 3px rgba(0,0,0,.08);
+        }
+
+        input::placeholder { color: var(--gray-30); font-size: 13.5px; }
+
+        /* ─── Divider ─── */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 24px 0;
+        }
+
+        .divider-line { flex: 1; height: 1px; background: var(--gray-15); }
+
+        .divider-text {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--gray-50);
+            white-space: nowrap;
+        }
+
+        /* ─── Submit button ─── */
+        .submit-btn {
             width: 100%;
-            background-color: #2563eb;
-            color: #ffffff;
+            background: var(--black);
+            color: var(--white);
             border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: var(--r-sm);
+            padding: 13px 24px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.2s ease;
-            white-space: normal;
-            word-wrap: break-word;
-            line-height: 1.5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            letter-spacing: .03em;
+            transition: background .18s, transform .15s, box-shadow .18s;
+            box-shadow: 0 4px 16px rgba(0,0,0,.16);
         }
-        button:hover {
-            background-color: #1d4ed8;
+
+        .submit-btn:hover:not(:disabled) {
+            background: var(--gray-90);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(0,0,0,.2);
         }
-        button:disabled {
-            background-color: #94a3b8;
-            cursor: not-allowed;
-        }
+
+        .submit-btn:active:not(:disabled) { transform: translateY(0); }
+
+        .submit-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+        .submit-btn i { font-size: 12px; }
+
+        /* ─── Status box ─── */
         .status-box {
-            margin-top: 24px;
-            padding: 16px;
-            border-radius: 8px;
-            font-size: 15px;
-            text-align: center;
             display: none;
-            line-height: 1.6;
-            white-space: normal;
-            word-wrap: break-word;
+            margin-top: 16px;
+            padding: 13px 16px;
+            border-radius: var(--r-sm);
+            font-size: 13.5px;
+            font-weight: 500;
+            line-height: 1.65;
+            text-align: center;
         }
+
         .status-box.info {
-            display: block;
-            background-color: #eff6ff;
-            color: #1d4ed8;
-            border: 1px solid #bfdbfe;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 8px;
+            background: var(--gray-07);
+            color: var(--gray-70);
+            border: 1.5px solid var(--gray-15);
         }
+
         .status-box.success {
-            display: block;
-            background-color: #f0fdf4;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 8px;
+            background: #f0fdf4;
             color: #15803d;
-            border: 1px solid #bbf7d0;
+            border: 1.5px solid #bbf7d0;
+            font-weight: 600;
         }
+
         .status-box.error {
-            display: block;
-            background-color: #fef2f2;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 8px;
+            background: #fff8f8;
             color: #b91c1c;
-            border: 1px solid #fecaca;
+            border: 1.5px solid #fecaca;
+        }
+
+        .status-box i { margin-top: 2px; flex-shrink: 0; font-size: 13px; }
+
+        /* spinner inside button */
+        .btn-spinner {
+            width: 14px; height: 14px;
+            border: 2px solid rgba(255,255,255,.25);
+            border-top-color: var(--white);
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+
+        /* ─── Info strip ─── */
+        .info-strip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gray-07);
+            border: 1.5px solid var(--gray-15);
+            border-radius: var(--r-sm);
+            padding: 10px 13px;
+            font-size: 11.5px;
+            color: var(--gray-50);
+            font-weight: 500;
+        }
+
+        .info-strip i { font-size: 11px; color: var(--gray-30); flex-shrink: 0; }
+
+        /* footer */
+        .card-footer {
+            padding: 13px 28px;
+            background: var(--gray-07);
+            border-top: 1px solid var(--gray-15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--gray-50);
+            font-weight: 500;
+            letter-spacing: .02em;
+        }
+
+        .card-footer i { font-size: 10px; }
+
+        /* ─── Animations ─── */
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @keyframes blink {
+            0%,100% { opacity: 1; }
+            50%      { opacity: .3; }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; pointer-events: none; }
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>บันทึกเวลาเข้าร่วมกิจกรรม</h2>
-    
-    <div class="form-group">
-        <label for="studentId">รหัสนักศึกษา</label>
-        <input type="text" id="studentId" placeholder="เช่น 6401234567" autocomplete="off" required>
+<!-- Loading Screen -->
+<div id="loadScreen">
+    <div class="load-ring-wrap">
+        <div class="load-icon"></div>
+        <div class="load-logo"><i class="fa-solid fa-location-crosshairs"></i></div>
     </div>
-    
-    <div class="form-group">
-        <label for="name">ชื่อ-นามสกุล</label>
-        <input type="text" id="name" placeholder="เช่น พลอยชมพู คำมวล" autocomplete="off" required>
+    <div class="load-text">กำลังโหลดระบบ...</div>
+</div>
+
+<!-- Main Card -->
+<div class="card">
+
+    <div class="card-top">
+        <div class="top-icon-box"><i class="fa-solid fa-calendar-check"></i></div>
+        <div class="top-text">
+            <div class="top-eyebrow">Attendance System</div>
+            <div class="top-title">บันทึกเวลาเข้าร่วมกิจกรรม</div>
+        </div>
+        <div class="top-badge">
+            <div class="live-dot"></div>
+            LIVE
+        </div>
     </div>
-    
-    <button id="submitBtn" onclick="startAttendanceProcess()">ตรวจสอบตำแหน่งและส่งข้อมูล</button>
-    
-    <div id="statusBox" class="status-box"></div>
+
+    <div class="card-body">
+
+        <div class="field">
+            <div class="field-label">
+                <i class="fa-solid fa-id-card"></i>
+                รหัสนักศึกษา
+            </div>
+            <input type="text" id="studentId" placeholder="เช่น 6401234567" autocomplete="off" />
+        </div>
+
+        <div class="field">
+            <div class="field-label">
+                <i class="fa-regular fa-user"></i>
+                ชื่อ–นามสกุล
+            </div>
+            <input type="text" id="name" placeholder="เช่น พลอยชมพู คำมวล" autocomplete="off" />
+        </div>
+
+        <div class="divider">
+            <div class="divider-line"></div>
+            <span class="divider-text"><i class="fa-solid fa-location-dot" style="margin-right:4px"></i>ตรวจสอบพิกัด</span>
+            <div class="divider-line"></div>
+        </div>
+
+        <div class="info-strip" id="infoStrip">
+            <i class="fa-solid fa-circle-info"></i>
+            ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม
+        </div>
+
+        <div style="margin-top:20px">
+            <button class="submit-btn" id="submitBtn" onclick="startAttendanceProcess()">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span id="submitText">ตรวจสอบตำแหน่งและส่งข้อมูล</span>
+            </button>
+
+            <div id="statusBox" class="status-box"></div>
+        </div>
+
+    </div>
+
+    <div class="card-footer">
+        <i class="fa-regular fa-copyright"></i>
+        2026 sorasukt
+    </div>
+
 </div>
 
 <script>
-    // ==========================================
-    // การตั้งค่าระบบ (Configuration)
-    // ==========================================
-    const TARGET_LAT = 17.5398426; // เปลี่ยนเป็นละติจูดของสถานที่เรียน
-    const TARGET_LNG = 101.7219437; // เปลี่ยนเป็นลองจิจูดของสถานที่เรียน
-    const MAX_DISTANCE_METERS = 100; // ระยะห่างสูงสุดที่อนุญาต (เมตร)
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec"; 
-    // ==========================================
+    /* ─── Config ─── */
+    const TARGET_LAT          = 17.5398426;
+    const TARGET_LNG          = 101.7219437;
+    const MAX_DISTANCE_METERS = 100;
+    const GAS_URL             = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
 
-    const submitBtn = document.getElementById("submitBtn");
-    const statusBox = document.getElementById("statusBox");
+    /* ─── Cookie helpers ─── */
+    const COOKIE_DAYS = 30;
 
-    function showStatus(message, type) {
-        statusBox.className = "status-box " + type;
-        statusBox.innerHTML = message;
+    function setCookie(name, value, days) {
+        const exp = new Date(Date.now() + days * 864e5).toUTCString();
+        document.cookie = `${name}=${encodeURIComponent(value)};expires=${exp};path=/;SameSite=Strict`;
     }
 
+    function getCookie(name) {
+        const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+        return match ? decodeURIComponent(match[1]) : '';
+    }
+
+    function saveFormCookies() {
+        const sid  = document.getElementById('studentId').value.trim();
+        const name = document.getElementById('name').value.trim();
+        if (sid)  setCookie('att_sid',  sid,  COOKIE_DAYS);
+        if (name) setCookie('att_name', name, COOKIE_DAYS);
+    }
+
+    function loadFormCookies() {
+        const sid  = getCookie('att_sid');
+        const name = getCookie('att_name');
+        if (sid)  { document.getElementById('studentId').value = sid; }
+        if (name) { document.getElementById('name').value      = name; }
+        if (sid || name) showSavedBadge();
+    }
+
+    function showSavedBadge() {
+        const strip = document.getElementById('infoStrip');
+        strip.innerHTML = `
+            <i class="fa-solid fa-circle-check" style="color:var(--gray-50)"></i>
+            <span style="flex:1">โหลดข้อมูลที่เคยกรอกไว้ให้แล้ว</span>
+            <button onclick="clearSaved()" style="background:none;border:none;cursor:pointer;font-size:11px;font-family:inherit;font-weight:700;color:var(--gray-50);letter-spacing:.04em;text-transform:uppercase;padding:0;white-space:nowrap">
+                <i class="fa-solid fa-xmark" style="margin-right:3px"></i>ล้าง
+            </button>`;
+    }
+
+    function clearSaved() {
+        setCookie('att_sid',  '', -1);
+        setCookie('att_name', '', -1);
+        document.getElementById('studentId').value = '';
+        document.getElementById('name').value      = '';
+        const strip = document.getElementById('infoStrip');
+        strip.innerHTML = `<i class="fa-solid fa-circle-info"></i>ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม`;
+    }
+
+    /* ─── Loading screen ─── */
+    window.addEventListener('load', () => {
+        loadFormCookies();
+        setTimeout(() => {
+            const ls = document.getElementById('loadScreen');
+            ls.classList.add('fade-out');
+            document.body.classList.add('visible');
+            ls.addEventListener('animationend', () => ls.remove(), { once: true });
+        }, 1400);
+    });
+
+    /* ─── Helpers ─── */
+    const submitBtn  = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const statusBox  = document.getElementById('statusBox');
+
+    const STATUS_ICON = {
+        info:    'fa-circle-notch fa-spin',
+        success: 'fa-circle-check',
+        error:   'fa-circle-exclamation',
+    };
+
+    function showStatus(msg, type) {
+        statusBox.className = 'status-box ' + type;
+        statusBox.innerHTML = `<i class="fa-solid ${STATUS_ICON[type]}"></i><span>${msg}</span>`;
+    }
+
+    function setLoading(on) {
+        submitBtn.disabled = on;
+        submitBtn.innerHTML = on
+            ? '<div class="btn-spinner"></div><span>กำลังดำเนินการ...</span>'
+            : '<i class="fa-solid fa-paper-plane"></i><span id="submitText">ตรวจสอบตำแหน่งและส่งข้อมูล</span>';
+    }
+
+    /* ─── Main flow ─── */
     function startAttendanceProcess() {
-        const studentId = document.getElementById("studentId").value.trim();
-        const name = document.getElementById("name").value.trim();
+        const studentId = document.getElementById('studentId').value.trim();
+        const name      = document.getElementById('name').value.trim();
 
         if (!studentId || !name) {
-            showStatus("กรุณากรอกรหัสนักศึกษา และชื่อ-สกุลให้ครบถ้วนก่อนดำเนินการ", "error");
+            showStatus('กรุณากรอกรหัสนักศึกษา และชื่อ–สกุลให้ครบก่อนดำเนินการ', 'error');
             return;
         }
 
-        submitBtn.disabled = true;
-        showStatus("กำลังตรวจสอบตำแหน่งพิกัดของคุณ กรุณารอสักครู่...", "info");
+        setLoading(true);
+        showStatus('กำลังตรวจสอบพิกัดของคุณ กรุณารอสักครู่...', 'info');
+        saveFormCookies();
 
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => validateAndSubmit(position, studentId, name),
-                (error) => {
-                    let errMsg = "ไม่สามารถระบุตำแหน่งได้ กรุณาอนุญาตการเข้าถึง Location ในเบราว์เซอร์ของคุณ";
-                    if (error.code === 1) errMsg = "คุณปฏิเสธการเข้าถึงตำแหน่ง (Location) กรุณาเปิดสิทธิ์และลองใหม่";
-                    if (error.code === 2) errMsg = "ไม่สามารถเชื่อมต่อสัญญาณ GPS ได้ในขณะนี้";
-                    if (error.code === 3) errMsg = "การค้นหาตำแหน่งใช้เวลานานเกินไป กรุณาลองใหม่อีกครั้ง";
-                    
-                    showStatus(errMsg, "error");
-                    submitBtn.disabled = false;
-                },
-                { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-            );
-        } else {
-            showStatus("อุปกรณ์หรือเบราว์เซอร์ของคุณไม่รองรับการระบุตำแหน่ง (GPS)", "error");
-            submitBtn.disabled = false;
+        if (!('geolocation' in navigator)) {
+            showStatus('อุปกรณ์หรือเบราว์เซอร์นี้ไม่รองรับการระบุตำแหน่ง', 'error');
+            setLoading(false);
+            return;
         }
+
+        navigator.geolocation.getCurrentPosition(
+            pos  => validateAndSubmit(pos, studentId, name),
+            err  => {
+                const msgs = {
+                    1: 'คุณปฏิเสธการเข้าถึง Location กรุณาเปิดสิทธิ์แล้วลองใหม่',
+                    2: 'ไม่สามารถรับสัญญาณ GPS ได้ในขณะนี้',
+                    3: 'การค้นหาตำแหน่งใช้เวลานานเกินไป กรุณาลองใหม่',
+                };
+                showStatus(msgs[err.code] ?? 'เกิดข้อผิดพลาดในการระบุตำแหน่ง', 'error');
+                setLoading(false);
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+        );
     }
 
     function validateAndSubmit(position, studentId, name) {
-        const userLat = position.coords.latitude;
-        const userLng = position.coords.longitude;
-        
-        const distance = calculateHaversineDistance(userLat, userLng, TARGET_LAT, TARGET_LNG);
+        const { latitude: userLat, longitude: userLng } = position.coords;
+        const distance = haversine(userLat, userLng, TARGET_LAT, TARGET_LNG);
 
         if (distance > MAX_DISTANCE_METERS) {
-            showStatus(`คุณอยู่นอกพื้นที่ที่กำหนด<br>ระยะห่างปัจจุบัน: <b>${Math.round(distance)} เมตร</b> (อนุญาตไม่เกิน ${MAX_DISTANCE_METERS} เมตร)`, "error");
-            submitBtn.disabled = false;
+            showStatus(
+                `คุณอยู่นอกพื้นที่กิจกรรม<br>ระยะห่างปัจจุบัน <b>${Math.round(distance)} ม.</b> (อนุญาตไม่เกิน ${MAX_DISTANCE_METERS} ม.)`,
+                'error'
+            );
+            setLoading(false);
             return;
         }
 
-        showStatus("พิกัดถูกต้อง กำลังบันทึกข้อมูลลงระบบ กรุณาอย่าปิดหน้าต่างนี้...", "info");
-        
-        const payload = {
-            studentId: studentId,
-            name: name,
-            lat: userLat,
-            lng: userLng,
-            distance: Math.round(distance)
-        };
+        showStatus('พิกัดถูกต้อง กำลังบันทึกข้อมูล...', 'info');
 
         fetch(GAS_URL, {
-            method: "POST",
-            headers: { "Content-Type": "text/plain;charset=utf-8" }, 
-            body: JSON.stringify(payload)
+            method:  'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ studentId, name, lat: userLat, lng: userLng, distance: Math.round(distance) })
         })
-        .then(response => response.json())
+        .then(r => r.json())
         .then(result => {
-            if(result.status === "success") {
-                showStatus("บันทึกข้อมูลเข้าเรียนเสร็จสมบูรณ์เรียบร้อยแล้ว!", "success");
-                document.getElementById("studentId").value = "";
-                document.getElementById("name").value = "";
+            if (result.status === 'success') {
+                showStatus('บันทึกข้อมูลเข้าร่วมกิจกรรมเสร็จสมบูรณ์', 'success');
+                // clear fields but keep cookies so returning user sees data pre-filled next visit
+                document.getElementById('studentId').value = '';
+                document.getElementById('name').value      = '';
             } else {
-                showStatus("เกิดข้อผิดพลาดจากเซิร์ฟเวอร์: " + result.message, "error");
+                showStatus('เซิร์ฟเวอร์ตอบกลับผิดพลาด: ' + result.message, 'error');
             }
         })
-        .catch(error => {
-            showStatus("ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง", "error");
-        })
-        .finally(() => {
-            submitBtn.disabled = false;
-        });
+        .catch(() => showStatus('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง', 'error'))
+        .finally(() => setLoading(false));
     }
 
-    function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371000; 
-        const toRad = (value) => value * Math.PI / 180;
-        
-        const dLat = toRad(lat2 - lat1);
-        const dLon = toRad(lon2 - lon1);
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                  Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
+    /* ─── Haversine ─── */
+    function haversine(lat1, lon1, lat2, lon2) {
+        const R   = 6_371_000;
+        const rad = v => v * Math.PI / 180;
+        const dLat = rad(lat2 - lat1);
+        const dLon = rad(lon2 - lon1);
+        const a = Math.sin(dLat/2)**2 + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLon/2)**2;
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
 </script>
 </body>
