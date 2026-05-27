@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบเช็คชื่อเข้าชั้นเรียน</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+            width: 100%;
+            max-width: 450px;
+        }
+        h2 {
+            margin-top: 0;
+            margin-bottom: 24px;
+            font-size: 24px;
+            text-align: center;
+            color: #0f172a;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #334155;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            color: #1e293b;
+            transition: all 0.2s ease;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        button {
+            width: 100%;
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            white-space: normal;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        button:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+        }
+        .status-box {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            text-align: center;
+            display: none;
+            line-height: 1.6;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        .status-box.info {
+            display: block;
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+        }
+        .status-box.success {
+            display: block;
+            background-color: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+        .status-box.error {
+            display: block;
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>บันทึกเวลาเข้าเรียน</h2>
+    
+    <div class="form-group">
+        <label for="studentId">รหัสนักศึกษา</label>
+        <input type="text" id="studentId" placeholder="เช่น 6401234567" autocomplete="off" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="name">ชื่อ-นามสกุล</label>
+        <input type="text" id="name" placeholder="เช่น สมชาย ใจดี" autocomplete="off" required>
+    </div>
+    
+    <button id="submitBtn" onclick="startAttendanceProcess()">ตรวจสอบตำแหน่งและส่งข้อมูล</button>
+    
+    <div id="statusBox" class="status-box"></div>
+</div>
+
+<script>
+    // ==========================================
+    // การตั้งค่าระบบ (Configuration)
+    // ==========================================
+    const TARGET_LAT = 17.5398426; // เปลี่ยนเป็นละติจูดของสถานที่เรียน
+    const TARGET_LNG = 101.7219437; // เปลี่ยนเป็นลองจิจูดของสถานที่เรียน
+    const MAX_DISTANCE_METERS = 100; // ระยะห่างสูงสุดที่อนุญาต (เมตร)
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec"; 
+    // ==========================================
+
+    const submitBtn = document.getElementById("submitBtn");
+    const statusBox = document.getElementById("statusBox");
+
+    function showStatus(message, type) {
+        statusBox.className = "status-box " + type;
+        statusBox.innerHTML = message;
+    }
+
+    function startAttendanceProcess() {
+        const studentId = document.getElementById("studentId").value.trim();
+        const name = document.getElementById("name").value.trim();
+
+        if (!studentId || !name) {
+            showStatus("กรุณากรอกรหัสนักศึกษา และชื่อ-สกุลให้ครบถ้วนก่อนดำเนินการ", "error");
+            return;
+        }
+
+        submitBtn.disabled = true;
+        showStatus("กำลังตรวจสอบตำแหน่งพิกัดของคุณ กรุณารอสักครู่...", "info");
+
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => validateAndSubmit(position, studentId, name),
+                (error) => {
+                    let errMsg = "ไม่สามารถระบุตำแหน่งได้ กรุณาอนุญาตการเข้าถึง Location ในเบราว์เซอร์ของคุณ";
+                    if (error.code === 1) errMsg = "คุณปฏิเสธการเข้าถึงตำแหน่ง (Location) กรุณาเปิดสิทธิ์และลองใหม่";
+                    if (error.code === 2) errMsg = "ไม่สามารถเชื่อมต่อสัญญาณ GPS ได้ในขณะนี้";
+                    if (error.code === 3) errMsg = "การค้นหาตำแหน่งใช้เวลานานเกินไป กรุณาลองใหม่อีกครั้ง";
+                    
+                    showStatus(errMsg, "error");
+                    submitBtn.disabled = false;
+                },
+                { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+            );
+        } else {
+            showStatus("อุปกรณ์หรือเบราว์เซอร์ของคุณไม่รองรับการระบุตำแหน่ง (GPS)", "error");
+            submitBtn.disabled = false;
+        }
+    }
+
+    function validateAndSubmit(position, studentId, name) {
+        const userLat = position.coords.latitude;
+        const userLng = position.coords.longitude;
+        
+        const distance = calculateHaversineDistance(userLat, userLng, TARGET_LAT, TARGET_LNG);
+
+        if (distance > MAX_DISTANCE_METERS) {
+            showStatus(`คุณอยู่นอกพื้นที่ที่กำหนด<br>ระยะห่างปัจจุบัน: <b>${Math.round(distance)} เมตร</b> (อนุญาตไม่เกิน ${MAX_DISTANCE_METERS} เมตร)`, "error");
+            submitBtn.disabled = false;
+            return;
+        }
+
+        showStatus("พิกัดถูกต้อง กำลังบันทึกข้อมูลลงระบบ กรุณาอย่าปิดหน้าต่างนี้...", "info");
+        
+        const payload = {
+            studentId: studentId,
+            name: name,
+            lat: userLat,
+            lng: userLng,
+            distance: Math.round(distance)
+        };
+
+        fetch(GAS_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(result => {
+            if(result.status === "success") {
+                showStatus("บันทึกข้อมูลเข้าเรียนเสร็จสมบูรณ์เรียบร้อยแล้ว!", "success");
+                document.getElementById("studentId").value = "";
+                document.getElementById("name").value = "";
+            } else {
+                showStatus("เกิดข้อผิดพลาดจากเซิร์ฟเวอร์: " + result.message, "error");
+            }
+        })
+        .catch(error => {
+            showStatus("ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง", "error");
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+        });
+    }
+
+    function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371000; 
+        const toRad = (value) => value * Math.PI / 180;
+        
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+</script>
+</body>
+</html>
