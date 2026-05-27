@@ -58,27 +58,258 @@
 
         .load-logo {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 28px; height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             font-size: 13px;
             color: var(--white);
         }
 
         .load-ring-wrap {
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
 
         #loadScreen.fade-out {
             animation: fadeOut .5s cubic-bezier(.4,0,1,1) forwards;
         }
+
+        /* ─── Process Overlay ─── */
+        #processOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 8888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s ease;
+        }
+
+        #processOverlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .process-card {
+            background: var(--white);
+            border-radius: var(--r-lg);
+            border: 1.5px solid var(--gray-15);
+            box-shadow: 0 32px 80px rgba(0,0,0,.22);
+            width: 100%;
+            max-width: 360px;
+            overflow: hidden;
+            transform: translateY(12px) scale(.97);
+            transition: transform .3s cubic-bezier(.22,1,.36,1);
+        }
+
+        #processOverlay.visible .process-card {
+            transform: translateY(0) scale(1);
+        }
+
+        .process-top {
+            background: var(--black);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .process-top-icon {
+            width: 34px; height: 34px;
+            border: 1.5px solid rgba(255,255,255,.2);
+            border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px;
+            color: var(--white);
+            flex-shrink: 0;
+        }
+
+        .process-top-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,.38);
+        }
+
+        .process-top-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--white);
+            margin-top: 2px;
+        }
+
+        .process-body { padding: 24px; }
+
+        /* Steps */
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            position: relative;
+        }
+
+        /* connector line between steps */
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 32px;
+            width: 1.5px;
+            height: calc(100% - 8px);
+            background: var(--gray-15);
+            transition: background .3s;
+        }
+
+        .step-item.done:not(:last-child)::after { background: var(--black); }
+
+        .step-dot-wrap {
+            flex-shrink: 0;
+            width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-dot {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gray-15);
+            background: var(--white);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px;
+            color: var(--gray-30);
+            transition: all .3s cubic-bezier(.22,1,.36,1);
+        }
+
+        .step-item.active .step-dot {
+            border-color: var(--black);
+            background: var(--black);
+            color: var(--white);
+            box-shadow: 0 0 0 4px rgba(0,0,0,.08);
+        }
+
+        .step-item.done .step-dot {
+            border-color: var(--black);
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .step-item.error .step-dot {
+            border-color: #b91c1c;
+            background: #b91c1c;
+            color: var(--white);
+        }
+
+        /* spinning ring for active step */
+        .step-ring {
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: var(--black);
+            animation: spin .7s linear infinite;
+            opacity: 0;
+            transition: opacity .2s;
+        }
+
+        .step-item.active .step-ring { opacity: 1; }
+
+        .step-text { padding: 4px 0 20px; }
+
+        .step-item:last-child .step-text { padding-bottom: 0; }
+
+        .step-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray-30);
+            transition: color .3s;
+        }
+
+        .step-item.active .step-title { color: var(--black); }
+        .step-item.done   .step-title { color: var(--gray-70); }
+        .step-item.error  .step-title { color: #b91c1c; }
+
+        .step-desc {
+            font-size: 11.5px;
+            color: var(--gray-50);
+            margin-top: 2px;
+            line-height: 1.55;
+            min-height: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s ease, opacity .3s;
+            opacity: 0;
+        }
+
+        .step-item.active .step-desc,
+        .step-item.done   .step-desc,
+        .step-item.error  .step-desc {
+            max-height: 60px;
+            opacity: 1;
+        }
+
+        /* Result strip at bottom of process card */
+        .process-result {
+            margin-top: 20px;
+            padding: 12px 14px;
+            border-radius: var(--r-sm);
+            font-size: 13px;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .process-result.success {
+            display: flex;
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1.5px solid #bbf7d0;
+        }
+
+        .process-result.error {
+            display: flex;
+            background: #fff8f8;
+            color: #b91c1c;
+            border: 1.5px solid #fecaca;
+        }
+
+        /* Close button */
+        .process-close {
+            width: 100%;
+            margin-top: 16px;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            border-radius: var(--r-sm);
+            padding: 11px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background .18s;
+        }
+
+        .process-close.show { display: flex; }
+        .process-close:hover { background: var(--gray-90); }
 
         /* ─── Body ─── */
         html { -webkit-font-smoothing: antialiased; }
@@ -108,7 +339,6 @@
             overflow: hidden;
         }
 
-        /* top bar */
         .card-top {
             background: var(--black);
             padding: 24px 28px;
@@ -162,10 +392,8 @@
             animation: blink 2s ease infinite;
         }
 
-        /* form body */
         .card-body { padding: 28px; }
 
-        /* ─── Field ─── */
         .field { margin-bottom: 20px; }
         .field:last-of-type { margin-bottom: 0; }
 
@@ -181,12 +409,7 @@
             margin-bottom: 8px;
         }
 
-        .field-label i {
-            font-size: 11px;
-            color: var(--gray-50);
-            width: 14px;
-            text-align: center;
-        }
+        .field-label i { font-size: 11px; color: var(--gray-50); width: 14px; text-align: center; }
 
         input[type="text"] {
             width: 100%;
@@ -210,7 +433,6 @@
 
         input::placeholder { color: var(--gray-30); font-size: 13.5px; }
 
-        /* ─── Divider ─── */
         .divider {
             display: flex;
             align-items: center;
@@ -229,7 +451,6 @@
             white-space: nowrap;
         }
 
-        /* ─── Submit button ─── */
         .submit-btn {
             width: 100%;
             background: var(--black);
@@ -257,66 +478,9 @@
         }
 
         .submit-btn:active:not(:disabled) { transform: translateY(0); }
-
         .submit-btn:disabled { opacity: .5; cursor: not-allowed; }
-
         .submit-btn i { font-size: 12px; }
 
-        /* ─── Status box ─── */
-        .status-box {
-            display: none;
-            margin-top: 16px;
-            padding: 13px 16px;
-            border-radius: var(--r-sm);
-            font-size: 13.5px;
-            font-weight: 500;
-            line-height: 1.65;
-            text-align: center;
-        }
-
-        .status-box.info {
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            gap: 8px;
-            background: var(--gray-07);
-            color: var(--gray-70);
-            border: 1.5px solid var(--gray-15);
-        }
-
-        .status-box.success {
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            gap: 8px;
-            background: #f0fdf4;
-            color: #15803d;
-            border: 1.5px solid #bbf7d0;
-            font-weight: 600;
-        }
-
-        .status-box.error {
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            gap: 8px;
-            background: #fff8f8;
-            color: #b91c1c;
-            border: 1.5px solid #fecaca;
-        }
-
-        .status-box i { margin-top: 2px; flex-shrink: 0; font-size: 13px; }
-
-        /* spinner inside button */
-        .btn-spinner {
-            width: 14px; height: 14px;
-            border: 2px solid rgba(255,255,255,.25);
-            border-top-color: var(--white);
-            border-radius: 50%;
-            animation: spin .7s linear infinite;
-        }
-
-        /* ─── Info strip ─── */
         .info-strip {
             display: flex;
             align-items: center;
@@ -332,7 +496,6 @@
 
         .info-strip i { font-size: 11px; color: var(--gray-30); flex-shrink: 0; }
 
-        /* footer */
         .card-footer {
             padding: 13px 28px;
             background: var(--gray-07);
@@ -349,17 +512,9 @@
 
         .card-footer i { font-size: 10px; }
 
-        /* ─── Animations ─── */
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        @keyframes blink {
-            0%,100% { opacity: 1; }
-            50%      { opacity: .3; }
-        }
-
-        @keyframes fadeOut {
-            to { opacity: 0; pointer-events: none; }
-        }
+        @keyframes spin    { to { transform: rotate(360deg); } }
+        @keyframes blink   { 0%,100% { opacity:1; } 50% { opacity:.3; } }
+        @keyframes fadeOut { to { opacity:0; pointer-events:none; } }
     </style>
 </head>
 
@@ -372,6 +527,77 @@
         <div class="load-logo"><i class="fa-solid fa-location-crosshairs"></i></div>
     </div>
     <div class="load-text">กำลังโหลดระบบ...</div>
+</div>
+
+<!-- Process Overlay -->
+<div id="processOverlay">
+    <div class="process-card">
+
+        <div class="process-top">
+            <div class="process-top-icon"><i class="fa-solid fa-gear"></i></div>
+            <div>
+                <div class="process-top-label">Processing</div>
+                <div class="process-top-title">กำลังดำเนินการ</div>
+            </div>
+        </div>
+
+        <div class="process-body">
+            <div class="step-list">
+
+                <div class="step-item" id="step-1">
+                    <div class="step-dot-wrap">
+                        <div class="step-dot"><i class="fa-solid fa-check step-check" data-icon-default="1"></i></div>
+                        <div class="step-ring"></div>
+                    </div>
+                    <div class="step-text">
+                        <div class="step-title">ตรวจสอบข้อมูล</div>
+                        <div class="step-desc">ตรวจสอบรหัสนักศึกษาและชื่อ–สกุล</div>
+                    </div>
+                </div>
+
+                <div class="step-item" id="step-2">
+                    <div class="step-dot-wrap">
+                        <div class="step-dot"><i class="fa-solid fa-check step-check" data-icon-default="2"></i></div>
+                        <div class="step-ring"></div>
+                    </div>
+                    <div class="step-text">
+                        <div class="step-title">รับสัญญาณ GPS</div>
+                        <div class="step-desc">กำลังขอสิทธิ์และระบุพิกัดตำแหน่ง</div>
+                    </div>
+                </div>
+
+                <div class="step-item" id="step-3">
+                    <div class="step-dot-wrap">
+                        <div class="step-dot"><i class="fa-solid fa-check step-check" data-icon-default="3"></i></div>
+                        <div class="step-ring"></div>
+                    </div>
+                    <div class="step-text">
+                        <div class="step-title">ตรวจสอบพื้นที่</div>
+                        <div class="step-desc">ตรวจสอบข้อมูลของคุณและเปรียบเทียบกับฐานระบบ</div>
+                    </div>
+                </div>
+
+                <div class="step-item" id="step-4">
+                    <div class="step-dot-wrap">
+                        <div class="step-dot"><i class="fa-solid fa-check step-check" data-icon-default="4"></i></div>
+                        <div class="step-ring"></div>
+                    </div>
+                    <div class="step-text">
+                        <div class="step-title">บันทึกข้อมูล</div>
+                        <div class="step-desc">ส่งข้อมูลและบันทึกลง Cloud Server</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="process-result" id="processResult"></div>
+
+            <button class="process-close" id="processClose" onclick="closeOverlay()">
+                <i class="fa-solid fa-check"></i>
+                <span id="processCloseTxt">ตกลง</span>
+            </button>
+        </div>
+    </div>
 </div>
 
 <!-- Main Card -->
@@ -421,10 +647,8 @@
         <div style="margin-top:20px">
             <button class="submit-btn" id="submitBtn" onclick="startAttendanceProcess()">
                 <i class="fa-solid fa-paper-plane"></i>
-                <span id="submitText">บันทึกข้อมูล</span>
+                <span>บันทึกข้อมูล</span>
             </button>
-
-            <div id="statusBox" class="status-box"></div>
         </div>
 
     </div>
@@ -451,8 +675,8 @@
     }
 
     function getCookie(name) {
-        const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
-        return match ? decodeURIComponent(match[1]) : '';
+        const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+        return m ? decodeURIComponent(m[1]) : '';
     }
 
     function saveFormCookies() {
@@ -465,14 +689,13 @@
     function loadFormCookies() {
         const sid  = getCookie('att_sid');
         const name = getCookie('att_name');
-        if (sid)  { document.getElementById('studentId').value = sid; }
-        if (name) { document.getElementById('name').value      = name; }
+        if (sid)  document.getElementById('studentId').value = sid;
+        if (name) document.getElementById('name').value      = name;
         if (sid || name) showSavedBadge();
     }
 
     function showSavedBadge() {
-        const strip = document.getElementById('infoStrip');
-        strip.innerHTML = `
+        document.getElementById('infoStrip').innerHTML = `
             <i class="fa-solid fa-circle-check" style="color:var(--gray-50)"></i>
             <span style="flex:1">ระบบโหลดข้อมูลที่บันทึกไว้แล้ว</span>
             <button onclick="clearSaved()" style="background:none;border:none;cursor:pointer;font-size:11px;font-family:inherit;font-weight:700;color:var(--gray-50);letter-spacing:.04em;text-transform:uppercase;padding:0;white-space:nowrap">
@@ -485,8 +708,8 @@
         setCookie('att_name', '', -1);
         document.getElementById('studentId').value = '';
         document.getElementById('name').value      = '';
-        const strip = document.getElementById('infoStrip');
-        strip.innerHTML = `<i class="fa-solid fa-circle-info"></i>ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม โปรดเลือก "อนุญาต"`;
+        document.getElementById('infoStrip').innerHTML =
+            `<i class="fa-solid fa-circle-info"></i>ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม โปรดเลือก "อนุญาต"`;
     }
 
     /* ─── Loading screen ─── */
@@ -500,27 +723,49 @@
         }, 1400);
     });
 
-    /* ─── Helpers ─── */
-    const submitBtn  = document.getElementById('submitBtn');
-    const submitText = document.getElementById('submitText');
-    const statusBox  = document.getElementById('statusBox');
-
-    const STATUS_ICON = {
-        info:    'fa-circle-notch fa-spin',
-        success: 'fa-circle-check',
-        error:   'fa-circle-exclamation',
-    };
-
-    function showStatus(msg, type) {
-        statusBox.className = 'status-box ' + type;
-        statusBox.innerHTML = `<i class="fa-solid ${STATUS_ICON[type]}"></i><span>${msg}</span>`;
+    /* ─── Process Overlay ─── */
+    function openOverlay() {
+        // reset all steps
+        [1,2,3,4].forEach(n => setStep(n, 'idle'));
+        document.getElementById('processResult').className = 'process-result';
+        document.getElementById('processResult').innerHTML = '';
+        document.getElementById('processClose').classList.remove('show');
+        document.getElementById('processClose').innerHTML = '<i class="fa-solid fa-check"></i><span>ตกลง</span>';
+        document.getElementById('processOverlay').classList.add('visible');
     }
 
-    function setLoading(on) {
-        submitBtn.disabled = on;
-        submitBtn.innerHTML = on
-            ? '<div class="btn-spinner"></div><span>กำลังดำเนินการ...</span>'
-            : '<i class="fa-solid fa-paper-plane"></i><span id="submitText">บันทึกข้อมูล</span>';
+    function closeOverlay() {
+        document.getElementById('processOverlay').classList.remove('visible');
+        document.getElementById('submitBtn').disabled = false;
+    }
+
+    // state: 'idle' | 'active' | 'done' | 'error'
+    function setStep(n, state, descOverride) {
+        const el   = document.getElementById('step-' + n);
+        const dot  = el.querySelector('.step-dot');
+        const desc = el.querySelector('.step-desc');
+
+        el.className = 'step-item ' + (state === 'idle' ? '' : state);
+
+        // icon inside dot
+        const icons = { idle: n, active: 'fa-ellipsis', done: 'fa-check', error: 'fa-xmark' };
+        dot.innerHTML = state === 'idle'
+            ? `<span style="font-size:10px;font-weight:700;color:var(--gray-30)">${n}</span>`
+            : `<i class="fa-solid ${icons[state]}"></i><div class="step-ring"></div>`;
+
+        if (descOverride) desc.textContent = descOverride;
+    }
+
+    function showResult(msg, type) {
+        const el = document.getElementById('processResult');
+        const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+        el.className = 'process-result ' + type;
+        el.innerHTML = `<i class="fa-solid ${icon}"></i><span>${msg}</span>`;
+        const btn = document.getElementById('processClose');
+        btn.classList.add('show');
+        if (type === 'error') {
+            btn.innerHTML = '<i class="fa-solid fa-rotate-left"></i><span>ลองใหม่</span>';
+        }
     }
 
     /* ─── Main flow ─── */
@@ -529,68 +774,91 @@
         const name      = document.getElementById('name').value.trim();
 
         if (!studentId || !name) {
-            showStatus('กรุณากรอกรหัสนักศึกษา และชื่อ–สกุลให้ครบก่อนดำเนินการ', 'error');
+            // quick shake animation on empty fields
+            ['studentId','name'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el.value.trim()) { el.style.borderColor = '#b91c1c'; setTimeout(() => el.style.borderColor = '', 1500); }
+            });
             return;
         }
 
-        setLoading(true);
-        showStatus('กำลังตรวจสอบข้อมูลของคุณ กรุณารอสักครู่...', 'info');
+        document.getElementById('submitBtn').disabled = true;
         saveFormCookies();
+        openOverlay();
 
-        if (!('geolocation' in navigator)) {
-            showStatus('อุปกรณ์หรือเบราว์เซอร์นี้ไม่รองรับการระบุตใช้อุปกรณ์หรือเบาราว์เซอร์ที่รองรับ', 'error');
-            setLoading(false);
-            return;
-        }
+        // Step 1 — validate input (instant)
+        setStep(1, 'active');
+        setTimeout(() => {
+            setStep(1, 'done', 'ข้อมูลถูกต้อง');
 
-        navigator.geolocation.getCurrentPosition(
-            pos  => validateAndSubmit(pos, studentId, name),
-            err  => {
-                const msgs = {
-                    1: 'คุณปฏิเสธการเข้าถึง Location กรุณาเปิดสิทธิ์แล้วลองใหม่',
-                    2: 'ไม่สามารถรับสัญญาณ GPS ได้ในขณะนี้',
-                    3: 'การค้นหาตำแหน่งใช้เวลานานเกินไป กรุณาลองใหม่อีกครั้ง',
-                };
-                showStatus(msgs[err.code] ?? 'เกิดข้อผิดพลาดในการระบุตำแหน่ง', 'error');
-                setLoading(false);
-            },
-            { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-        );
+            // Step 2 — GPS
+            setStep(2, 'active');
+
+            if (!('geolocation' in navigator)) {
+                setStep(2, 'error', 'เบราว์เซอร์นี้ไม่รองรับ GPS');
+                showResult('อุปกรณ์ไม่รองรับการระบุตำแหน่ง', 'error');
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                pos => onGotPosition(pos, studentId, name),
+                err => {
+                    const msgs = {
+                        1: 'ปฏิเสธสิทธิ์ Location — กรุณาเปิดและลองใหม่',
+                        2: 'รับสัญญาณ GPS ไม่ได้ในขณะนี้',
+                        3: 'หมดเวลาค้นหาตำแหน่ง — ลองใหม่อีกครั้ง',
+                    };
+                    setStep(2, 'error', msgs[err.code] ?? 'ไม่สามารถระบุตำแหน่งได้');
+                    showResult(msgs[err.code] ?? 'เกิดข้อผิดพลาด GPS', 'error');
+                },
+                { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+            );
+        }, 600);
     }
 
-    function validateAndSubmit(position, studentId, name) {
+    function onGotPosition(position, studentId, name) {
         const { latitude: userLat, longitude: userLng } = position.coords;
-        const distance = haversine(userLat, userLng, TARGET_LAT, TARGET_LNG);
+        setStep(2, 'done', `พิกัด ${userLat.toFixed(5)}, ${userLng.toFixed(5)}`);
 
-        if (distance > MAX_DISTANCE_METERS) {
-            showStatus(
-                `คุณอยู่นอกพื้นที่กิจกรรม<br>ระยะห่างปัจจุบัน <b>${Math.round(distance)} ม.</b> (อนุญาตไม่เกิน ${MAX_DISTANCE_METERS} ม.)`,
-                'error'
-            );
-            setLoading(false);
-            return;
-        }
+        // Step 3 — distance check
+        setStep(3, 'active');
+        setTimeout(() => {
+            const distance = haversine(userLat, userLng, TARGET_LAT, TARGET_LNG);
 
-        showStatus('ข้อมูลถูกต้อง กำลังบันทึกข้อมูล...', 'info');
-
-        fetch(GAS_URL, {
-            method:  'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ studentId, name, lat: userLat, lng: userLng, distance: Math.round(distance) })
-        })
-        .then(r => r.json())
-        .then(result => {
-            if (result.status === 'success') {
-                showStatus('บันทึกข้อมูลเข้าร่วมกิจกรรมเสร็จสมบูรณ์', 'success');
-                // clear fields but keep cookies so returning user sees data pre-filled next visit
-                document.getElementById('studentId').value = '';
-                document.getElementById('name').value      = '';
-            } else {
-                showStatus('เซิร์ฟเวอร์ตอบกลับผิดพลาด: ' + result.message, 'error');
+            if (distance > MAX_DISTANCE_METERS) {
+                setStep(3, 'error', `ระยะห่าง ${Math.round(distance)} ม. — เกินขีดจำกัด`);
+                showResult(`คุณอยู่ห่างจากพื้นที่กิจกรรม ${Math.round(distance)} ม. (อนุญาตไม่เกิน ${MAX_DISTANCE_METERS} ม.)`, 'error');
+                return;
             }
-        })
-        .catch(() => showStatus('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง', 'error'))
-        .finally(() => setLoading(false));
+
+            setStep(3, 'done', `ระยะห่าง ${Math.round(distance)} ม. — อยู่ในพื้นที่`);
+
+            // Step 4 — send to GAS
+            setStep(4, 'active');
+
+            fetch(GAS_URL, {
+                method:  'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ studentId, name, lat: userLat, lng: userLng, distance: Math.round(distance) })
+            })
+            .then(r => r.json())
+            .then(result => {
+                if (result.status === 'success') {
+                    setStep(4, 'done', 'บันทึกลง Google Sheets แล้ว');
+                    showResult('บันทึกข้อมูลเข้าร่วมกิจกรรมสำเร็จ', 'success');
+                    document.getElementById('studentId').value = '';
+                    document.getElementById('name').value      = '';
+                } else {
+                    setStep(4, 'error', 'เซิร์ฟเวอร์ตอบกลับผิดพลาด');
+                    showResult('เซิร์ฟเวอร์ผิดพลาด: ' + result.message, 'error');
+                }
+            })
+            .catch(() => {
+                setStep(4, 'error', 'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้');
+                showResult('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่', 'error');
+            });
+
+        }, 500);
     }
 
     /* ─── Haversine ─── */
