@@ -409,19 +409,19 @@
 
         <div class="divider">
             <div class="divider-line"></div>
-            <span class="divider-text"><i class="fa-solid fa-location-dot" style="margin-right:4px"></i>ตรวจสอบพิกัด</span>
+            <span class="divider-text"><i class="fa-solid fa-location-dot" style="margin-right:4px"></i>การตรวจสอบข้อมูลผู้ใช้</span>
             <div class="divider-line"></div>
         </div>
 
         <div class="info-strip" id="infoStrip">
             <i class="fa-solid fa-circle-info"></i>
-            ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม
+            ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม โปรดเลือก "อนุญาต"
         </div>
 
         <div style="margin-top:20px">
             <button class="submit-btn" id="submitBtn" onclick="startAttendanceProcess()">
                 <i class="fa-solid fa-paper-plane"></i>
-                <span id="submitText">ตรวจสอบตำแหน่งและส่งข้อมูล</span>
+                <span id="submitText">บันทึกข้อมูล</span>
             </button>
 
             <div id="statusBox" class="status-box"></div>
@@ -430,8 +430,7 @@
     </div>
 
     <div class="card-footer">
-        <i class="fa-regular fa-copyright"></i>
-        2026 sorasukt
+        <i class="fa-regular fa-copyright"></i>2026 sorasukt
     </div>
 
 </div>
@@ -475,9 +474,9 @@
         const strip = document.getElementById('infoStrip');
         strip.innerHTML = `
             <i class="fa-solid fa-circle-check" style="color:var(--gray-50)"></i>
-            <span style="flex:1">โหลดข้อมูลที่เคยกรอกไว้ให้แล้ว</span>
+            <span style="flex:1">ระบบโหลดข้อมูลที่บันทึกไว้แล้ว</span>
             <button onclick="clearSaved()" style="background:none;border:none;cursor:pointer;font-size:11px;font-family:inherit;font-weight:700;color:var(--gray-50);letter-spacing:.04em;text-transform:uppercase;padding:0;white-space:nowrap">
-                <i class="fa-solid fa-xmark" style="margin-right:3px"></i>ล้าง
+                <i class="fa-solid fa-xmark" style="margin-right:3px"></i>ลบ
             </button>`;
     }
 
@@ -487,7 +486,7 @@
         document.getElementById('studentId').value = '';
         document.getElementById('name').value      = '';
         const strip = document.getElementById('infoStrip');
-        strip.innerHTML = `<i class="fa-solid fa-circle-info"></i>ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม`;
+        strip.innerHTML = `<i class="fa-solid fa-circle-info"></i>ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม โปรดเลือก "อนุญาต"`;
     }
 
     /* ─── Loading screen ─── */
@@ -521,7 +520,7 @@
         submitBtn.disabled = on;
         submitBtn.innerHTML = on
             ? '<div class="btn-spinner"></div><span>กำลังดำเนินการ...</span>'
-            : '<i class="fa-solid fa-paper-plane"></i><span id="submitText">ตรวจสอบตำแหน่งและส่งข้อมูล</span>';
+            : '<i class="fa-solid fa-paper-plane"></i><span id="submitText">บันทึกข้อมูล</span>';
     }
 
     /* ─── Main flow ─── */
@@ -535,11 +534,11 @@
         }
 
         setLoading(true);
-        showStatus('กำลังตรวจสอบพิกัดของคุณ กรุณารอสักครู่...', 'info');
+        showStatus('กำลังตรวจสอบข้อมูลของคุณ กรุณารอสักครู่...', 'info');
         saveFormCookies();
 
         if (!('geolocation' in navigator)) {
-            showStatus('อุปกรณ์หรือเบราว์เซอร์นี้ไม่รองรับการระบุตำแหน่ง', 'error');
+            showStatus('อุปกรณ์หรือเบราว์เซอร์นี้ไม่รองรับการระบุตใช้อุปกรณ์หรือเบาราว์เซอร์ที่รองรับ', 'error');
             setLoading(false);
             return;
         }
@@ -550,7 +549,7 @@
                 const msgs = {
                     1: 'คุณปฏิเสธการเข้าถึง Location กรุณาเปิดสิทธิ์แล้วลองใหม่',
                     2: 'ไม่สามารถรับสัญญาณ GPS ได้ในขณะนี้',
-                    3: 'การค้นหาตำแหน่งใช้เวลานานเกินไป กรุณาลองใหม่',
+                    3: 'การค้นหาตำแหน่งใช้เวลานานเกินไป กรุณาลองใหม่อีกครั้ง',
                 };
                 showStatus(msgs[err.code] ?? 'เกิดข้อผิดพลาดในการระบุตำแหน่ง', 'error');
                 setLoading(false);
@@ -572,7 +571,7 @@
             return;
         }
 
-        showStatus('พิกัดถูกต้อง กำลังบันทึกข้อมูล...', 'info');
+        showStatus('ข้อมูลถูกต้อง กำลังบันทึกข้อมูล...', 'info');
 
         fetch(GAS_URL, {
             method:  'POST',
