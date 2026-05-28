@@ -1152,7 +1152,12 @@ const SCHEDULE = [
 ════════════════════════════════════════ */
 /* แปลง "YYYY-MM-DD HH:MM" → UTC timestamp (treat as GMT+7) */
 function parseGMT7(str) {
-    return new Date(str.replace(' ', 'T') + ':00+07:00').getTime();
+    const [date, time] = str.split(' ');
+    const [y, mo, d] = date.split('-').map(Number);
+    const [h, m] = time.split(':').map(Number);
+
+    // สร้างเวลา Bangkok ตรง ๆ
+    return new Date(y, mo - 1, d, h, m, 0).getTime();
 }
 
 /* ปัจจุบัน GMT+7 */
@@ -1170,19 +1175,27 @@ function fmtTime(tsMs) {
 
 /* Format วันที่ ไทย */
 function fmtDate(tsMs) {
-    return new Date(tsMs).toLocaleDateString('th-TH', {
-        timeZone: 'Asia/Bangkok',
-        weekday: 'short', day: 'numeric', month: 'short'
-    });
+    return new Intl.DateTimeFormat('th-TH', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short'
+    }).format(new Date(tsMs));
 }
 
-/* Slot status */
 function slotStatus(slot) {
-    const now   = getNowMs();
+    const now = new Date();
+
     const open  = parseGMT7(slot.open);
     const close = parseGMT7(slot.close);
-    if (now >= open && now < close) return 'active';
-    if (now < open)                 return 'upcoming';
+
+    if (now.getTime() >= open && now.getTime() < close) {
+        return 'active';
+    }
+
+    if (now.getTime() < open) {
+        return 'upcoming';
+    }
+
     return 'closed';
 }
 
