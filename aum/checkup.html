@@ -1152,10 +1152,7 @@ const SCHEDULE = [
 ════════════════════════════════════════ */
 /* แปลง "YYYY-MM-DD HH:MM" → UTC timestamp (treat as GMT+7) */
 function parseGMT7(str) {
-    const [date, time] = str.split(' ');
-    const [y,mo,d] = date.split('-').map(Number);
-    const [h,m]    = time.split(':').map(Number);
-    return Date.UTC(y, mo - 1, d, h - 7, m); // subtract 7h to convert to UTC
+    return new Date(str.replace(' ', 'T') + ':00+07:00').getTime();
 }
 
 /* ปัจจุบัน GMT+7 */
