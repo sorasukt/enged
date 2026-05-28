@@ -28,13 +28,15 @@
             --ink-07:   #f3f4f6;
             --white:    #ffffff;
             --accent:   #1a56db;
-            --accent-2: #e8f0fe;
             --success:  #065f46;
             --success-bg: #ecfdf5;
             --success-bd: #a7f3d0;
             --error:    #991b1b;
             --error-bg: #fef2f2;
             --error-bd: #fecaca;
+            --warn:     #92400e;
+            --warn-bg:  #fffbeb;
+            --warn-bd:  #fde68a;
             --r-xs: 4px;
             --r-sm: 6px;
             --r-md: 10px;
@@ -54,9 +56,7 @@
 
         body.visible { opacity: 1; }
 
-        /* ══════════════════════════════
-           LOADING SCREEN
-        ══════════════════════════════ */
+        /* ── Loading Screen ── */
         #loadScreen {
             position: fixed; inset: 0;
             background: var(--ink);
@@ -68,10 +68,7 @@
             gap: 24px;
         }
 
-        .ls-emblem {
-            position: relative;
-            width: 72px; height: 72px;
-        }
+        .ls-emblem { position: relative; width: 72px; height: 72px; }
 
         .ls-ring {
             position: absolute; inset: 0;
@@ -82,8 +79,7 @@
         }
 
         .ls-inner {
-            position: absolute;
-            inset: 10px;
+            position: absolute; inset: 10px;
             border-radius: 50%;
             border: 1.5px solid rgba(255,255,255,.06);
             border-top-color: rgba(255,255,255,.35);
@@ -93,36 +89,27 @@
         .ls-icon {
             position: absolute; inset: 0;
             display: flex; align-items: center; justify-content: center;
-            font-size: 18px;
-            color: rgba(255,255,255,.8);
+            font-size: 18px; color: rgba(255,255,255,.8);
         }
 
-        .ls-wordmark {
-            text-align: center;
-        }
+        .ls-wordmark { text-align: center; }
 
         .ls-title {
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 13px; font-weight: 700;
             color: rgba(255,255,255,.85);
-            letter-spacing: .12em;
-            text-transform: uppercase;
+            letter-spacing: .12em; text-transform: uppercase;
         }
 
         .ls-sub {
-            font-size: 11px;
-            font-weight: 400;
+            font-size: 11px; font-weight: 400;
             color: rgba(255,255,255,.35);
-            margin-top: 4px;
-            letter-spacing: .04em;
+            margin-top: 4px; letter-spacing: .04em;
         }
 
         .ls-progress {
-            width: 160px;
-            height: 2px;
+            width: 160px; height: 2px;
             background: rgba(255,255,255,.08);
-            border-radius: 2px;
-            overflow: hidden;
+            border-radius: 2px; overflow: hidden;
         }
 
         .ls-progress-fill {
@@ -132,227 +119,210 @@
             animation: loadFill 1.3s cubic-bezier(.4,0,.2,1) forwards;
         }
 
-        #loadScreen.fade-out {
-            animation: fadeOut .45s ease forwards;
-        }
+        #loadScreen.fade-out { animation: fadeOut .45s ease forwards; }
 
-        /* ══════════════════════════════
-           SITE HEADER
-        ══════════════════════════════ */
+        /* ── Site Header ── */
         .site-header {
             background: var(--white);
             border-bottom: 1px solid var(--ink-15);
-            position: sticky; top: 0;
-            z-index: 100;
+            position: sticky; top: 0; z-index: 100;
         }
 
         .header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 32px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
+            max-width: 1200px; margin: 0 auto;
+            padding: 0 32px; height: 60px;
+            display: flex; align-items: center;
+            justify-content: space-between; gap: 24px;
         }
 
         .header-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .header-logo {
-            width: 34px; height: 34px;
-            background: var(--ink);
-            border-radius: var(--r-sm);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px;
-            color: var(--white);
-            flex-shrink: 0;
+            display: flex; align-items: center;
+            gap: 12px; text-decoration: none;
         }
 
         .header-brand-text { line-height: 1.2; }
 
         .header-brand-name {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--ink);
-            letter-spacing: -.01em;
+            font-size: 13px; font-weight: 700;
+            color: var(--ink); letter-spacing: -.01em;
         }
 
         .header-brand-faculty {
-            font-size: 10.5px;
-            color: var(--ink-50);
-            font-weight: 400;
-            margin-top: 1px;
+            font-size: 10.5px; color: var(--ink-50);
+            font-weight: 400; margin-top: 1px;
         }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .header-right { display: flex; align-items: center; gap: 8px; }
 
         .header-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            display: flex; align-items: center; gap: 6px;
             background: var(--ink-07);
             border: 1px solid var(--ink-15);
             border-radius: 100px;
             padding: 5px 12px;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--ink-70);
-            letter-spacing: .04em;
+            font-size: 11px; font-weight: 600;
+            color: var(--ink-70); letter-spacing: .04em;
         }
 
         .live-dot {
             width: 6px; height: 6px;
-            border-radius: 50%;
-            background: #16a34a;
+            border-radius: 50%; background: #16a34a;
             flex-shrink: 0;
             animation: blink 2.4s ease infinite;
         }
 
-        /* ══════════════════════════════
-           PAGE LAYOUT
-        ══════════════════════════════ */
+        /* ── Page Layout ── */
         .page-layout {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1200px; margin: 0 auto;
             padding: 48px 32px 80px;
             display: grid;
             grid-template-columns: 1fr 480px;
-            gap: 48px;
-            align-items: start;
+            gap: 48px; align-items: start;
         }
 
-        /* ──── Left info panel ──── */
-        .info-panel {
-            position: sticky;
-            top: 84px;
-        }
-
-        .info-breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11.5px;
-            color: var(--ink-50);
-            font-weight: 500;
-            margin-bottom: 28px;
-        }
-
-        .info-breadcrumb i { font-size: 9px; color: var(--ink-30); }
+        /* ─ Info panel ─ */
+        .info-panel { position: sticky; top: 84px; }
 
         .info-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 16px;
+            display: inline-flex; align-items: center; gap: 7px;
+            font-size: 11px; font-weight: 700;
+            letter-spacing: .12em; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 16px;
         }
 
         .info-eyebrow::before {
-            content: '';
-            width: 16px; height: 2px;
-            background: var(--accent);
-            border-radius: 2px;
+            content: ''; width: 16px; height: 2px;
+            background: var(--accent); border-radius: 2px;
         }
 
         .info-heading {
             font-size: clamp(26px, 3vw, 36px);
-            font-weight: 800;
-            line-height: 1.2;
-            color: var(--ink);
-            letter-spacing: -.02em;
+            font-weight: 800; line-height: 1.2;
+            color: var(--ink); letter-spacing: -.02em;
             margin-bottom: 16px;
         }
 
         .info-desc {
-            font-size: 14px;
-            line-height: 1.8;
+            font-size: 14px; line-height: 1.8;
+            color: var(--ink-50); font-weight: 400;
+            margin-bottom: 32px; max-width: 420px;
+        }
+
+        /* schedule card */
+        .schedule-card {
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .schedule-head {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--ink-07);
+            display: flex; align-items: center; gap: 9px;
+        }
+
+        .schedule-head-icon {
+            width: 28px; height: 28px;
+            background: var(--ink-07);
+            border-radius: var(--r-xs);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; color: var(--ink-50);
+        }
+
+        .schedule-head-title {
+            font-size: 12px; font-weight: 700;
+            color: var(--ink-70);
+            letter-spacing: .06em; text-transform: uppercase;
+        }
+
+        .schedule-head-clock {
+            margin-left: auto;
+            font-size: 11px; font-weight: 600;
             color: var(--ink-50);
-            font-weight: 400;
-            margin-bottom: 36px;
-            max-width: 420px;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: .02em;
         }
 
-        /* ─ Stat boxes ─ */
-        .stat-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 36px;
+        .schedule-body { padding: 6px 0; }
+
+        .schedule-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 18px;
+            border-bottom: 1px solid var(--ink-07);
+            position: relative;
+            transition: background .15s;
         }
 
-        .stat-box {
+        .schedule-row:last-child { border-bottom: none; }
+        .schedule-row.active-slot { background: #f0fdf4; }
+
+        .schedule-row-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--ink-15);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .schedule-row.active-slot .schedule-row-dot {
+            background: #16a34a;
+            box-shadow: 0 0 0 3px rgba(22,163,74,.15);
+            animation: blink 2s ease infinite;
+        }
+
+        .schedule-row.upcoming-slot .schedule-row-dot { background: var(--accent); }
+        .schedule-row.closed-slot  .schedule-row-dot { background: var(--ink-15); }
+
+        .schedule-row-info { flex: 1; min-width: 0; }
+
+        .schedule-row-name {
+            font-size: 13px; font-weight: 600;
+            color: var(--ink-70);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .schedule-row.active-slot .schedule-row-name { color: var(--success); }
+
+        .schedule-row-time {
+            font-size: 11px; color: var(--ink-30);
+            margin-top: 2px; font-weight: 500;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .schedule-row-badge {
+            font-size: 10px; font-weight: 700;
+            letter-spacing: .06em; text-transform: uppercase;
+            padding: 3px 8px; border-radius: 100px;
+            white-space: nowrap; flex-shrink: 0;
+        }
+
+        .badge-open    { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-bd); }
+        .badge-upcoming{ background: var(--accent-2,#e8f0fe); color: var(--accent); border: 1px solid #c7d7fc; }
+        .badge-closed  { background: var(--ink-07); color: var(--ink-30); border: 1px solid var(--ink-15); }
+
+        /* steps overview */
+        .steps-overview {
             background: var(--white);
             border: 1px solid var(--ink-15);
             border-radius: var(--r-lg);
             padding: 18px;
         }
 
-        .stat-icon {
-            width: 32px; height: 32px;
-            background: var(--ink-07);
-            border-radius: var(--r-sm);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 13px;
-            color: var(--ink-50);
-            margin-bottom: 12px;
-        }
-
-        .stat-value {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--ink);
-            letter-spacing: -.03em;
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 11.5px;
-            color: var(--ink-50);
-            margin-top: 4px;
-            font-weight: 500;
-        }
-
-        /* ─ Steps overview ─ */
-        .steps-overview {
-            background: var(--white);
-            border: 1px solid var(--ink-15);
-            border-radius: var(--r-lg);
-            padding: 20px;
-        }
-
         .steps-overview-title {
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 12px; font-weight: 700;
             color: var(--ink-70);
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            letter-spacing: .08em; text-transform: uppercase;
+            margin-bottom: 14px;
+            display: flex; align-items: center; gap: 8px;
         }
 
         .steps-overview-title i { color: var(--ink-30); font-size: 11px; }
 
         .ov-step {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 9px 0;
+            display: flex; align-items: center; gap: 12px;
+            padding: 8px 0;
             border-bottom: 1px solid var(--ink-07);
         }
 
@@ -360,97 +330,115 @@
         .ov-step:first-child { padding-top: 0; }
 
         .ov-num {
-            width: 24px; height: 24px;
+            width: 22px; height: 22px;
             border-radius: 50%;
             border: 1.5px solid var(--ink-15);
             display: flex; align-items: center; justify-content: center;
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--ink-50);
-            flex-shrink: 0;
+            font-size: 10px; font-weight: 700;
+            color: var(--ink-50); flex-shrink: 0;
         }
 
         .ov-label { font-size: 13px; font-weight: 600; color: var(--ink-70); }
         .ov-sub   { font-size: 11px; color: var(--ink-30); margin-top: 1px; }
 
-        /* ──── Right form panel ──── */
-        .form-panel { }
-
-        /* ─ Section label ─ */
+        /* ─ Form panel ─ */
         .section-label {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            color: var(--ink-50);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 11px; font-weight: 700;
+            letter-spacing: .1em; text-transform: uppercase;
+            color: var(--ink-50); margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
         }
 
         .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
+            content: ''; flex: 1; height: 1px;
             background: var(--ink-15);
         }
 
-        /* ─ Form card ─ */
+        /* system status banner */
+        .status-banner {
+            border-radius: var(--r-lg);
+            margin-bottom: 16px;
+            overflow: hidden;
+            border: 1px solid var(--ink-15);
+        }
+
+        .status-banner-inner {
+            padding: 14px 18px;
+            display: flex; align-items: flex-start; gap: 13px;
+        }
+
+        .sb-icon {
+            width: 34px; height: 34px;
+            border-radius: var(--r-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; flex-shrink: 0; margin-top: 1px;
+        }
+
+        .sb-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+        .sb-text  { font-size: 12.5px; line-height: 1.6; }
+
+        /* open */
+        .status-banner.open {
+            border-color: var(--success-bd);
+            background: var(--success-bg);
+        }
+        .status-banner.open .sb-icon { background: #d1fae5; color: var(--success); }
+        .status-banner.open .sb-title { color: var(--success); }
+        .status-banner.open .sb-text  { color: #047857; }
+
+        /* closed */
+        .status-banner.closed {
+            border-color: var(--ink-15);
+            background: var(--ink-07);
+        }
+        .status-banner.closed .sb-icon { background: var(--ink-15); color: var(--ink-50); }
+        .status-banner.closed .sb-title { color: var(--ink-70); }
+        .status-banner.closed .sb-text  { color: var(--ink-50); }
+
+        /* upcoming */
+        .status-banner.upcoming {
+            border-color: #c7d7fc;
+            background: #f0f4ff;
+        }
+        .status-banner.upcoming .sb-icon { background: #c7d7fc; color: var(--accent); }
+        .status-banner.upcoming .sb-title { color: var(--accent); }
+        .status-banner.upcoming .sb-text  { color: #1e40af; }
+
+        /* form card */
         .form-card {
             background: var(--white);
             border: 1px solid var(--ink-15);
-            border-radius: var(--r-lg);
-            overflow: hidden;
+            border-radius: var(--r-lg); overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
             margin-bottom: 16px;
         }
 
         .form-card-head {
-            padding: 18px 24px;
+            padding: 16px 22px;
             border-bottom: 1px solid var(--ink-07);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            display: flex; align-items: center; gap: 10px;
         }
 
         .fch-icon {
             width: 32px; height: 32px;
-            background: var(--ink-07);
-            border-radius: var(--r-sm);
+            background: var(--ink-07); border-radius: var(--r-sm);
             display: flex; align-items: center; justify-content: center;
-            font-size: 13px;
-            color: var(--ink-50);
+            font-size: 13px; color: var(--ink-50);
         }
 
-        .fch-title {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: var(--ink);
-            letter-spacing: -.01em;
-        }
+        .fch-title { font-size: 13.5px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
+        .fch-sub   { font-size: 11.5px; color: var(--ink-50); margin-top: 1px; }
 
-        .fch-sub {
-            font-size: 11.5px;
-            color: var(--ink-50);
-            margin-top: 1px;
-        }
+        .form-card-body { padding: 22px; }
 
-        .form-card-body { padding: 24px; }
-
-        /* ─ Fields ─ */
         .field { margin-bottom: 18px; }
         .field:last-child { margin-bottom: 0; }
 
         .field-label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 700;
+            display: flex; align-items: center; gap: 6px;
+            font-size: 12px; font-weight: 700;
             color: var(--ink-70);
-            letter-spacing: .04em;
-            text-transform: uppercase;
+            letter-spacing: .04em; text-transform: uppercase;
             margin-bottom: 7px;
         }
 
@@ -464,8 +452,7 @@
             border-radius: var(--r-sm);
             padding: 10px 13px;
             font-family: 'Noto Sans Thai', sans-serif;
-            font-size: 14px;
-            color: var(--ink);
+            font-size: 14px; color: var(--ink);
             outline: none;
             transition: border-color .15s, box-shadow .15s;
             -webkit-appearance: none;
@@ -481,110 +468,83 @@
             box-shadow: 0 0 0 3px rgba(220,38,38,.08);
         }
 
+        input[type="text"]:disabled {
+            background: var(--ink-07);
+            color: var(--ink-30);
+            cursor: not-allowed;
+        }
+
         input::placeholder { color: var(--ink-30); font-size: 13.5px; }
 
         .field-hint {
-            font-size: 11px;
-            color: var(--ink-30);
+            font-size: 11px; color: var(--ink-30);
             margin-top: 5px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            display: flex; align-items: center; gap: 5px;
         }
 
         .field-hint i { font-size: 10px; }
 
-        /* ─ Notice card ─ */
+        /* notice card */
         .notice-card {
             background: var(--white);
             border: 1px solid var(--ink-15);
-            border-radius: var(--r-lg);
-            overflow: hidden;
+            border-radius: var(--r-lg); overflow: hidden;
             margin-bottom: 16px;
         }
 
         .notice-inner {
-            padding: 16px 20px;
-            display: flex;
-            gap: 14px;
-            align-items: flex-start;
+            padding: 15px 18px;
+            display: flex; gap: 12px; align-items: flex-start;
         }
 
         .notice-icon {
-            width: 34px; height: 34px;
-            background: var(--ink-07);
-            border-radius: var(--r-sm);
+            width: 32px; height: 32px;
+            background: var(--ink-07); border-radius: var(--r-sm);
             display: flex; align-items: center; justify-content: center;
-            font-size: 13px;
-            color: var(--ink-50);
-            flex-shrink: 0;
-            margin-top: 1px;
+            font-size: 13px; color: var(--ink-50);
+            flex-shrink: 0; margin-top: 1px;
         }
 
-        .notice-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--ink);
-            margin-bottom: 3px;
-        }
+        .notice-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+        .notice-text  { font-size: 12.5px; color: var(--ink-50); line-height: 1.65; }
 
-        .notice-text {
-            font-size: 12.5px;
-            color: var(--ink-50);
-            line-height: 1.65;
-        }
-
-        /* ─ Info strip (cookie saved) ─ */
+        /* cookie strip */
         .info-strip {
             background: var(--ink-07);
             border-radius: var(--r-sm);
             padding: 9px 13px;
-            font-size: 12px;
-            color: var(--ink-50);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 12px; color: var(--ink-50); font-weight: 500;
+            display: flex; align-items: center; gap: 8px;
             margin-bottom: 16px;
         }
 
         .info-strip i { font-size: 11px; color: var(--ink-30); flex-shrink: 0; }
 
         .strip-clear {
-            background: none; border: none;
-            cursor: pointer;
+            background: none; border: none; cursor: pointer;
             font-family: inherit;
-            font-size: 11px;
-            font-weight: 700;
+            font-size: 11px; font-weight: 700;
             color: var(--ink-50);
-            letter-spacing: .04em;
-            text-transform: uppercase;
-            padding: 0;
-            white-space: nowrap;
+            letter-spacing: .04em; text-transform: uppercase;
+            padding: 0; white-space: nowrap;
             margin-left: auto;
             display: flex; align-items: center; gap: 4px;
         }
 
         .strip-clear:hover { color: var(--ink); }
 
-        /* ─ Submit button ─ */
+        /* submit */
         .submit-wrap { margin-top: 4px; }
 
         .submit-btn {
             width: 100%;
-            background: var(--ink);
-            color: var(--white);
-            border: none;
-            border-radius: var(--r-sm);
+            background: var(--ink); color: var(--white);
+            border: none; border-radius: var(--r-sm);
             padding: 12px 24px;
             font-family: 'Noto Sans Thai', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 14px; font-weight: 700;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
+            display: flex; align-items: center; justify-content: center; gap: 9px;
             letter-spacing: .02em;
             transition: background .15s, transform .12s, box-shadow .15s;
             box-shadow: 0 1px 3px rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.1);
@@ -600,158 +560,101 @@
         .submit-btn i { font-size: 12px; }
 
         .submit-note {
-            text-align: center;
-            font-size: 11px;
-            color: var(--ink-30);
+            text-align: center; font-size: 11px; color: var(--ink-30);
             margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
         }
 
         .submit-note i { font-size: 10px; }
 
-        /* ══════════════════════════════
-           PROCESS OVERLAY
-        ══════════════════════════════ */
+        /* ── Process Overlay ── */
         #processOverlay {
             position: fixed; inset: 0;
             background: rgba(13,17,23,.6);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 8888;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             padding: 24px;
-            opacity: 0;
-            pointer-events: none;
+            opacity: 0; pointer-events: none;
             transition: opacity .22s ease;
         }
 
-        #processOverlay.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
+        #processOverlay.visible { opacity: 1; pointer-events: all; }
 
         .process-card {
             background: var(--white);
             border-radius: var(--r-lg);
             border: 1px solid var(--ink-15);
             box-shadow: 0 24px 64px rgba(0,0,0,.2);
-            width: 100%;
-            max-width: 400px;
-            overflow: hidden;
+            width: 100%; max-width: 400px; overflow: hidden;
             transform: translateY(10px) scale(.98);
             transition: transform .28s cubic-bezier(.22,1,.36,1);
         }
 
-        #processOverlay.visible .process-card {
-            transform: translateY(0) scale(1);
-        }
+        #processOverlay.visible .process-card { transform: translateY(0) scale(1); }
 
         .process-head {
-            background: var(--ink);
-            padding: 18px 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            background: var(--ink); padding: 18px 24px;
+            display: flex; align-items: center; gap: 12px;
         }
 
         .ph-icon {
             width: 32px; height: 32px;
-            border: 1px solid rgba(255,255,255,.18);
-            border-radius: var(--r-sm);
+            border: 1px solid rgba(255,255,255,.18); border-radius: var(--r-sm);
             display: flex; align-items: center; justify-content: center;
-            font-size: 13px;
-            color: var(--white);
-            flex-shrink: 0;
+            font-size: 13px; color: var(--white); flex-shrink: 0;
         }
 
         .ph-eyebrow {
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: .12em;
-            text-transform: uppercase;
+            font-size: 10px; font-weight: 700;
+            letter-spacing: .12em; text-transform: uppercase;
             color: rgba(255,255,255,.35);
         }
 
-        .ph-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--white);
-            margin-top: 2px;
-        }
+        .ph-title { font-size: 14px; font-weight: 700; color: var(--white); margin-top: 2px; }
 
         .process-body { padding: 24px; }
 
-        /* Steps */
         .step-list { display: flex; flex-direction: column; }
 
         .step-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            position: relative;
+            display: flex; align-items: flex-start;
+            gap: 14px; position: relative;
         }
 
         .step-item:not(:last-child)::after {
             content: '';
-            position: absolute;
-            left: 14px; top: 30px;
-            width: 1px;
-            height: calc(100% - 6px);
-            background: var(--ink-15);
-            transition: background .3s;
+            position: absolute; left: 14px; top: 30px;
+            width: 1px; height: calc(100% - 6px);
+            background: var(--ink-15); transition: background .3s;
         }
 
         .step-item.done:not(:last-child)::after { background: var(--ink); }
 
         .step-dot-wrap {
-            flex-shrink: 0;
-            width: 28px; height: 28px;
+            flex-shrink: 0; width: 28px; height: 28px;
             display: flex; align-items: center; justify-content: center;
             position: relative; z-index: 1;
         }
 
         .step-dot {
-            width: 28px; height: 28px;
-            border-radius: 50%;
-            border: 1.5px solid var(--ink-15);
-            background: var(--white);
+            width: 28px; height: 28px; border-radius: 50%;
+            border: 1.5px solid var(--ink-15); background: var(--white);
             display: flex; align-items: center; justify-content: center;
-            font-size: 10px;
-            color: var(--ink-30);
+            font-size: 10px; color: var(--ink-30);
             transition: all .25s cubic-bezier(.22,1,.36,1);
         }
 
-        .step-item.active .step-dot {
-            border-color: var(--ink);
-            background: var(--ink);
-            color: var(--white);
-        }
-
-        .step-item.done .step-dot {
-            border-color: var(--ink);
-            background: var(--ink);
-            color: var(--white);
-        }
-
-        .step-item.error .step-dot {
-            border-color: #dc2626;
-            background: #dc2626;
-            color: var(--white);
-        }
+        .step-item.active .step-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
+        .step-item.done   .step-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
+        .step-item.error  .step-dot { border-color: #dc2626; background: #dc2626; color: var(--white); }
 
         .step-ring {
-            position: absolute; inset: -3px;
-            border-radius: 50%;
-            border: 1.5px solid transparent;
-            border-top-color: var(--ink);
+            position: absolute; inset: -3px; border-radius: 50%;
+            border: 1.5px solid transparent; border-top-color: var(--ink);
             animation: spin .7s linear infinite;
-            opacity: 0;
-            transition: opacity .2s;
+            opacity: 0; transition: opacity .2s;
         }
 
         .step-item.active .step-ring { opacity: 1; }
@@ -759,180 +662,201 @@
         .step-text { padding: 4px 0 18px; flex: 1; }
         .step-item:last-child .step-text { padding-bottom: 0; }
 
-        .step-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--ink-30);
-            transition: color .25s;
-        }
-
+        .step-title { font-size: 13px; font-weight: 700; color: var(--ink-30); transition: color .25s; }
         .step-item.active .step-title { color: var(--ink); }
         .step-item.done   .step-title { color: var(--ink-70); }
         .step-item.error  .step-title { color: #dc2626; }
 
         .step-desc {
-            font-size: 11.5px;
-            color: var(--ink-50);
-            margin-top: 2px;
-            line-height: 1.55;
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
+            font-size: 11.5px; color: var(--ink-50);
+            margin-top: 2px; line-height: 1.55;
+            max-height: 0; overflow: hidden; opacity: 0;
             transition: max-height .28s ease, opacity .28s;
         }
 
         .step-item.active .step-desc,
         .step-item.done   .step-desc,
-        .step-item.error  .step-desc {
-            max-height: 56px;
-            opacity: 1;
-        }
+        .step-item.error  .step-desc { max-height: 56px; opacity: 1; }
 
         .process-result {
-            margin-top: 18px;
-            padding: 11px 14px;
-            border-radius: var(--r-sm);
-            font-size: 13px;
-            font-weight: 600;
-            display: none;
-            align-items: center;
-            gap: 9px;
-            line-height: 1.5;
+            margin-top: 18px; padding: 11px 14px;
+            border-radius: var(--r-sm); font-size: 13px; font-weight: 600;
+            display: none; align-items: center; gap: 9px; line-height: 1.5;
         }
 
-        .process-result.success {
-            display: flex;
-            background: var(--success-bg);
-            color: var(--success);
-            border: 1px solid var(--success-bd);
-        }
-
-        .process-result.error {
-            display: flex;
-            background: var(--error-bg);
-            color: var(--error);
-            border: 1px solid var(--error-bd);
-        }
-
+        .process-result.success { display: flex; background: var(--success-bg); color: var(--success); border: 1px solid var(--success-bd); }
+        .process-result.error   { display: flex; background: var(--error-bg); color: var(--error); border: 1px solid var(--error-bd); }
         .process-result i { flex-shrink: 0; font-size: 13px; }
 
         .process-close {
-            width: 100%;
-            margin-top: 14px;
-            background: var(--ink);
-            color: var(--white);
-            border: none;
-            border-radius: var(--r-sm);
+            width: 100%; margin-top: 14px;
+            background: var(--ink); color: var(--white);
+            border: none; border-radius: var(--r-sm);
             padding: 11px;
             font-family: 'Noto Sans Thai', sans-serif;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: background .15s;
-            letter-spacing: .02em;
+            font-size: 13px; font-weight: 700;
+            cursor: pointer; display: none;
+            align-items: center; justify-content: center; gap: 8px;
+            transition: background .15s; letter-spacing: .02em;
         }
 
         .process-close.show { display: flex; }
         .process-close:hover { background: var(--ink-70); }
 
-        /* ══════════════════════════════
-           SITE FOOTER
-        ══════════════════════════════ */
+        /* ── Site Footer ── */
         .site-footer {
             border-top: 1px solid var(--ink-15);
-            background: var(--white);
-            padding: 20px 32px;
+            background: var(--white); padding: 20px 32px;
         }
 
         .footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center;
+            justify-content: space-between; gap: 16px; flex-wrap: wrap;
         }
 
         .footer-left {
-            font-size: 12px;
-            color: var(--ink-50);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 12px; color: var(--ink-50);
+            display: flex; align-items: center; gap: 8px;
         }
 
         .footer-left strong { color: var(--ink-70); font-weight: 600; }
 
-        .footer-sep {
-            width: 3px; height: 3px;
-            border-radius: 50%;
-            background: var(--ink-30);
-        }
+        .footer-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-30); }
 
         .footer-right {
-            font-size: 11.5px;
-            color: var(--ink-30);
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            font-size: 11.5px; color: var(--ink-30);
+            display: flex; align-items: center; gap: 6px;
         }
 
         .footer-right i { font-size: 10px; }
 
-        /* ══════════════════════════════
-           RESPONSIVE
-        ══════════════════════════════ */
+        /* ── Responsive ── */
         @media (max-width: 900px) {
             .page-layout {
                 grid-template-columns: 1fr;
-                padding: 32px 20px 64px;
-                gap: 32px;
+                padding: 32px 20px 64px; gap: 32px;
             }
-
             .info-panel { position: static; }
-            .stat-grid { grid-template-columns: 1fr 1fr; }
-
             .header-inner { padding: 0 20px; }
         }
 
         @media (max-width: 540px) {
             .page-layout { padding: 24px 16px 60px; gap: 24px; }
-            .stat-grid { grid-template-columns: 1fr 1fr; }
             .header-brand-faculty { display: none; }
             .site-footer { padding: 16px 20px; }
             .footer-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
-            .form-card-body { padding: 20px; }
-            .form-card-head { padding: 16px 20px; }
+            .form-card-body { padding: 18px; }
+            .form-card-head { padding: 14px 18px; }
         }
 
-        /* ══════════════════════════════
-           KEYFRAMES
-        ══════════════════════════════ */
+        /* ── Keyframes ── */
         @keyframes spin     { to { transform: rotate(360deg); } }
         @keyframes blink    { 0%,100% { opacity:1; } 50% { opacity:.25; } }
         @keyframes fadeOut  { to { opacity:0; pointer-events:none; } }
         @keyframes loadFill { from { width:0; } to { width:100%; } }
         @keyframes fadeUp   { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-        .animate-in {
-            animation: fadeUp .5s cubic-bezier(.22,1,.36,1) both;
-        }
-
+        .animate-in { animation: fadeUp .5s cubic-bezier(.22,1,.36,1) both; }
         .delay-1 { animation-delay: .05s; }
         .delay-2 { animation-delay: .1s; }
         .delay-3 { animation-delay: .15s; }
         .delay-4 { animation-delay: .2s; }
+
+        /* ─── Closed Screen ─── */
+        #closedScreen { display: none; }
+        #closedScreen.show { display: flex; flex-direction: column; gap: 16px; animation: fadeUp .4s cubic-bezier(.22,1,.36,1) both; }
+
+        .closed-main-card {
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
+        }
+
+        .closed-top {
+            background: var(--ink);
+            padding: 36px 28px 32px;
+            text-align: center;
+        }
+
+        .closed-top-icon {
+            width: 68px; height: 68px;
+            border: 1.5px solid rgba(255,255,255,.14);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; color: rgba(255,255,255,.6);
+            margin: 0 auto 18px;
+        }
+
+        .closed-top-title {
+            font-size: 20px; font-weight: 800;
+            color: var(--white);
+            letter-spacing: -.02em; margin-bottom: 8px;
+        }
+
+        .closed-top-sub {
+            font-size: 13px; color: rgba(255,255,255,.38);
+            font-weight: 400; line-height: 1.65;
+        }
+
+        .closed-body { padding: 24px; }
+
+        .next-slot-box {
+            display: flex; align-items: center; gap: 14px;
+            background: var(--ink-07);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-md);
+            padding: 16px 18px;
+            margin-bottom: 20px;
+        }
+
+        .nsb-icon {
+            width: 42px; height: 42px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; color: var(--accent); flex-shrink: 0;
+        }
+
+        .nsb-eyebrow {
+            font-size: 10px; font-weight: 700;
+            letter-spacing: .1em; text-transform: uppercase;
+            color: var(--ink-50); margin-bottom: 3px;
+        }
+
+        .nsb-value {
+            font-size: 14.5px; font-weight: 700;
+            color: var(--ink); letter-spacing: -.01em;
+        }
+
+        .nsb-time {
+            font-size: 12px; color: var(--ink-50);
+            margin-top: 2px; font-weight: 500;
+        }
+
+        .closed-hints {
+            display: flex; flex-direction: column; gap: 10px;
+            border-top: 1px solid var(--ink-07); padding-top: 18px;
+        }
+
+        .closed-hint-row {
+            display: flex; align-items: flex-start; gap: 10px;
+            font-size: 12.5px; color: var(--ink-50); line-height: 1.65;
+        }
+
+        .closed-hint-row i {
+            font-size: 11px; color: var(--ink-30);
+            margin-top: 3px; flex-shrink: 0; width: 14px; text-align: center;
+        }
     </style>
 </head>
 
 <body>
 
-<!-- ─── Loading Screen ─── -->
+<!-- Loading Screen -->
 <div id="loadScreen">
     <div class="ls-emblem">
         <div class="ls-ring"></div>
@@ -946,7 +870,7 @@
     <div class="ls-progress"><div class="ls-progress-fill"></div></div>
 </div>
 
-<!-- ─── Process Overlay ─── -->
+<!-- Process Overlay -->
 <div id="processOverlay">
     <div class="process-card">
         <div class="process-head">
@@ -958,64 +882,44 @@
         </div>
         <div class="process-body">
             <div class="step-list">
-
                 <div class="step-item" id="step-1">
-                    <div class="step-dot-wrap">
-                        <div class="step-dot"></div>
-                        <div class="step-ring"></div>
-                    </div>
+                    <div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div>
                     <div class="step-text">
                         <div class="step-title">ตรวจสอบข้อมูลผู้ใช้</div>
                         <div class="step-desc" id="desc-1">ตรวจสอบรหัสนักศึกษาและชื่อ–สกุล</div>
                     </div>
                 </div>
-
                 <div class="step-item" id="step-2">
-                    <div class="step-dot-wrap">
-                        <div class="step-dot"></div>
-                        <div class="step-ring"></div>
-                    </div>
+                    <div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div>
                     <div class="step-text">
                         <div class="step-title">ระบุพิกัด GPS</div>
                         <div class="step-desc" id="desc-2">กำลังขอสิทธิ์และรับสัญญาณตำแหน่ง</div>
                     </div>
                 </div>
-
                 <div class="step-item" id="step-3">
-                    <div class="step-dot-wrap">
-                        <div class="step-dot"></div>
-                        <div class="step-ring"></div>
-                    </div>
+                    <div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div>
                     <div class="step-text">
                         <div class="step-title">ตรวจสอบพื้นที่กิจกรรม</div>
                         <div class="step-desc" id="desc-3">เปรียบเทียบพิกัดกับสถานที่กิจกรรม</div>
                     </div>
                 </div>
-
                 <div class="step-item" id="step-4">
-                    <div class="step-dot-wrap">
-                        <div class="step-dot"></div>
-                        <div class="step-ring"></div>
-                    </div>
+                    <div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div>
                     <div class="step-text">
                         <div class="step-title">บันทึกข้อมูล</div>
                         <div class="step-desc" id="desc-4">ส่งข้อมูลและบันทึกลงฐานข้อมูล</div>
                     </div>
                 </div>
-
             </div>
-
             <div class="process-result" id="processResult"></div>
-
             <button class="process-close" id="processClose" onclick="closeOverlay()">
-                <i class="fa-solid fa-check"></i>
-                <span>ตกลง</span>
+                <i class="fa-solid fa-check"></i><span>ตกลง</span>
             </button>
         </div>
     </div>
 </div>
 
-<!-- ─── Site Header ─── -->
+<!-- Site Header -->
 <header class="site-header">
     <div class="header-inner">
         <a class="header-brand" href="#">
@@ -1025,23 +929,21 @@
             </div>
         </a>
         <div class="header-right">
-            <div class="header-badge">
-                <div class="live-dot"></div>
-                ระบบออนไลน์
+            <div class="header-badge" id="headerBadge">
+                <div class="live-dot" id="headerDot"></div>
+                <span id="headerBadgeText">กำลังตรวจสอบ...</span>
             </div>
         </div>
     </div>
 </header>
 
-<!-- ─── Page Layout ─── -->
+<!-- Page Layout -->
 <main class="page-layout">
 
-    <!-- Left: Info Panel -->
+    <!-- Info Panel -->
     <aside class="info-panel">
 
-        <div class="info-eyebrow animate-in delay-1">
-            Attendance System
-        </div>
+        <div class="info-eyebrow animate-in delay-1">Attendance System</div>
 
         <h1 class="info-heading animate-in delay-2">
             ระบบบันทึก<br>การเข้าร่วมกิจกรรม
@@ -1052,56 +954,99 @@
             มหาวิทยาลัยราชภัฏเลย ใช้ยืนยันการเข้าร่วมกิจกรรม
         </p>
 
-        <div class="stat-grid animate-in delay-3">
-            <div class="stat-box">
-                <div class="stat-icon"><i class="fa-solid fa-location-dot"></i></div>
-                <div class="stat-label">รัศมีที่อนุญาต</div>
-                <div class="stat-value">100 เมตร</div>
+        <!-- Schedule Card -->
+        <div class="schedule-card animate-in delay-3">
+            <div class="schedule-head">
+                <div class="schedule-head-icon"><i class="fa-regular fa-clock"></i></div>
+                <div class="schedule-head-title">ตารางเปิด–ปิดระบบ</div>
+                <div class="schedule-head-clock" id="liveClock">--:--:--</div>
+            </div>
+            <div class="schedule-body" id="scheduleBody">
+                <!-- Rendered by JS -->
             </div>
         </div>
 
+        <!-- Steps overview -->
         <div class="steps-overview animate-in delay-4">
             <div class="steps-overview-title">
-                <i class="fa-solid fa-list-check"></i>
-                ขั้นตอนการลงทะเบียน
+                <i class="fa-solid fa-list-check"></i>ขั้นตอนการลงทะเบียน
             </div>
             <div class="ov-step">
                 <div class="ov-num">1</div>
-                <div>
-                    <div class="ov-label">กรอกข้อมูลนักศึกษา</div>
-                    <div class="ov-sub">รหัสนักศึกษาและชื่อ–สกุล</div>
-                </div>
+                <div><div class="ov-label">กรอกข้อมูลนักศึกษา</div><div class="ov-sub">รหัสนักศึกษาและชื่อ–สกุล</div></div>
             </div>
             <div class="ov-step">
                 <div class="ov-num">2</div>
-                <div>
-                    <div class="ov-label">อนุญาตการเข้าถึง Location</div>
-                    <div class="ov-sub">เลือก "อนุญาต" เมื่อเบราว์เซอร์ถาม</div>
-                </div>
+                <div><div class="ov-label">อนุญาตการเข้าถึง Location</div><div class="ov-sub">เลือก "อนุญาต" เมื่อเบราว์เซอร์ถาม</div></div>
             </div>
             <div class="ov-step">
                 <div class="ov-num">3</div>
-                <div>
-                    <div class="ov-label">ระบบตรวจสอบพิกัด</div>
-                    <div class="ov-sub">ต้องอยู่ในรัศมี 100 เมตรจากสถานที่</div>
-                </div>
+                <div><div class="ov-label">ระบบตรวจสอบพิกัด</div><div class="ov-sub">ต้องอยู่ในรัศมี 100 เมตรจากสถานที่</div></div>
             </div>
             <div class="ov-step">
                 <div class="ov-num">4</div>
-                <div>
-                    <div class="ov-label">บันทึกเวลาเข้าร่วม</div>
-                    <div class="ov-sub">ข้อมูลถูกบันทึกลงระบบทันที</div>
-                </div>
+                <div><div class="ov-label">บันทึกเวลาเข้าร่วม</div><div class="ov-sub">ข้อมูลถูกบันทึกลงระบบทันที</div></div>
             </div>
         </div>
 
     </aside>
 
-    <!-- Right: Form Panel -->
+    <!-- Form Panel -->
     <section class="form-panel">
 
-        <!-- Identity Card -->
-        <p class="section-label animate-in">ข้อมูลนักศึกษา</p>
+        <!-- ── Closed Screen (shown when system is outside schedule) ── -->
+        <div id="closedScreen">
+            <div class="closed-main-card">
+                <div class="closed-top">
+                    <div class="closed-top-icon">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <div class="closed-top-title" id="closedTitle">หมดเวลากรอกข้อมูล</div>
+                    <div class="closed-top-sub" id="closedSub">ระบบปิดรับบันทึกการเข้าร่วมแล้วในขณะนี้</div>
+                </div>
+                <div class="closed-body">
+                    <div id="nextSlotBox" class="next-slot-box" style="display:none">
+                        <div class="nsb-icon"><i class="fa-regular fa-clock"></i></div>
+                        <div>
+                            <div class="nsb-eyebrow">รอบถัดไป</div>
+                            <div class="nsb-value" id="nextSlotName">—</div>
+                            <div class="nsb-time" id="nextSlotTime">—</div>
+                        </div>
+                    </div>
+                    <div class="closed-hints">
+                        <div class="closed-hint-row">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>กรุณาตรวจสอบตารางเวลาเปิด–ปิดระบบกรอกข้อมูล</span>
+                        </div>
+                        <div class="closed-hint-row">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>เวลาอ้างอิงตาม GMT+7 (เวลาประเทศไทย)</span>
+                        </div>
+                        <div class="closed-hint-row">
+                            <i class="fa-regular fa-envelope"></i>
+                            <span>หากมีข้อสงสัย กรุณาติดต่อผู้ดูแลระบบ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Form Contents (hidden when closed) ── -->
+        <div id="formContents">
+
+        <!-- Status Banner -->
+        <div id="statusBanner" class="status-banner closed animate-in">
+            <div class="status-banner-inner">
+                <div class="sb-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                <div>
+                    <div class="sb-title" id="sbTitle">กำลังตรวจสอบสถานะ</div>
+                    <div class="sb-text"  id="sbText">กรุณารอสักครู่...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Info -->
+        <p class="section-label animate-in delay-1">ข้อมูลนักศึกษา</p>
         <div class="form-card animate-in delay-1">
             <div class="form-card-head">
                 <div class="fch-icon"><i class="fa-solid fa-user-graduate"></i></div>
@@ -1114,31 +1059,23 @@
                 <div class="field">
                     <div class="field-label">
                         <i class="fa-solid fa-id-card"></i>
-                        รหัสนักศึกษา
-                        <span class="req">*</span>
+                        รหัสนักศึกษา<span class="req">*</span>
                     </div>
                     <input type="text" id="studentId" placeholder="เช่น 6401234567" autocomplete="off" />
-                    <div class="field-hint">
-                        <i class="fa-solid fa-circle-info"></i>
-                        ตัวเลข 10 หลัก ตามบัตรนักศึกษา
-                    </div>
+                    <div class="field-hint"><i class="fa-solid fa-circle-info"></i>ตัวเลข 10 หลัก ตามบัตรนักศึกษา</div>
                 </div>
                 <div class="field">
                     <div class="field-label">
                         <i class="fa-regular fa-user"></i>
-                        ชื่อ–นามสกุล
-                        <span class="req">*</span>
+                        ชื่อ–นามสกุล<span class="req">*</span>
                     </div>
                     <input type="text" id="name" placeholder="เช่น พลอยชมพู คำมวล" autocomplete="off" />
-                    <div class="field-hint">
-                        <i class="fa-solid fa-circle-info"></i>
-                        ชื่อจริง–นามสกุล ไม่ต้องใส่คำนำหน้า
-                    </div>
+                    <div class="field-hint"><i class="fa-solid fa-circle-info"></i>ชื่อจริง–นามสกุล ไม่ต้องใส่คำนำหน้า</div>
                 </div>
             </div>
         </div>
 
-        <!-- Location Notice Card -->
+        <!-- GPS Notice -->
         <p class="section-label animate-in delay-2">ข้อกำหนดการเข้าร่วม</p>
         <div class="notice-card animate-in delay-2">
             <div class="notice-inner">
@@ -1147,8 +1084,7 @@
                     <div class="notice-title">การตรวจสอบตำแหน่ง GPS</div>
                     <div class="notice-text">
                         ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม
-                        กรุณาเลือก "อนุญาต" เมื่อเบราว์เซอร์ถาม และต้องอยู่ในรัศมีไม่เกิน 100 เมตร
-                        จากสถานที่จัดกิจกรรม
+                        กรุณาเลือก "อนุญาต" และต้องอยู่ในรัศมีไม่เกิน 100 เมตรจากสถานที่จัดกิจกรรม
                     </div>
                 </div>
             </div>
@@ -1165,7 +1101,7 @@
 
         <!-- Submit -->
         <div class="submit-wrap animate-in delay-4">
-            <button class="submit-btn" id="submitBtn" onclick="startAttendanceProcess()">
+            <button class="submit-btn" id="submitBtn" onclick="startAttendanceProcess()" disabled>
                 <i class="fa-solid fa-paper-plane"></i>
                 <span>ยืนยันและบันทึกการเข้าร่วม</span>
             </button>
@@ -1175,11 +1111,13 @@
             </div>
         </div>
 
+        </div><!-- end #formContents -->
+
     </section>
 
 </main>
 
-<!-- ─── Site Footer ─── -->
+<!-- Site Footer -->
 <footer class="site-footer">
     <div class="footer-inner">
         <div class="footer-left">
@@ -1188,210 +1126,394 @@
             <span>คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</span>
         </div>
         <div class="footer-right">
-            <i class="fa-regular fa-copyright"></i>
-            2026 sorasukt
+            <i class="fa-regular fa-copyright"></i>2026 sorasukt
         </div>
     </div>
 </footer>
 
-<!-- ─── Scripts ─── -->
 <script>
-    /* ── Config ── */
-    const TARGET_LAT          = 17.5398426;
-    const TARGET_LNG          = 101.7219437;
-    const MAX_DISTANCE_METERS = 100;
-    const GAS_URL             = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
+/* ════════════════════════════════════════
+   CONFIG
+════════════════════════════════════════ */
+const TARGET_LAT          = 17.5398426;
+const TARGET_LNG          = 101.7219437;
+const MAX_DISTANCE_METERS = 100;
+const GAS_URL             = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
 
-    /* ── Cookies ── */
-    const COOKIE_DAYS = 30;
+/* ────────────────────────────────────────
+   SCHEDULE CONFIG
+   แต่ละ slot: { name, open: "YYYY-MM-DD HH:MM", close: "YYYY-MM-DD HH:MM" }
+   ทุกค่าเป็น GMT+7 (Asia/Bangkok)
+──────────────────────────────────────── */
+const SCHEDULE = [
+    { name: "26 พฤษภาคม 2569",   open: "2025-05-26 08:00", close: "2025-05-26 18:00" },
+    { name: "27 พฤษภาคม 2569",   open: "2025-05-27 08:00", close: "2025-05-27 18:00" },
+    { name: "28 พฤษภาคม 2569",   open: "2025-05-28 08:30", close: "2025-05-28 18:00" },
+];
 
-    function setCookie(name, value, days) {
-        const exp = new Date(Date.now() + days * 864e5).toUTCString();
-        document.cookie = `${name}=${encodeURIComponent(value)};expires=${exp};path=/;SameSite=Strict`;
-    }
+/* ════════════════════════════════════════
+   HELPERS
+════════════════════════════════════════ */
+/* แปลง "YYYY-MM-DD HH:MM" → UTC timestamp (treat as GMT+7) */
+function parseGMT7(str) {
+    const [date, time] = str.split(' ');
+    const [y,mo,d] = date.split('-').map(Number);
+    const [h,m]    = time.split(':').map(Number);
+    return Date.UTC(y, mo - 1, d, h - 7, m); // subtract 7h to convert to UTC
+}
 
-    function getCookie(name) {
-        const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
-        return m ? decodeURIComponent(m[1]) : '';
-    }
+/* ปัจจุบัน GMT+7 */
+function nowGMT7() { return Date.now(); }   // JS Date.now() is UTC ms; comparisons are consistent
 
-    function saveFormCookies() {
-        const sid  = document.getElementById('studentId').value.trim();
-        const name = document.getElementById('name').value.trim();
-        if (sid)  setCookie('att_sid',  sid,  COOKIE_DAYS);
-        if (name) setCookie('att_name', name, COOKIE_DAYS);
-    }
+function getNowMs() { return Date.now(); }
 
-    function loadFormCookies() {
-        const sid  = getCookie('att_sid');
-        const name = getCookie('att_name');
-        if (sid)  document.getElementById('studentId').value = sid;
-        if (name) document.getElementById('name').value = name;
-        if (sid || name) document.getElementById('infoStrip').style.display = 'flex';
-    }
+/* Format "HH:MM น." จาก timestamp UTC → Bangkok */
+function fmtTime(tsMs) {
+    return new Date(tsMs).toLocaleTimeString('th-TH', {
+        timeZone: 'Asia/Bangkok',
+        hour: '2-digit', minute: '2-digit', hour12: false
+    }) + ' น.';
+}
 
-    function clearSaved() {
-        setCookie('att_sid',  '', -1);
-        setCookie('att_name', '', -1);
-        document.getElementById('studentId').value = '';
-        document.getElementById('name').value = '';
-        document.getElementById('infoStrip').style.display = 'none';
-    }
-
-    /* ── Loading ── */
-    window.addEventListener('load', () => {
-        loadFormCookies();
-        setTimeout(() => {
-            const ls = document.getElementById('loadScreen');
-            ls.classList.add('fade-out');
-            document.body.classList.add('visible');
-            ls.addEventListener('animationend', () => ls.remove(), { once: true });
-        }, 1500);
+/* Format วันที่ ไทย */
+function fmtDate(tsMs) {
+    return new Date(tsMs).toLocaleDateString('th-TH', {
+        timeZone: 'Asia/Bangkok',
+        weekday: 'short', day: 'numeric', month: 'short'
     });
+}
 
-    /* ── Process Overlay ── */
-    function openOverlay() {
-        [1,2,3,4].forEach(n => setStep(n, 'idle'));
-        document.getElementById('processResult').className = 'process-result';
-        document.getElementById('processResult').innerHTML = '';
-        document.getElementById('processClose').classList.remove('show');
-        document.getElementById('processClose').innerHTML = '<i class="fa-solid fa-check"></i><span>ตกลง</span>';
-        document.getElementById('processOverlay').classList.add('visible');
-    }
+/* Slot status */
+function slotStatus(slot) {
+    const now   = getNowMs();
+    const open  = parseGMT7(slot.open);
+    const close = parseGMT7(slot.close);
+    if (now >= open && now < close) return 'active';
+    if (now < open)                 return 'upcoming';
+    return 'closed';
+}
 
-    function closeOverlay() {
-        document.getElementById('processOverlay').classList.remove('visible');
+function anySlotActive() {
+    return SCHEDULE.some(s => slotStatus(s) === 'active');
+}
+
+/* ════════════════════════════════════════
+   SCHEDULE RENDER
+════════════════════════════════════════ */
+function renderSchedule() {
+    const body = document.getElementById('scheduleBody');
+    body.innerHTML = SCHEDULE.map(slot => {
+        const st   = slotStatus(slot);
+        const open = parseGMT7(slot.open);
+        const close= parseGMT7(slot.close);
+
+        const rowClass   = st === 'active' ? 'active-slot' : st === 'upcoming' ? 'upcoming-slot' : 'closed-slot';
+        const badgeClass = st === 'active' ? 'badge-open'  : st === 'upcoming' ? 'badge-upcoming' : 'badge-closed';
+        const badgeText  = st === 'active' ? 'เปิดอยู่'    : st === 'upcoming' ? 'กำลังจะเปิด'   : 'ปิดแล้ว';
+
+        return `
+        <div class="schedule-row ${rowClass}">
+            <div class="schedule-row-dot"></div>
+            <div class="schedule-row-info">
+                <div class="schedule-row-name">${slot.name}</div>
+                <div class="schedule-row-time">
+                    ${fmtDate(open)} &nbsp;·&nbsp; ${fmtTime(open)} – ${fmtTime(close)}
+                </div>
+            </div>
+            <span class="schedule-row-badge ${badgeClass}">${badgeText}</span>
+        </div>`;
+    }).join('');
+}
+
+/* ════════════════════════════════════════
+   STATUS BANNER + HEADER BADGE + CLOSED SCREEN
+════════════════════════════════════════ */
+let _wasOpen = null; // track previous state to avoid redundant DOM changes
+
+function updateStatusUI() {
+    const isOpen = anySlotActive();
+
+    const formContents   = document.getElementById('formContents');
+    const closedScreen   = document.getElementById('closedScreen');
+    const headerBadgeText = document.getElementById('headerBadgeText');
+    const headerDot      = document.getElementById('headerDot');
+
+    if (isOpen) {
+        // ── OPEN: show form, hide closed screen ──
+        closedScreen.classList.remove('show');
+        formContents.style.display = '';
+
+        const active  = SCHEDULE.find(s => slotStatus(s) === 'active');
+        const closeTs = parseGMT7(active.close);
+
+        const banner  = document.getElementById('statusBanner');
+        banner.className = 'status-banner open';
+        document.getElementById('sbTitle').textContent = 'ระบบเปิดรับบันทึกข้อมูล';
+        document.getElementById('sbText').textContent  =
+            `เปิดถึง ${fmtTime(closeTs)} — กรอกข้อมูลและกดยืนยันเพื่อบันทึกการเข้าร่วม`;
+
         document.getElementById('submitBtn').disabled = false;
-    }
 
-    function setStep(n, state, descText) {
-        const el   = document.getElementById('step-' + n);
-        const dot  = el.querySelector('.step-dot');
-        const desc = document.getElementById('desc-' + n);
+        headerDot.style.background  = '#16a34a';
+        headerDot.style.animation   = 'blink 2.4s ease infinite';
+        headerBadgeText.textContent = 'ระบบเปิด';
 
-        el.className = 'step-item' + (state !== 'idle' ? ' ' + state : '');
+        _wasOpen = true;
 
-        const icons = { active: 'fa-ellipsis', done: 'fa-check', error: 'fa-xmark' };
+    } else {
+        // ── CLOSED: hide form, show closed screen ──
+        formContents.style.display = 'none';
 
-        if (state === 'idle') {
-            dot.innerHTML = `<span style="font-size:9px;font-weight:700;color:var(--ink-30)">${n}</span>`;
-        } else {
-            dot.innerHTML = `<i class="fa-solid ${icons[state]}"></i><div class="step-ring"></div>`;
-        }
+        if (_wasOpen !== false) {
+            // only re-render when state actually changes
+            const next = SCHEDULE.find(s => slotStatus(s) === 'upcoming');
 
-        if (descText) desc.textContent = descText;
-    }
+            const closedTitle = document.getElementById('closedTitle');
+            const closedSub   = document.getElementById('closedSub');
+            const nextBox     = document.getElementById('nextSlotBox');
 
-    function showResult(msg, type) {
-        const el   = document.getElementById('processResult');
-        const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
-        el.className = 'process-result ' + type;
-        el.innerHTML = `<i class="fa-solid ${icon}"></i><span>${msg}</span>`;
+            if (next) {
+                const openTs = parseGMT7(next.open);
+                closedTitle.textContent = 'หมดเวลากรอกข้อมูล';
+                closedSub.textContent   = 'ระบบปิดรับบันทึกการเข้าร่วมชั่วคราว';
+                document.getElementById('nextSlotName').textContent = next.name;
+                document.getElementById('nextSlotTime').textContent =
+                    `${fmtDate(openTs)} · ${fmtTime(openTs)}`;
+                nextBox.style.display = '';
+            } else {
+                closedTitle.textContent = 'ปิดรับบันทึกข้อมูลแล้ว';
+                closedSub.textContent   = 'ไม่มีรอบที่เปิดรับอีกในขณะนี้ กรุณาติดต่ออาจารย์ผู้สอน';
+                nextBox.style.display   = 'none';
+            }
 
-        const btn = document.getElementById('processClose');
-        btn.classList.add('show');
-        if (type === 'error') {
-            btn.innerHTML = '<i class="fa-solid fa-rotate-left"></i><span>ลองใหม่</span>';
-        }
-    }
-
-    /* ── Main Flow ── */
-    function startAttendanceProcess() {
-        const studentId = document.getElementById('studentId').value.trim();
-        const name      = document.getElementById('name').value.trim();
-
-        if (!studentId || !name) {
-            ['studentId', 'name'].forEach(id => {
-                const el = document.getElementById(id);
-                if (!el.value.trim()) {
-                    el.classList.add('invalid');
-                    setTimeout(() => el.classList.remove('invalid'), 2000);
-                }
-            });
-            return;
+            closedScreen.classList.add('show');
         }
 
         document.getElementById('submitBtn').disabled = true;
-        saveFormCookies();
-        openOverlay();
 
-        setStep(1, 'active');
-        setTimeout(() => {
-            setStep(1, 'done', 'ข้อมูลถูกต้องและครบถ้วน');
-            setStep(2, 'active');
+        headerDot.style.background  = '#9ca3af';
+        headerDot.style.animation   = 'none';
+        headerBadgeText.textContent = 'ระบบปิด';
 
-            if (!('geolocation' in navigator)) {
-                setStep(2, 'error', 'เบราว์เซอร์นี้ไม่รองรับ GPS');
-                showResult('อุปกรณ์ไม่รองรับการระบุตำแหน่ง', 'error');
-                return;
+        _wasOpen = false;
+    }
+}
+
+/* ════════════════════════════════════════
+   LIVE CLOCK  (GMT+7)
+════════════════════════════════════════ */
+function updateClock() {
+    document.getElementById('liveClock').textContent =
+        new Date().toLocaleTimeString('th-TH', {
+            timeZone: 'Asia/Bangkok',
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: false
+        }) + ' น.';
+}
+
+/* ════════════════════════════════════════
+   COOKIES
+════════════════════════════════════════ */
+const COOKIE_DAYS = 30;
+
+function setCookie(name, value, days) {
+    const exp = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(value)};expires=${exp};path=/;SameSite=Strict`;
+}
+
+function getCookie(name) {
+    const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : '';
+}
+
+function saveFormCookies() {
+    const sid  = document.getElementById('studentId').value.trim();
+    const name = document.getElementById('name').value.trim();
+    if (sid)  setCookie('att_sid',  sid,  COOKIE_DAYS);
+    if (name) setCookie('att_name', name, COOKIE_DAYS);
+}
+
+function loadFormCookies() {
+    const sid  = getCookie('att_sid');
+    const name = getCookie('att_name');
+    if (sid)  document.getElementById('studentId').value = sid;
+    if (name) document.getElementById('name').value      = name;
+    if (sid || name) document.getElementById('infoStrip').style.display = 'flex';
+}
+
+function clearSaved() {
+    setCookie('att_sid',  '', -1);
+    setCookie('att_name', '', -1);
+    document.getElementById('studentId').value = '';
+    document.getElementById('name').value      = '';
+    document.getElementById('infoStrip').style.display = 'none';
+}
+
+/* ════════════════════════════════════════
+   INIT
+════════════════════════════════════════ */
+window.addEventListener('load', () => {
+    loadFormCookies();
+    renderSchedule();
+    updateStatusUI();
+    updateClock();
+
+    // re-check every second
+    setInterval(() => {
+        updateClock();
+        renderSchedule();
+        updateStatusUI();
+    }, 1000);
+
+    setTimeout(() => {
+        const ls = document.getElementById('loadScreen');
+        ls.classList.add('fade-out');
+        document.body.classList.add('visible');
+        ls.addEventListener('animationend', () => ls.remove(), { once: true });
+    }, 1500);
+});
+
+/* ════════════════════════════════════════
+   PROCESS OVERLAY
+════════════════════════════════════════ */
+function openOverlay() {
+    [1,2,3,4].forEach(n => setStep(n, 'idle'));
+    document.getElementById('processResult').className = 'process-result';
+    document.getElementById('processResult').innerHTML = '';
+    document.getElementById('processClose').classList.remove('show');
+    document.getElementById('processClose').innerHTML = '<i class="fa-solid fa-check"></i><span>ตกลง</span>';
+    document.getElementById('processOverlay').classList.add('visible');
+}
+
+function closeOverlay() {
+    document.getElementById('processOverlay').classList.remove('visible');
+    updateStatusUI(); // re-evaluate open/close after returning
+}
+
+function setStep(n, state, descText) {
+    const el  = document.getElementById('step-' + n);
+    const dot = el.querySelector('.step-dot');
+    const desc= document.getElementById('desc-' + n);
+    el.className = 'step-item' + (state !== 'idle' ? ' ' + state : '');
+    const icons = { active: 'fa-ellipsis', done: 'fa-check', error: 'fa-xmark' };
+    dot.innerHTML = state === 'idle'
+        ? `<span style="font-size:9px;font-weight:700;color:var(--ink-30)">${n}</span>`
+        : `<i class="fa-solid ${icons[state]}"></i><div class="step-ring"></div>`;
+    if (descText) desc.textContent = descText;
+}
+
+function showResult(msg, type) {
+    const el   = document.getElementById('processResult');
+    const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+    el.className = 'process-result ' + type;
+    el.innerHTML = `<i class="fa-solid ${icon}"></i><span>${msg}</span>`;
+    const btn = document.getElementById('processClose');
+    btn.classList.add('show');
+    if (type === 'error') {
+        btn.innerHTML = '<i class="fa-solid fa-rotate-left"></i><span>ลองใหม่</span>';
+    }
+}
+
+/* ════════════════════════════════════════
+   MAIN FLOW
+════════════════════════════════════════ */
+function startAttendanceProcess() {
+    // Double-check system is open at time of submission
+    if (!anySlotActive()) {
+        updateStatusUI();
+        return;
+    }
+
+    const studentId = document.getElementById('studentId').value.trim();
+    const name      = document.getElementById('name').value.trim();
+
+    if (!studentId || !name) {
+        ['studentId', 'name'].forEach(id => {
+            const el = document.getElementById(id);
+            if (!el.value.trim()) {
+                el.classList.add('invalid');
+                setTimeout(() => el.classList.remove('invalid'), 2000);
             }
-
-            navigator.geolocation.getCurrentPosition(
-                pos => onGotPosition(pos, studentId, name),
-                err => {
-                    const msgs = {
-                        1: 'ปฏิเสธสิทธิ์ Location — กรุณาเปิดสิทธิ์แล้วลองใหม่',
-                        2: 'รับสัญญาณ GPS ไม่ได้ในขณะนี้',
-                        3: 'หมดเวลาค้นหาตำแหน่ง — กรุณาลองใหม่',
-                    };
-                    setStep(2, 'error', msgs[err.code] ?? 'ไม่สามารถระบุตำแหน่งได้');
-                    showResult(msgs[err.code] ?? 'เกิดข้อผิดพลาด GPS', 'error');
-                },
-                { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-            );
-        }, 600);
+        });
+        return;
     }
 
-    function onGotPosition(position, studentId, name) {
-        const { latitude: lat, longitude: lng } = position.coords;
-        setStep(2, 'done', `พิกัด ${lat.toFixed(5)}, ${lng.toFixed(5)}`);
-        setStep(3, 'active');
+    document.getElementById('submitBtn').disabled = true;
+    saveFormCookies();
+    openOverlay();
 
-        setTimeout(() => {
-            const dist = haversine(lat, lng, TARGET_LAT, TARGET_LNG);
+    setStep(1, 'active');
+    setTimeout(() => {
+        setStep(1, 'done', 'ข้อมูลถูกต้องและครบถ้วน');
+        setStep(2, 'active');
 
-            if (dist > MAX_DISTANCE_METERS) {
-                setStep(3, 'error', `ระยะห่าง ${Math.round(dist)} ม. — เกินรัศมีที่กำหนด`);
-                showResult(`ตำแหน่งของคุณอยู่ห่างจากสถานที่ ${Math.round(dist)} ม. (อนุญาตไม่เกิน ${MAX_DISTANCE_METERS} ม.)`, 'error');
-                return;
+        if (!('geolocation' in navigator)) {
+            setStep(2, 'error', 'เบราว์เซอร์นี้ไม่รองรับ GPS');
+            showResult('อุปกรณ์ไม่รองรับการระบุตำแหน่ง', 'error');
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            pos => onGotPosition(pos, studentId, name),
+            err => {
+                const msgs = { 1: 'ปฏิเสธสิทธิ์ Location — กรุณาเปิดสิทธิ์แล้วลองใหม่', 2: 'รับสัญญาณ GPS ไม่ได้ในขณะนี้', 3: 'หมดเวลาค้นหาตำแหน่ง — กรุณาลองใหม่' };
+                setStep(2, 'error', msgs[err.code] ?? 'ไม่สามารถระบุตำแหน่งได้');
+                showResult(msgs[err.code] ?? 'เกิดข้อผิดพลาด GPS', 'error');
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+        );
+    }, 600);
+}
+
+function onGotPosition(position, studentId, name) {
+    const { latitude: lat, longitude: lng } = position.coords;
+    setStep(2, 'done', `พิกัด ${lat.toFixed(5)}, ${lng.toFixed(5)}`);
+    setStep(3, 'active');
+
+    setTimeout(() => {
+        const dist = haversine(lat, lng, TARGET_LAT, TARGET_LNG);
+
+        if (dist > MAX_DISTANCE_METERS) {
+            setStep(3, 'error', `ระยะห่าง ${Math.round(dist)} ม. — เกินรัศมีที่กำหนด`);
+            showResult(`ตำแหน่งอยู่ห่างจากสถานที่ ${Math.round(dist)} ม. (อนุญาตไม่เกิน ${MAX_DISTANCE_METERS} ม.)`, 'error');
+            return;
+        }
+
+        setStep(3, 'done', `ระยะห่าง ${Math.round(dist)} ม. — อยู่ในพื้นที่กิจกรรม`);
+        setStep(4, 'active');
+
+        fetch(GAS_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ studentId, name, lat, lng, distance: Math.round(dist) })
+        })
+        .then(r => r.json())
+        .then(result => {
+            if (result.status === 'success') {
+                setStep(4, 'done', 'บันทึกข้อมูลเรียบร้อยแล้ว');
+                showResult('บันทึกการเข้าร่วมกิจกรรมสำเร็จ', 'success');
+                document.getElementById('studentId').value = '';
+                document.getElementById('name').value      = '';
+            } else {
+                setStep(4, 'error', 'เซิร์ฟเวอร์ตอบกลับผิดพลาด');
+                showResult('เกิดข้อผิดพลาดจากเซิร์ฟเวอร์: ' + result.message, 'error');
             }
+        })
+        .catch(() => {
+            setStep(4, 'error', 'ไม่สามารถเชื่อมต่อได้');
+            showResult('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่', 'error');
+        });
+    }, 500);
+}
 
-            setStep(3, 'done', `ระยะห่าง ${Math.round(dist)} ม. — อยู่ในพื้นที่กิจกรรม`);
-            setStep(4, 'active');
-
-            fetch(GAS_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ studentId, name, lat, lng, distance: Math.round(dist) })
-            })
-            .then(r => r.json())
-            .then(result => {
-                if (result.status === 'success') {
-                    setStep(4, 'done', 'บันทึกข้อมูลเรียบร้อยแล้ว');
-                    showResult('บันทึกการเข้าร่วมกิจกรรมสำเร็จ', 'success');
-                    document.getElementById('studentId').value = '';
-                    document.getElementById('name').value = '';
-                } else {
-                    setStep(4, 'error', 'เซิร์ฟเวอร์ตอบกลับผิดพลาด');
-                    showResult('เกิดข้อผิดพลาดจากเซิร์ฟเวอร์: ' + result.message, 'error');
-                }
-            })
-            .catch(() => {
-                setStep(4, 'error', 'ไม่สามารถเชื่อมต่อได้');
-                showResult('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่', 'error');
-            });
-        }, 500);
-    }
-
-    /* ── Haversine ── */
-    function haversine(lat1, lon1, lat2, lon2) {
-        const R   = 6_371_000;
-        const rad = v => v * Math.PI / 180;
-        const dLat = rad(lat2 - lat1);
-        const dLon = rad(lon2 - lon1);
-        const a = Math.sin(dLat/2)**2 + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLon/2)**2;
-        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    }
+/* Haversine */
+function haversine(lat1, lon1, lat2, lon2) {
+    const R   = 6_371_000;
+    const rad = v => v * Math.PI / 180;
+    const dLat = rad(lat2 - lat1), dLon = rad(lon2 - lon1);
+    const a = Math.sin(dLat/2)**2 + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLon/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
 </script>
 
 </body>
