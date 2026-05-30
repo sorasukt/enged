@@ -322,7 +322,8 @@
         .form-card {
             background: var(--white);
             border: 1px solid var(--ink-15);
-            border-radius: var(--r-lg); overflow: hidden;
+            border-radius: var(--r-lg);
+            /* แก้ไขแล้ว: นำ overflow: hidden ออกเพื่อให้ Dropdown ไม่โดนตัด */
             box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
             margin-bottom: 14px;
         }
@@ -762,7 +763,6 @@
 
 <body>
 
-<!-- Loading Screen -->
 <div id="loadScreen">
     <div class="ls-emblem">
         <div class="ls-ring"></div>
@@ -776,7 +776,6 @@
     <div class="ls-progress"><div class="ls-progress-fill"></div></div>
 </div>
 
-<!-- Info Modal -->
 <div id="infoModal">
     <div class="modal-card">
         <div class="modal-top">
@@ -798,7 +797,6 @@
     </div>
 </div>
 
-<!-- Site Header -->
 <header class="site-header">
     <div class="header-inner">
         <a class="header-brand" href="index.html">
@@ -817,10 +815,8 @@
     </div>
 </header>
 
-<!-- Page -->
 <main class="page-layout">
 
-    <!-- Info Panel -->
     <aside class="info-panel">
 
         <div class="info-eyebrow animate-in">Token Key System</div>
@@ -865,16 +861,13 @@
 
     </aside>
 
-    <!-- Form Panel -->
     <section>
 
-        <!-- Config alert -->
         <div class="config-alert animate-in" id="configAlert">
             <i class="fa-solid fa-triangle-exclamation"></i>
             <span id="alertMsg">ยังไม่ได้ตั้งค่า URL</span>
         </div>
 
-        <!-- Input form (hidden during search/result) -->
         <div id="inputSection">
             <p class="section-label animate-in">ค้นหาข้อมูล</p>
 
@@ -910,6 +903,7 @@
                     <div class="field">
                         <div class="field-label"><i class="fa-solid fa-id-card"></i>รหัสนักศึกษา</div>
                         <input type="text" id="studentId" placeholder="เช่น 6401234567"
+                            maxlength="10"
                             inputmode="numeric"
                             oninput="this.value=this.value.replace(/[^0-9]/g,'')"
                             onkeydown="if(event.key==='Enter')searchData()" />
@@ -927,7 +921,6 @@
             </div>
         </div>
 
-        <!-- Loading state -->
         <div id="loadingCard" class="loading-card hidden animate-in">
             <div class="loading-card-icon">
                 <div class="spin-ring dark"></div>
@@ -936,7 +929,6 @@
             <div class="loading-sub">กรุณารอสักครู่...</div>
         </div>
 
-        <!-- Pending (in progress) -->
         <div id="pendingCard" class="alert-box warn hidden animate-in">
             <div class="alert-box-head">
                 <div class="alert-box-icon"><i class="fa-solid fa-hourglass-half"></i></div>
@@ -961,7 +953,6 @@
             </div>
         </div>
 
-        <!-- Error -->
         <div id="errorCard" class="alert-box error hidden animate-in">
             <div class="alert-box-head">
                 <div class="alert-box-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
@@ -983,7 +974,6 @@
             </div>
         </div>
 
-        <!-- Result -->
         <div id="resultArea" class="hidden animate-in">
 
             <p class="section-label">ผลการค้นหา</p>
@@ -1020,7 +1010,6 @@
 
 </main>
 
-<!-- Site Footer -->
 <footer class="site-footer">
     <div class="footer-inner">
         <div class="footer-left">
@@ -1070,7 +1059,6 @@ window.addEventListener('load', () => {
     const paramAct = p.get('name') || p.get('activity') || p.get('code');
     const paramId  = p.get('id');
     if (paramAct && paramId) {
-        document.getElementById('inputSection').classList.add('hidden');
         performSearch(paramId, paramAct, true);
     }
 });
@@ -1164,7 +1152,13 @@ function searchData() {
     const act = document.getElementById('activitySelect').value;
     const id  = document.getElementById('studentId').value.trim();
     if (!act) { shakeField('selectTrigger'); return; }
-    if (!id)  { shakeField('studentId');    return; }
+    
+    // ดักความยาวรหัส 10 หลัก
+    if (!id || id.length !== 10) { 
+        shakeField('studentId');    
+        return; 
+    }
+    
     performSearch(id, act, false);
 }
 
@@ -1181,7 +1175,7 @@ function performSearch(id, act, isAuto) {
     if (monitorInterval) clearInterval(monitorInterval);
 
     // UI state: loading
-    document.getElementById('inputSection').classList.add('hidden');
+    // document.getElementById('inputSection').classList.add('hidden'); // นำออกเพื่อให้ฟอร์มค้นหาไม่หายไป
     document.getElementById('loadingCard').classList.remove('hidden');
     document.getElementById('pendingCard').classList.add('hidden');
     document.getElementById('errorCard').classList.add('hidden');
@@ -1209,20 +1203,23 @@ function showResult(data) {
         return;
     }
 
+    // ป้องกัน Error ด้วย Optional Chaining (?.)
+    const activities = data.data?.activities || [];
+
     // pending
-    if (data.data.activities?.length > 0 && data.data.activities[0].code === 'กำลังดำเนินการ') {
+    if (activities.length > 0 && activities[0].code === 'กำลังดำเนินการ') {
         document.getElementById('pendingCard').classList.remove('hidden');
         return;
     }
 
     // success
-    document.getElementById('resActivity').textContent = data.data.activityName;
-    document.getElementById('resName').textContent     = data.data.name;
-    document.getElementById('resId').textContent       = data.data.studentId;
-    document.getElementById('resGroup').textContent    = data.data.group;
+    document.getElementById('resActivity').textContent = data.data?.activityName || 'ไม่ระบุ';
+    document.getElementById('resName').textContent     = data.data?.name || 'ไม่ระบุ';
+    document.getElementById('resId').textContent       = data.data?.studentId || 'ไม่ระบุ';
+    document.getElementById('resGroup').textContent    = data.data?.group || 'ไม่ระบุ';
 
     let html = '';
-    data.data.activities.forEach((item, i) => {
+    activities.forEach((item, i) => {
         if (item.code || item.token) {
             html += `
             <div class="token-card">
@@ -1270,7 +1267,7 @@ function resetSearch() {
     document.getElementById('resultArea').classList.add('hidden');
     document.getElementById('monitoringBadge').classList.remove('show');
     document.getElementById('btnEnableNotify').style.display = '';
-    document.getElementById('inputSection').classList.remove('hidden');
+    // document.getElementById('inputSection').classList.remove('hidden'); // ไม่จำเป็นแล้ว เพราะไม่ได้ซ่อน
     document.getElementById('studentId').value = '';
     document.getElementById('shareBtn').style.display = 'none';
 
