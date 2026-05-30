@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0d1117">
     <title>ระบบค้นหา Token Key | English Education</title>
     <meta property="og:type" content="website">
@@ -300,7 +300,7 @@
         .custom-select-trigger {
             display: flex; align-items: center; justify-content: space-between; gap: 10px;
             background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-sm);
-            padding: 9px 12px; font-family: inherit; font-size: 14px; color: var(--ink-30);
+            padding: 9px 12px; font-family: inherit; font-size: 16px; color: var(--ink-30);
             cursor: pointer; user-select: none; transition: border-color .15s, box-shadow .15s;
         }
 
@@ -314,7 +314,14 @@
             border-bottom-color: var(--ink-15);
         }
 
-        .trigger-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13.5px; }
+        /* แกัไขให้ชิดซ้าย และป้องกันการตัดคำแบบมีจุดไข่ปลา */
+        .trigger-text { 
+            flex: 1; 
+            font-size: 16px; 
+            text-align: left; 
+            word-break: keep-all; 
+            line-height: 1.4; 
+        }
         .trigger-icon { font-size: 10px; color: var(--ink-30); transition: transform .2s; flex-shrink: 0; }
         .custom-select-trigger.open .trigger-icon { transform: rotate(180deg); }
 
@@ -329,9 +336,10 @@
         .custom-dropdown.open { display: block; animation: dropIn .15s ease both; }
 
         .dropdown-opt {
-            padding: 9px 12px; font-family: inherit; font-size: 13px; color: var(--ink-70);
+            padding: 10px 12px; font-family: inherit; font-size: 14px; color: var(--ink-70);
             cursor: pointer; border-bottom: 1px solid var(--ink-07);
             transition: background .1s; display: flex; align-items: center; gap: 7px;
+            text-align: left; justify-content: flex-start; word-break: keep-all;
         }
 
         .dropdown-opt:last-child { border-bottom: none; }
@@ -348,14 +356,14 @@
         input[type="text"] {
             width: 100%; background: var(--white); border: 1px solid var(--ink-15);
             border-radius: var(--r-sm); padding: 9px 12px;
-            font-family: inherit; font-size: 14px; color: var(--ink);
+            font-family: inherit; font-size: 16px; color: var(--ink);
             outline: none; transition: border-color .15s, box-shadow .15s; -webkit-appearance: none;
         }
 
         input[type="text"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
         input[type="text"].invalid { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,.08); }
         input[type="text"].complete { border-color: #16a34a; }
-        input::placeholder { color: var(--ink-30); font-size: 13px; }
+        input::placeholder { color: var(--ink-30); font-size: 14px; }
 
         .id-progress {
             height: 2px; background: var(--ink-15); border-radius: 0 0 var(--r-sm) var(--r-sm);
@@ -501,7 +509,10 @@
         }
 
         .rh-avatar { width: 40px; height: 40px; border: 1.5px solid rgba(255,255,255,.15); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: rgba(255,255,255,.6); flex-shrink: 0; }
-        .rh-eyebrow { font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,.35); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        
+        /* แก้ไขไม่ให้ตัดคำด้วยจุดไข่ปลา */
+        .rh-eyebrow { font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,.35); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 3px; word-break: keep-all; }
+        
         .rh-name    { font-size: 15px; font-weight: 800; color: var(--white); letter-spacing: -.01em; }
         .rh-meta    { font-size: 11px; color: rgba(255,255,255,.38); margin-top: 3px; }
 
@@ -544,7 +555,7 @@
             position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(4px);
             background: var(--ink); color: var(--white); border-radius: 100px; padding: 9px 18px;
             font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 7px;
-            opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; z-index: 999; white-space: nowrap;
+            opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; z-index: 999;
         }
 
         .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -574,8 +585,15 @@
 
         /* ════ RESPONSIVE ════ */
         @media (max-width: 900px) {
-            .page-layout { grid-template-columns: 1fr; padding: 28px 20px 60px; gap: 28px; }
-            .info-panel { position: static; }
+            /* สลับฟอร์มค้นหาขึ้นบนมือถือ และให้เนื้อหาไหลแบบคอลัมน์ */
+            .page-layout { 
+                display: flex; 
+                flex-direction: column; 
+                padding: 28px 20px 60px; 
+                gap: 28px; 
+            }
+            .info-panel { order: 2; position: static; }
+            section { order: 1; width: 100%; }
             .header-inner { padding: 0 20px; }
         }
 
@@ -606,7 +624,6 @@
 </head>
 <body>
 
-<!-- Loading Screen -->
 <div id="loadScreen">
     <div class="ls-logo"><i class="fa-solid fa-key"></i></div>
     <div class="ls-wordmark">
@@ -622,7 +639,6 @@
     </div>
 </div>
 
-<!-- Info Modal -->
 <div id="infoModal">
     <div class="modal-card">
         <div class="modal-top">
@@ -643,13 +659,11 @@
     </div>
 </div>
 
-<!-- Copy Toast -->
 <div class="copy-toast" id="copyToast">
     <i class="fa-solid fa-check"></i>
     <span id="copyToastText">คัดลอกแล้ว</span>
 </div>
 
-<!-- Header -->
 <header class="site-header">
     <div class="header-inner">
         <a class="header-brand" href="index.html">
@@ -667,10 +681,8 @@
     </div>
 </header>
 
-<!-- Page -->
 <main class="page-layout">
 
-    <!-- Info Panel -->
     <aside class="info-panel">
         <div class="info-eyebrow fade-up">Token Key System</div>
         <h1 class="info-heading fade-up d1">ค้นหารหัส<br>กิจกรรม & Token</h1>
@@ -702,16 +714,13 @@
         </div>
     </aside>
 
-    <!-- Form + Result -->
     <section>
 
-        <!-- Config alert -->
         <div class="config-alert fade-up" id="configAlert">
             <i class="fa-solid fa-triangle-exclamation"></i>
             <span id="alertMsg">ยังไม่ได้ตั้งค่า URL</span>
         </div>
 
-        <!-- Search Form -->
         <div id="searchSection">
             <p class="section-label fade-up">ค้นหาข้อมูล</p>
 
@@ -767,7 +776,6 @@
             </div>
         </div>
 
-        <!-- Process Card (loading + states) -->
         <div id="processCard" class="process-card hidden fade-up">
             <div class="process-card-top">
                 <div class="pct-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
@@ -801,7 +809,6 @@
             </div>
         </div>
 
-        <!-- Pending -->
         <div id="pendingCard" class="alert-box warn hidden fade-up">
             <div class="alert-box-head">
                 <div class="alert-box-icon"><i class="fa-solid fa-hourglass-half"></i></div>
@@ -823,7 +830,6 @@
             </div>
         </div>
 
-        <!-- Error -->
         <div id="errorCard" class="alert-box error hidden fade-up">
             <div class="alert-box-head">
                 <div class="alert-box-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
@@ -844,7 +850,6 @@
             </div>
         </div>
 
-        <!-- Result -->
         <div id="resultArea" class="hidden fade-up">
             <p class="section-label" style="margin-top:16px">ผลการค้นหา</p>
 
@@ -874,7 +879,6 @@
     </section>
 </main>
 
-<!-- Footer -->
 <footer class="site-footer">
     <div class="footer-inner">
         <div class="footer-left">
