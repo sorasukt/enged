@@ -323,9 +323,10 @@
             background: var(--white);
             border: 1px solid var(--ink-15);
             border-radius: var(--r-lg);
-            /* แก้ไขแล้ว: นำ overflow: hidden ออกเพื่อให้ Dropdown ไม่โดนตัด */
             box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
             margin-bottom: 14px;
+            position: relative; 
+            z-index: 10;
         }
 
         .form-card-head {
@@ -1058,7 +1059,12 @@ window.addEventListener('load', () => {
     const p = new URLSearchParams(window.location.search);
     const paramAct = p.get('name') || p.get('activity') || p.get('code');
     const paramId  = p.get('id');
+    
     if (paramAct && paramId) {
+        document.getElementById('studentId').value = paramId;
+        document.getElementById('triggerText').textContent = paramAct;
+        document.getElementById('selectTrigger').classList.add('has-value');
+        
         performSearch(paramId, paramAct, true);
     }
 });
@@ -1142,14 +1148,17 @@ function fetchActivities() {
                 realSel.appendChild(opt);
             });
 
-            document.getElementById('triggerText').textContent = 'กรุณาเลือกกิจกรรม';
+            // ตรวจสอบว่ามีค่าอยู่ก่อนแล้วหรือไม่ (เช่นมาจาก URL parameters)
+            if (!document.getElementById('triggerText').textContent.includes(data[0] || '')) {
+                document.getElementById('triggerText').textContent = 'กรุณาเลือกกิจกรรม';
+            }
         })
         .catch(e => showConfigAlert(`เชื่อมต่อล้มเหลว: ${e.message}`));
 }
 
 /* ── Search ── */
 function searchData() {
-    const act = document.getElementById('activitySelect').value;
+    const act = document.getElementById('activitySelect').value || _currentSearchAct;
     const id  = document.getElementById('studentId').value.trim();
     if (!act) { shakeField('selectTrigger'); return; }
     
@@ -1175,7 +1184,7 @@ function performSearch(id, act, isAuto) {
     if (monitorInterval) clearInterval(monitorInterval);
 
     // UI state: loading
-    // document.getElementById('inputSection').classList.add('hidden'); // นำออกเพื่อให้ฟอร์มค้นหาไม่หายไป
+    // นำการซ่อน inputSection ออก เพื่อให้ฟอร์มค้นหาไม่หายไป
     document.getElementById('loadingCard').classList.remove('hidden');
     document.getElementById('pendingCard').classList.add('hidden');
     document.getElementById('errorCard').classList.add('hidden');
@@ -1267,7 +1276,8 @@ function resetSearch() {
     document.getElementById('resultArea').classList.add('hidden');
     document.getElementById('monitoringBadge').classList.remove('show');
     document.getElementById('btnEnableNotify').style.display = '';
-    // document.getElementById('inputSection').classList.remove('hidden'); // ไม่จำเป็นแล้ว เพราะไม่ได้ซ่อน
+    
+    // เคลียร์ช่องค้นหา
     document.getElementById('studentId').value = '';
     document.getElementById('shareBtn').style.display = 'none';
 
