@@ -28,8 +28,6 @@
             --ink-07:     #f3f4f6;
             --white:      #ffffff;
             --accent:     #1a56db;
-            --accent-bg:  #e8f0fe;
-            --accent-bd:  #c7d7fc;
             --success:    #065f46;
             --success-bg: #ecfdf5;
             --success-bd: #a7f3d0;
@@ -52,7 +50,7 @@
             color: var(--ink);
             min-height: 100vh;
             opacity: 0;
-            transition: opacity .35s ease;
+            transition: opacity .3s ease;
             word-break: keep-all;
             overflow-wrap: break-word;
         }
@@ -62,46 +60,64 @@
         /* ════ LOADING SCREEN ════ */
         #loadScreen {
             position: fixed; inset: 0;
-            background: var(--ink); z-index: 9999;
+            background: var(--ink);
+            z-index: 9999;
             display: flex; flex-direction: column;
-            align-items: center; justify-content: center; gap: 24px;
+            align-items: center; justify-content: center; gap: 28px;
         }
 
-        .ls-emblem { position: relative; width: 72px; height: 72px; }
-
-        .ls-ring {
-            position: absolute; inset: 0; border-radius: 50%;
-            border: 2px solid rgba(255,255,255,.1);
-            border-top-color: rgba(255,255,255,.7);
-            animation: spin .9s linear infinite;
-        }
-
-        .ls-inner {
-            position: absolute; inset: 10px; border-radius: 50%;
-            border: 1.5px solid rgba(255,255,255,.06);
-            border-top-color: rgba(255,255,255,.35);
-            animation: spin 1.4s linear infinite reverse;
-        }
-
-        .ls-icon {
-            position: absolute; inset: 0;
+        .ls-logo {
+            width: 64px; height: 64px;
+            border: 1.5px solid rgba(255,255,255,.15);
+            border-radius: 18px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 18px; color: rgba(255,255,255,.8);
+            font-size: 26px; color: rgba(255,255,255,.8);
         }
 
         .ls-wordmark { text-align: center; }
-        .ls-title { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.85); letter-spacing: .12em; text-transform: uppercase; }
-        .ls-sub   { font-size: 11px; color: rgba(255,255,255,.35); margin-top: 4px; letter-spacing: .04em; }
+        .ls-title { font-size: 14px; font-weight: 700; color: rgba(255,255,255,.9); letter-spacing: .1em; text-transform: uppercase; }
+        .ls-sub   { font-size: 11.5px; color: rgba(255,255,255,.35); margin-top: 5px; }
 
-        .ls-progress { width: 160px; height: 2px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden; }
-        .ls-progress-fill { height: 100%; background: rgba(255,255,255,.5); border-radius: 2px; animation: loadFill 1.2s cubic-bezier(.4,0,.2,1) forwards; }
+        /* status line */
+        .ls-status {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 100px;
+            padding: 8px 18px;
+            min-width: 220px; justify-content: center;
+        }
 
-        #loadScreen.fade-out { animation: fadeOut .45s ease forwards; }
+        .ls-status-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: rgba(255,255,255,.4);
+            flex-shrink: 0;
+        }
+
+        .ls-status-dot.spin {
+            background: none;
+            width: 14px; height: 14px;
+            border: 2px solid rgba(255,255,255,.2);
+            border-top-color: rgba(255,255,255,.8);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        .ls-status-dot.ok { background: #4ade80; animation: none; width: 6px; height: 6px; }
+        .ls-status-dot.err { background: #f87171; animation: none; width: 6px; height: 6px; }
+
+        .ls-status-text { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.55); }
+
+        .ls-progress-wrap { width: 200px; }
+        .ls-bar { height: 2px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden; }
+        .ls-bar-fill { height: 100%; background: rgba(255,255,255,.5); border-radius: 2px; width: 0; transition: width .4s ease; }
+
+        #loadScreen.fade-out { animation: fadeOut .4s ease forwards; }
 
         /* ════ INFO MODAL ════ */
         #infoModal {
             position: fixed; inset: 0;
-            background: rgba(13,17,23,.65);
+            background: rgba(13,17,23,.6);
             backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
             z-index: 8888;
             display: flex; align-items: center; justify-content: center; padding: 24px;
@@ -112,12 +128,11 @@
         #infoModal.visible { opacity: 1; pointer-events: all; }
 
         .modal-card {
-            background: var(--white);
-            border-radius: var(--r-lg);
+            background: var(--white); border-radius: 16px;
             border: 1px solid var(--ink-15);
             box-shadow: 0 24px 64px rgba(0,0,0,.2);
-            width: 100%; max-width: 380px; overflow: hidden;
-            transform: translateY(10px) scale(.98);
+            width: 100%; max-width: 360px; overflow: hidden;
+            transform: translateY(12px) scale(.97);
             transition: transform .28s cubic-bezier(.22,1,.36,1);
         }
 
@@ -126,142 +141,120 @@
         .modal-top { background: var(--ink); padding: 28px 24px; text-align: center; }
 
         .modal-top-icon {
-            width: 52px; height: 52px;
-            border: 1.5px solid rgba(255,255,255,.15); border-radius: 14px;
+            width: 50px; height: 50px;
+            border: 1.5px solid rgba(255,255,255,.15); border-radius: 13px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 22px; color: rgba(255,255,255,.75);
-            margin: 0 auto 14px;
+            font-size: 20px; color: rgba(255,255,255,.75); margin: 0 auto 14px;
         }
 
-        .modal-top-title { font-size: 16px; font-weight: 800; color: var(--white); letter-spacing: -.01em; margin-bottom: 6px; }
-        .modal-top-sub   { font-size: 12px; color: rgba(255,255,255,.38); font-weight: 400; line-height: 1.6; }
+        .modal-top-title { font-size: 16px; font-weight: 800; color: var(--white); letter-spacing: -.01em; margin-bottom: 5px; }
+        .modal-top-sub   { font-size: 12px; color: rgba(255,255,255,.38); line-height: 1.6; }
 
-        .modal-body { padding: 22px; }
+        .modal-body { padding: 20px; }
 
         .modal-notice {
             background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: var(--r-md);
-            padding: 14px 16px; font-size: 13px; color: var(--ink-50); line-height: 1.7; margin-bottom: 16px;
+            padding: 13px 15px; font-size: 13px; color: var(--ink-50); line-height: 1.7; margin-bottom: 14px;
         }
 
-        .modal-btn-primary {
-            width: 100%; background: var(--ink); color: var(--white); border: none;
-            border-radius: var(--r-sm); padding: 12px;
+        .modal-btn {
+            width: 100%; border: none; border-radius: var(--r-sm); padding: 11px;
             font-family: inherit; font-size: 13.5px; font-weight: 700;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px;
-            text-decoration: none; transition: background .15s; margin-bottom: 8px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+            text-decoration: none; transition: background .15s, border-color .15s;
         }
 
-        .modal-btn-primary:hover { background: var(--ink-70); }
-
-        .modal-btn-ghost {
-            width: 100%; background: none; border: 1px solid var(--ink-15); border-radius: var(--r-sm);
-            padding: 11px; font-family: inherit; font-size: 13px; font-weight: 600;
-            color: var(--ink-50); cursor: pointer; transition: border-color .15s, color .15s;
-        }
-
-        .modal-btn-ghost:hover { border-color: var(--ink-30); color: var(--ink); }
+        .modal-btn.primary { background: var(--ink); color: var(--white); margin-bottom: 8px; }
+        .modal-btn.primary:hover { background: var(--ink-70); }
+        .modal-btn.ghost { background: none; border: 1px solid var(--ink-15); color: var(--ink-50); }
+        .modal-btn.ghost:hover { border-color: var(--ink-30); color: var(--ink); }
 
         /* ════ HEADER ════ */
-        .site-header { background: var(--white); border-bottom: 1px solid var(--ink-15); position: sticky; top: 0; z-index: 100; }
-
-        .header-inner {
-            max-width: 1200px; margin: 0 auto; padding: 0 32px; height: 60px;
-            display: flex; align-items: center; justify-content: space-between; gap: 24px;
+        .site-header {
+            background: var(--white); border-bottom: 1px solid var(--ink-15);
+            position: sticky; top: 0; z-index: 100;
         }
 
-        .header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .header-inner {
+            max-width: 1200px; margin: 0 auto; padding: 0 32px; height: 58px;
+            display: flex; align-items: center; justify-content: space-between; gap: 20px;
+        }
 
-        .header-logo { width: 32px; height: 32px; border-radius: var(--r-sm); overflow: hidden; flex-shrink: 0; }
+        .header-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+
+        .header-logo { width: 30px; height: 30px; border-radius: var(--r-sm); overflow: hidden; flex-shrink: 0; }
         .header-logo img { width: 100%; height: 100%; object-fit: cover; }
 
-        .header-brand-name { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
-        .header-brand-sub  { font-size: 10.5px; color: var(--ink-50); font-weight: 400; margin-top: 1px; }
+        .header-brand-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+        .header-brand-sub  { font-size: 10px; color: var(--ink-50); margin-top: 1px; }
 
         .header-back {
-            display: flex; align-items: center; gap: 6px;
+            display: flex; align-items: center; gap: 5px;
             font-size: 12px; font-weight: 600; color: var(--ink-50); text-decoration: none;
-            padding: 6px 12px; border: 1px solid var(--ink-15); border-radius: 100px;
-            background: var(--white); transition: color .15s, border-color .15s;
+            padding: 5px 11px; border: 1px solid var(--ink-15); border-radius: 100px;
+            transition: color .15s, border-color .15s;
         }
 
         .header-back:hover { color: var(--ink); border-color: var(--ink-30); }
-        .header-back i { font-size: 10px; }
+        .header-back i { font-size: 9px; }
 
         /* ════ PAGE LAYOUT ════ */
         .page-layout {
             max-width: 1200px; margin: 0 auto;
-            padding: 48px 32px 80px;
-            display: grid; grid-template-columns: 1fr 480px;
-            gap: 48px; align-items: start;
+            padding: 44px 32px 80px;
+            display: grid; grid-template-columns: 1fr 460px;
+            gap: 44px; align-items: start;
         }
 
         /* ── Info Panel ── */
-        .info-panel { position: sticky; top: 84px; }
+        .info-panel { position: sticky; top: 82px; }
 
         .info-eyebrow {
-            display: inline-flex; align-items: center; gap: 7px;
-            font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-            color: var(--accent); margin-bottom: 16px;
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 14px;
         }
 
-        .info-eyebrow::before { content: ''; width: 16px; height: 2px; background: var(--accent); border-radius: 2px; }
+        .info-eyebrow::before { content: ''; width: 14px; height: 2px; background: var(--accent); border-radius: 2px; }
 
-        .info-heading {
-            font-size: clamp(26px, 3vw, 36px); font-weight: 800;
-            line-height: 1.2; color: var(--ink); letter-spacing: -.02em; margin-bottom: 14px;
-        }
+        .info-heading { font-size: clamp(24px, 2.8vw, 34px); font-weight: 800; line-height: 1.2; color: var(--ink); letter-spacing: -.02em; margin-bottom: 12px; }
+        .info-desc    { font-size: 13.5px; line-height: 1.8; color: var(--ink-50); margin-bottom: 28px; max-width: 380px; }
 
-        .info-desc { font-size: 14px; line-height: 1.8; color: var(--ink-50); font-weight: 400; margin-bottom: 28px; max-width: 400px; }
-
-        /* stat strip */
-        .stat-strip {
-            display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
-        }
-
-        .stat-box {
-            background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg);
-            padding: 14px 18px; flex: 1; min-width: 110px;
-        }
-
-        .stat-icon { font-size: 13px; color: var(--ink-50); margin-bottom: 8px; }
-        .stat-value { font-size: 20px; font-weight: 800; color: var(--ink); letter-spacing: -.03em; line-height: 1; }
-        .stat-label { font-size: 11px; color: var(--ink-50); margin-top: 3px; font-weight: 500; }
-
-        .info-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); padding: 20px; margin-bottom: 14px; }
+        .info-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); padding: 18px; margin-bottom: 12px; }
 
         .info-card-title {
-            font-size: 12px; font-weight: 700; color: var(--ink-70); letter-spacing: .08em;
-            text-transform: uppercase; margin-bottom: 14px;
-            display: flex; align-items: center; gap: 8px;
+            font-size: 11px; font-weight: 700; color: var(--ink-70); letter-spacing: .08em;
+            text-transform: uppercase; margin-bottom: 12px;
+            display: flex; align-items: center; gap: 7px;
         }
 
-        .info-card-title i { color: var(--ink-30); font-size: 11px; }
+        .info-card-title i { color: var(--ink-30); font-size: 10px; }
 
-        .info-step { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--ink-07); }
+        .info-step { display: flex; align-items: center; gap: 11px; padding: 8px 0; border-bottom: 1px solid var(--ink-07); }
         .info-step:last-child { border-bottom: none; padding-bottom: 0; }
         .info-step:first-child { padding-top: 0; }
 
         .step-num {
-            width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--ink-15);
+            width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--ink-15);
             display: flex; align-items: center; justify-content: center;
-            font-size: 10px; font-weight: 700; color: var(--ink-50); flex-shrink: 0;
+            font-size: 9px; font-weight: 700; color: var(--ink-50); flex-shrink: 0;
         }
 
-        .step-label { font-size: 13px; font-weight: 600; color: var(--ink-70); }
-        .step-sub   { font-size: 11px; color: var(--ink-30); margin-top: 1px; }
+        .step-label { font-size: 12.5px; font-weight: 600; color: var(--ink-70); }
+        .step-sub   { font-size: 10.5px; color: var(--ink-30); margin-top: 1px; }
 
-        .notice-strip {
-            display: flex; align-items: flex-start; gap: 10px;
+        .warn-strip {
+            display: flex; align-items: flex-start; gap: 9px;
             background: var(--warn-bg); border: 1px solid var(--warn-bd); border-radius: var(--r-md);
-            padding: 13px 15px; font-size: 12.5px; color: var(--warn); line-height: 1.65;
+            padding: 12px 14px; font-size: 12px; color: var(--warn); line-height: 1.65;
         }
 
-        .notice-strip i { font-size: 11px; margin-top: 2px; flex-shrink: 0; }
+        .warn-strip i { font-size: 11px; margin-top: 1px; flex-shrink: 0; }
 
         /* ── Section label ── */
         .section-label {
-            font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-            color: var(--ink-50); margin-bottom: 12px;
+            font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+            color: var(--ink-50); margin-bottom: 10px;
             display: flex; align-items: center; gap: 8px;
         }
 
@@ -271,32 +264,35 @@
         .form-card {
             background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg);
             box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
-            margin-bottom: 14px; position: relative; z-index: 10;
+            margin-bottom: 12px; position: relative; z-index: 10;
+            transition: opacity .2s, transform .2s;
         }
 
+        .form-card.dimmed { opacity: .5; pointer-events: none; transform: scale(.99); }
+
         .form-card-head {
-            padding: 16px 22px; border-bottom: 1px solid var(--ink-07);
+            padding: 14px 20px; border-bottom: 1px solid var(--ink-07);
             display: flex; align-items: center; gap: 10px;
         }
 
-        .fch-icon { width: 30px; height: 30px; background: var(--ink-07); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--ink-50); }
-        .fch-title { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
-        .fch-sub   { font-size: 11.5px; color: var(--ink-50); margin-top: 1px; }
+        .fch-icon { width: 28px; height: 28px; background: var(--ink-07); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--ink-50); }
+        .fch-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+        .fch-sub   { font-size: 11px; color: var(--ink-50); margin-top: 1px; }
 
-        .form-card-body { padding: 20px 22px; }
+        .form-card-body { padding: 18px 20px; }
 
-        .field { margin-bottom: 16px; }
+        .field { margin-bottom: 14px; }
         .field:last-child { margin-bottom: 0; }
 
         .field-label {
-            display: flex; align-items: center; gap: 6px;
-            font-size: 12px; font-weight: 700; color: var(--ink-70); letter-spacing: .04em;
-            text-transform: uppercase; margin-bottom: 7px;
+            display: flex; align-items: center; gap: 5px;
+            font-size: 11px; font-weight: 700; color: var(--ink-70); letter-spacing: .05em;
+            text-transform: uppercase; margin-bottom: 6px;
         }
 
-        .field-label-right { margin-left: auto; font-size: 11px; font-weight: 600; color: var(--ink-30); letter-spacing: 0; text-transform: none; }
-        .field-label-right.complete { color: var(--success); }
-        .field-label i { font-size: 10.5px; color: var(--ink-30); width: 13px; text-align: center; }
+        .field-label-right { margin-left: auto; font-size: 10.5px; font-weight: 600; color: var(--ink-30); letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
+        .field-label-right.complete { color: #16a34a; }
+        .field-label i { font-size: 10px; color: var(--ink-30); width: 12px; text-align: center; }
 
         /* Custom select */
         .custom-select-wrap { position: relative; }
@@ -304,54 +300,54 @@
         .custom-select-trigger {
             display: flex; align-items: center; justify-content: space-between; gap: 10px;
             background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-sm);
-            padding: 10px 13px; font-family: inherit; font-size: 14px; color: var(--ink-30);
+            padding: 9px 12px; font-family: inherit; font-size: 14px; color: var(--ink-30);
             cursor: pointer; user-select: none; transition: border-color .15s, box-shadow .15s;
         }
 
         .custom-select-trigger.has-value { color: var(--ink); }
-        .custom-select-trigger.open, .custom-select-trigger:hover { border-color: var(--accent); }
+        .custom-select-trigger:hover { border-color: var(--accent); }
 
         .custom-select-trigger.open {
+            border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(26,86,219,.1);
             border-radius: var(--r-sm) var(--r-sm) 0 0;
             border-bottom-color: var(--ink-15);
         }
 
-        .trigger-icon { font-size: 10px; color: var(--ink-50); transition: transform .2s; flex-shrink: 0; }
+        .trigger-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13.5px; }
+        .trigger-icon { font-size: 10px; color: var(--ink-30); transition: transform .2s; flex-shrink: 0; }
         .custom-select-trigger.open .trigger-icon { transform: rotate(180deg); }
 
         .custom-dropdown {
             display: none; position: absolute; top: 100%; left: 0; right: 0;
             background: var(--white); border: 1px solid var(--accent); border-top: none;
             border-radius: 0 0 var(--r-sm) var(--r-sm);
-            box-shadow: 0 8px 24px rgba(0,0,0,.1); z-index: 50; overflow: hidden;
-            max-height: 220px; overflow-y: auto;
+            box-shadow: 0 8px 24px rgba(0,0,0,.1); z-index: 50;
+            max-height: 200px; overflow-y: auto;
         }
 
-        .custom-dropdown.open { display: block; animation: dropIn .18s ease both; }
+        .custom-dropdown.open { display: block; animation: dropIn .15s ease both; }
 
         .dropdown-opt {
-            padding: 10px 13px; font-family: inherit; font-size: 13.5px; color: var(--ink-70);
+            padding: 9px 12px; font-family: inherit; font-size: 13px; color: var(--ink-70);
             cursor: pointer; border-bottom: 1px solid var(--ink-07);
-            transition: background .1s; display: flex; align-items: center; gap: 8px;
+            transition: background .1s; display: flex; align-items: center; gap: 7px;
         }
 
         .dropdown-opt:last-child { border-bottom: none; }
         .dropdown-opt:hover { background: var(--ink-07); color: var(--ink); }
         .dropdown-opt.selected { background: var(--ink); color: var(--white); font-weight: 600; }
-        .dropdown-opt .dd-check { font-size: 10px; opacity: 0; margin-left: auto; }
+        .dropdown-opt .dd-check { font-size: 9px; opacity: 0; margin-left: auto; flex-shrink: 0; }
         .dropdown-opt.selected .dd-check { opacity: 1; }
 
-        .dropdown-loading { padding: 14px 13px; font-size: 13px; color: var(--ink-50); display: flex; align-items: center; gap: 8px; }
+        .dropdown-empty { padding: 12px; font-size: 12.5px; color: var(--ink-30); text-align: center; }
 
         .real-select { display: none; }
 
         /* Input */
-        .input-wrap { position: relative; }
-
         input[type="text"] {
             width: 100%; background: var(--white); border: 1px solid var(--ink-15);
-            border-radius: var(--r-sm); padding: 10px 13px;
+            border-radius: var(--r-sm); padding: 9px 12px;
             font-family: inherit; font-size: 14px; color: var(--ink);
             outline: none; transition: border-color .15s, box-shadow .15s; -webkit-appearance: none;
         }
@@ -359,225 +355,235 @@
         input[type="text"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
         input[type="text"].invalid { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,.08); }
         input[type="text"].complete { border-color: #16a34a; }
-        input::placeholder { color: var(--ink-30); font-size: 13.5px; }
+        input::placeholder { color: var(--ink-30); font-size: 13px; }
 
-        /* progress bar under input */
-        .input-progress {
+        .id-progress {
             height: 2px; background: var(--ink-15); border-radius: 0 0 var(--r-sm) var(--r-sm);
-            overflow: hidden; margin-top: -1px;
+            overflow: hidden; margin-top: -1px; border: none;
         }
 
-        .input-progress-fill {
-            height: 100%; background: var(--accent); border-radius: 2px;
-            transition: width .2s ease, background .2s;
-        }
+        .id-progress-fill { height: 100%; width: 0; border-radius: 2px; transition: width .15s, background .15s; }
 
-        .field-hint { font-size: 11px; color: var(--ink-30); margin-top: 6px; display: flex; align-items: center; gap: 5px; }
-        .field-hint i { font-size: 10px; }
+        .field-hint { font-size: 11px; color: var(--ink-30); margin-top: 5px; display: flex; align-items: center; gap: 4px; }
+        .field-hint i { font-size: 9px; }
 
         /* Submit */
         .submit-btn {
             width: 100%; background: var(--ink); color: var(--white);
-            border: none; border-radius: var(--r-sm); padding: 12px 24px;
+            border: none; border-radius: var(--r-sm); padding: 12px;
             font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 9px; letter-spacing: .02em;
-            transition: background .15s, transform .12s, box-shadow .15s;
+            display: flex; align-items: center; justify-content: center; gap: 9px;
+            transition: background .15s, transform .1s, box-shadow .15s;
             box-shadow: 0 1px 3px rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.1);
         }
 
-        .submit-btn:hover:not(:disabled) { background: var(--ink-70); box-shadow: 0 2px 6px rgba(0,0,0,.18), 0 8px 20px rgba(0,0,0,.12); }
+        .submit-btn:hover:not(:disabled) { background: var(--ink-70); box-shadow: 0 2px 8px rgba(0,0,0,.2), 0 8px 20px rgba(0,0,0,.12); }
         .submit-btn:active:not(:disabled) { transform: translateY(1px); }
-        .submit-btn:disabled { opacity: .4; cursor: not-allowed; }
-        .submit-btn i { font-size: 12px; }
+        .submit-btn:disabled { opacity: .38; cursor: not-allowed; }
+        .submit-btn i { font-size: 11px; }
 
         /* config alert */
         .config-alert {
             background: var(--warn-bg); border: 1px solid var(--warn-bd); border-radius: var(--r-lg);
-            padding: 13px 16px; font-size: 12.5px; color: var(--warn);
-            display: none; align-items: center; gap: 9px; margin-bottom: 14px; font-weight: 600;
+            padding: 12px 15px; font-size: 12.5px; color: var(--warn);
+            display: none; align-items: center; gap: 9px; margin-bottom: 12px; font-weight: 600;
         }
 
         .config-alert.show { display: flex; }
-        .config-alert i { flex-shrink: 0; font-size: 12px; }
+        .config-alert i { flex-shrink: 0; font-size: 11px; }
 
-        /* ════ STATE CARDS ════ */
-        /* loading */
-        .loading-card {
+        /* ════ PROCESS CARD ════ */
+        .process-card {
             background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg);
-            overflow: hidden; margin-top: 14px;
+            overflow: hidden; margin-top: 12px;
         }
 
-        .loading-card-top { background: var(--ink); padding: 20px 22px; display: flex; align-items: center; gap: 12px; }
-        .loading-card-icon { width: 32px; height: 32px; border: 1px solid rgba(255,255,255,.2); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 13px; color: rgba(255,255,255,.7); }
-        .loading-card-title { font-size: 14px; font-weight: 700; color: var(--white); }
-        .loading-card-sub   { font-size: 11.5px; color: rgba(255,255,255,.38); margin-top: 2px; }
-
-        .loading-steps { padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
-
-        .loading-step { display: flex; align-items: center; gap: 12px; }
-
-        .loading-step-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--ink-15); flex-shrink: 0;
+        .process-card-top {
+            background: var(--ink); padding: 16px 20px;
+            display: flex; align-items: center; gap: 12px;
         }
 
-        .loading-step.active .loading-step-dot { background: var(--accent); animation: blink 1s ease infinite; }
-        .loading-step.done  .loading-step-dot { background: var(--ink); }
+        .pct-icon { width: 30px; height: 30px; border: 1px solid rgba(255,255,255,.18); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 12px; color: rgba(255,255,255,.8); }
+        .pct-title { font-size: 14px; font-weight: 700; color: var(--white); }
+        .pct-sub   { font-size: 11px; color: rgba(255,255,255,.38); margin-top: 2px; }
 
-        .loading-step-label { font-size: 13px; color: var(--ink-30); font-weight: 500; }
-        .loading-step.active .loading-step-label { color: var(--ink); font-weight: 600; }
-        .loading-step.done  .loading-step-label { color: var(--ink-70); }
+        .process-steps { padding: 18px 20px; display: flex; flex-direction: column; gap: 0; }
 
-        .loading-step-icon { margin-left: auto; font-size: 11px; color: var(--ink-15); }
-        .loading-step.done  .loading-step-icon { color: var(--ink-70); }
-        .loading-step.active .loading-step-icon { color: var(--accent); animation: spin .8s linear infinite; }
+        .ps-item { display: flex; align-items: flex-start; gap: 12px; position: relative; }
+
+        .ps-item:not(:last-child)::after {
+            content: ''; position: absolute; left: 13px; top: 28px;
+            width: 1px; height: calc(100% - 4px);
+            background: var(--ink-15); transition: background .3s;
+        }
+
+        .ps-item.done:not(:last-child)::after { background: var(--ink); }
+
+        .ps-dot-wrap { flex-shrink: 0; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+
+        .ps-dot {
+            width: 26px; height: 26px; border-radius: 50%;
+            border: 1.5px solid var(--ink-15); background: var(--white);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 9px; color: var(--ink-30);
+            transition: all .25s cubic-bezier(.22,1,.36,1);
+        }
+
+        .ps-item.active .ps-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
+        .ps-item.done   .ps-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
+        .ps-item.error  .ps-dot { border-color: #dc2626; background: #dc2626; color: var(--white); }
+
+        .ps-ring {
+            position: absolute; inset: -3px; border-radius: 50%;
+            border: 1.5px solid transparent; border-top-color: var(--ink);
+            animation: spin .7s linear infinite; opacity: 0; transition: opacity .2s;
+        }
+
+        .ps-item.active .ps-ring { opacity: 1; }
+
+        .ps-text { padding: 3px 0 16px; flex: 1; }
+        .ps-item:last-child .ps-text { padding-bottom: 0; }
+
+        .ps-title { font-size: 12.5px; font-weight: 700; color: var(--ink-30); transition: color .25s; }
+        .ps-item.active .ps-title { color: var(--ink); }
+        .ps-item.done   .ps-title { color: var(--ink-70); }
+        .ps-item.error  .ps-title { color: #dc2626; }
+
+        .ps-desc { font-size: 11px; color: var(--ink-50); margin-top: 2px; max-height: 0; overflow: hidden; opacity: 0; transition: max-height .25s, opacity .25s; }
+        .ps-item.active .ps-desc, .ps-item.done .ps-desc, .ps-item.error .ps-desc { max-height: 40px; opacity: 1; }
 
         /* alert box */
-        .alert-box { border-radius: var(--r-lg); overflow: hidden; margin-top: 14px; border: 1px solid var(--ink-15); }
-
-        .alert-box-head { padding: 14px 18px; display: flex; align-items: center; gap: 12px; }
-        .alert-box-icon { width: 32px; height: 32px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
-        .alert-box-title { font-size: 13.5px; font-weight: 700; }
-        .alert-box-sub   { font-size: 12px; color: var(--ink-50); margin-top: 2px; }
-        .alert-box-body  { padding: 0 18px 18px; }
-
-        .alert-box.warn { background: var(--warn-bg); border-color: var(--warn-bd); }
-        .alert-box.warn .alert-box-icon  { background: #fef3c7; color: var(--warn); }
-        .alert-box.warn .alert-box-title { color: var(--warn); }
-
+        .alert-box { border-radius: var(--r-lg); overflow: hidden; margin-top: 12px; border: 1px solid; }
+        .alert-box.warn  { background: var(--warn-bg);  border-color: var(--warn-bd); }
         .alert-box.error { background: var(--error-bg); border-color: var(--error-bd); }
+
+        .alert-box-head { padding: 14px 18px; display: flex; align-items: center; gap: 11px; }
+        .alert-box-icon { width: 30px; height: 30px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+        .alert-box.warn  .alert-box-icon  { background: #fef3c7; color: var(--warn); }
         .alert-box.error .alert-box-icon  { background: #fee2e2; color: var(--error); }
+        .alert-box-title { font-size: 13px; font-weight: 700; }
+        .alert-box.warn  .alert-box-title { color: var(--warn); }
         .alert-box.error .alert-box-title { color: var(--error); }
+        .alert-box-sub   { font-size: 11.5px; color: var(--ink-50); margin-top: 2px; }
+        .alert-box-body  { padding: 0 18px 16px; }
 
         .alert-btn {
-            width: 100%; border: none; border-radius: var(--r-sm); padding: 11px;
+            width: 100%; border: none; border-radius: var(--r-sm); padding: 10px;
             font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px; transition: background .15s;
+            display: flex; align-items: center; justify-content: center; gap: 7px; transition: background .15s;
         }
 
-        .alert-btn.primary { background: var(--ink); color: var(--white); margin-bottom: 8px; }
+        .alert-btn.primary { background: var(--ink); color: var(--white); margin-bottom: 7px; }
         .alert-btn.primary:hover { background: var(--ink-70); }
         .alert-btn.ghost { background: none; border: 1px solid var(--ink-15); color: var(--ink-50); }
         .alert-btn.ghost:hover { border-color: var(--ink-30); color: var(--ink); }
 
-        .tech-detail { background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: var(--r-sm); padding: 10px 12px; font-size: 11.5px; font-family: monospace; color: var(--ink-50); margin: 12px 0; line-height: 1.5; }
-
         .monitoring-badge {
-            display: none; align-items: center; gap: 7px;
+            display: none; align-items: center; gap: 6px;
             background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: 100px;
-            padding: 6px 13px; font-size: 11.5px; color: var(--ink-50); font-weight: 600;
-            width: 100%; justify-content: center; margin-bottom: 8px;
+            padding: 6px 12px; font-size: 11px; color: var(--ink-50); font-weight: 600;
+            width: 100%; justify-content: center; margin-bottom: 7px;
         }
 
         .monitoring-badge.show { display: flex; }
-        .monitoring-badge i { color: var(--ink-30); font-size: 10px; animation: spin 1.5s linear infinite; }
+        .monitoring-badge i { font-size: 10px; animation: spin 1.4s linear infinite; }
+
+        .tech-detail { background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: var(--r-sm); padding: 9px 11px; font-size: 11px; font-family: monospace; color: var(--ink-50); margin: 10px 0; line-height: 1.5; }
+        .deploy-hint { font-size: 11.5px; color: var(--warn); margin-bottom: 10px; display: flex; gap: 6px; align-items: flex-start; line-height: 1.5; }
+        .deploy-hint i { margin-top: 2px; flex-shrink: 0; font-size: 10px; }
 
         /* ════ RESULT ════ */
-        #resultArea { margin-top: 14px; }
+        #resultArea { margin-top: 12px; }
 
-        .result-header-card {
-            background: var(--ink); border-radius: var(--r-lg);
-            padding: 20px 22px; margin-bottom: 14px;
-            display: flex; align-items: center; gap: 14px;
+        .result-header {
+            background: var(--ink); border-radius: var(--r-lg); padding: 18px 20px;
+            margin-bottom: 12px; display: flex; align-items: center; gap: 12px;
         }
 
-        .rh-avatar { width: 44px; height: 44px; border: 1.5px solid rgba(255,255,255,.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: rgba(255,255,255,.6); flex-shrink: 0; }
-        .rh-eyebrow { font-size: 10px; font-weight: 700; color: rgba(255,255,255,.35); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 3px; }
+        .rh-avatar { width: 40px; height: 40px; border: 1.5px solid rgba(255,255,255,.15); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: rgba(255,255,255,.6); flex-shrink: 0; }
+        .rh-eyebrow { font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,.35); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .rh-name    { font-size: 15px; font-weight: 800; color: var(--white); letter-spacing: -.01em; }
-        .rh-meta    { font-size: 11.5px; color: rgba(255,255,255,.38); margin-top: 3px; }
+        .rh-meta    { font-size: 11px; color: rgba(255,255,255,.38); margin-top: 3px; }
 
-        .token-list-label {
-            font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-            color: var(--ink-50); margin-bottom: 10px;
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        .token-list-label::after { content: ''; flex: 1; height: 1px; background: var(--ink-15); }
+        .token-label { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-50); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+        .token-label::after { content: ''; flex: 1; height: 1px; background: var(--ink-15); }
 
         .token-card {
             background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg);
-            overflow: hidden; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.04);
+            overflow: hidden; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.04);
         }
 
-        .token-card-head { padding: 10px 16px; border-bottom: 1px solid var(--ink-07); font-size: 10.5px; font-weight: 700; color: var(--ink-50); letter-spacing: .06em; text-transform: uppercase; }
-        .token-card-body { padding: 12px 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .token-card-head { padding: 9px 15px; border-bottom: 1px solid var(--ink-07); font-size: 10px; font-weight: 700; color: var(--ink-50); letter-spacing: .06em; text-transform: uppercase; }
+        .token-card-body { padding: 11px 13px; display: flex; gap: 8px; flex-wrap: wrap; }
 
         .code-pill {
-            display: flex; align-items: center; gap: 8px;
+            display: flex; align-items: center; gap: 7px;
             background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: var(--r-sm);
-            padding: 9px 13px; font-size: 13.5px; font-weight: 700; color: var(--ink-70);
-            cursor: pointer; transition: border-color .15s, background .15s;
-            flex: 1; min-width: 120px;
+            padding: 8px 11px; font-size: 13.5px; font-weight: 700; color: var(--ink-70);
+            cursor: pointer; transition: all .15s; flex: 1; min-width: 110px; user-select: none;
         }
 
         .code-pill:hover { background: var(--white); border-color: var(--ink-30); }
-        .code-pill i { font-size: 11px; color: var(--ink-30); }
-        .code-pill .copy-icon { margin-left: auto; }
+        .code-pill:active { transform: scale(.98); }
+        .code-pill i { font-size: 10px; color: var(--ink-30); }
+        .copy-icon { margin-left: auto; transition: color .15s; }
 
         .token-pill {
-            display: flex; align-items: center; gap: 8px;
+            display: flex; align-items: center; gap: 7px;
             background: var(--ink); border: 1px solid transparent; border-radius: var(--r-sm);
-            padding: 9px 13px; font-size: 13.5px; font-weight: 700; color: var(--white);
-            cursor: pointer; transition: background .15s;
-            flex: 1; min-width: 120px;
+            padding: 8px 11px; font-size: 13.5px; font-weight: 700; color: var(--white);
+            cursor: pointer; transition: all .15s; flex: 1; min-width: 110px; user-select: none;
         }
 
         .token-pill:hover { background: var(--ink-70); }
-        .token-pill i { font-size: 11px; color: rgba(255,255,255,.4); }
-        .token-pill .copy-icon { margin-left: auto; }
+        .token-pill:active { transform: scale(.98); }
+        .token-pill i { font-size: 10px; color: rgba(255,255,255,.4); }
 
+        /* copy toast */
         .copy-toast {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(8px);
-            background: var(--ink); color: var(--white);
-            border-radius: 100px; padding: 10px 18px;
-            font-size: 13px; font-weight: 600;
-            display: flex; align-items: center; gap: 8px;
-            opacity: 0; pointer-events: none;
-            transition: opacity .2s, transform .2s;
-            z-index: 999; white-space: nowrap;
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(4px);
+            background: var(--ink); color: var(--white); border-radius: 100px; padding: 9px 18px;
+            font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 7px;
+            opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; z-index: 999; white-space: nowrap;
         }
 
         .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        .result-actions { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 6px; padding-top: 14px; }
+        .result-actions { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px; padding-top: 12px; flex-wrap: wrap; }
 
         .action-btn {
-            display: flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: 100px;
-            font-family: inherit; font-size: 12.5px; font-weight: 700;
-            cursor: pointer; transition: all .15s; text-decoration: none;
+            display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 100px;
+            font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer; transition: all .15s;
+            text-decoration: none; background: none; border: 1px solid var(--ink-15); color: var(--ink-50);
         }
 
-        .action-btn.outline { background: none; border: 1px solid var(--ink-15); color: var(--ink-50); }
-        .action-btn.outline:hover { border-color: var(--ink-30); color: var(--ink); background: var(--white); }
-        .action-btn i { font-size: 11px; }
+        .action-btn:hover { border-color: var(--ink-30); color: var(--ink); background: var(--white); }
+        .action-btn i { font-size: 10px; }
 
-        /* spinner */
-        .spin-ring { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.25); border-top-color: var(--white); border-radius: 50%; animation: spin .7s linear infinite; }
-        .spin-ring.dark { border: 2px solid rgba(0,0,0,.1); border-top-color: var(--ink-50); }
+        /* spinner utility */
+        .spin-s { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.2); border-top-color: rgba(255,255,255,.8); border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
 
         /* ════ FOOTER ════ */
-        .site-footer { border-top: 1px solid var(--ink-15); background: var(--white); padding: 20px 32px; }
-
-        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-        .footer-left { font-size: 12px; color: var(--ink-50); display: flex; align-items: center; gap: 8px; }
+        .site-footer { border-top: 1px solid var(--ink-15); background: var(--white); padding: 18px 32px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+        .footer-left  { font-size: 11.5px; color: var(--ink-50); display: flex; align-items: center; gap: 7px; }
         .footer-left strong { color: var(--ink-70); font-weight: 600; }
-        .footer-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-30); }
-        .footer-right { font-size: 11.5px; color: var(--ink-30); display: flex; align-items: center; gap: 6px; }
-        .footer-right i { font-size: 10px; }
+        .footer-sep   { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-30); }
+        .footer-right { font-size: 11px; color: var(--ink-30); display: flex; align-items: center; gap: 5px; }
+        .footer-right i { font-size: 9px; }
 
         /* ════ RESPONSIVE ════ */
         @media (max-width: 900px) {
-            .page-layout { grid-template-columns: 1fr; padding: 32px 20px 64px; gap: 32px; }
+            .page-layout { grid-template-columns: 1fr; padding: 28px 20px 60px; gap: 28px; }
             .info-panel { position: static; }
             .header-inner { padding: 0 20px; }
-            .stat-strip { display: none; }
         }
 
         @media (max-width: 540px) {
-            .page-layout { padding: 24px 16px 60px; gap: 24px; }
+            .page-layout { padding: 20px 16px 60px; gap: 22px; }
             .header-brand-sub { display: none; }
-            .site-footer { padding: 16px 20px; }
-            .footer-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .site-footer { padding: 14px 20px; }
+            .footer-inner { flex-direction: column; align-items: flex-start; gap: 6px; }
             .token-card-body { flex-direction: column; }
             .code-pill, .token-pill { min-width: unset; width: 100%; }
         }
@@ -586,33 +592,34 @@
         @keyframes spin     { to { transform: rotate(360deg); } }
         @keyframes blink    { 0%,100% { opacity:1; } 50% { opacity:.25; } }
         @keyframes fadeOut  { to { opacity:0; pointer-events:none; } }
-        @keyframes loadFill { from { width:0; } to { width:100%; } }
         @keyframes fadeUp   { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
         @keyframes dropIn   { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
 
-        .animate-in { animation: fadeUp .5s cubic-bezier(.22,1,.36,1) both; }
-        .delay-1 { animation-delay: .05s; }
-        .delay-2 { animation-delay: .1s; }
-        .delay-3 { animation-delay: .15s; }
-        .delay-4 { animation-delay: .2s; }
+        .fade-up { animation: fadeUp .45s cubic-bezier(.22,1,.36,1) both; }
+        .d1 { animation-delay: .05s; }
+        .d2 { animation-delay: .1s; }
+        .d3 { animation-delay: .15s; }
+        .d4 { animation-delay: .2s; }
 
         .hidden { display: none !important; }
     </style>
 </head>
-
 <body>
 
 <!-- Loading Screen -->
 <div id="loadScreen">
-    <div class="ls-emblem">
-        <div class="ls-ring"></div><div class="ls-inner"></div>
-        <div class="ls-icon"><i class="fa-solid fa-key"></i></div>
-    </div>
+    <div class="ls-logo"><i class="fa-solid fa-key"></i></div>
     <div class="ls-wordmark">
         <div class="ls-title">English Education</div>
-        <div class="ls-sub">ระบบค้นหา Token Key</div>
+        <div class="ls-sub">มหาวิทยาลัยราชภัฏเลย</div>
     </div>
-    <div class="ls-progress"><div class="ls-progress-fill"></div></div>
+    <div class="ls-status" id="lsStatus">
+        <div class="ls-status-dot spin" id="lsDot"></div>
+        <span class="ls-status-text" id="lsText">กำลังโหลด...</span>
+    </div>
+    <div class="ls-progress-wrap">
+        <div class="ls-bar"><div class="ls-bar-fill" id="lsBar"></div></div>
+    </div>
 </div>
 
 <!-- Info Modal -->
@@ -628,15 +635,15 @@
                 ให้นักศึกษานำรหัสกิจกรรมไปค้นหาบนเว็บไซต์ระบบกิจกรรมของมหาวิทยาลัย<br><br>
                 Token Key มีระยะเวลาจำกัด โปรดกรอกทันทีที่ประกาศ
             </div>
-            <a href="https://act.lru.ac.th/std_System/index.php" target="_blank" class="modal-btn-primary">
+            <a href="https://act.lru.ac.th/std_System/index.php" target="_blank" class="modal-btn primary">
                 <i class="fa-solid fa-arrow-up-right-from-square"></i>ระบบกิจกรรมมหาวิทยาลัย
             </a>
-            <button class="modal-btn-ghost" onclick="closeModal()">รับทราบแล้ว ปิด</button>
+            <button class="modal-btn ghost" onclick="closeModal()">รับทราบแล้ว ปิด</button>
         </div>
     </div>
 </div>
 
-<!-- Toast -->
+<!-- Copy Toast -->
 <div class="copy-toast" id="copyToast">
     <i class="fa-solid fa-check"></i>
     <span id="copyToastText">คัดลอกแล้ว</span>
@@ -660,29 +667,16 @@
     </div>
 </header>
 
-<!-- Main -->
+<!-- Page -->
 <main class="page-layout">
 
     <!-- Info Panel -->
     <aside class="info-panel">
-        <div class="info-eyebrow animate-in">Token Key System</div>
-        <h1 class="info-heading animate-in delay-1">ค้นหารหัส<br>กิจกรรม & Token</h1>
-        <p class="info-desc animate-in delay-2">ระบบค้นหารหัสกิจกรรมและ Token Key สำหรับนักศึกษาสาขาวิชาภาษาอังกฤษ มหาวิทยาลัยราชภัฏเลย</p>
+        <div class="info-eyebrow fade-up">Token Key System</div>
+        <h1 class="info-heading fade-up d1">ค้นหารหัส<br>กิจกรรม & Token</h1>
+        <p class="info-desc fade-up d2">ระบบค้นหารหัสกิจกรรมและ Token Key สำหรับนักศึกษาสาขาวิชาภาษาอังกฤษ มหาวิทยาลัยราชภัฏเลย</p>
 
-        <div class="stat-strip animate-in delay-2">
-            <div class="stat-box">
-                <div class="stat-icon"><i class="fa-solid fa-layer-group"></i></div>
-                <div class="stat-value" id="activityCount">—</div>
-                <div class="stat-label">กิจกรรมที่เปิดรับ</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
-                <div class="stat-value">Real‑time</div>
-                <div class="stat-label">ดึงข้อมูลสด</div>
-            </div>
-        </div>
-
-        <div class="info-card animate-in delay-3">
+        <div class="info-card fade-up d3">
             <div class="info-card-title"><i class="fa-solid fa-list-check"></i>ขั้นตอนการใช้งาน</div>
             <div class="info-step">
                 <div class="step-num">1</div>
@@ -702,114 +696,113 @@
             </div>
         </div>
 
-        <div class="notice-strip animate-in delay-4">
+        <div class="warn-strip fade-up d4">
             <i class="fa-solid fa-triangle-exclamation"></i>
             Token Key มีอายุจำกัด กรุณากรอกทันทีที่ได้รับ อย่าเปิดเผยให้ผู้อื่นทราบ
         </div>
     </aside>
 
-    <!-- Form + Results Panel -->
+    <!-- Form + Result -->
     <section>
 
         <!-- Config alert -->
-        <div class="config-alert animate-in" id="configAlert">
+        <div class="config-alert fade-up" id="configAlert">
             <i class="fa-solid fa-triangle-exclamation"></i>
             <span id="alertMsg">ยังไม่ได้ตั้งค่า URL</span>
         </div>
 
-        <!-- Form -->
-        <p class="section-label animate-in">ค้นหาข้อมูล</p>
+        <!-- Search Form -->
+        <div id="searchSection">
+            <p class="section-label fade-up">ค้นหาข้อมูล</p>
 
-        <div class="form-card animate-in delay-1">
-            <div class="form-card-head">
-                <div class="fch-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-                <div>
-                    <div class="fch-title">ข้อมูลการค้นหา</div>
-                    <div class="fch-sub">เลือกกิจกรรมและกรอกรหัสนักศึกษา</div>
-                </div>
-            </div>
-            <div class="form-card-body">
-
-                <div class="field">
-                    <div class="field-label">
-                        <i class="fa-solid fa-layer-group"></i>กิจกรรม
+            <div class="form-card fade-up d1" id="formCard">
+                <div class="form-card-head">
+                    <div class="fch-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div>
+                        <div class="fch-title">ข้อมูลการค้นหา</div>
+                        <div class="fch-sub">เลือกกิจกรรมและกรอกรหัสนักศึกษา</div>
                     </div>
-                    <div class="custom-select-wrap" id="selectWrap">
-                        <div class="custom-select-trigger" id="selectTrigger" tabindex="0"
-                            onclick="toggleDropdown()"
-                            onkeydown="handleSelectKey(event)">
-                            <span id="triggerText">กำลังโหลดรายการกิจกรรม...</span>
-                            <i class="fa-solid fa-chevron-down trigger-icon"></i>
+                </div>
+                <div class="form-card-body">
+
+                    <div class="field">
+                        <div class="field-label">
+                            <i class="fa-solid fa-layer-group"></i>กิจกรรม
                         </div>
-                        <div class="custom-dropdown" id="customDropdown">
-                            <div class="dropdown-loading">
-                                <div class="spin-ring dark"></div>
-                                กำลังโหลด...
+                        <div class="custom-select-wrap" id="selectWrap">
+                            <div class="custom-select-trigger" id="selectTrigger" tabindex="0"
+                                onclick="toggleDropdown()" onkeydown="handleSelectKey(event)">
+                                <span class="trigger-text" id="triggerText">กำลังโหลดรายการ...</span>
+                                <i class="fa-solid fa-chevron-down trigger-icon"></i>
                             </div>
+                            <div class="custom-dropdown" id="customDropdown">
+                                <div class="dropdown-empty">
+                                    <i class="fa-solid fa-rotate fa-spin" style="margin-right:6px;font-size:10px"></i>กำลังโหลด...
+                                </div>
+                            </div>
+                            <select id="activitySelect" class="real-select"><option value="" disabled selected></option></select>
                         </div>
-                        <select id="activitySelect" class="real-select">
-                            <option value="" disabled selected></option>
-                        </select>
                     </div>
-                </div>
 
-                <div class="field">
-                    <div class="field-label">
-                        <i class="fa-solid fa-id-card"></i>รหัสนักศึกษา
-                        <span class="field-label-right" id="idCounter">0 / 10</span>
-                    </div>
-                    <div class="input-wrap">
+                    <div class="field">
+                        <div class="field-label">
+                            <i class="fa-solid fa-id-card"></i>รหัสนักศึกษา
+                            <span class="field-label-right" id="idCounter">0 / 10</span>
+                        </div>
                         <input type="text" id="studentId" placeholder="เช่น 6401234567"
                             maxlength="10" inputmode="numeric"
-                            oninput="onIdInput(this)"
-                            onkeydown="if(event.key==='Enter')searchData()" />
-                        <div class="input-progress">
-                            <div class="input-progress-fill" id="idProgress" style="width:0%"></div>
-                        </div>
+                            oninput="onIdInput(this)" onkeydown="if(event.key==='Enter')searchData()" />
+                        <div class="id-progress"><div class="id-progress-fill" id="idBar"></div></div>
+                        <div class="field-hint"><i class="fa-solid fa-circle-info"></i>ตัวเลข 10 หลัก ตามบัตรนักศึกษา</div>
                     </div>
-                    <div class="field-hint"><i class="fa-solid fa-circle-info"></i>ตัวเลข 10 หลัก ตามบัตรนักศึกษา</div>
-                </div>
 
+                </div>
+            </div>
+
+            <div class="fade-up d2">
+                <button class="submit-btn" id="searchBtn" onclick="searchData()" disabled>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span id="searchBtnText">ค้นหาข้อมูล</span>
+                </button>
             </div>
         </div>
 
-        <div class="animate-in delay-2">
-            <button class="submit-btn" id="searchBtn" onclick="searchData()" disabled>
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <span>ค้นหาข้อมูล</span>
-            </button>
-        </div>
-
-        <!-- Loading State -->
-        <div id="loadingCard" class="loading-card hidden animate-in">
-            <div class="loading-card-top">
-                <div class="loading-card-icon"><div class="spin-ring"></div></div>
+        <!-- Process Card (loading + states) -->
+        <div id="processCard" class="process-card hidden fade-up">
+            <div class="process-card-top">
+                <div class="pct-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
                 <div>
-                    <div class="loading-card-title">กำลังดำเนินการ</div>
-                    <div class="loading-card-sub">กรุณารอสักครู่...</div>
+                    <div class="pct-title">กำลังดำเนินการ</div>
+                    <div class="pct-sub">Processing Request</div>
                 </div>
             </div>
-            <div class="loading-steps">
-                <div class="loading-step done" id="ls-1">
-                    <div class="loading-step-dot"></div>
-                    <div class="loading-step-label">ตรวจสอบข้อมูล</div>
-                    <i class="fa-solid fa-check loading-step-icon"></i>
+            <div class="process-steps">
+                <div class="ps-item" id="ps-1">
+                    <div class="ps-dot-wrap"><div class="ps-dot"></div><div class="ps-ring"></div></div>
+                    <div class="ps-text">
+                        <div class="ps-title">ตรวจสอบข้อมูล</div>
+                        <div class="ps-desc" id="psd-1">ตรวจสอบรหัสนักศึกษาและกิจกรรมที่เลือก</div>
+                    </div>
                 </div>
-                <div class="loading-step active" id="ls-2">
-                    <div class="loading-step-dot"></div>
-                    <div class="loading-step-label">ดึงข้อมูลจากเซิร์ฟเวอร์</div>
-                    <i class="fa-solid fa-rotate loading-step-icon"></i>
+                <div class="ps-item" id="ps-2">
+                    <div class="ps-dot-wrap"><div class="ps-dot"></div><div class="ps-ring"></div></div>
+                    <div class="ps-text">
+                        <div class="ps-title">ดึงข้อมูลจากเซิร์ฟเวอร์</div>
+                        <div class="ps-desc" id="psd-2">ส่งคำขอไปยัง Apps Script Server</div>
+                    </div>
                 </div>
-                <div class="loading-step" id="ls-3">
-                    <div class="loading-step-dot"></div>
-                    <div class="loading-step-label">ประมวลผลข้อมูล</div>
-                    <i class="fa-solid fa-minus loading-step-icon"></i>
+                <div class="ps-item" id="ps-3">
+                    <div class="ps-dot-wrap"><div class="ps-dot"></div><div class="ps-ring"></div></div>
+                    <div class="ps-text">
+                        <div class="ps-title">ประมวลผลและแสดงข้อมูล</div>
+                        <div class="ps-desc" id="psd-3">เตรียมแสดงรหัสกิจกรรมและ Token</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Pending State -->
-        <div id="pendingCard" class="alert-box warn hidden animate-in">
+        <!-- Pending -->
+        <div id="pendingCard" class="alert-box warn hidden fade-up">
             <div class="alert-box-head">
                 <div class="alert-box-icon"><i class="fa-solid fa-hourglass-half"></i></div>
                 <div>
@@ -824,62 +817,61 @@
                 <button class="alert-btn primary" id="btnEnableNotify" onclick="enableNotification()">
                     <i class="fa-solid fa-bell"></i>แจ้งเตือนเมื่อได้รับรหัส
                 </button>
-                <button class="alert-btn ghost" onclick="resetStates()">
+                <button class="alert-btn ghost" onclick="resetAll()">
                     <i class="fa-solid fa-rotate-left"></i>ค้นหาใหม่
                 </button>
             </div>
         </div>
 
-        <!-- Error State -->
-        <div id="errorCard" class="alert-box error hidden animate-in">
+        <!-- Error -->
+        <div id="errorCard" class="alert-box error hidden fade-up">
             <div class="alert-box-head">
                 <div class="alert-box-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
                 <div>
                     <div class="alert-box-title">พบข้อผิดพลาด</div>
-                    <div class="alert-box-sub" id="errorDetail">โปรดตรวจสอบข้อมูล หรือติดต่อผู้ดูแลระบบ</div>
+                    <div class="alert-box-sub" id="errorDetail">โปรดตรวจสอบข้อมูลหรือติดต่อผู้ดูแลระบบ</div>
                 </div>
             </div>
             <div class="alert-box-body">
                 <div class="tech-detail" id="technicalError" style="display:none"></div>
-                <div id="deployHint" class="hidden" style="font-size:12px;color:var(--warn);margin-bottom:10px;display:flex;gap:6px;align-items:flex-start">
-                    <i class="fa-solid fa-lightbulb" style="margin-top:2px;flex-shrink:0"></i>
+                <div class="deploy-hint hidden" id="deployHint">
+                    <i class="fa-solid fa-lightbulb"></i>
                     <span>ลอง Deploy > New Deployment ใน Apps Script แล้วนำ URL ใหม่มาใส่</span>
                 </div>
-                <button class="alert-btn primary" onclick="resetStates()">
+                <button class="alert-btn primary" onclick="resetAll()">
                     <i class="fa-solid fa-rotate-left"></i>กลับไปค้นหา
                 </button>
             </div>
         </div>
 
         <!-- Result -->
-        <div id="resultArea" class="hidden animate-in">
-            <p class="section-label" style="margin-top:20px">ผลการค้นหา</p>
+        <div id="resultArea" class="hidden fade-up">
+            <p class="section-label" style="margin-top:16px">ผลการค้นหา</p>
 
-            <div class="result-header-card">
+            <div class="result-header">
                 <div class="rh-avatar"><i class="fa-solid fa-user-graduate"></i></div>
-                <div style="min-width:0;flex:1">
+                <div style="min-width:0;flex:1;overflow:hidden">
                     <div class="rh-eyebrow" id="resActivity">—</div>
                     <div class="rh-name" id="resName">—</div>
                     <div class="rh-meta">รหัส <span id="resId">—</span> · กลุ่ม <span id="resGroup">—</span></div>
                 </div>
             </div>
 
-            <p class="token-list-label"><i class="fa-solid fa-key"></i>รายการ Token</p>
+            <p class="token-label"><i class="fa-solid fa-key"></i>รายการ Token</p>
 
             <div id="activitiesList"></div>
 
             <div class="result-actions">
-                <button class="action-btn outline" id="shareBtn" onclick="copyResultLink()" style="display:none">
+                <button class="action-btn" id="shareBtn" onclick="copyResultLink()" style="display:none">
                     <i class="fa-solid fa-share-nodes"></i>แชร์ลิงก์
                 </button>
-                <button class="action-btn outline" onclick="resetStates()">
+                <button class="action-btn" onclick="resetAll()">
                     <i class="fa-solid fa-rotate-right"></i>ค้นหารายการอื่น
                 </button>
             </div>
         </div>
 
     </section>
-
 </main>
 
 <!-- Footer -->
@@ -898,43 +890,109 @@
 
 <script>
 /* ════ CONFIG ════ */
-const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxNif4pv3SL70z-xSRNHoU1fwvAEOwp7QmgqQZbH7yITzeWycZPKcbb0cSCu7g2TJiWog/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxNif4pv3SL70z-xSRNHoU1fwvAEOwp7QmgqQZbH7yITzeWycZPKcbb0cSCu7g2TJiWog/exec";
 
-let monitorInterval;
-let _sid = '';
-let _act = '';
+let _sid = '', _act = '', _monitorTimer;
+
+/* ════ LOADING SCREEN ════ */
+function lsUpdate(text, state = 'spin') {
+    const dot  = document.getElementById('lsDot');
+    const txt  = document.getElementById('lsText');
+    txt.textContent = text;
+    dot.className = 'ls-status-dot ' + state;
+}
+
+function lsProgress(pct) {
+    document.getElementById('lsBar').style.width = pct + '%';
+}
 
 /* ════ INIT ════ */
-window.addEventListener('load', () => {
-    // Loading screen fade out
-    setTimeout(() => {
-        const ls = document.getElementById('loadScreen');
-        ls.classList.add('fade-out');
-        document.body.classList.add('visible');
-        ls.addEventListener('animationend', () => ls.remove(), { once: true });
-    }, 1400);
+window.addEventListener('load', async () => {
+    lsUpdate('กำลังเชื่อมต่อระบบ...', 'spin');
+    lsProgress(20);
 
-    // Show modal after load
-    setTimeout(() => document.getElementById('infoModal').classList.add('visible'), 1500);
+    // Fetch activities during loading
+    let activities = [];
+    try {
+        lsUpdate('กำลังโหลดรายการกิจกรรม...', 'spin');
+        lsProgress(50);
+        activities = await fetchActivitiesData();
+        lsProgress(85);
+        lsUpdate('พร้อมใช้งาน', 'ok');
+        populateActivities(activities);
+    } catch (e) {
+        lsUpdate('โหลดข้อมูลไม่สำเร็จ', 'err');
+        showConfigAlert(`เชื่อมต่อล้มเหลว: ${e.message}`);
+    }
 
-    if (GAS_API_URL.includes('วาง_URL')) showConfigAlert('ยังไม่ได้ตั้งค่า URL ของ Apps Script');
+    lsProgress(100);
 
-    fetchActivities();
+    await delay(500);
 
-    // Auto-search from URL params
-    const p   = new URLSearchParams(window.location.search);
-    const act = p.get('name') || p.get('activity') || p.get('code');
-    const id  = p.get('id');
+    // Fade out loading
+    const ls = document.getElementById('loadScreen');
+    ls.classList.add('fade-out');
+    document.body.classList.add('visible');
+    ls.addEventListener('animationend', () => ls.remove(), { once: true });
 
-    if (act && id) {
-        document.getElementById('studentId').value = id;
+    // Show info modal
+    setTimeout(() => document.getElementById('infoModal').classList.add('visible'), 300);
+
+    // URL param auto-search — short format: ?a=ACTIVITY&s=STUDENTID
+    const p   = new URLSearchParams(location.search);
+    const act = p.get('a') || p.get('name') || p.get('activity');
+    const sid = p.get('s') || p.get('id');
+
+    if (act && sid) {
+        document.getElementById('studentId').value = sid;
         onIdInput(document.getElementById('studentId'));
         document.getElementById('triggerText').textContent = act;
         document.getElementById('selectTrigger').classList.add('has-value');
-        _act = act;
-        performSearch(id, act);
+        document.getElementById('activitySelect').value = act;
+        _act = act; _sid = sid;
+        setTimeout(() => performSearch(sid, act), 800);
     }
 });
+
+async function fetchActivitiesData() {
+    const r = await fetch(`${GAS_URL}?action=getActivities`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const ct = r.headers.get('content-type') || '';
+    if (!ct.includes('application/json')) throw new Error('ได้รับ HTML แทน JSON');
+    const data = await r.json();
+    if (!Array.isArray(data)) throw new Error('รูปแบบข้อมูลไม่ถูกต้อง');
+    return data;
+}
+
+function populateActivities(data) {
+    const dropdown = document.getElementById('customDropdown');
+    const realSel  = document.getElementById('activitySelect');
+
+    if (!data.length) {
+        dropdown.innerHTML = '<div class="dropdown-empty">ไม่พบรายการกิจกรรม</div>';
+        return;
+    }
+
+    dropdown.innerHTML = '';
+    realSel.innerHTML  = '<option value="" disabled selected></option>';
+
+    data.forEach(act => {
+        const div = document.createElement('div');
+        div.className = 'dropdown-opt';
+        div.dataset.value = act;
+        div.innerHTML = `<i class="fa-solid fa-check dd-check"></i>${escHtml(act)}`;
+        div.onclick = () => selectOption(act, act);
+        dropdown.appendChild(div);
+
+        const opt = document.createElement('option');
+        opt.value = act; opt.text = act;
+        realSel.appendChild(opt);
+    });
+
+    if (document.getElementById('triggerText').textContent.includes('กำลังโหลด')) {
+        document.getElementById('triggerText').textContent = 'กรุณาเลือกกิจกรรม';
+    }
+}
 
 function closeModal() { document.getElementById('infoModal').classList.remove('visible'); }
 
@@ -947,19 +1005,16 @@ function showConfigAlert(msg) {
 function onIdInput(el) {
     el.value = el.value.replace(/[^0-9]/g, '');
     const len = el.value.length;
-    const counter  = document.getElementById('idCounter');
-    const progress = document.getElementById('idProgress');
+    document.getElementById('idCounter').textContent = `${len} / 10`;
+    document.getElementById('idCounter').className = 'field-label-right' + (len === 10 ? ' complete' : '');
 
-    counter.textContent = `${len} / 10`;
-    counter.className   = 'field-label-right' + (len === 10 ? ' complete' : '');
-
-    progress.style.width      = `${len * 10}%`;
-    progress.style.background = len === 10 ? '#16a34a' : len >= 7 ? 'var(--accent)' : 'var(--ink-30)';
+    const bar = document.getElementById('idBar');
+    bar.style.width = `${len * 10}%`;
+    bar.style.background = len === 10 ? '#16a34a' : len >= 6 ? 'var(--accent)' : 'var(--ink-30)';
 
     el.classList.toggle('complete', len === 10);
     el.classList.remove('invalid');
-
-    updateSearchBtn();
+    refreshSearchBtn();
 }
 
 /* ════ DROPDOWN ════ */
@@ -994,141 +1049,107 @@ function selectOption(value, label) {
     document.querySelector(`.dropdown-opt[data-value="${CSS.escape(value)}"]`)?.classList.add('selected');
     closeDropdown();
     _act = value;
-    updateSearchBtn();
+    refreshSearchBtn();
 }
 
-function updateSearchBtn() {
-    const actOk = !!document.getElementById('activitySelect').value;
-    const idOk  = document.getElementById('studentId').value.length === 10;
-    document.getElementById('searchBtn').disabled = !(actOk && idOk);
-}
-
-/* ════ FETCH ACTIVITIES ════ */
-function fetchActivities() {
-    fetch(`${GAS_API_URL}?action=getActivities`)
-        .then(async r => {
-            if (!r.ok) throw new Error(`HTTP ${r.status}`);
-            const ct = r.headers.get('content-type') || '';
-            if (!ct.includes('application/json')) throw new Error('ได้รับ HTML แทน JSON');
-            return r.json();
-        })
-        .then(data => {
-            const dropdown = document.getElementById('customDropdown');
-            const realSel  = document.getElementById('activitySelect');
-
-            if (!Array.isArray(data) || !data.length) {
-                dropdown.innerHTML = '<div class="dropdown-opt" style="color:var(--ink-30);cursor:default">ไม่พบรายการกิจกรรม</div>';
-                return;
-            }
-
-            // update stat
-            document.getElementById('activityCount').textContent = data.length;
-
-            dropdown.innerHTML = '';
-            realSel.innerHTML  = '<option value="" disabled selected></option>';
-
-            data.forEach(act => {
-                const div = document.createElement('div');
-                div.className = 'dropdown-opt';
-                div.dataset.value = act;
-                div.innerHTML = `<i class="fa-solid fa-check dd-check"></i>${escHtml(act)}`;
-                div.onclick = () => selectOption(act, act);
-                dropdown.appendChild(div);
-
-                const opt = document.createElement('option');
-                opt.value = act; opt.text = act;
-                realSel.appendChild(opt);
-            });
-
-            // If auto-search pre-filled: set select value
-            if (_act) {
-                document.getElementById('activitySelect').value = _act;
-                document.querySelector(`.dropdown-opt[data-value="${CSS.escape(_act)}"]`)?.classList.add('selected');
-                updateSearchBtn();
-            } else {
-                document.getElementById('triggerText').textContent = 'กรุณาเลือกกิจกรรม';
-            }
-        })
-        .catch(e => showConfigAlert(`เชื่อมต่อล้มเหลว: ${e.message}`));
+function refreshSearchBtn() {
+    const ok = !!document.getElementById('activitySelect').value
+            && document.getElementById('studentId').value.length === 10;
+    document.getElementById('searchBtn').disabled = !ok;
 }
 
 /* ════ SEARCH ════ */
 function searchData() {
     const act = document.getElementById('activitySelect').value;
-    const id  = document.getElementById('studentId').value.trim();
-
-    if (!act) { shakeEl('selectTrigger'); return; }
-    if (id.length !== 10) { shakeEl('studentId'); return; }
-
-    performSearch(id, act);
+    const sid = document.getElementById('studentId').value.trim();
+    if (!act)          { shake('selectTrigger'); return; }
+    if (sid.length !== 10) { shake('studentId');    return; }
+    performSearch(sid, act);
 }
 
-function shakeEl(id) {
+function shake(id) {
     const el = document.getElementById(id);
     el.classList.add('invalid');
     setTimeout(() => el.classList.remove('invalid'), 1800);
 }
 
-function performSearch(id, act) {
-    _sid = id; _act = act;
-    if (monitorInterval) clearInterval(monitorInterval);
+function performSearch(sid, act) {
+    _sid = sid; _act = act;
+    if (_monitorTimer) clearInterval(_monitorTimer);
 
-    // show loading, hide result states
-    resetStates(false); // false = don't reset form
-    document.getElementById('loadingCard').classList.remove('hidden');
+    // Dim form, hide results
+    document.getElementById('formCard').classList.add('dimmed');
     document.getElementById('searchBtn').disabled = true;
-    document.getElementById('searchBtn').innerHTML = '<div class="spin-ring"></div><span>กำลังค้นหา...</span>';
+    document.getElementById('searchBtn').innerHTML = '<div class="spin-s"></div><span>กำลังค้นหา...</span>';
 
-    // advance loading step after small delay
+    // Show process card, hide others
+    hide('pendingCard'); hide('errorCard'); hide('resultArea');
+    show('processCard');
+
+    setPs(1, 'active');
+    setPs(2, 'idle');
+    setPs(3, 'idle');
+
     setTimeout(() => {
-        setLoadingStep(2, 'done');
-        setLoadingStep(3, 'active');
-    }, 800);
+        setPs(1, 'done', 'ข้อมูลถูกต้อง พร้อมค้นหา');
+        setPs(2, 'active');
 
-    fetch(`${GAS_API_URL}?action=search&id=${encodeURIComponent(id)}&criteria=${encodeURIComponent(act)}`)
-        .then(async r => {
-            if (!r.ok) throw new Error(r.status === 404 ? '404 — URL ผิด หรือยังไม่ได้ Deploy' : `HTTP ${r.status}`);
-            const ct = r.headers.get('content-type') || '';
-            if (!ct.includes('application/json')) throw new Error('ได้รับ HTML แทน JSON');
-            return r.json();
-        })
-        .then(data => {
-            setLoadingStep(3, 'done');
-            setTimeout(() => showResult(data), 300);
-        })
-        .catch(e => showError(e))
-        .finally(() => {
-            document.getElementById('searchBtn').disabled = false;
-            document.getElementById('searchBtn').innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><span>ค้นหาข้อมูล</span>';
-            updateSearchBtn();
-        });
+        fetch(`${GAS_URL}?action=search&id=${encodeURIComponent(sid)}&criteria=${encodeURIComponent(act)}`)
+            .then(async r => {
+                if (!r.ok) throw new Error(r.status === 404 ? '404 — URL ผิด หรือยังไม่ได้ Deploy' : `HTTP ${r.status}`);
+                const ct = r.headers.get('content-type') || '';
+                if (!ct.includes('application/json')) throw new Error('ได้รับ HTML แทน JSON');
+                return r.json();
+            })
+            .then(data => {
+                setPs(2, 'done', 'รับข้อมูลสำเร็จ');
+                setPs(3, 'active');
+                setTimeout(() => {
+                    setPs(3, 'done', 'พร้อมแสดงผล');
+                    setTimeout(() => {
+                        hide('processCard');
+                        showResult(data);
+                    }, 300);
+                }, 400);
+            })
+            .catch(e => {
+                setPs(2, 'error', e.message);
+                setTimeout(() => { hide('processCard'); showError(e); }, 500);
+            })
+            .finally(() => {
+                document.getElementById('searchBtn').innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><span>ค้นหาข้อมูล</span>';
+                refreshSearchBtn();
+                document.getElementById('formCard').classList.remove('dimmed');
+            });
+    }, 500);
 }
 
-function setLoadingStep(n, state) {
-    const el   = document.getElementById('ls-' + n);
-    const icon = el.querySelector('.loading-step-icon');
-    el.className = 'loading-step ' + state;
-    if (state === 'done')   { icon.className = 'fa-solid fa-check loading-step-icon'; }
-    if (state === 'active') { icon.className = 'fa-solid fa-rotate loading-step-icon'; }
+/* ════ PROCESS STEPS ════ */
+function setPs(n, state, desc) {
+    const el  = document.getElementById('ps-' + n);
+    const dot = el.querySelector('.ps-dot');
+    const dEl = document.getElementById('psd-' + n);
+    el.className = 'ps-item ' + state;
+    const icons = { active: 'fa-ellipsis', done: 'fa-check', error: 'fa-xmark', idle: '' };
+    dot.innerHTML = state === 'idle'
+        ? `<span style="font-size:9px;font-weight:700;color:var(--ink-30)">${n}</span>`
+        : `<i class="fa-solid ${icons[state]}"></i><div class="ps-ring"></div>`;
+    if (desc && dEl) dEl.textContent = desc;
 }
 
-/* ════ RESULT STATES ════ */
+/* ════ SHOW RESULT / ERROR ════ */
 function showResult(data) {
-    document.getElementById('loadingCard').classList.add('hidden');
-
     if (!data?.found) {
-        document.getElementById('errorCard').classList.remove('hidden');
         document.getElementById('errorDetail').textContent = 'ไม่พบข้อมูลสำหรับรหัสนักศึกษานี้ในกิจกรรมที่เลือก';
         document.getElementById('technicalError').style.display = 'none';
         document.getElementById('deployHint').classList.add('hidden');
-        return;
+        show('errorCard'); return;
     }
 
     const activities = data?.data?.activities || [];
 
     if (activities.length > 0 && activities[0].code === 'กำลังดำเนินการ') {
-        document.getElementById('pendingCard').classList.remove('hidden');
-        return;
+        show('pendingCard'); return;
     }
 
     document.getElementById('resActivity').textContent = data.data?.activityName || '—';
@@ -1143,12 +1164,12 @@ function showResult(data) {
             <div class="token-card">
                 <div class="token-card-head">รายการที่ ${i + 1}</div>
                 <div class="token-card-body">
-                    <div class="code-pill" onclick="copyText('${escHtml(item.code)}', 'รหัสกิจกรรม', this)">
+                    <div class="code-pill" onclick="copyText('${escHtml(item.code)}','รหัสกิจกรรม',this)">
                         <i class="fa-solid fa-hashtag"></i>
                         <span>${escHtml(item.code)}</span>
                         <i class="fa-regular fa-copy copy-icon"></i>
                     </div>
-                    <div class="token-pill" onclick="copyText('${escHtml(item.token)}', 'Token Key', this)">
+                    <div class="token-pill" onclick="copyText('${escHtml(item.token)}','Token Key',this)">
                         <i class="fa-solid fa-key"></i>
                         <span>${escHtml(item.token)}</span>
                         <i class="fa-regular fa-copy copy-icon"></i>
@@ -1158,85 +1179,67 @@ function showResult(data) {
         }
     });
 
-    document.getElementById('activitiesList').innerHTML = html || '<div style="font-size:13px;color:var(--ink-50);padding:8px 0">ไม่พบรายการ Token</div>';
+    document.getElementById('activitiesList').innerHTML = html || '<div style="font-size:12.5px;color:var(--ink-50);padding:4px 0">ไม่พบรายการ Token</div>';
     document.getElementById('shareBtn').style.display = 'flex';
-    document.getElementById('resultArea').classList.remove('hidden');
+
+    // Hide search section, show result
+    document.getElementById('searchSection').classList.add('hidden');
+    show('resultArea');
 }
 
 function showError(e) {
-    document.getElementById('loadingCard').classList.add('hidden');
-    document.getElementById('errorCard').classList.remove('hidden');
     document.getElementById('errorDetail').textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อ';
-
     const tech = document.getElementById('technicalError');
     tech.textContent = 'Technical: ' + e.message;
     tech.style.display = 'block';
-
-    const hint = document.getElementById('deployHint');
-    if (e.message.includes('404') || e.message.includes('HTML')) {
-        hint.classList.remove('hidden');
-    } else {
-        hint.classList.add('hidden');
-    }
+    document.getElementById('deployHint').classList.toggle('hidden', !e.message.includes('404') && !e.message.includes('HTML'));
+    show('errorCard');
 }
 
-function resetStates(resetForm = true) {
-    if (monitorInterval) clearInterval(monitorInterval);
-
-    ['loadingCard','pendingCard','errorCard','resultArea'].forEach(id => {
-        document.getElementById(id).classList.add('hidden');
-    });
-
-    // reset loading steps
-    setLoadingStep(2, 'active'); // step 1 is always "done" once submitted
-    setLoadingStep(3, '');
-    document.getElementById('ls-1').className = 'loading-step done';
-
+function resetAll() {
+    if (_monitorTimer) clearInterval(_monitorTimer);
+    ['processCard','pendingCard','errorCard','resultArea'].forEach(hide);
     document.getElementById('monitoringBadge').classList.remove('show');
     document.getElementById('btnEnableNotify').style.display = '';
     document.getElementById('shareBtn').style.display = 'none';
 
-    if (resetForm) {
-        document.getElementById('studentId').value = '';
-        document.getElementById('idCounter').textContent = '0 / 10';
-        document.getElementById('idCounter').className = 'field-label-right';
-        document.getElementById('idProgress').style.width = '0%';
-        document.getElementById('studentId').classList.remove('complete', 'invalid');
-        updateSearchBtn();
+    // Restore search section
+    document.getElementById('searchSection').classList.remove('hidden');
+    document.getElementById('studentId').value = '';
+    document.getElementById('idCounter').textContent = '0 / 10';
+    document.getElementById('idCounter').className = 'field-label-right';
+    document.getElementById('idBar').style.width = '0';
+    document.getElementById('studentId').classList.remove('complete', 'invalid');
+    refreshSearchBtn();
 
-        if (window.history.pushState) {
-            window.history.pushState({}, '', window.location.pathname);
-        }
+    if (window.history.pushState) {
+        window.history.pushState({}, '', location.pathname);
     }
 }
 
 /* ════ COPY ════ */
-let toastTimer;
+let _toastTimer;
 
 function copyText(txt, label, el) {
     if (!txt) return;
     navigator.clipboard.writeText(txt).then(() => {
-        // icon feedback
         const icon = el?.querySelector('.copy-icon');
-        if (icon) {
-            icon.className = 'fa-solid fa-check copy-icon';
-            setTimeout(() => icon.className = 'fa-regular fa-copy copy-icon', 2000);
-        }
-        // toast
-        showToast(`คัดลอก${label}แล้ว`);
+        if (icon) { icon.className = 'fa-solid fa-check copy-icon'; setTimeout(() => icon.className = 'fa-regular fa-copy copy-icon', 2000); }
+        toast(`คัดลอก${label}แล้ว`);
     });
 }
 
-function showToast(msg) {
-    const toast = document.getElementById('copyToast');
+function toast(msg) {
+    const el = document.getElementById('copyToast');
     document.getElementById('copyToastText').textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    el.classList.add('show');
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
 }
 
 function copyResultLink() {
-    const url = `${location.protocol}//${location.host}${location.pathname}?id=${encodeURIComponent(_sid)}&activity=${encodeURIComponent(_act)}`;
+    // Short URL format: ?a=ACTIVITY&s=STUDENTID
+    const url = `${location.protocol}//${location.host}${location.pathname}?a=${encodeURIComponent(_act)}&s=${encodeURIComponent(_sid)}`;
     navigator.clipboard.writeText(url).then(() => {
         const btn = document.getElementById('shareBtn');
         const orig = btn.innerHTML;
@@ -1257,28 +1260,25 @@ function enableNotification() {
 function startMonitoring() {
     document.getElementById('btnEnableNotify').style.display = 'none';
     document.getElementById('monitoringBadge').classList.add('show');
-    monitorInterval = setInterval(() => {
-        fetch(`${GAS_API_URL}?action=search&id=${encodeURIComponent(_sid)}&criteria=${encodeURIComponent(_act)}`)
+    _monitorTimer = setInterval(() => {
+        fetch(`${GAS_URL}?action=search&id=${encodeURIComponent(_sid)}&criteria=${encodeURIComponent(_act)}`)
             .then(r => r.json())
             .then(d => {
                 if (d?.found && d.data?.activities?.[0]?.code !== 'กำลังดำเนินการ') {
-                    new Notification('Token มาแล้ว!', {
-                        body: 'คลิกเพื่อดูรหัสกิจกรรม',
-                        icon: 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico'
-                    });
-                    clearInterval(monitorInterval);
-                    document.getElementById('pendingCard').classList.add('hidden');
+                    new Notification('Token มาแล้ว!', { body: 'คลิกเพื่อดูรหัสกิจกรรม', icon: 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico' });
+                    clearInterval(_monitorTimer);
+                    hide('pendingCard');
                     showResult(d);
                 }
             });
     }, 60000);
 }
 
-/* ════ UTIL ════ */
-function escHtml(str) {
-    return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+/* ════ HELPERS ════ */
+function show(id) { document.getElementById(id).classList.remove('hidden'); }
+function hide(id) { document.getElementById(id).classList.add('hidden'); }
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+function escHtml(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 </script>
-
 </body>
 </html>
