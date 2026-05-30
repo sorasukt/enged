@@ -78,7 +78,6 @@
         .ls-title { font-size: 14px; font-weight: 700; color: rgba(255,255,255,.9); letter-spacing: .1em; text-transform: uppercase; }
         .ls-sub   { font-size: 11.5px; color: rgba(255,255,255,.35); margin-top: 5px; }
 
-        /* status line */
         .ls-status {
             display: flex; align-items: center; gap: 10px;
             background: rgba(255,255,255,.06);
@@ -88,24 +87,13 @@
             min-width: 220px; justify-content: center;
         }
 
-        .ls-status-dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: rgba(255,255,255,.4);
-            flex-shrink: 0;
-        }
-
+        .ls-status-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.4); flex-shrink: 0; }
         .ls-status-dot.spin {
-            background: none;
-            width: 14px; height: 14px;
-            border: 2px solid rgba(255,255,255,.2);
-            border-top-color: rgba(255,255,255,.8);
-            border-radius: 50%;
-            animation: spin .8s linear infinite;
+            background: none; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.2);
+            border-top-color: rgba(255,255,255,.8); border-radius: 50%; animation: spin .8s linear infinite;
         }
-
         .ls-status-dot.ok { background: #4ade80; animation: none; width: 6px; height: 6px; }
         .ls-status-dot.err { background: #f87171; animation: none; width: 6px; height: 6px; }
-
         .ls-status-text { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.55); }
 
         .ls-progress-wrap { width: 200px; }
@@ -129,8 +117,7 @@
 
         .modal-card {
             background: var(--white); border-radius: 16px;
-            border: 1px solid var(--ink-15);
-            box-shadow: 0 24px 64px rgba(0,0,0,.2);
+            border: 1px solid var(--ink-15); box-shadow: 0 24px 64px rgba(0,0,0,.2);
             width: 100%; max-width: 360px; overflow: hidden;
             transform: translateY(12px) scale(.97);
             transition: transform .28s cubic-bezier(.22,1,.36,1);
@@ -141,15 +128,13 @@
         .modal-top { background: var(--ink); padding: 28px 24px; text-align: center; }
 
         .modal-top-icon {
-            width: 50px; height: 50px;
-            border: 1.5px solid rgba(255,255,255,.15); border-radius: 13px;
+            width: 50px; height: 50px; border: 1.5px solid rgba(255,255,255,.15); border-radius: 13px;
             display: flex; align-items: center; justify-content: center;
             font-size: 20px; color: rgba(255,255,255,.75); margin: 0 auto 14px;
         }
 
         .modal-top-title { font-size: 16px; font-weight: 800; color: var(--white); letter-spacing: -.01em; margin-bottom: 5px; }
         .modal-top-sub   { font-size: 12px; color: rgba(255,255,255,.38); line-height: 1.6; }
-
         .modal-body { padding: 20px; }
 
         .modal-notice {
@@ -181,148 +166,94 @@
         }
 
         .header-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-
         .header-logo { width: 30px; height: 30px; border-radius: var(--r-sm); overflow: hidden; flex-shrink: 0; }
         .header-logo img { width: 100%; height: 100%; object-fit: cover; }
-
         .header-brand-name { font-size: 13px; font-weight: 700; color: var(--ink); }
         .header-brand-sub  { font-size: 10px; color: var(--ink-50); margin-top: 1px; }
 
         .header-back {
-            display: flex; align-items: center; gap: 5px;
-            font-size: 12px; font-weight: 600; color: var(--ink-50); text-decoration: none;
-            padding: 5px 11px; border: 1px solid var(--ink-15); border-radius: 100px;
-            transition: color .15s, border-color .15s;
+            display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--ink-50); text-decoration: none;
+            padding: 5px 11px; border: 1px solid var(--ink-15); border-radius: 100px; transition: color .15s, border-color .15s;
         }
-
         .header-back:hover { color: var(--ink); border-color: var(--ink-30); }
         .header-back i { font-size: 9px; }
 
         /* ════ PAGE LAYOUT ════ */
         .page-layout {
-            max-width: 1200px; margin: 0 auto;
-            padding: 44px 32px 80px;
-            display: grid; grid-template-columns: 1fr 460px;
-            gap: 44px; align-items: start;
+            max-width: 1200px; margin: 0 auto; padding: 44px 32px 80px;
+            display: grid; grid-template-columns: 1fr 460px; gap: 44px; align-items: start;
         }
 
         /* ── Info Panel ── */
         .info-panel { position: sticky; top: 82px; }
-
-        .info-eyebrow {
-            display: inline-flex; align-items: center; gap: 6px;
-            font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-            color: var(--accent); margin-bottom: 14px;
-        }
-
+        .info-eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
         .info-eyebrow::before { content: ''; width: 14px; height: 2px; background: var(--accent); border-radius: 2px; }
-
         .info-heading { font-size: clamp(24px, 2.8vw, 34px); font-weight: 800; line-height: 1.2; color: var(--ink); letter-spacing: -.02em; margin-bottom: 12px; }
         .info-desc    { font-size: 13.5px; line-height: 1.8; color: var(--ink-50); margin-bottom: 28px; max-width: 380px; }
-
         .info-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); padding: 18px; margin-bottom: 12px; }
-
-        .info-card-title {
-            font-size: 11px; font-weight: 700; color: var(--ink-70); letter-spacing: .08em;
-            text-transform: uppercase; margin-bottom: 12px;
-            display: flex; align-items: center; gap: 7px;
-        }
-
+        .info-card-title { font-size: 11px; font-weight: 700; color: var(--ink-70); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
         .info-card-title i { color: var(--ink-30); font-size: 10px; }
 
         .info-step { display: flex; align-items: center; gap: 11px; padding: 8px 0; border-bottom: 1px solid var(--ink-07); }
         .info-step:last-child { border-bottom: none; padding-bottom: 0; }
         .info-step:first-child { padding-top: 0; }
-
-        .step-num {
-            width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--ink-15);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 9px; font-weight: 700; color: var(--ink-50); flex-shrink: 0;
-        }
-
+        .step-num { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--ink-15); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: var(--ink-50); flex-shrink: 0; }
         .step-label { font-size: 12.5px; font-weight: 600; color: var(--ink-70); }
         .step-sub   { font-size: 10.5px; color: var(--ink-30); margin-top: 1px; }
 
-        .warn-strip {
-            display: flex; align-items: flex-start; gap: 9px;
-            background: var(--warn-bg); border: 1px solid var(--warn-bd); border-radius: var(--r-md);
-            padding: 12px 14px; font-size: 12px; color: var(--warn); line-height: 1.65;
-        }
-
+        .warn-strip { display: flex; align-items: flex-start; gap: 9px; background: var(--warn-bg); border: 1px solid var(--warn-bd); border-radius: var(--r-md); padding: 12px 14px; font-size: 12px; color: var(--warn); line-height: 1.65; }
         .warn-strip i { font-size: 11px; margin-top: 1px; flex-shrink: 0; }
 
         /* ── Section label ── */
-        .section-label {
-            font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-            color: var(--ink-50); margin-bottom: 10px;
-            display: flex; align-items: center; gap: 8px;
-        }
-
+        .section-label { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-50); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         .section-label::after { content: ''; flex: 1; height: 1px; background: var(--ink-15); }
 
         /* ── Form card ── */
-        .form-card {
-            background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg);
-            box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
-            margin-bottom: 12px; position: relative; z-index: 10;
-            transition: opacity .2s, transform .2s;
-        }
-
+        .form-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04); margin-bottom: 12px; position: relative; z-index: 10; transition: opacity .2s, transform .2s; }
         .form-card.dimmed { opacity: .5; pointer-events: none; transform: scale(.99); }
-
-        .form-card-head {
-            padding: 14px 20px; border-bottom: 1px solid var(--ink-07);
-            display: flex; align-items: center; gap: 10px;
-        }
-
+        .form-card-head { padding: 14px 20px; border-bottom: 1px solid var(--ink-07); display: flex; align-items: center; gap: 10px; }
         .fch-icon { width: 28px; height: 28px; background: var(--ink-07); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--ink-50); }
         .fch-title { font-size: 13px; font-weight: 700; color: var(--ink); }
         .fch-sub   { font-size: 11px; color: var(--ink-50); margin-top: 1px; }
-
         .form-card-body { padding: 18px 20px; }
 
         .field { margin-bottom: 14px; }
         .field:last-child { margin-bottom: 0; }
-
-        .field-label {
-            display: flex; align-items: center; gap: 5px;
-            font-size: 11px; font-weight: 700; color: var(--ink-70); letter-spacing: .05em;
-            text-transform: uppercase; margin-bottom: 6px;
-        }
-
+        .field-label { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--ink-70); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 6px; }
         .field-label-right { margin-left: auto; font-size: 10.5px; font-weight: 600; color: var(--ink-30); letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
         .field-label-right.complete { color: #16a34a; }
         .field-label i { font-size: 10px; color: var(--ink-30); width: 12px; text-align: center; }
 
         /* Custom select */
-        .custom-select-wrap { position: relative; }
+        .custom-select-wrap { position: relative; width: 100%; }
 
         .custom-select-trigger {
-            display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
             background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-sm);
-            padding: 9px 12px; font-family: inherit; font-size: 16px; color: var(--ink-30);
+            padding: 11px 14px; font-family: inherit; font-size: 16px; color: var(--ink-30);
             cursor: pointer; user-select: none; transition: border-color .15s, box-shadow .15s;
+            width: 100%; /* แก้ปัญหาทะลุกล่องระดับแรก */
         }
 
         .custom-select-trigger.has-value { color: var(--ink); }
         .custom-select-trigger:hover { border-color: var(--accent); }
-
         .custom-select-trigger.open {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(26,86,219,.1);
-            border-radius: var(--r-sm) var(--r-sm) 0 0;
-            border-bottom-color: var(--ink-15);
+            border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,86,219,.1);
+            border-radius: var(--r-sm) var(--r-sm) 0 0; border-bottom-color: var(--ink-15);
         }
 
-        /* แกัไขให้ชิดซ้าย และป้องกันการตัดคำแบบมีจุดไข่ปลา */
         .trigger-text { 
             flex: 1; 
+            min-width: 0; /* CRITICAL FIX: บังคับไม่ให้ข้อความดันกล่องจนทะลุ */
             font-size: 16px; 
             text-align: left; 
+            white-space: normal;
             word-break: keep-all; 
-            line-height: 1.4; 
+            overflow-wrap: anywhere; /* ให้ยอมตัดคำลงบรรทัดใหม่ถ้ายาวเกินไปจริงๆ */
+            line-height: 1.5; 
         }
-        .trigger-icon { font-size: 10px; color: var(--ink-30); transition: transform .2s; flex-shrink: 0; }
+
+        .trigger-icon { font-size: 10px; color: var(--ink-30); transition: transform .2s; flex-shrink: 0; margin-top: 6px; }
         .custom-select-trigger.open .trigger-icon { transform: rotate(180deg); }
 
         .custom-dropdown {
@@ -330,133 +261,93 @@
             background: var(--white); border: 1px solid var(--accent); border-top: none;
             border-radius: 0 0 var(--r-sm) var(--r-sm);
             box-shadow: 0 8px 24px rgba(0,0,0,.1); z-index: 50;
-            max-height: 200px; overflow-y: auto;
+            max-height: 240px; overflow-y: auto;
         }
 
         .custom-dropdown.open { display: block; animation: dropIn .15s ease both; }
 
         .dropdown-opt {
-            padding: 10px 12px; font-family: inherit; font-size: 14px; color: var(--ink-70);
+            padding: 12px 14px; font-family: inherit; font-size: 14px; color: var(--ink-70);
             cursor: pointer; border-bottom: 1px solid var(--ink-07);
-            transition: background .1s; display: flex; align-items: center; gap: 7px;
-            text-align: left; justify-content: flex-start; word-break: keep-all;
+            transition: background .1s; 
+            display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+        }
+
+        .dropdown-opt-text {
+            flex: 1; min-width: 0; text-align: left; white-space: normal; 
+            word-break: keep-all; overflow-wrap: anywhere; line-height: 1.5;
         }
 
         .dropdown-opt:last-child { border-bottom: none; }
         .dropdown-opt:hover { background: var(--ink-07); color: var(--ink); }
         .dropdown-opt.selected { background: var(--ink); color: var(--white); font-weight: 600; }
-        .dropdown-opt .dd-check { font-size: 9px; opacity: 0; margin-left: auto; flex-shrink: 0; }
-        .dropdown-opt.selected .dd-check { opacity: 1; }
+        
+        .dd-check { font-size: 10px; opacity: 0; flex-shrink: 0; margin-top: 5px; color: var(--ink); transition: opacity .15s; }
+        .dropdown-opt.selected .dd-check { opacity: 1; color: var(--white); }
 
         .dropdown-empty { padding: 12px; font-size: 12.5px; color: var(--ink-30); text-align: center; }
-
         .real-select { display: none; }
 
         /* Input */
         input[type="text"] {
-            width: 100%; background: var(--white); border: 1px solid var(--ink-15);
-            border-radius: var(--r-sm); padding: 9px 12px;
-            font-family: inherit; font-size: 16px; color: var(--ink);
+            width: 100%; background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-sm);
+            padding: 11px 14px; font-family: inherit; font-size: 16px; color: var(--ink);
             outline: none; transition: border-color .15s, box-shadow .15s; -webkit-appearance: none;
         }
-
         input[type="text"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
         input[type="text"].invalid { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,.08); }
         input[type="text"].complete { border-color: #16a34a; }
         input::placeholder { color: var(--ink-30); font-size: 14px; }
 
-        .id-progress {
-            height: 2px; background: var(--ink-15); border-radius: 0 0 var(--r-sm) var(--r-sm);
-            overflow: hidden; margin-top: -1px; border: none;
-        }
-
+        .id-progress { height: 2px; background: var(--ink-15); border-radius: 0 0 var(--r-sm) var(--r-sm); overflow: hidden; margin-top: -1px; border: none; }
         .id-progress-fill { height: 100%; width: 0; border-radius: 2px; transition: width .15s, background .15s; }
-
-        .field-hint { font-size: 11px; color: var(--ink-30); margin-top: 5px; display: flex; align-items: center; gap: 4px; }
+        .field-hint { font-size: 11px; color: var(--ink-30); margin-top: 6px; display: flex; align-items: center; gap: 5px; }
         .field-hint i { font-size: 9px; }
 
         /* Submit */
         .submit-btn {
-            width: 100%; background: var(--ink); color: var(--white);
-            border: none; border-radius: var(--r-sm); padding: 12px;
-            font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+            width: 100%; background: var(--ink); color: var(--white); border: none; border-radius: var(--r-sm);
+            padding: 13px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 9px;
             transition: background .15s, transform .1s, box-shadow .15s;
             box-shadow: 0 1px 3px rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.1);
         }
-
         .submit-btn:hover:not(:disabled) { background: var(--ink-70); box-shadow: 0 2px 8px rgba(0,0,0,.2), 0 8px 20px rgba(0,0,0,.12); }
         .submit-btn:active:not(:disabled) { transform: translateY(1px); }
         .submit-btn:disabled { opacity: .38; cursor: not-allowed; }
         .submit-btn i { font-size: 11px; }
 
         /* config alert */
-        .config-alert {
-            background: var(--warn-bg); border: 1px solid var(--warn-bd); border-radius: var(--r-lg);
-            padding: 12px 15px; font-size: 12.5px; color: var(--warn);
-            display: none; align-items: center; gap: 9px; margin-bottom: 12px; font-weight: 600;
-        }
-
+        .config-alert { background: var(--warn-bg); border: 1px solid var(--warn-bd); border-radius: var(--r-lg); padding: 12px 15px; font-size: 12.5px; color: var(--warn); display: none; align-items: center; gap: 9px; margin-bottom: 12px; font-weight: 600; }
         .config-alert.show { display: flex; }
         .config-alert i { flex-shrink: 0; font-size: 11px; }
 
         /* ════ PROCESS CARD ════ */
-        .process-card {
-            background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg);
-            overflow: hidden; margin-top: 12px;
-        }
-
-        .process-card-top {
-            background: var(--ink); padding: 16px 20px;
-            display: flex; align-items: center; gap: 12px;
-        }
-
+        .process-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); overflow: hidden; margin-top: 12px; }
+        .process-card-top { background: var(--ink); padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
         .pct-icon { width: 30px; height: 30px; border: 1px solid rgba(255,255,255,.18); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 12px; color: rgba(255,255,255,.8); }
         .pct-title { font-size: 14px; font-weight: 700; color: var(--white); }
         .pct-sub   { font-size: 11px; color: rgba(255,255,255,.38); margin-top: 2px; }
-
         .process-steps { padding: 18px 20px; display: flex; flex-direction: column; gap: 0; }
 
         .ps-item { display: flex; align-items: flex-start; gap: 12px; position: relative; }
-
-        .ps-item:not(:last-child)::after {
-            content: ''; position: absolute; left: 13px; top: 28px;
-            width: 1px; height: calc(100% - 4px);
-            background: var(--ink-15); transition: background .3s;
-        }
-
+        .ps-item:not(:last-child)::after { content: ''; position: absolute; left: 13px; top: 28px; width: 1px; height: calc(100% - 4px); background: var(--ink-15); transition: background .3s; }
         .ps-item.done:not(:last-child)::after { background: var(--ink); }
 
         .ps-dot-wrap { flex-shrink: 0; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
-
-        .ps-dot {
-            width: 26px; height: 26px; border-radius: 50%;
-            border: 1.5px solid var(--ink-15); background: var(--white);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 9px; color: var(--ink-30);
-            transition: all .25s cubic-bezier(.22,1,.36,1);
-        }
-
+        .ps-dot { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--ink-15); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--ink-30); transition: all .25s cubic-bezier(.22,1,.36,1); }
         .ps-item.active .ps-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
         .ps-item.done   .ps-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
         .ps-item.error  .ps-dot { border-color: #dc2626; background: #dc2626; color: var(--white); }
-
-        .ps-ring {
-            position: absolute; inset: -3px; border-radius: 50%;
-            border: 1.5px solid transparent; border-top-color: var(--ink);
-            animation: spin .7s linear infinite; opacity: 0; transition: opacity .2s;
-        }
-
+        .ps-ring { position: absolute; inset: -3px; border-radius: 50%; border: 1.5px solid transparent; border-top-color: var(--ink); animation: spin .7s linear infinite; opacity: 0; transition: opacity .2s; }
         .ps-item.active .ps-ring { opacity: 1; }
 
         .ps-text { padding: 3px 0 16px; flex: 1; }
         .ps-item:last-child .ps-text { padding-bottom: 0; }
-
         .ps-title { font-size: 12.5px; font-weight: 700; color: var(--ink-30); transition: color .25s; }
         .ps-item.active .ps-title { color: var(--ink); }
         .ps-item.done   .ps-title { color: var(--ink-70); }
         .ps-item.error  .ps-title { color: #dc2626; }
-
         .ps-desc { font-size: 11px; color: var(--ink-50); margin-top: 2px; max-height: 0; overflow: hidden; opacity: 0; transition: max-height .25s, opacity .25s; }
         .ps-item.active .ps-desc, .ps-item.done .ps-desc, .ps-item.error .ps-desc { max-height: 40px; opacity: 1; }
 
@@ -464,7 +355,6 @@
         .alert-box { border-radius: var(--r-lg); overflow: hidden; margin-top: 12px; border: 1px solid; }
         .alert-box.warn  { background: var(--warn-bg);  border-color: var(--warn-bd); }
         .alert-box.error { background: var(--error-bg); border-color: var(--error-bd); }
-
         .alert-box-head { padding: 14px 18px; display: flex; align-items: center; gap: 11px; }
         .alert-box-icon { width: 30px; height: 30px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
         .alert-box.warn  .alert-box-icon  { background: #fef3c7; color: var(--warn); }
@@ -475,99 +365,51 @@
         .alert-box-sub   { font-size: 11.5px; color: var(--ink-50); margin-top: 2px; }
         .alert-box-body  { padding: 0 18px 16px; }
 
-        .alert-btn {
-            width: 100%; border: none; border-radius: var(--r-sm); padding: 10px;
-            font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 7px; transition: background .15s;
-        }
-
+        .alert-btn { width: 100%; border: none; border-radius: var(--r-sm); padding: 10px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: background .15s; }
         .alert-btn.primary { background: var(--ink); color: var(--white); margin-bottom: 7px; }
         .alert-btn.primary:hover { background: var(--ink-70); }
         .alert-btn.ghost { background: none; border: 1px solid var(--ink-15); color: var(--ink-50); }
         .alert-btn.ghost:hover { border-color: var(--ink-30); color: var(--ink); }
 
-        .monitoring-badge {
-            display: none; align-items: center; gap: 6px;
-            background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: 100px;
-            padding: 6px 12px; font-size: 11px; color: var(--ink-50); font-weight: 600;
-            width: 100%; justify-content: center; margin-bottom: 7px;
-        }
-
+        .monitoring-badge { display: none; align-items: center; gap: 6px; background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: 100px; padding: 6px 12px; font-size: 11px; color: var(--ink-50); font-weight: 600; width: 100%; justify-content: center; margin-bottom: 7px; }
         .monitoring-badge.show { display: flex; }
         .monitoring-badge i { font-size: 10px; animation: spin 1.4s linear infinite; }
-
         .tech-detail { background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: var(--r-sm); padding: 9px 11px; font-size: 11px; font-family: monospace; color: var(--ink-50); margin: 10px 0; line-height: 1.5; }
         .deploy-hint { font-size: 11.5px; color: var(--warn); margin-bottom: 10px; display: flex; gap: 6px; align-items: flex-start; line-height: 1.5; }
         .deploy-hint i { margin-top: 2px; flex-shrink: 0; font-size: 10px; }
 
         /* ════ RESULT ════ */
         #resultArea { margin-top: 12px; }
-
-        .result-header {
-            background: var(--ink); border-radius: var(--r-lg); padding: 18px 20px;
-            margin-bottom: 12px; display: flex; align-items: center; gap: 12px;
-        }
-
+        .result-header { background: var(--ink); border-radius: var(--r-lg); padding: 18px 20px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
         .rh-avatar { width: 40px; height: 40px; border: 1.5px solid rgba(255,255,255,.15); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: rgba(255,255,255,.6); flex-shrink: 0; }
         
-        /* แก้ไขไม่ให้ตัดคำด้วยจุดไข่ปลา */
-        .rh-eyebrow { font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,.35); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 3px; word-break: keep-all; }
-        
+        .rh-eyebrow { font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,.35); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 3px; white-space: normal; word-break: keep-all; line-height: 1.4; }
         .rh-name    { font-size: 15px; font-weight: 800; color: var(--white); letter-spacing: -.01em; }
         .rh-meta    { font-size: 11px; color: rgba(255,255,255,.38); margin-top: 3px; }
 
         .token-label { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-50); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
         .token-label::after { content: ''; flex: 1; height: 1px; background: var(--ink-15); }
-
-        .token-card {
-            background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg);
-            overflow: hidden; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.04);
-        }
-
+        .token-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
         .token-card-head { padding: 9px 15px; border-bottom: 1px solid var(--ink-07); font-size: 10px; font-weight: 700; color: var(--ink-50); letter-spacing: .06em; text-transform: uppercase; }
         .token-card-body { padding: 11px 13px; display: flex; gap: 8px; flex-wrap: wrap; }
 
-        .code-pill {
-            display: flex; align-items: center; gap: 7px;
-            background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: var(--r-sm);
-            padding: 8px 11px; font-size: 13.5px; font-weight: 700; color: var(--ink-70);
-            cursor: pointer; transition: all .15s; flex: 1; min-width: 110px; user-select: none;
-        }
-
+        .code-pill { display: flex; align-items: center; gap: 7px; background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: var(--r-sm); padding: 8px 11px; font-size: 13.5px; font-weight: 700; color: var(--ink-70); cursor: pointer; transition: all .15s; flex: 1; min-width: 110px; user-select: none; }
         .code-pill:hover { background: var(--white); border-color: var(--ink-30); }
         .code-pill:active { transform: scale(.98); }
         .code-pill i { font-size: 10px; color: var(--ink-30); }
         .copy-icon { margin-left: auto; transition: color .15s; }
 
-        .token-pill {
-            display: flex; align-items: center; gap: 7px;
-            background: var(--ink); border: 1px solid transparent; border-radius: var(--r-sm);
-            padding: 8px 11px; font-size: 13.5px; font-weight: 700; color: var(--white);
-            cursor: pointer; transition: all .15s; flex: 1; min-width: 110px; user-select: none;
-        }
-
+        .token-pill { display: flex; align-items: center; gap: 7px; background: var(--ink); border: 1px solid transparent; border-radius: var(--r-sm); padding: 8px 11px; font-size: 13.5px; font-weight: 700; color: var(--white); cursor: pointer; transition: all .15s; flex: 1; min-width: 110px; user-select: none; }
         .token-pill:hover { background: var(--ink-70); }
         .token-pill:active { transform: scale(.98); }
         .token-pill i { font-size: 10px; color: rgba(255,255,255,.4); }
 
         /* copy toast */
-        .copy-toast {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(4px);
-            background: var(--ink); color: var(--white); border-radius: 100px; padding: 9px 18px;
-            font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 7px;
-            opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; z-index: 999;
-        }
-
+        .copy-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(4px); background: var(--ink); color: var(--white); border-radius: 100px; padding: 9px 18px; font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 7px; opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; z-index: 999; }
         .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         .result-actions { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px; padding-top: 12px; flex-wrap: wrap; }
-
-        .action-btn {
-            display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 100px;
-            font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer; transition: all .15s;
-            text-decoration: none; background: none; border: 1px solid var(--ink-15); color: var(--ink-50);
-        }
-
+        .action-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 100px; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer; transition: all .15s; text-decoration: none; background: none; border: 1px solid var(--ink-15); color: var(--ink-50); }
         .action-btn:hover { border-color: var(--ink-30); color: var(--ink); background: var(--white); }
         .action-btn i { font-size: 10px; }
 
@@ -585,13 +427,7 @@
 
         /* ════ RESPONSIVE ════ */
         @media (max-width: 900px) {
-            /* สลับฟอร์มค้นหาขึ้นบนมือถือ และให้เนื้อหาไหลแบบคอลัมน์ */
-            .page-layout { 
-                display: flex; 
-                flex-direction: column; 
-                padding: 28px 20px 60px; 
-                gap: 28px; 
-            }
+            .page-layout { display: flex; flex-direction: column; padding: 28px 20px 60px; gap: 28px; }
             .info-panel { order: 2; position: static; }
             section { order: 1; width: 100%; }
             .header-inner { padding: 0 20px; }
@@ -796,7 +632,7 @@
                     <div class="ps-dot-wrap"><div class="ps-dot"></div><div class="ps-ring"></div></div>
                     <div class="ps-text">
                         <div class="ps-title">ดึงข้อมูลจากเซิร์ฟเวอร์</div>
-                        <div class="ps-desc" id="psd-2">ส่งคำขอไปยัง Apps Script Server</div>
+                        <div class="ps-desc" id="psd-2">ส่งคำขอไปยัง Server</div>
                     </div>
                 </div>
                 <div class="ps-item" id="ps-3">
@@ -842,7 +678,7 @@
                 <div class="tech-detail" id="technicalError" style="display:none"></div>
                 <div class="deploy-hint hidden" id="deployHint">
                     <i class="fa-solid fa-lightbulb"></i>
-                    <span>ลอง Deploy > New Deployment ใน Apps Script แล้วนำ URL ใหม่มาใส่</span>
+                    <span>ลอง Deploy > New Deployment</span>
                 </div>
                 <button class="alert-btn primary" onclick="resetAll()">
                     <i class="fa-solid fa-rotate-left"></i>กลับไปค้นหา
@@ -915,7 +751,6 @@ window.addEventListener('load', async () => {
     lsUpdate('กำลังเชื่อมต่อระบบ...', 'spin');
     lsProgress(20);
 
-    // Fetch activities during loading
     let activities = [];
     try {
         lsUpdate('กำลังโหลดรายการกิจกรรม...', 'spin');
@@ -933,16 +768,13 @@ window.addEventListener('load', async () => {
 
     await delay(500);
 
-    // Fade out loading
     const ls = document.getElementById('loadScreen');
     ls.classList.add('fade-out');
     document.body.classList.add('visible');
     ls.addEventListener('animationend', () => ls.remove(), { once: true });
 
-    // Show info modal
     setTimeout(() => document.getElementById('infoModal').classList.add('visible'), 300);
 
-    // URL param auto-search — short format: ?a=ACTIVITY&s=STUDENTID
     const p   = new URLSearchParams(location.search);
     const act = p.get('a') || p.get('name') || p.get('activity');
     const sid = p.get('s') || p.get('id');
@@ -984,7 +816,7 @@ function populateActivities(data) {
         const div = document.createElement('div');
         div.className = 'dropdown-opt';
         div.dataset.value = act;
-        div.innerHTML = `<i class="fa-solid fa-check dd-check"></i>${escHtml(act)}`;
+        div.innerHTML = `<span class="dropdown-opt-text">${escHtml(act)}</span><i class="fa-solid fa-check dd-check"></i>`;
         div.onclick = () => selectOption(act, act);
         dropdown.appendChild(div);
 
@@ -1081,18 +913,14 @@ function performSearch(sid, act) {
     _sid = sid; _act = act;
     if (_monitorTimer) clearInterval(_monitorTimer);
 
-    // Dim form, hide results
     document.getElementById('formCard').classList.add('dimmed');
     document.getElementById('searchBtn').disabled = true;
     document.getElementById('searchBtn').innerHTML = '<div class="spin-s"></div><span>กำลังค้นหา...</span>';
 
-    // Show process card, hide others
     hide('pendingCard'); hide('errorCard'); hide('resultArea');
     show('processCard');
 
-    setPs(1, 'active');
-    setPs(2, 'idle');
-    setPs(3, 'idle');
+    setPs(1, 'active'); setPs(2, 'idle'); setPs(3, 'idle');
 
     setTimeout(() => {
         setPs(1, 'done', 'ข้อมูลถูกต้อง พร้อมค้นหา');
@@ -1164,20 +992,29 @@ function showResult(data) {
     let html = '';
     activities.forEach((item, i) => {
         if (item.code || item.token) {
+            
+            /* ดัก Bug กรณีไม่มี code หรือ token ส่งมา จะได้ไม่สร้างปุ่มว่างๆ */
+            let pills = '';
+            if (item.code) {
+                pills += `<div class="code-pill" onclick="copyText('${escHtml(item.code)}','รหัสกิจกรรม',this)">
+                            <i class="fa-solid fa-hashtag"></i>
+                            <span>${escHtml(item.code)}</span>
+                            <i class="fa-regular fa-copy copy-icon"></i>
+                          </div>`;
+            }
+            if (item.token) {
+                pills += `<div class="token-pill" onclick="copyText('${escHtml(item.token)}','Token Key',this)">
+                            <i class="fa-solid fa-key"></i>
+                            <span>${escHtml(item.token)}</span>
+                            <i class="fa-regular fa-copy copy-icon"></i>
+                          </div>`;
+            }
+
             html += `
             <div class="token-card">
                 <div class="token-card-head">รายการที่ ${i + 1}</div>
                 <div class="token-card-body">
-                    <div class="code-pill" onclick="copyText('${escHtml(item.code)}','รหัสกิจกรรม',this)">
-                        <i class="fa-solid fa-hashtag"></i>
-                        <span>${escHtml(item.code)}</span>
-                        <i class="fa-regular fa-copy copy-icon"></i>
-                    </div>
-                    <div class="token-pill" onclick="copyText('${escHtml(item.token)}','Token Key',this)">
-                        <i class="fa-solid fa-key"></i>
-                        <span>${escHtml(item.token)}</span>
-                        <i class="fa-regular fa-copy copy-icon"></i>
-                    </div>
+                    ${pills}
                 </div>
             </div>`;
         }
@@ -1186,7 +1023,6 @@ function showResult(data) {
     document.getElementById('activitiesList').innerHTML = html || '<div style="font-size:12.5px;color:var(--ink-50);padding:4px 0">ไม่พบรายการ Token</div>';
     document.getElementById('shareBtn').style.display = 'flex';
 
-    // Hide search section, show result
     document.getElementById('searchSection').classList.add('hidden');
     show('resultArea');
 }
@@ -1207,12 +1043,14 @@ function resetAll() {
     document.getElementById('btnEnableNotify').style.display = '';
     document.getElementById('shareBtn').style.display = 'none';
 
-    // Restore search section
     document.getElementById('searchSection').classList.remove('hidden');
     document.getElementById('studentId').value = '';
     document.getElementById('idCounter').textContent = '0 / 10';
     document.getElementById('idCounter').className = 'field-label-right';
+    
+    /* แก้ Bug สีของ progress bar ค้างตอน reset */
     document.getElementById('idBar').style.width = '0';
+    document.getElementById('idBar').style.background = 'var(--ink-30)';
     document.getElementById('studentId').classList.remove('complete', 'invalid');
     refreshSearchBtn();
 
@@ -1242,7 +1080,6 @@ function toast(msg) {
 }
 
 function copyResultLink() {
-    // Short URL format: ?a=ACTIVITY&s=STUDENTID
     const url = `${location.protocol}//${location.host}${location.pathname}?a=${encodeURIComponent(_act)}&s=${encodeURIComponent(_sid)}`;
     navigator.clipboard.writeText(url).then(() => {
         const btn = document.getElementById('shareBtn');
