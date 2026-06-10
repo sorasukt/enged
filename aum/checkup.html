@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js"></script>
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
 
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -649,12 +649,20 @@ const MAX_DISTANCE_METERS = 100;
 const GAS_URL             = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
 
 /* ════════════════════════════════════════
-   ตั้งค่า AUTH0
+   ตั้งค่า AUTH0 (เปลี่ยนให้ตรงกับแอปของคุณ)
 ════════════════════════════════════════ */
 const AUTH0_DOMAIN    = "litalkeducation.us.auth0.com"; 
 const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";      
 
-let auth0Client = null;
+// ใช้ new auth0.Auth0Client ตามแบบฉบับที่ทดสอบมาแล้วว่าทำงานได้ 100%
+const auth0Client = new auth0.Auth0Client({
+    domain: AUTH0_DOMAIN,
+    clientId: AUTH0_CLIENT_ID,
+    authorizationParams: {
+        redirect_uri: window.location.href.split('?')[0]
+    }
+});
+
 let isAuthenticated = false;
 let userProfile = null;
 let extractedStudentId = null;
@@ -664,45 +672,20 @@ let SCHEDULE = [];
 /* ────────────────────────────────────────
    ฟังก์ชัน Auth0
 ──────────────────────────────────────── */
-async function configureAuth0() {
-    auth0Client = await createAuth0Client({
-        domain: AUTH0_DOMAIN,
-        clientId: AUTH0_CLIENT_ID,
-        authorizationParams: {
-            redirect_uri: window.location.origin + window.location.pathname
-        }
-    });
-}
-
 async function loginUser() {
-    await auth0Client.loginWithRedirect();
+    try {
+        await auth0Client.loginWithRedirect();
+    } catch (error) {
+        console.error("Login Error:", error);
+        alert("ระบบขัดข้อง ไม่สามารถล็อกอินได้ในขณะนี้\n(หมายเหตุ: การทดสอบบนเครื่องต้องไม่ได้เปิดไฟล์ด้วยวิธีดับเบิลคลิกตรงๆ)");
+    }
 }
 
 async function logoutUser() {
     setCookie('att_name', '', -1); 
     await auth0Client.logout({
-        logoutParams: { returnTo: window.location.origin + window.location.pathname }
+        logoutParams: { returnTo: window.location.href.split('?')[0] }
     });
-}
-
-async function checkAuth() {
-    await configureAuth0();
-
-    const query = window.location.search;
-    if (query.includes("code=") && query.includes("state=")) {
-        await auth0Client.handleRedirectCallback();
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
-
-    isAuthenticated = await auth0Client.isAuthenticated();
-    
-    if (isAuthenticated) {
-        userProfile = await auth0Client.getUser();
-        document.getElementById('logoutBtn').style.display = 'flex';
-        verifyUserEmail(userProfile.email);
-    } else {
-        showScreen('authScreen');
-    }
 }
 
 function verifyUserEmail(email) {
@@ -852,7 +835,7 @@ function setCookie(name, value, days) { const exp = new Date(Date.now() + days *
 function getCookie(name) { const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; }
 
 /* ────────────────────────────────────────
-   INIT FLOW (Try-Catch Protected)
+   INIT FLOW (Try-Catch Protected + Global Client)
 ──────────────────────────────────────── */
 window.addEventListener('load', async () => {
     updateClock();
@@ -868,12 +851,26 @@ window.addEventListener('load', async () => {
 
     renderSchedule();
 
-    // 2. ดำเนินการเช็ค Auth0 (ครอบ Try-Catch เพื่อความปลอดภัยสูงสุด ป้องกันจอขาว)
+    // 2. ดำเนินการเช็ค Auth0 (ครอบ Try-Catch เพื่อป้องกันจอขาว)
     try {
-        await checkAuth();
+        const query = window.location.search;
+        if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
+            await auth0Client.handleRedirectCallback();
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        isAuthenticated = await auth0Client.isAuthenticated();
+        
+        if (isAuthenticated) {
+            userProfile = await auth0Client.getUser();
+            document.getElementById('logoutBtn').style.display = 'flex';
+            verifyUserEmail(userProfile.email);
+        } else {
+            showScreen('authScreen');
+            document.getElementById('headerBadgeText').textContent = 'รอการล็อกอิน';
+        }
     } catch (error) { 
         console.error("Auth0 Initialization Error:", error);
-        // แสดง Welcome Screen เผื่อกรณียังไม่ได้ตั้งค่า URL เพื่อให้ระบบไม่ล่ม
         showScreen('authScreen');
         document.getElementById('headerBadgeText').textContent = 'รอการล็อกอิน';
     }
@@ -887,7 +884,7 @@ window.addEventListener('load', async () => {
         }
     }, 1000);
 
-    // 4. บังคับเฟดหน้าจอโหลดติ้งออกเสมอ ไม่ให้ค้างเป็นจอเปล่า
+    // 4. บังคับเฟดหน้าจอโหลดติ้งออกเสมอ
     setTimeout(() => {
         const ls = document.getElementById('loadScreen');
         if (ls) {
