@@ -16,6 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js"></script>
+
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -67,9 +69,7 @@
             justify-content: center;
             gap: 24px;
         }
-
         .ls-emblem { position: relative; width: 72px; height: 72px; }
-
         .ls-ring {
             position: absolute; inset: 0;
             border-radius: 50%;
@@ -77,7 +77,6 @@
             border-top-color: rgba(255,255,255,.7);
             animation: spin .9s linear infinite;
         }
-
         .ls-inner {
             position: absolute; inset: 10px;
             border-radius: 50%;
@@ -85,40 +84,33 @@
             border-top-color: rgba(255,255,255,.35);
             animation: spin 1.4s linear infinite reverse;
         }
-
         .ls-icon {
             position: absolute; inset: 0;
             display: flex; align-items: center; justify-content: center;
             font-size: 18px; color: rgba(255,255,255,.8);
         }
-
         .ls-wordmark { text-align: center; }
-
         .ls-title {
             font-size: 13px; font-weight: 700;
             color: rgba(255,255,255,.85);
             letter-spacing: .12em; text-transform: uppercase;
         }
-
         .ls-sub {
             font-size: 11px; font-weight: 400;
             color: rgba(255,255,255,.35);
             margin-top: 4px; letter-spacing: .04em;
         }
-
         .ls-progress {
             width: 160px; height: 2px;
             background: rgba(255,255,255,.08);
             border-radius: 2px; overflow: hidden;
         }
-
         .ls-progress-fill {
             height: 100%;
             background: rgba(255,255,255,.5);
             border-radius: 2px;
             animation: loadFill 1.3s cubic-bezier(.4,0,.2,1) forwards;
         }
-
         #loadScreen.fade-out { animation: fadeOut .45s ease forwards; }
 
         /* ── Site Header ── */
@@ -127,33 +119,26 @@
             border-bottom: 1px solid var(--ink-15);
             position: sticky; top: 0; z-index: 100;
         }
-
         .header-inner {
             max-width: 1200px; margin: 0 auto;
             padding: 0 32px; height: 60px;
             display: flex; align-items: center;
             justify-content: space-between; gap: 24px;
         }
-
         .header-brand {
             display: flex; align-items: center;
             gap: 12px; text-decoration: none;
         }
-
         .header-brand-text { line-height: 1.2; }
-
         .header-brand-name {
             font-size: 13px; font-weight: 700;
             color: var(--ink); letter-spacing: -.01em;
         }
-
         .header-brand-faculty {
             font-size: 10.5px; color: var(--ink-50);
             font-weight: 400; margin-top: 1px;
         }
-
-        .header-right { display: flex; align-items: center; gap: 8px; }
-
+        .header-right { display: flex; align-items: center; gap: 12px; }
         .header-badge {
             display: flex; align-items: center; gap: 6px;
             background: var(--ink-07);
@@ -163,700 +148,283 @@
             font-size: 11px; font-weight: 600;
             color: var(--ink-70); letter-spacing: .04em;
         }
-
         .live-dot {
             width: 6px; height: 6px;
             border-radius: 50%; background: #16a34a;
             flex-shrink: 0;
             animation: blink 2.4s ease infinite;
         }
+        .logout-btn {
+            background: none; border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm); padding: 5px 10px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 11px; font-weight: 600; color: var(--error);
+            cursor: pointer; display: flex; align-items: center; gap: 4px;
+            transition: all .2s;
+        }
+        .logout-btn:hover { background: var(--error-bg); border-color: var(--error-bd); }
 
         /* ── Page Layout ── */
         .page-layout {
             max-width: 1200px; margin: 0 auto;
             padding: 48px 32px 80px;
-            display: grid;
-            grid-template-columns: 1fr 480px;
+            display: grid; grid-template-columns: 1fr 480px;
             gap: 48px; align-items: start;
         }
-
-        /* ─ Info panel ─ */
         .info-panel { position: sticky; top: 84px; }
-
         .info-eyebrow {
             display: inline-flex; align-items: center; gap: 7px;
             font-size: 11px; font-weight: 700;
             letter-spacing: .12em; text-transform: uppercase;
             color: var(--accent); margin-bottom: 16px;
         }
-
         .info-eyebrow::before {
             content: ''; width: 16px; height: 2px;
             background: var(--accent); border-radius: 2px;
         }
-
         .info-heading {
             font-size: clamp(26px, 3vw, 36px);
             font-weight: 800; line-height: 1.2;
-            color: var(--ink); letter-spacing: -.02em;
-            margin-bottom: 16px;
+            color: var(--ink); letter-spacing: -.02em; margin-bottom: 16px;
         }
-
         .info-desc {
             font-size: 14px; line-height: 1.8;
             color: var(--ink-50); font-weight: 400;
             margin-bottom: 32px; max-width: 420px;
         }
 
-        /* schedule card */
-        .schedule-card {
-            background: var(--white);
-            border: 1px solid var(--ink-15);
-            border-radius: var(--r-lg);
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-
-        .schedule-head {
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--ink-07);
-            display: flex; align-items: center; gap: 9px;
-        }
-
-        .schedule-head-icon {
-            width: 28px; height: 28px;
-            background: var(--ink-07);
-            border-radius: var(--r-xs);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px; color: var(--ink-50);
-        }
-
-        .schedule-head-title {
-            font-size: 12px; font-weight: 700;
-            color: var(--ink-70);
-            letter-spacing: .06em; text-transform: uppercase;
-        }
-
-        .schedule-head-clock {
-            margin-left: auto;
-            font-size: 11px; font-weight: 600;
-            color: var(--ink-50);
-            font-variant-numeric: tabular-nums;
-            letter-spacing: .02em;
-        }
-
-        .schedule-body { padding: 6px 0; }
-
-        .schedule-row {
-            display: flex; align-items: center; gap: 12px;
-            padding: 10px 18px;
-            border-bottom: 1px solid var(--ink-07);
-            position: relative;
-            transition: background .15s;
-        }
-
-        .schedule-row:last-child { border-bottom: none; }
-        .schedule-row.active-slot { background: #f0fdf4; }
-
-        .schedule-row-dot {
-            width: 7px; height: 7px;
-            border-radius: 50%;
-            background: var(--ink-15);
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .schedule-row.active-slot .schedule-row-dot {
-            background: #16a34a;
-            box-shadow: 0 0 0 3px rgba(22,163,74,.15);
-            animation: blink 2s ease infinite;
-        }
-
-        .schedule-row.upcoming-slot .schedule-row-dot { background: var(--accent); }
-        .schedule-row.closed-slot  .schedule-row-dot { background: var(--ink-15); }
-
-        .schedule-row-info { flex: 1; min-width: 0; }
-
-        .schedule-row-name {
-            font-size: 13px; font-weight: 600;
-            color: var(--ink-70);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-
-        .schedule-row.active-slot .schedule-row-name { color: var(--success); }
-
-        .schedule-row-time {
-            font-size: 11px; color: var(--ink-30);
-            margin-top: 2px; font-weight: 500;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .schedule-row-badge {
-            font-size: 10px; font-weight: 700;
-            letter-spacing: .06em; text-transform: uppercase;
-            padding: 3px 8px; border-radius: 100px;
-            white-space: nowrap; flex-shrink: 0;
-        }
-
-        .badge-open    { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-bd); }
-        .badge-upcoming{ background: var(--accent-2,#e8f0fe); color: var(--accent); border: 1px solid #c7d7fc; }
-        .badge-closed  { background: var(--ink-07); color: var(--ink-30); border: 1px solid var(--ink-15); }
-
-        /* steps overview */
-        .steps-overview {
-            background: var(--white);
-            border: 1px solid var(--ink-15);
-            border-radius: var(--r-lg);
-            padding: 18px;
-        }
-
-        .steps-overview-title {
-            font-size: 12px; font-weight: 700;
-            color: var(--ink-70);
-            letter-spacing: .08em; text-transform: uppercase;
-            margin-bottom: 14px;
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        .steps-overview-title i { color: var(--ink-30); font-size: 11px; }
-
-        .ov-step {
-            display: flex; align-items: center; gap: 12px;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--ink-07);
-        }
-
-        .ov-step:last-child { border-bottom: none; padding-bottom: 0; }
-        .ov-step:first-child { padding-top: 0; }
-
-        .ov-num {
-            width: 22px; height: 22px;
-            border-radius: 50%;
-            border: 1.5px solid var(--ink-15);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 10px; font-weight: 700;
-            color: var(--ink-50); flex-shrink: 0;
-        }
-
-        .ov-label { font-size: 13px; font-weight: 600; color: var(--ink-70); }
-        .ov-sub   { font-size: 11px; color: var(--ink-30); margin-top: 1px; }
-
-        /* ─ Form panel ─ */
-        .section-label {
-            font-size: 11px; font-weight: 700;
-            letter-spacing: .1em; text-transform: uppercase;
-            color: var(--ink-50); margin-bottom: 12px;
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        .section-label::after {
-            content: ''; flex: 1; height: 1px;
-            background: var(--ink-15);
-        }
-
-        /* system status banner */
-        .status-banner {
-            border-radius: var(--r-lg);
-            margin-bottom: 16px;
-            overflow: hidden;
-            border: 1px solid var(--ink-15);
-        }
-
-        .status-banner-inner {
-            padding: 14px 18px;
-            display: flex; align-items: flex-start; gap: 13px;
-        }
-
-        .sb-icon {
-            width: 34px; height: 34px;
-            border-radius: var(--r-sm);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px; flex-shrink: 0; margin-top: 1px;
-        }
-
-        .sb-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
-        .sb-text  { font-size: 12.5px; line-height: 1.6; }
-
-        /* open */
-        .status-banner.open {
-            border-color: var(--success-bd);
-            background: var(--success-bg);
-        }
-        .status-banner.open .sb-icon { background: #d1fae5; color: var(--success); }
-        .status-banner.open .sb-title { color: var(--success); }
-        .status-banner.open .sb-text  { color: #047857; }
-
-        /* closed */
-        .status-banner.closed {
-            border-color: var(--ink-15);
-            background: var(--ink-07);
-        }
-        .status-banner.closed .sb-icon { background: var(--ink-15); color: var(--ink-50); }
-        .status-banner.closed .sb-title { color: var(--ink-70); }
-        .status-banner.closed .sb-text  { color: var(--ink-50); }
-
-        /* upcoming */
-        .status-banner.upcoming {
-            border-color: #c7d7fc;
-            background: #f0f4ff;
-        }
-        .status-banner.upcoming .sb-icon { background: #c7d7fc; color: var(--accent); }
-        .status-banner.upcoming .sb-title { color: var(--accent); }
-        .status-banner.upcoming .sb-text  { color: #1e40af; }
-
-        /* form card */
-        .form-card {
+        /* ── Cards ── */
+        .schedule-card, .steps-overview, .form-card, .notice-card, .status-card {
             background: var(--white);
             border: 1px solid var(--ink-15);
             border-radius: var(--r-lg); overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
             margin-bottom: 16px;
         }
-
-        .form-card-head {
-            padding: 16px 22px;
+        .schedule-head {
+            padding: 14px 18px; border-bottom: 1px solid var(--ink-07);
+            display: flex; align-items: center; gap: 9px;
+        }
+        .schedule-head-icon {
+            width: 28px; height: 28px; background: var(--ink-07); border-radius: var(--r-xs);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; color: var(--ink-50);
+        }
+        .schedule-head-title {
+            font-size: 12px; font-weight: 700; color: var(--ink-70);
+            letter-spacing: .06em; text-transform: uppercase;
+        }
+        .schedule-head-clock {
+            margin-left: auto; font-size: 11px; font-weight: 600;
+            color: var(--ink-50); font-variant-numeric: tabular-nums;
+        }
+        .schedule-body { padding: 6px 0; }
+        .schedule-row {
+            display: flex; align-items: center; gap: 12px; padding: 10px 18px;
             border-bottom: 1px solid var(--ink-07);
+        }
+        .schedule-row:last-child { border-bottom: none; }
+        .schedule-row.active-slot { background: #f0fdf4; }
+        .schedule-row-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: var(--ink-15); flex-shrink: 0; margin-top: 2px;
+        }
+        .schedule-row.active-slot .schedule-row-dot {
+            background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.15);
+            animation: blink 2s ease infinite;
+        }
+        .schedule-row.upcoming-slot .schedule-row-dot { background: var(--accent); }
+        .schedule-row-info { flex: 1; min-width: 0; }
+        .schedule-row-name {
+            font-size: 13px; font-weight: 600; color: var(--ink-70);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .schedule-row.active-slot .schedule-row-name { color: var(--success); }
+        .schedule-row-time { font-size: 11px; color: var(--ink-30); margin-top: 2px; }
+        .schedule-row-badge {
+            font-size: 10px; font-weight: 700; text-transform: uppercase;
+            padding: 3px 8px; border-radius: 100px;
+        }
+        .badge-open { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-bd); }
+        .badge-upcoming { background: var(--accent-2,#e8f0fe); color: var(--accent); border: 1px solid #c7d7fc; }
+        .badge-closed { background: var(--ink-07); color: var(--ink-30); border: 1px solid var(--ink-15); }
+
+        .steps-overview { padding: 18px; }
+        .steps-overview-title {
+            font-size: 12px; font-weight: 700; color: var(--ink-70);
+            margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+        }
+        .ov-step {
+            display: flex; align-items: center; gap: 12px; padding: 8px 0;
+            border-bottom: 1px solid var(--ink-07);
+        }
+        .ov-step:last-child { border-bottom: none; padding-bottom: 0; }
+        .ov-step:first-child { padding-top: 0; }
+        .ov-num {
+            width: 22px; height: 22px; border-radius: 50%;
+            border: 1.5px solid var(--ink-15); display: flex; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: 700; color: var(--ink-50); flex-shrink: 0;
+        }
+        .ov-label { font-size: 13px; font-weight: 600; color: var(--ink-70); }
+        .ov-sub { font-size: 11px; color: var(--ink-30); margin-top: 1px; }
+
+        .section-label {
+            font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+            color: var(--ink-50); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        .section-label::after { content: ''; flex: 1; height: 1px; background: var(--ink-15); }
+
+        .form-card { box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04); }
+        .form-card-head {
+            padding: 16px 22px; border-bottom: 1px solid var(--ink-07);
             display: flex; align-items: center; gap: 10px;
         }
-
         .fch-icon {
-            width: 32px; height: 32px;
-            background: var(--ink-07); border-radius: var(--r-sm);
+            width: 32px; height: 32px; background: var(--ink-07); border-radius: var(--r-sm);
             display: flex; align-items: center; justify-content: center;
             font-size: 13px; color: var(--ink-50);
         }
-
-        .fch-title { font-size: 13.5px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
-        .fch-sub   { font-size: 11.5px; color: var(--ink-50); margin-top: 1px; }
-
+        .fch-title { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+        .fch-sub { font-size: 11.5px; color: var(--ink-50); margin-top: 1px; }
         .form-card-body { padding: 22px; }
 
         .field { margin-bottom: 18px; }
         .field:last-child { margin-bottom: 0; }
-
         .field-label {
-            display: flex; align-items: center; gap: 6px;
-            font-size: 12px; font-weight: 700;
-            color: var(--ink-70);
-            letter-spacing: .04em; text-transform: uppercase;
-            margin-bottom: 7px;
+            display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700;
+            color: var(--ink-70); margin-bottom: 7px; text-transform: uppercase;
         }
-
-        .field-label i { font-size: 10.5px; color: var(--ink-30); width: 13px; text-align: center; }
-        .req { color: var(--accent); margin-left: 1px; font-size: 14px; line-height: 1; }
-
+        .req { color: var(--accent); margin-left: 1px; font-size: 14px; }
+        
         input[type="text"] {
-            width: 100%;
-            background: var(--white);
-            border: 1px solid var(--ink-15);
-            border-radius: var(--r-sm);
-            padding: 10px 13px;
-            font-family: 'Noto Sans Thai', sans-serif;
-            font-size: 14px; color: var(--ink);
-            outline: none;
-            transition: border-color .15s, box-shadow .15s;
-            -webkit-appearance: none;
+            width: 100%; background: var(--white); border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm); padding: 10px 13px;
+            font-family: 'Noto Sans Thai', sans-serif; font-size: 14px; color: var(--ink);
+            outline: none; transition: all .15s;
         }
-
-        input[type="text"]:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(26,86,219,.1);
+        input[type="text"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
+        input[type="text"]:read-only {
+            background: var(--ink-07); color: var(--ink-50);
+            border-color: var(--ink-15); cursor: not-allowed;
         }
+        
+        .field-hint { font-size: 11px; color: var(--ink-30); margin-top: 5px; display: flex; gap: 5px; }
 
-        input[type="text"].invalid {
-            border-color: #dc2626;
-            box-shadow: 0 0 0 3px rgba(220,38,38,.08);
-        }
-
-        input[type="text"]:disabled {
-            background: var(--ink-07);
-            color: var(--ink-30);
-            cursor: not-allowed;
-        }
-
-        input::placeholder { color: var(--ink-30); font-size: 13.5px; }
-
-        .field-hint {
-            font-size: 11px; color: var(--ink-30);
-            margin-top: 5px;
-            display: flex; align-items: center; gap: 5px;
-        }
-
-        .field-hint i { font-size: 10px; }
-
-        /* notice card */
-        .notice-card {
-            background: var(--white);
-            border: 1px solid var(--ink-15);
-            border-radius: var(--r-lg); overflow: hidden;
-            margin-bottom: 16px;
-        }
-
-        .notice-inner {
-            padding: 15px 18px;
-            display: flex; gap: 12px; align-items: flex-start;
-        }
-
+        .notice-inner { padding: 15px 18px; display: flex; gap: 12px; align-items: flex-start; }
         .notice-icon {
-            width: 32px; height: 32px;
-            background: var(--ink-07); border-radius: var(--r-sm);
+            width: 32px; height: 32px; background: var(--ink-07); border-radius: var(--r-sm);
             display: flex; align-items: center; justify-content: center;
-            font-size: 13px; color: var(--ink-50);
-            flex-shrink: 0; margin-top: 1px;
+            font-size: 13px; color: var(--ink-50); flex-shrink: 0;
         }
-
         .notice-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
-        .notice-text  { font-size: 12.5px; color: var(--ink-50); line-height: 1.65; }
-
-        /* cookie strip */
-        .info-strip {
-            background: var(--ink-07);
-            border-radius: var(--r-sm);
-            padding: 9px 13px;
-            font-size: 12px; color: var(--ink-50); font-weight: 500;
-            display: flex; align-items: center; gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .info-strip i { font-size: 11px; color: var(--ink-30); flex-shrink: 0; }
-
-        .strip-clear {
-            background: none; border: none; cursor: pointer;
-            font-family: inherit;
-            font-size: 11px; font-weight: 700;
-            color: var(--ink-50);
-            letter-spacing: .04em; text-transform: uppercase;
-            padding: 0; white-space: nowrap;
-            margin-left: auto;
-            display: flex; align-items: center; gap: 4px;
-        }
-
-        .strip-clear:hover { color: var(--ink); }
-
-        /* submit */
-        .submit-wrap { margin-top: 4px; }
+        .notice-text { font-size: 12.5px; color: var(--ink-50); line-height: 1.65; }
 
         .submit-btn {
-            width: 100%;
-            background: var(--ink); color: var(--white);
-            border: none; border-radius: var(--r-sm);
-            padding: 12px 24px;
-            font-family: 'Noto Sans Thai', sans-serif;
-            font-size: 14px; font-weight: 700;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 9px;
-            letter-spacing: .02em;
-            transition: background .15s, transform .12s, box-shadow .15s;
-            box-shadow: 0 1px 3px rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.1);
+            width: 100%; background: var(--ink); color: var(--white);
+            border: none; border-radius: var(--r-sm); padding: 12px 24px;
+            font-family: 'Noto Sans Thai', sans-serif; font-size: 14px; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px;
+            transition: all .15s; box-shadow: 0 1px 3px rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.1);
         }
-
-        .submit-btn:hover:not(:disabled) {
-            background: var(--ink-70);
-            box-shadow: 0 2px 6px rgba(0,0,0,.18), 0 8px 20px rgba(0,0,0,.12);
-        }
-
-        .submit-btn:active:not(:disabled) { transform: translateY(1px); }
+        .submit-btn:hover:not(:disabled) { background: var(--ink-70); }
         .submit-btn:disabled { opacity: .45; cursor: not-allowed; }
-        .submit-btn i { font-size: 12px; }
+        .submit-note { text-align: center; font-size: 11px; color: var(--ink-30); margin-top: 10px; }
 
-        .submit-note {
-            text-align: center; font-size: 11px; color: var(--ink-30);
-            margin-top: 10px;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
+        /* Status Banners */
+        .status-banner { border-radius: var(--r-lg); margin-bottom: 16px; border: 1px solid var(--ink-15); }
+        .status-banner-inner { padding: 14px 18px; display: flex; gap: 13px; }
+        .sb-icon {
+            width: 34px; height: 34px; border-radius: var(--r-sm);
+            display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;
         }
+        .sb-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+        .sb-text { font-size: 12.5px; line-height: 1.6; }
+        .status-banner.open { border-color: var(--success-bd); background: var(--success-bg); }
+        .status-banner.open .sb-icon { background: #d1fae5; color: var(--success); }
+        .status-banner.open .sb-title { color: var(--success); }
+        .status-banner.open .sb-text { color: #047857; }
 
-        .submit-note i { font-size: 10px; }
-
-        /* ── Process Overlay ── */
-        #processOverlay {
-            position: fixed; inset: 0;
-            background: rgba(13,17,23,.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 8888;
-            display: flex; align-items: center; justify-content: center;
-            padding: 24px;
-            opacity: 0; pointer-events: none;
-            transition: opacity .22s ease;
+        /* ── Alternate Screens (Auth, Closed, Invalid) ── */
+        .alt-screen { display: none; }
+        .alt-screen.show { display: flex; flex-direction: column; gap: 16px; animation: fadeUp .4s cubic-bezier(.22,1,.36,1) both; }
+        .alt-main-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04); }
+        .alt-top { background: var(--ink); padding: 36px 28px 32px; text-align: center; }
+        .alt-top.error-bg { background: var(--error); }
+        .alt-top-icon {
+            width: 68px; height: 68px; border: 1.5px solid rgba(255,255,255,.14); border-radius: 20px;
+            display: flex; align-items: center; justify-content: center; font-size: 28px; color: rgba(255,255,255,.6); margin: 0 auto 18px;
         }
+        .alt-top-title { font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+        .alt-top-sub { font-size: 13px; color: rgba(255,255,255,.38); font-weight: 400; line-height: 1.65; }
+        .alt-body { padding: 24px; }
+        
+        .auth-btn {
+            width: 100%; background: var(--accent); color: var(--white);
+            border: none; border-radius: var(--r-md); padding: 14px;
+            font-family: inherit; font-size: 15px; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 4px 12px rgba(26,86,219,.2); transition: all .2s; margin-bottom: 16px;
+        }
+        .auth-btn:hover { background: #1e40af; transform: translateY(-1px); }
+        
+        .auth-btn.danger { background: var(--white); color: var(--error); border: 1px solid var(--error-bd); box-shadow: none; }
+        .auth-btn.danger:hover { background: var(--error-bg); }
 
+        /* Process Overlay */
+        #processOverlay { position: fixed; inset: 0; background: rgba(13,17,23,.6); backdrop-filter: blur(8px); z-index: 8888; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity .22s ease; }
         #processOverlay.visible { opacity: 1; pointer-events: all; }
-
-        .process-card {
-            background: var(--white);
-            border-radius: var(--r-lg);
-            border: 1px solid var(--ink-15);
-            box-shadow: 0 24px 64px rgba(0,0,0,.2);
-            width: 100%; max-width: 400px; overflow: hidden;
-            transform: translateY(10px) scale(.98);
-            transition: transform .28s cubic-bezier(.22,1,.36,1);
-        }
-
+        .process-card { background: var(--white); border-radius: var(--r-lg); border: 1px solid var(--ink-15); width: 100%; max-width: 400px; transform: translateY(10px) scale(.98); transition: transform .28s; }
         #processOverlay.visible .process-card { transform: translateY(0) scale(1); }
-
-        .process-head {
-            background: var(--ink); padding: 18px 24px;
-            display: flex; align-items: center; gap: 12px;
-        }
-
-        .ph-icon {
-            width: 32px; height: 32px;
-            border: 1px solid rgba(255,255,255,.18); border-radius: var(--r-sm);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 13px; color: var(--white); flex-shrink: 0;
-        }
-
-        .ph-eyebrow {
-            font-size: 10px; font-weight: 700;
-            letter-spacing: .12em; text-transform: uppercase;
-            color: rgba(255,255,255,.35);
-        }
-
-        .ph-title { font-size: 14px; font-weight: 700; color: var(--white); margin-top: 2px; }
-
+        .process-head { background: var(--ink); padding: 18px 24px; display: flex; gap: 12px; }
+        .ph-icon { width: 32px; height: 32px; border: 1px solid rgba(255,255,255,.18); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; color: var(--white); }
+        .ph-eyebrow { font-size: 10px; font-weight: 700; color: rgba(255,255,255,.35); text-transform: uppercase; }
+        .ph-title { font-size: 14px; font-weight: 700; color: var(--white); }
         .process-body { padding: 24px; }
-
-        .step-list { display: flex; flex-direction: column; }
-
-        .step-item {
-            display: flex; align-items: flex-start;
-            gap: 14px; position: relative;
-        }
-
-        .step-item:not(:last-child)::after {
-            content: '';
-            position: absolute; left: 14px; top: 30px;
-            width: 1px; height: calc(100% - 6px);
-            background: var(--ink-15); transition: background .3s;
-        }
-
+        .step-item { display: flex; gap: 14px; position: relative; }
+        .step-item:not(:last-child)::after { content: ''; position: absolute; left: 14px; top: 30px; width: 1px; height: calc(100% - 6px); background: var(--ink-15); }
         .step-item.done:not(:last-child)::after { background: var(--ink); }
-
-        .step-dot-wrap {
-            flex-shrink: 0; width: 28px; height: 28px;
-            display: flex; align-items: center; justify-content: center;
-            position: relative; z-index: 1;
-        }
-
-        .step-dot {
-            width: 28px; height: 28px; border-radius: 50%;
-            border: 1.5px solid var(--ink-15); background: var(--white);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 10px; color: var(--ink-30);
-            transition: all .25s cubic-bezier(.22,1,.36,1);
-        }
-
-        .step-item.active .step-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
-        .step-item.done   .step-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
-        .step-item.error  .step-dot { border-color: #dc2626; background: #dc2626; color: var(--white); }
-
-        .step-ring {
-            position: absolute; inset: -3px; border-radius: 50%;
-            border: 1.5px solid transparent; border-top-color: var(--ink);
-            animation: spin .7s linear infinite;
-            opacity: 0; transition: opacity .2s;
-        }
-
+        .step-dot-wrap { flex-shrink: 0; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+        .step-dot { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--ink-15); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--ink-30); }
+        .step-item.active .step-dot, .step-item.done .step-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
+        .step-item.error .step-dot { border-color: #dc2626; background: #dc2626; color: var(--white); }
+        .step-ring { position: absolute; inset: -3px; border-radius: 50%; border: 1.5px solid transparent; border-top-color: var(--ink); animation: spin .7s linear infinite; opacity: 0; }
         .step-item.active .step-ring { opacity: 1; }
-
         .step-text { padding: 4px 0 18px; flex: 1; }
         .step-item:last-child .step-text { padding-bottom: 0; }
-
-        .step-title { font-size: 13px; font-weight: 700; color: var(--ink-30); transition: color .25s; }
+        .step-title { font-size: 13px; font-weight: 700; color: var(--ink-30); }
         .step-item.active .step-title { color: var(--ink); }
-        .step-item.done   .step-title { color: var(--ink-70); }
-        .step-item.error  .step-title { color: #dc2626; }
-
-        .step-desc {
-            font-size: 11.5px; color: var(--ink-50);
-            margin-top: 2px; line-height: 1.55;
-            max-height: 0; overflow: hidden; opacity: 0;
-            transition: max-height .28s ease, opacity .28s;
-        }
-
-        .step-item.active .step-desc,
-        .step-item.done   .step-desc,
-        .step-item.error  .step-desc { max-height: 56px; opacity: 1; }
-
-        .process-result {
-            margin-top: 18px; padding: 11px 14px;
-            border-radius: var(--r-sm); font-size: 13px; font-weight: 600;
-            display: none; align-items: center; gap: 9px; line-height: 1.5;
-        }
-
+        .step-item.done .step-title { color: var(--ink-70); }
+        .step-item.error .step-title { color: #dc2626; }
+        .step-desc { font-size: 11.5px; color: var(--ink-50); max-height: 0; overflow: hidden; opacity: 0; transition: all .28s; }
+        .step-item.active .step-desc, .step-item.done .step-desc, .step-item.error .step-desc { max-height: 56px; opacity: 1; margin-top: 2px;}
+        .process-result { margin-top: 18px; padding: 11px 14px; border-radius: var(--r-sm); font-size: 13px; font-weight: 600; display: none; gap: 9px; }
         .process-result.success { display: flex; background: var(--success-bg); color: var(--success); border: 1px solid var(--success-bd); }
-        .process-result.error   { display: flex; background: var(--error-bg); color: var(--error); border: 1px solid var(--error-bd); }
-        .process-result i { flex-shrink: 0; font-size: 13px; }
-
-        .process-close {
-            width: 100%; margin-top: 14px;
-            background: var(--ink); color: var(--white);
-            border: none; border-radius: var(--r-sm);
-            padding: 11px;
-            font-family: 'Noto Sans Thai', sans-serif;
-            font-size: 13px; font-weight: 700;
-            cursor: pointer; display: none;
-            align-items: center; justify-content: center; gap: 8px;
-            transition: background .15s; letter-spacing: .02em;
-        }
-
+        .process-result.error { display: flex; background: var(--error-bg); color: var(--error); border: 1px solid var(--error-bd); }
+        .process-close { width: 100%; margin-top: 14px; background: var(--ink); color: var(--white); border: none; border-radius: var(--r-sm); padding: 11px; font-family: inherit; font-weight: 700; cursor: pointer; display: none; align-items: center; justify-content: center; gap: 8px; }
         .process-close.show { display: flex; }
-        .process-close:hover { background: var(--ink-70); }
 
-        /* ── Site Footer ── */
-        .site-footer {
-            border-top: 1px solid var(--ink-15);
-            background: var(--white); padding: 20px 32px;
-        }
-
-        .footer-inner {
-            max-width: 1200px; margin: 0 auto;
-            display: flex; align-items: center;
-            justify-content: space-between; gap: 16px; flex-wrap: wrap;
-        }
-
-        .footer-left {
-            font-size: 12px; color: var(--ink-50);
-            display: flex; align-items: center; gap: 8px;
-        }
-
+        /* Site Footer */
+        .site-footer { border-top: 1px solid var(--ink-15); background: var(--white); padding: 20px 32px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .footer-left { font-size: 12px; color: var(--ink-50); display: flex; align-items: center; gap: 8px; }
         .footer-left strong { color: var(--ink-70); font-weight: 600; }
-
         .footer-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-30); }
+        .footer-right { font-size: 11.5px; color: var(--ink-30); }
 
-        .footer-right {
-            font-size: 11.5px; color: var(--ink-30);
-            display: flex; align-items: center; gap: 6px;
-        }
+        @media (max-width: 900px) { .page-layout { grid-template-columns: 1fr; padding: 32px 20px 64px; } .info-panel { position: static; } .header-inner { padding: 0 20px; } }
+        @media (max-width: 540px) { .page-layout { padding: 24px 16px 60px; } .header-brand-faculty { display: none; } .site-footer { padding: 16px 20px; } .footer-inner { flex-direction: column; align-items: flex-start; } }
 
-        .footer-right i { font-size: 10px; }
-
-        /* ── Responsive ── */
-        @media (max-width: 900px) {
-            .page-layout {
-                grid-template-columns: 1fr;
-                padding: 32px 20px 64px; gap: 32px;
-            }
-            .info-panel { position: static; }
-            .header-inner { padding: 0 20px; }
-        }
-
-        @media (max-width: 540px) {
-            .page-layout { padding: 24px 16px 60px; gap: 24px; }
-            .header-brand-faculty { display: none; }
-            .site-footer { padding: 16px 20px; }
-            .footer-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
-            .form-card-body { padding: 18px; }
-            .form-card-head { padding: 14px 18px; }
-        }
-
-        /* ── Keyframes ── */
-        @keyframes spin     { to { transform: rotate(360deg); } }
-        @keyframes blink    { 0%,100% { opacity:1; } 50% { opacity:.25; } }
-        @keyframes fadeOut  { to { opacity:0; pointer-events:none; } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:.25; } }
+        @keyframes fadeOut { to { opacity:0; pointer-events:none; } }
         @keyframes loadFill { from { width:0; } to { width:100%; } }
-        @keyframes fadeUp   { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-
+        @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
         .animate-in { animation: fadeUp .5s cubic-bezier(.22,1,.36,1) both; }
-        .delay-1 { animation-delay: .05s; }
-        .delay-2 { animation-delay: .1s; }
-        .delay-3 { animation-delay: .15s; }
-        .delay-4 { animation-delay: .2s; }
-
-        /* ─── Closed Screen ─── */
-        #closedScreen { display: none; }
-        #closedScreen.show { display: flex; flex-direction: column; gap: 16px; animation: fadeUp .4s cubic-bezier(.22,1,.36,1) both; }
-
-        .closed-main-card {
-            background: var(--white);
-            border: 1px solid var(--ink-15);
-            border-radius: var(--r-lg);
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
-        }
-
-        .closed-top {
-            background: var(--ink);
-            padding: 36px 28px 32px;
-            text-align: center;
-        }
-
-        .closed-top-icon {
-            width: 68px; height: 68px;
-            border: 1.5px solid rgba(255,255,255,.14);
-            border-radius: 20px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 28px; color: rgba(255,255,255,.6);
-            margin: 0 auto 18px;
-        }
-
-        .closed-top-title {
-            font-size: 20px; font-weight: 800;
-            color: var(--white);
-            letter-spacing: -.02em; margin-bottom: 8px;
-        }
-
-        .closed-top-sub {
-            font-size: 13px; color: rgba(255,255,255,.38);
-            font-weight: 400; line-height: 1.65;
-        }
-
-        .closed-body { padding: 24px; }
-
-        .next-slot-box {
-            display: flex; align-items: center; gap: 14px;
-            background: var(--ink-07);
-            border: 1px solid var(--ink-15);
-            border-radius: var(--r-md);
-            padding: 16px 18px;
-            margin-bottom: 20px;
-        }
-
-        .nsb-icon {
-            width: 42px; height: 42px;
-            background: var(--white);
-            border: 1px solid var(--ink-15);
-            border-radius: var(--r-sm);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 16px; color: var(--accent); flex-shrink: 0;
-        }
-
-        .nsb-eyebrow {
-            font-size: 10px; font-weight: 700;
-            letter-spacing: .1em; text-transform: uppercase;
-            color: var(--ink-50); margin-bottom: 3px;
-        }
-
-        .nsb-value {
-            font-size: 14.5px; font-weight: 700;
-            color: var(--ink); letter-spacing: -.01em;
-        }
-
-        .nsb-time {
-            font-size: 12px; color: var(--ink-50);
-            margin-top: 2px; font-weight: 500;
-        }
-
-        .closed-hints {
-            display: flex; flex-direction: column; gap: 10px;
-            border-top: 1px solid var(--ink-07); padding-top: 18px;
-        }
-
-        .closed-hint-row {
-            display: flex; align-items: flex-start; gap: 10px;
-            font-size: 12.5px; color: var(--ink-50); line-height: 1.65;
-        }
-
-        .closed-hint-row i {
-            font-size: 11px; color: var(--ink-30);
-            margin-top: 3px; flex-shrink: 0; width: 14px; text-align: center;
-        }
+        .delay-1 { animation-delay: .05s; } .delay-2 { animation-delay: .1s; } .delay-3 { animation-delay: .15s; } .delay-4 { animation-delay: .2s; }
     </style>
 </head>
 
 <body>
 
-<!-- Loading Screen -->
 <div id="loadScreen">
     <div class="ls-emblem">
         <div class="ls-ring"></div>
@@ -865,12 +433,11 @@
     </div>
     <div class="ls-wordmark">
         <div class="ls-title">English Education</div>
-        <div class="ls-sub">มหาวิทยาลัยราชภัฏเลย</div>
+        <div class="ls-sub" id="loadingSub">กำลังซิงค์ตารางเวลาและระบบยืนยันตัวตน...</div>
     </div>
     <div class="ls-progress"><div class="ls-progress-fill"></div></div>
 </div>
 
-<!-- Process Overlay -->
 <div id="processOverlay">
     <div class="process-card">
         <div class="process-head">
@@ -882,34 +449,10 @@
         </div>
         <div class="process-body">
             <div class="step-list">
-                <div class="step-item" id="step-1">
-                    <div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div>
-                    <div class="step-text">
-                        <div class="step-title">ตรวจสอบข้อมูลผู้ใช้</div>
-                        <div class="step-desc" id="desc-1">ตรวจสอบรหัสนักศึกษาและชื่อ–สกุล</div>
-                    </div>
-                </div>
-                <div class="step-item" id="step-2">
-                    <div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div>
-                    <div class="step-text">
-                        <div class="step-title">ระบุพิกัด GPS</div>
-                        <div class="step-desc" id="desc-2">กำลังขอสิทธิ์และรับสัญญาณตำแหน่ง</div>
-                    </div>
-                </div>
-                <div class="step-item" id="step-3">
-                    <div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div>
-                    <div class="step-text">
-                        <div class="step-title">ตรวจสอบพื้นที่กิจกรรม</div>
-                        <div class="step-desc" id="desc-3">เปรียบเทียบพิกัดกับสถานที่กิจกรรม</div>
-                    </div>
-                </div>
-                <div class="step-item" id="step-4">
-                    <div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div>
-                    <div class="step-text">
-                        <div class="step-title">บันทึกข้อมูล</div>
-                        <div class="step-desc" id="desc-4">ส่งข้อมูลและบันทึกลงฐานข้อมูล</div>
-                    </div>
-                </div>
+                <div class="step-item" id="step-1"><div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div><div class="step-text"><div class="step-title">ตรวจสอบข้อมูลผู้ใช้</div><div class="step-desc" id="desc-1">ตรวจสอบรหัสนักศึกษาและชื่อ–สกุล</div></div></div>
+                <div class="step-item" id="step-2"><div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div><div class="step-text"><div class="step-title">ระบุพิกัด GPS</div><div class="step-desc" id="desc-2">กำลังขอสิทธิ์และรับสัญญาณตำแหน่ง</div></div></div>
+                <div class="step-item" id="step-3"><div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div><div class="step-text"><div class="step-title">ตรวจสอบพื้นที่กิจกรรม</div><div class="step-desc" id="desc-3">เปรียบเทียบพิกัดกับสถานที่กิจกรรม</div></div></div>
+                <div class="step-item" id="step-4"><div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div><div class="step-text"><div class="step-title">บันทึกข้อมูล</div><div class="step-desc" id="desc-4">ส่งข้อมูลและบันทึกลงฐานข้อมูล</div></div></div>
             </div>
             <div class="process-result" id="processResult"></div>
             <button class="process-close" id="processClose" onclick="closeOverlay()">
@@ -919,7 +462,6 @@
     </div>
 </div>
 
-<!-- Site Header -->
 <header class="site-header">
     <div class="header-inner">
         <a class="header-brand" href="#">
@@ -933,235 +475,292 @@
                 <div class="live-dot" id="headerDot"></div>
                 <span id="headerBadgeText">กำลังตรวจสอบ...</span>
             </div>
+            <button id="logoutBtn" class="logout-btn" style="display:none" onclick="logoutUser()">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
+            </button>
         </div>
     </div>
 </header>
 
-<!-- Page Layout -->
 <main class="page-layout">
 
-    <!-- Info Panel -->
     <aside class="info-panel">
-
         <div class="info-eyebrow animate-in delay-1">Attendance System</div>
+        <h1 class="info-heading animate-in delay-2">ระบบบันทึก<br>การเข้าร่วมกิจกรรม</h1>
+        <p class="info-desc animate-in delay-3">สำหรับนักศึกษาสาขาวิชาภาษาอังกฤษ คณะครุศาสตร์<br>มหาวิทยาลัยราชภัฏเลย ใช้ยืนยันการเข้าร่วมกิจกรรม</p>
 
-        <h1 class="info-heading animate-in delay-2">
-            ระบบบันทึก<br>การเข้าร่วมกิจกรรม
-        </h1>
-
-        <p class="info-desc animate-in delay-3">
-            สำหรับนักศึกษาสาขาวิชาภาษาอังกฤษ คณะครุศาสตร์<br>
-            มหาวิทยาลัยราชภัฏเลย ใช้ยืนยันการเข้าร่วมกิจกรรม
-        </p>
-
-        <!-- Schedule Card -->
         <div class="schedule-card animate-in delay-3">
             <div class="schedule-head">
                 <div class="schedule-head-icon"><i class="fa-regular fa-clock"></i></div>
                 <div class="schedule-head-title">ตารางเปิด–ปิดระบบ</div>
                 <div class="schedule-head-clock" id="liveClock">--:--:--</div>
             </div>
-            <div class="schedule-body" id="scheduleBody">
-                <!-- Rendered by JS -->
-            </div>
+            <div class="schedule-body" id="scheduleBody"></div>
         </div>
 
-        <!-- Steps overview -->
         <div class="steps-overview animate-in delay-4">
-            <div class="steps-overview-title">
-                <i class="fa-solid fa-list-check"></i>ขั้นตอนการลงทะเบียน
-            </div>
-            <div class="ov-step">
-                <div class="ov-num">1</div>
-                <div><div class="ov-label">กรอกข้อมูลนักศึกษา</div><div class="ov-sub">รหัสนักศึกษาและชื่อ–สกุล</div></div>
-            </div>
-            <div class="ov-step">
-                <div class="ov-num">2</div>
-                <div><div class="ov-label">อนุญาตการเข้าถึง Location</div><div class="ov-sub">เลือก "อนุญาต" เมื่อเบราว์เซอร์ถาม</div></div>
-            </div>
-            <div class="ov-step">
-                <div class="ov-num">3</div>
-                <div><div class="ov-label">ระบบตรวจสอบพิกัด</div><div class="ov-sub">ต้องอยู่ในรัศมี 100 เมตรจากสถานที่</div></div>
-            </div>
-            <div class="ov-step">
-                <div class="ov-num">4</div>
-                <div><div class="ov-label">บันทึกเวลาเข้าร่วม</div><div class="ov-sub">ข้อมูลถูกบันทึกลงระบบทันที</div></div>
-            </div>
+            <div class="steps-overview-title"><i class="fa-solid fa-list-check"></i>ขั้นตอนการลงทะเบียน</div>
+            <div class="ov-step"><div class="ov-num">1</div><div><div class="ov-label">ล็อกอินยืนยันตัวตน</div><div class="ov-sub">ใช้บัญชีอีเมลมหาวิทยาลัย (@lru.ac.th)</div></div></div>
+            <div class="ov-step"><div class="ov-num">2</div><div><div class="ov-label">อนุญาตการเข้าถึง Location</div><div class="ov-sub">เลือก "อนุญาต" เมื่อเบราว์เซอร์ถาม</div></div></div>
+            <div class="ov-step"><div class="ov-num">3</div><div><div class="ov-label">ระบบตรวจสอบพิกัด</div><div class="ov-sub">ต้องอยู่ในรัศมี 100 เมตรจากสถานที่</div></div></div>
+            <div class="ov-step"><div class="ov-num">4</div><div><div class="ov-label">บันทึกเวลาเข้าร่วม</div><div class="ov-sub">ข้อมูลถูกบันทึกลงระบบทันที</div></div></div>
         </div>
-
     </aside>
 
-    <!-- Form Panel -->
     <section class="form-panel">
 
-        <!-- ── Closed Screen (shown when system is outside schedule) ── -->
-        <div id="closedScreen">
-            <div class="closed-main-card">
-                <div class="closed-top">
-                    <div class="closed-top-icon">
-                        <i class="fa-solid fa-lock"></i>
-                    </div>
-                    <div class="closed-top-title" id="closedTitle">หมดเวลากรอกข้อมูล</div>
-                    <div class="closed-top-sub" id="closedSub">ระบบปิดรับบันทึกการเข้าร่วมแล้วในขณะนี้</div>
+        <div id="authScreen" class="alt-screen">
+            <div class="alt-main-card">
+                <div class="alt-top">
+                    <div class="alt-top-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="alt-top-title">เข้าสู่ระบบเพื่อดำเนินการต่อ</div>
+                    <div class="alt-top-sub">กรุณาเข้าสู่ระบบด้วยบัญชีอีเมลของมหาวิทยาลัย<br>เพื่อยืนยันตัวตนและดึงรหัสนักศึกษาโดยอัตโนมัติ</div>
                 </div>
-                <div class="closed-body">
-                    <div id="nextSlotBox" class="next-slot-box" style="display:none">
-                        <div class="nsb-icon"><i class="fa-regular fa-clock"></i></div>
-                        <div>
-                            <div class="nsb-eyebrow">รอบถัดไป</div>
-                            <div class="nsb-value" id="nextSlotName">—</div>
-                            <div class="nsb-time" id="nextSlotTime">—</div>
-                        </div>
-                    </div>
-                    <div class="closed-hints">
+                <div class="alt-body">
+                    <button class="auth-btn" onclick="loginUser()">
+                        <i class="fa-brands fa-google"></i> เข้าสู่ระบบด้วย Auth0
+                    </button>
+                    <div class="closed-hints" style="border-top:0; padding-top:0;">
                         <div class="closed-hint-row">
                             <i class="fa-solid fa-circle-info"></i>
-                            <span>กรุณาตรวจสอบตารางเวลาเปิด–ปิดระบบกรอกข้อมูล</span>
-                        </div>
-                        <div class="closed-hint-row">
-                            <i class="fa-regular fa-envelope"></i>
-                            <span>หากมีข้อสงสัย กรุณาติดต่อผู้ดูแลระบบ</span>
+                            <span>ระบบรับเฉพาะอีเมลรูปแบบ: <strong>sb[รหัสนักศึกษา]@lru.ac.th</strong> เท่านั้น</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ── Form Contents (hidden when closed) ── -->
-        <div id="formContents">
-
-        <!-- Status Banner -->
-        <div id="statusBanner" class="status-banner closed animate-in">
-            <div class="status-banner-inner">
-                <div class="sb-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
-                <div>
-                    <div class="sb-title" id="sbTitle">กำลังตรวจสอบสถานะ</div>
-                    <div class="sb-text"  id="sbText">กรุณารอสักครู่...</div>
+        <div id="invalidEmailScreen" class="alt-screen">
+            <div class="alt-main-card">
+                <div class="alt-top error-bg">
+                    <div class="alt-top-icon" style="color:var(--white); border-color:rgba(255,255,255,.3)"><i class="fa-solid fa-user-xmark"></i></div>
+                    <div class="alt-top-title">อีเมลไม่ถูกต้อง</div>
+                    <div class="alt-top-sub">บัญชีที่คุณใช้ล็อกอิน ไม่ใช่อีเมลนักศึกษาที่ถูกต้อง</div>
+                </div>
+                <div class="alt-body">
+                    <div style="background:var(--error-bg); border:1px solid var(--error-bd); border-radius:var(--r-md); padding:16px; margin-bottom:20px;">
+                        <div style="font-size:11px; font-weight:700; color:var(--error); margin-bottom:4px; text-transform:uppercase;">อีเมลปัจจุบันของคุณ</div>
+                        <div id="invalidEmailDisplay" style="font-size:14px; font-weight:600; color:var(--ink);">—</div>
+                    </div>
+                    <button class="auth-btn danger" onclick="logoutUser()">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบและลองใหม่
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Student Info -->
-        <p class="section-label animate-in delay-1">ข้อมูลนักศึกษา</p>
-        <div class="form-card animate-in delay-1">
-            <div class="form-card-head">
-                <div class="fch-icon"><i class="fa-solid fa-user-graduate"></i></div>
-                <div>
-                    <div class="fch-title">ข้อมูลประจำตัวนักศึกษา</div>
-                    <div class="fch-sub">กรอกข้อมูลให้ครบถ้วนและถูกต้อง</div>
+        <div id="closedScreen" class="alt-screen">
+            <div class="alt-main-card">
+                <div class="alt-top">
+                    <div class="alt-top-icon"><i class="fa-solid fa-lock"></i></div>
+                    <div class="alt-top-title" id="closedTitle">หมดเวลากรอกข้อมูล</div>
+                    <div class="alt-top-sub" id="closedSub">ระบบปิดรับบันทึกการเข้าร่วมแล้วในขณะนี้</div>
                 </div>
-            </div>
-            <div class="form-card-body">
-                <div class="field">
-                    <div class="field-label">
-                        <i class="fa-solid fa-id-card"></i>
-                        รหัสนักศึกษา<span class="req">*</span>
-                    </div>
-                    <input type="text" id="studentId" placeholder="เช่น 6401234567" autocomplete="off" />
-                    <div class="field-hint"><i class="fa-solid fa-circle-info"></i>ตัวเลข 10 หลัก ตามบัตรนักศึกษา</div>
-                </div>
-                <div class="field">
-                    <div class="field-label">
-                        <i class="fa-regular fa-user"></i>
-                        ชื่อ–นามสกุล<span class="req">*</span>
-                    </div>
-                    <input type="text" id="name" placeholder="เช่น พลอยชมพู คำมวล" autocomplete="off" />
-                    <div class="field-hint"><i class="fa-solid fa-circle-info"></i>ชื่อจริง–นามสกุล ไม่ต้องใส่คำนำหน้า</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- GPS Notice -->
-        <p class="section-label animate-in delay-2">ข้อกำหนดการเข้าร่วม</p>
-        <div class="notice-card animate-in delay-2">
-            <div class="notice-inner">
-                <div class="notice-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
-                <div>
-                    <div class="notice-title">การตรวจสอบตำแหน่ง GPS</div>
-                    <div class="notice-text">
-                        ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม
-                        กรุณาเลือก "อนุญาต" และต้องอยู่ในรัศมีไม่เกิน 100 เมตรจากสถานที่จัดกิจกรรม
+                <div class="alt-body">
+                    <div id="nextSlotBox" class="next-slot-box" style="display:none; background:var(--ink-07); border:1px solid var(--ink-15); border-radius:var(--r-md); padding:16px; margin-bottom:20px; display:flex; align-items:center; gap:14px;">
+                        <div class="nsb-icon" style="width:42px; height:42px; background:var(--white); border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; color:var(--accent); font-size:16px;"><i class="fa-regular fa-clock"></i></div>
+                        <div>
+                            <div style="font-size:10px; font-weight:700; color:var(--ink-50); text-transform:uppercase; margin-bottom:3px;">รอบถัดไป</div>
+                            <div id="nextSlotName" style="font-size:14.5px; font-weight:700; color:var(--ink);">—</div>
+                            <div id="nextSlotTime" style="font-size:12px; color:var(--ink-50); margin-top:2px;">—</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Cookie strip -->
-        <div class="info-strip animate-in delay-3" id="infoStrip" style="display:none">
-            <i class="fa-solid fa-circle-check"></i>
-            <span style="flex:1">ระบบโหลดข้อมูลที่บันทึกไว้แล้ว</span>
-            <button class="strip-clear" onclick="clearSaved()">
-                <i class="fa-solid fa-xmark"></i>ล้างข้อมูล
-            </button>
-        </div>
+        <div id="formContents" style="display:none;">
+            <div id="statusBanner" class="status-banner open animate-in">
+                <div class="status-banner-inner">
+                    <div class="sb-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div>
+                        <div class="sb-title" id="sbTitle">ระบบเปิดรับบันทึกข้อมูล</div>
+                        <div class="sb-text" id="sbText">กรุณากรอกข้อมูลและกดยืนยันเพื่อบันทึกการเข้าร่วม</div>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Submit -->
-        <div class="submit-wrap animate-in delay-4">
-            <button class="submit-btn" id="submitBtn" onclick="startAttendanceProcess()" disabled>
-                <i class="fa-solid fa-paper-plane"></i>
-                <span>ยืนยันและบันทึกการเข้าร่วม</span>
-            </button>
-            <div class="submit-note">
-                <i class="fa-solid fa-shield-halved"></i>
-                ข้อมูลถูกเข้ารหัสและบันทึกผ่านระบบที่ปลอดภัย
+            <p class="section-label animate-in delay-1">ข้อมูลนักศึกษา (ดึงจากระบบอัตโนมัติ)</p>
+            <div class="form-card animate-in delay-1">
+                <div class="form-card-head">
+                    <div class="fch-icon"><i class="fa-solid fa-user-check"></i></div>
+                    <div>
+                        <div class="fch-title">ข้อมูลผู้ใช้ที่ยืนยันแล้ว</div>
+                        <div class="fch-sub" id="userEmailDisplay">ดึงข้อมูลสำเร็จ</div>
+                    </div>
+                </div>
+                <div class="form-card-body">
+                    <div class="field">
+                        <div class="field-label">
+                            <i class="fa-solid fa-id-card"></i>รหัสนักศึกษา<span class="req">*</span>
+                        </div>
+                        <input type="text" id="studentId" placeholder="กำลังโหลด..." autocomplete="off" readonly />
+                        <div class="field-hint"><i class="fa-solid fa-lock"></i>ดึงอัตโนมัติจากอีเมล (ไม่สามารถแก้ไขได้)</div>
+                    </div>
+                    <div class="field">
+                        <div class="field-label">
+                            <i class="fa-regular fa-user"></i>ชื่อ–นามสกุล<span class="req">*</span>
+                        </div>
+                        <input type="text" id="name" placeholder="เช่น พลอยชมพู คำมวล" autocomplete="off" />
+                        <div class="field-hint"><i class="fa-solid fa-circle-info"></i>ชื่อจริง–นามสกุล ไม่ต้องใส่คำนำหน้า</div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="section-label animate-in delay-2">ข้อกำหนดการเข้าร่วม</p>
+            <div class="notice-card animate-in delay-2">
+                <div class="notice-inner">
+                    <div class="notice-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+                    <div>
+                        <div class="notice-title">การตรวจสอบตำแหน่ง GPS</div>
+                        <div class="notice-text">
+                            ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม
+                            กรุณาเลือก "อนุญาต" และต้องอยู่ในรัศมีไม่เกิน 100 เมตร
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-wrap animate-in delay-4">
+                <button class="submit-btn" id="submitBtn" onclick="startAttendanceProcess()">
+                    <i class="fa-solid fa-paper-plane"></i><span>ยืนยันและบันทึกการเข้าร่วม</span>
+                </button>
             </div>
         </div>
-
-        </div><!-- end #formContents -->
 
     </section>
 
 </main>
 
-<!-- Site Footer -->
 <footer class="site-footer">
     <div class="footer-inner">
-        <div class="footer-left">
-            <strong>English Education</strong>
-            <div class="footer-sep"></div>
-            <span>คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</span>
-        </div>
-        <div class="footer-right">
-            <i class="fa-regular fa-copyright"></i>2026 sorasukt
-        </div>
+        <div class="footer-left"><strong>English Education</strong><div class="footer-sep"></div><span>คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</span></div>
+        <div class="footer-right"><i class="fa-regular fa-copyright"></i> 2026 sorasukt</div>
     </div>
 </footer>
 
 <script>
 /* ════════════════════════════════════════
-   CONFIG
+   ตั้งค่าระบบหลัก (Google Apps Script)
 ════════════════════════════════════════ */
 const TARGET_LAT          = 17.5398426;
 const TARGET_LNG          = 101.7219437;
 const MAX_DISTANCE_METERS = 100;
-const GAS_URL             = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec"; // <- เอา Web App URL มาใส่ตรงนี้
-
-/* ────────────────────────────────────────
-   SCHEDULE VARIABLE (ตอนนี้ว่างเปล่า จะถูกเติมเมื่อโหลดเว็บ)
-──────────────────────────────────────── */
-let SCHEDULE = [];
+const GAS_URL             = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
 
 /* ════════════════════════════════════════
-   HELPERS
+   ตั้งค่า AUTH0 (เปลี่ยนให้ตรงกับแอปของคุณ)
 ════════════════════════════════════════ */
+const AUTH0_DOMAIN    = "litalkeducation.us.auth0.com"; // ใส่ Auth0 Domain ของคุณ
+const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";      // ใส่ Auth0 Client ID ของคุณ
+
+let auth0Client = null;
+let isAuthenticated = false;
+let userProfile = null;
+let extractedStudentId = null;
+
+let SCHEDULE = [];
+
+/* ────────────────────────────────────────
+   ฟังก์ชัน Auth0
+──────────────────────────────────────── */
+async function configureAuth0() {
+    auth0Client = await createAuth0Client({
+        domain: AUTH0_DOMAIN,
+        clientId: AUTH0_CLIENT_ID,
+        authorizationParams: {
+            redirect_uri: window.location.origin + window.location.pathname
+        }
+    });
+}
+
+async function loginUser() {
+    await auth0Client.loginWithRedirect();
+}
+
+async function logoutUser() {
+    // ล้าง Cookie ที่เก็บชื่อไว้เผื่อใช้ชื่อคนอื่น
+    setCookie('att_name', '', -1); 
+    await auth0Client.logout({
+        logoutParams: { returnTo: window.location.origin + window.location.pathname }
+    });
+}
+
+async function checkAuth() {
+    await configureAuth0();
+
+    // เช็คว่ากลับมาจากการ Redirect ของ Auth0 หรือไม่
+    const query = window.location.search;
+    if (query.includes("code=") && query.includes("state=")) {
+        await auth0Client.handleRedirectCallback();
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    isAuthenticated = await auth0Client.isAuthenticated();
+    
+    if (isAuthenticated) {
+        userProfile = await auth0Client.getUser();
+        document.getElementById('logoutBtn').style.display = 'flex';
+        verifyUserEmail(userProfile.email);
+    } else {
+        showScreen('authScreen');
+    }
+}
+
+function verifyUserEmail(email) {
+    // Regex เช็คว่าอีเมลต้องขึ้นต้นด้วย sb ตามด้วยตัวเลขล้วน (รหัสนักศึกษา) และลงท้ายด้วย @lru.ac.th
+    const regex = /^sb(\d+)@lru\.ac\.th$/i;
+    const match = email.match(regex);
+
+    if (match) {
+        extractedStudentId = match[1]; // ดึงรหัสนักศึกษาออกมา
+        document.getElementById('studentId').value = extractedStudentId;
+        document.getElementById('userEmailDisplay').textContent = "ล็อกอินด้วย: " + email;
+        
+        // เมื่อยืนยันอีเมลผ่าน ให้โหลดชื่อจาก Cookie เก่า (ถ้ามี)
+        const savedName = getCookie('att_name');
+        if(savedName) document.getElementById('name').value = savedName;
+
+        // เช็คว่าระบบอยู่ในเวลาทำการไหม ถึงจะแสดงฟอร์ม
+        updateStatusUI();
+    } else {
+        // ถ้าอีเมลผิดรูปแบบ ให้แสดงหน้า Invalid
+        document.getElementById('invalidEmailDisplay').textContent = email;
+        showScreen('invalidEmailScreen');
+    }
+}
+
+/* ────────────────────────────────────────
+   จัดการการเปลี่ยนหน้า (Screens)
+──────────────────────────────────────── */
+function showScreen(screenId) {
+    // ซ่อนหน้าทั้งหมดก่อน
+    document.getElementById('authScreen').classList.remove('show');
+    document.getElementById('invalidEmailScreen').classList.remove('show');
+    document.getElementById('closedScreen').classList.remove('show');
+    document.getElementById('formContents').style.display = 'none';
+
+    if (screenId === 'formContents') {
+        document.getElementById('formContents').style.display = 'block';
+    } else {
+        document.getElementById(screenId).classList.add('show');
+    }
+}
+
+/* ────────────────────────────────────────
+   HELPERS & SCHEDULE
+──────────────────────────────────────── */
 function parseGMT7(str) {
     const [date, time] = str.split(' ');
     const [y, mo, d] = date.split('-').map(Number);
     const [h, m] = time.split(':').map(Number);
     return new Date(y, mo - 1, d, h, m, 0).getTime();
 }
-
 function fmtTime(tsMs) {
-    return new Date(tsMs).toLocaleTimeString('th-TH', {
-        timeZone: 'Asia/Bangkok',
-        hour: '2-digit', minute: '2-digit', hour12: false
-    }) + ' น.';
+    return new Date(tsMs).toLocaleTimeString('th-TH', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit', hour12: false }) + ' น.';
 }
-
 function fmtDate(tsMs) {
-    return new Intl.DateTimeFormat('th-TH', {
-        weekday: 'short', day: 'numeric', month: 'short'
-    }).format(new Date(tsMs));
+    return new Intl.DateTimeFormat('th-TH', { weekday: 'short', day: 'numeric', month: 'short' }).format(new Date(tsMs));
 }
 
 function slotStatus(slot) {
@@ -1173,77 +772,54 @@ function slotStatus(slot) {
     return 'closed';
 }
 
-function anySlotActive() {
-    return SCHEDULE.some(s => slotStatus(s) === 'active');
-}
+function anySlotActive() { return SCHEDULE.some(s => slotStatus(s) === 'active'); }
 
-/* ════════════════════════════════════════
-   SCHEDULE RENDER
-════════════════════════════════════════ */
 function renderSchedule() {
     const body = document.getElementById('scheduleBody');
     if (SCHEDULE.length === 0) {
         body.innerHTML = `<div style="padding: 16px 18px; font-size: 13px; color: var(--ink-50); text-align: center;">ไม่มีตารางเวลาในระบบ</div>`;
         return;
     }
-    
     body.innerHTML = SCHEDULE.map(slot => {
         const st   = slotStatus(slot);
         const open = parseGMT7(slot.open);
         const close= parseGMT7(slot.close);
-
         const rowClass   = st === 'active' ? 'active-slot' : st === 'upcoming' ? 'upcoming-slot' : 'closed-slot';
         const badgeClass = st === 'active' ? 'badge-open'  : st === 'upcoming' ? 'badge-upcoming' : 'badge-closed';
         const badgeText  = st === 'active' ? 'เปิดอยู่'    : st === 'upcoming' ? 'กำลังจะเปิด'   : 'ปิดแล้ว';
-
         return `
         <div class="schedule-row ${rowClass}">
             <div class="schedule-row-dot"></div>
             <div class="schedule-row-info">
                 <div class="schedule-row-name">${slot.name}</div>
-                <div class="schedule-row-time">
-                    ${fmtDate(open)} &nbsp;·&nbsp; ${fmtTime(open)} – ${fmtTime(close)}
-                </div>
+                <div class="schedule-row-time">${fmtDate(open)} &nbsp;·&nbsp; ${fmtTime(open)} – ${fmtTime(close)}</div>
             </div>
             <span class="schedule-row-badge ${badgeClass}">${badgeText}</span>
         </div>`;
     }).join('');
 }
 
-/* ════════════════════════════════════════
-   STATUS BANNER + HEADER BADGE + CLOSED SCREEN
-════════════════════════════════════════ */
 let _wasOpen = null; 
-
 function updateStatusUI() {
+    // ต้องผ่านการล็อกอินและใช้อีเมลถูกก่อน ถึงจะแสดงฟอร์มหรือหน้าปิดได้
+    if(!isAuthenticated || !extractedStudentId) return;
+
     const isOpen = anySlotActive();
-    const formContents   = document.getElementById('formContents');
-    const closedScreen   = document.getElementById('closedScreen');
     const headerBadgeText = document.getElementById('headerBadgeText');
-    const headerDot      = document.getElementById('headerDot');
+    const headerDot = document.getElementById('headerDot');
 
     if (isOpen) {
-        closedScreen.classList.remove('show');
-        formContents.style.display = '';
-
+        showScreen('formContents');
         const active  = SCHEDULE.find(s => slotStatus(s) === 'active');
         const closeTs = parseGMT7(active.close);
-
-        const banner  = document.getElementById('statusBanner');
-        banner.className = 'status-banner open';
-        document.getElementById('sbTitle').textContent = 'ระบบเปิดรับบันทึกข้อมูล';
-        document.getElementById('sbText').textContent  = `เปิดถึง ${fmtTime(closeTs)} — กรอกข้อมูลและกดยืนยันเพื่อบันทึกการเข้าร่วม`;
-
+        document.getElementById('sbText').textContent  = `เปิดถึง ${fmtTime(closeTs)} — กรุณากรอกข้อมูลให้ครบถ้วน`;
         document.getElementById('submitBtn').disabled = false;
-
+        
         headerDot.style.background  = '#16a34a';
         headerDot.style.animation   = 'blink 2.4s ease infinite';
         headerBadgeText.textContent = 'ระบบเปิด';
         _wasOpen = true;
-
     } else {
-        formContents.style.display = 'none';
-
         if (_wasOpen !== false) {
             const next = SCHEDULE.find(s => slotStatus(s) === 'upcoming');
             const closedTitle = document.getElementById('closedTitle');
@@ -1256,17 +832,15 @@ function updateStatusUI() {
                 closedSub.textContent   = 'ระบบปิดรับบันทึกการเข้าร่วมชั่วคราว';
                 document.getElementById('nextSlotName').textContent = next.name;
                 document.getElementById('nextSlotTime').textContent = `${fmtDate(openTs)} · ${fmtTime(openTs)}`;
-                nextBox.style.display = '';
+                nextBox.style.display = 'flex';
             } else {
                 closedTitle.textContent = 'ปิดรับบันทึกข้อมูลแล้ว';
                 closedSub.textContent   = 'ไม่มีรอบที่เปิดรับอีกในขณะนี้';
                 nextBox.style.display   = 'none';
             }
-            closedScreen.classList.add('show');
+            showScreen('closedScreen');
         }
-
         document.getElementById('submitBtn').disabled = true;
-
         headerDot.style.background  = '#9ca3af';
         headerDot.style.animation   = 'none';
         headerBadgeText.textContent = 'ระบบปิด';
@@ -1275,73 +849,33 @@ function updateStatusUI() {
 }
 
 function updateClock() {
-    document.getElementById('liveClock').textContent =
-        new Date().toLocaleTimeString('th-TH', {
-            timeZone: 'Asia/Bangkok',
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-        }) + ' น.';
+    document.getElementById('liveClock').textContent = new Date().toLocaleTimeString('th-TH', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }) + ' น.';
 }
 
-/* ════════════════════════════════════════
-   COOKIES
-════════════════════════════════════════ */
+/* ────────────────────────────────────────
+   COOKIES (เก็บแค่ชื่อ เพราะรหัสล็อกไว้แล้ว)
+──────────────────────────────────────── */
 const COOKIE_DAYS = 30;
-function setCookie(name, value, days) {
-    const exp = new Date(Date.now() + days * 864e5).toUTCString();
-    document.cookie = `${name}=${encodeURIComponent(value)};expires=${exp};path=/;SameSite=Strict`;
-}
-function getCookie(name) {
-    const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
-    return m ? decodeURIComponent(m[1]) : '';
-}
-function saveFormCookies() {
-    const sid  = document.getElementById('studentId').value.trim();
-    const name = document.getElementById('name').value.trim();
-    if (sid)  setCookie('att_sid',  sid,  COOKIE_DAYS);
-    if (name) setCookie('att_name', name, COOKIE_DAYS);
-}
-function loadFormCookies() {
-    const sid  = getCookie('att_sid');
-    const name = getCookie('att_name');
-    if (sid)  document.getElementById('studentId').value = sid;
-    if (name) document.getElementById('name').value      = name;
-    if (sid || name) document.getElementById('infoStrip').style.display = 'flex';
-}
-function clearSaved() {
-    setCookie('att_sid',  '', -1);
-    setCookie('att_name', '', -1);
-    document.getElementById('studentId').value = '';
-    document.getElementById('name').value      = '';
-    document.getElementById('infoStrip').style.display = 'none';
-}
+function setCookie(name, value, days) { const exp = new Date(Date.now() + days * 864e5).toUTCString(); document.cookie = `${name}=${encodeURIComponent(value)};expires=${exp};path=/;SameSite=Strict`; }
+function getCookie(name) { const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; }
 
-/* ════════════════════════════════════════
-   INIT & FETCH SCHEDULE
-════════════════════════════════════════ */
+/* ────────────────────────────────────────
+   INIT FLOW
+──────────────────────────────────────── */
 window.addEventListener('load', async () => {
-    loadFormCookies();
     updateClock();
 
-    // เพิ่มข้อความบอกว่ากำลังดึงตารางเวลา
-    document.querySelector('.ls-sub').textContent = "กำลังซิงค์ตารางเวลาจากระบบ...";
-
     try {
-        // ดึงตารางเวลาจาก Google Apps Script
+        // ดึงตารางเวลาก่อน
         const response = await fetch(GAS_URL);
         const result = await response.json();
-        
-        if (result.status === 'success') {
-            SCHEDULE = result.data;
-        } else {
-            console.error("Fetch Error:", result.message);
-        }
-    } catch (error) {
-        console.error("Network Error:", error);
-    }
+        if (result.status === 'success') SCHEDULE = result.data;
+    } catch (error) { console.error("Network Error:", error); }
 
-    // เมื่อดึงข้อมูลเสร็จ ให้เรนเดอร์ตารางและอัปเดตสถานะทันที
     renderSchedule();
-    updateStatusUI();
+
+    // ดำเนินการเช็ค Auth0
+    await checkAuth();
 
     setInterval(() => {
         updateClock();
@@ -1349,7 +883,6 @@ window.addEventListener('load', async () => {
         updateStatusUI();
     }, 1000);
 
-    // ปิดหน้าจอโหลดดิ้ง
     setTimeout(() => {
         const ls = document.getElementById('loadScreen');
         ls.classList.add('fade-out');
@@ -1358,9 +891,9 @@ window.addEventListener('load', async () => {
     }, 600);
 });
 
-/* ════════════════════════════════════════
-   PROCESS OVERLAY & SUBMIT (เหมือนเดิม)
-════════════════════════════════════════ */
+/* ────────────────────────────────────────
+   PROCESS OVERLAY & SUBMIT
+──────────────────────────────────────── */
 function openOverlay() {
     [1,2,3,4].forEach(n => setStep(n, 'idle'));
     document.getElementById('processResult').className = 'process-result';
@@ -1369,24 +902,16 @@ function openOverlay() {
     document.getElementById('processClose').innerHTML = '<i class="fa-solid fa-check"></i><span>ตกลง</span>';
     document.getElementById('processOverlay').classList.add('visible');
 }
-
-function closeOverlay() {
-    document.getElementById('processOverlay').classList.remove('visible');
-    updateStatusUI();
-}
-
+function closeOverlay() { document.getElementById('processOverlay').classList.remove('visible'); updateStatusUI(); }
 function setStep(n, state, descText) {
     const el  = document.getElementById('step-' + n);
     const dot = el.querySelector('.step-dot');
     const desc= document.getElementById('desc-' + n);
     el.className = 'step-item' + (state !== 'idle' ? ' ' + state : '');
     const icons = { active: 'fa-ellipsis', done: 'fa-check', error: 'fa-xmark' };
-    dot.innerHTML = state === 'idle'
-        ? `<span style="font-size:9px;font-weight:700;color:var(--ink-30)">${n}</span>`
-        : `<i class="fa-solid ${icons[state]}"></i><div class="step-ring"></div>`;
+    dot.innerHTML = state === 'idle' ? `<span style="font-size:9px;font-weight:700;color:var(--ink-30)">${n}</span>` : `<i class="fa-solid ${icons[state]}"></i><div class="step-ring"></div>`;
     if (descText) desc.textContent = descText;
 }
-
 function showResult(msg, type) {
     const el   = document.getElementById('processResult');
     const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
@@ -1394,33 +919,22 @@ function showResult(msg, type) {
     el.innerHTML = `<i class="fa-solid ${icon}"></i><span>${msg}</span>`;
     const btn = document.getElementById('processClose');
     btn.classList.add('show');
-    if (type === 'error') {
-        btn.innerHTML = '<i class="fa-solid fa-rotate-left"></i><span>ลองใหม่</span>';
-    }
+    if (type === 'error') btn.innerHTML = '<i class="fa-solid fa-rotate-left"></i><span>ลองใหม่</span>';
 }
 
 function startAttendanceProcess() {
-    if (!anySlotActive()) {
-        updateStatusUI();
-        return;
-    }
+    if (!anySlotActive() || !extractedStudentId) return;
 
-    const studentId = document.getElementById('studentId').value.trim();
-    const name      = document.getElementById('name').value.trim();
-
-    if (!studentId || !name) {
-        ['studentId', 'name'].forEach(id => {
-            const el = document.getElementById(id);
-            if (!el.value.trim()) {
-                el.classList.add('invalid');
-                setTimeout(() => el.classList.remove('invalid'), 2000);
-            }
-        });
+    const name = document.getElementById('name').value.trim();
+    if (!name) {
+        const el = document.getElementById('name');
+        el.classList.add('invalid');
+        setTimeout(() => el.classList.remove('invalid'), 2000);
         return;
     }
 
     document.getElementById('submitBtn').disabled = true;
-    saveFormCookies();
+    setCookie('att_name', name, COOKIE_DAYS); // เซฟแค่ชื่อ
     openOverlay();
 
     setStep(1, 'active');
@@ -1433,15 +947,13 @@ function startAttendanceProcess() {
             showResult('อุปกรณ์ไม่รองรับการระบุตำแหน่ง', 'error');
             return;
         }
-
         navigator.geolocation.getCurrentPosition(
-            pos => onGotPosition(pos, studentId, name),
+            pos => onGotPosition(pos, extractedStudentId, name),
             err => {
                 const msgs = { 1: 'ปฏิเสธสิทธิ์ Location — กรุณาเปิดสิทธิ์แล้วลองใหม่', 2: 'รับสัญญาณ GPS ไม่ได้ในขณะนี้', 3: 'หมดเวลาค้นหาตำแหน่ง — กรุณาลองใหม่' };
                 setStep(2, 'error', msgs[err.code] ?? 'ไม่สามารถระบุตำแหน่งได้');
                 showResult(msgs[err.code] ?? 'เกิดข้อผิดพลาด GPS', 'error');
-            },
-            { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+            }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
         );
     }, 600);
 }
@@ -1453,7 +965,6 @@ function onGotPosition(position, studentId, name) {
 
     setTimeout(() => {
         const dist = haversine(lat, lng, TARGET_LAT, TARGET_LNG);
-
         if (dist > MAX_DISTANCE_METERS) {
             setStep(3, 'error', `ระยะห่าง ${Math.round(dist)} ม. — เกินรัศมีที่กำหนด`);
             showResult(`ตำแหน่งอยู่ห่างจากสถานที่ ${Math.round(dist)} ม. (อนุญาตไม่เกิน ${MAX_DISTANCE_METERS} ม.)`, 'error');
@@ -1467,20 +978,16 @@ function onGotPosition(position, studentId, name) {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify({ studentId, name, lat, lng, distance: Math.round(dist) })
-        })
-        .then(r => r.json())
-        .then(result => {
+        }).then(r => r.json()).then(result => {
             if (result.status === 'success') {
                 setStep(4, 'done', 'บันทึกข้อมูลเรียบร้อยแล้ว');
                 showResult('บันทึกการเข้าร่วมกิจกรรมสำเร็จ', 'success');
-                document.getElementById('studentId').value = '';
-                document.getElementById('name').value      = '';
+                document.getElementById('name').value = '';
             } else {
                 setStep(4, 'error', 'เซิร์ฟเวอร์ตอบกลับผิดพลาด');
                 showResult('เกิดข้อผิดพลาดจากเซิร์ฟเวอร์: ' + result.message, 'error');
             }
-        })
-        .catch(() => {
+        }).catch(() => {
             setStep(4, 'error', 'ไม่สามารถเชื่อมต่อได้');
             showResult('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่', 'error');
         });
