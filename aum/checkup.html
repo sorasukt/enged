@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>เช็คชื่อเข้าร่วมกิจกรรม | English Education</title>
+<title>ระบบบันทึกการเข้าร่วมกิจกรรม | English Education</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="เช็คชื่อนักศึกษาเข้าร่วมกิจกรรม | English Education">
 <meta property="og:url" content="https://sorasukt.github.io/enged/">
@@ -11,611 +11,655 @@
 <meta property="og:description" content="สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 <script src="https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js"></script>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root{
-  --bg:       #0B1120;
-  --bg2:      #111827;
-  --surface:  #1A2235;
-  --surface2: #212D43;
-  --border:   rgba(255,255,255,.08);
-  --border2:  rgba(255,255,255,.14);
-  --cyan:     #00D4C8;
-  --cyan-dim: rgba(0,212,200,.12);
-  --cyan-glow:rgba(0,212,200,.25);
-  --text:     #F7F8FC;
-  --text-2:   #C4CBDB;
-  --text-3:   #8892A4;
-  --text-4:   #4B5568;
-  --green:    #10B981;
-  --green-bg: rgba(16,185,129,.1);
-  --green-bd: rgba(16,185,129,.3);
-  --red:      #EF4444;
-  --red-bg:   rgba(239,68,68,.08);
-  --red-bd:   rgba(239,68,68,.25);
-  --amber:    #F59E0B;
-  --r-sm:5px;--r-md:10px;--r-lg:16px;--r-xl:22px;
+:root {
+  --ink:        #0d1117;
+  --ink-70:     #3d4451;
+  --ink-50:     #6b7280;
+  --ink-30:     #9ca3af;
+  --ink-15:     #d1d5db;
+  --ink-07:     #f3f4f6;
+  --white:      #ffffff;
+  --accent:     #1a56db;
+  --accent-bg:  #e8f0fe;
+  --success:    #065f46;
+  --success-bg: #ecfdf5;
+  --success-bd: #a7f3d0;
+  --error:      #991b1b;
+  --error-bg:   #fef2f2;
+  --error-bd:   #fecaca;
+  --warn:       #92400e;
+  --warn-bg:    #fffbeb;
+  --warn-bd:    #fde68a;
+  --r-xs: 4px; --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px;
 }
 
-html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
 
-body{
-  font-family:'Sarabun',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  opacity:0;
-  transition:opacity .4s ease;
+body {
+  font-family: 'Noto Sans Thai', sans-serif;
+  background: var(--ink-07);
+  color: var(--ink);
+  min-height: 100vh;
+  opacity: 0;
+  transition: opacity .35s ease;
 }
-body.visible{opacity:1}
+body.visible { opacity: 1; }
 
-/* ── LOADER ── */
-#loadScreen{
-  position:fixed;inset:0;
-  background:var(--bg);
-  z-index:9999;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+/* ════════════════════════════════════
+   LOADING SCREEN
+════════════════════════════════════ */
+#loadScreen {
+  position: fixed; inset: 0;
+  background: var(--ink);
+  z-index: 9999;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 24px;
 }
-.ls-logo{
-  width:80px;height:80px;position:relative;
+.ls-emblem { position: relative; width: 72px; height: 72px; }
+.ls-ring {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.1);
+  border-top-color: rgba(255,255,255,.7);
+  animation: spin .9s linear infinite;
 }
-.ls-outer,.ls-mid{
-  position:absolute;inset:0;border-radius:50%;
-  border:1.5px solid transparent;
+.ls-inner {
+  position: absolute; inset: 10px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.06);
+  border-top-color: rgba(255,255,255,.35);
+  animation: spin 1.4s linear infinite reverse;
 }
-.ls-outer{
-  border-top-color:var(--cyan);border-right-color:rgba(0,212,200,.3);
-  animation:spin .9s linear infinite;
+.ls-icon {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: rgba(255,255,255,.8);
 }
-.ls-mid{
-  inset:14px;
-  border-top-color:rgba(0,212,200,.4);
-  animation:spin 1.5s linear infinite reverse;
+.ls-wordmark { text-align: center; }
+.ls-title {
+  font-size: 13px; font-weight: 700;
+  color: rgba(255,255,255,.85);
+  letter-spacing: .12em; text-transform: uppercase;
 }
-.ls-core{
-  position:absolute;inset:26px;
-  border-radius:50%;
-  background:var(--cyan-dim);
-  display:flex;align-items:center;justify-content:center;
-  font-size:15px;color:var(--cyan);
-}
-.ls-brand{text-align:center}
-.ls-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:.14em;text-transform:uppercase}
-.ls-sub{font-size:12px;font-weight:400;color:var(--text-3);margin-top:5px}
-.ls-bar{width:180px;height:2px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
-.ls-fill{height:100%;background:var(--cyan);border-radius:2px;animation:loadFill 1.4s cubic-bezier(.4,0,.2,1) forwards}
-#loadScreen.out{animation:fadeOut .4s ease forwards}
+.ls-sub { font-size: 11px; color: rgba(255,255,255,.35); margin-top: 4px; }
+.ls-progress { width: 160px; height: 2px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden; }
+.ls-progress-fill { height: 100%; background: rgba(255,255,255,.5); border-radius: 2px; animation: loadFill 1.3s cubic-bezier(.4,0,.2,1) forwards; }
+#loadScreen.fade-out { animation: fadeOut .45s ease forwards; }
 
-/* ── HEADER ── */
-.site-header{
-  position:sticky;top:0;z-index:200;
-  background:rgba(11,17,32,.85);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
+/* ════════════════════════════════════
+   WELCOME SCREEN (fullscreen gate)
+════════════════════════════════════ */
+#welcomeScreen {
+  display: none;
+  position: fixed; inset: 0; z-index: 500;
+  background: var(--ink);
+  overflow-y: auto;
+  align-items: center; justify-content: center;
+  padding: 24px;
 }
-.header-inner{
-  max-width:1180px;margin:0 auto;
-  padding:0 28px;height:58px;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-}
-.header-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand-icon{
-  width:34px;height:34px;border-radius:var(--r-md);
-  background:var(--cyan-dim);border:1px solid rgba(0,212,200,.25);
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;color:var(--cyan);flex-shrink:0;
-}
-.brand-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.2}
-.brand-sub{font-size:10.5px;color:var(--text-3);margin-top:1px;font-weight:400}
-.header-right{display:flex;align-items:center;gap:10px}
-.sys-pill{
-  display:flex;align-items:center;gap:7px;
-  padding:5px 12px;
-  border-radius:100px;
-  background:var(--surface);
-  border:1px solid var(--border2);
-  font-size:11px;font-weight:600;color:var(--text-3);
-}
-.sys-dot{width:6px;height:6px;border-radius:50%;background:var(--text-4);flex-shrink:0}
-.sys-dot.open{background:var(--green);animation:blink 2.4s ease infinite;box-shadow:0 0 0 3px var(--green-bg)}
-.logout-btn{
-  background:none;border:1px solid var(--border2);border-radius:var(--r-sm);
-  padding:5px 10px;
-  font-family:'Sarabun',sans-serif;font-size:11px;font-weight:600;color:var(--red);
-  cursor:pointer;display:flex;align-items:center;gap:5px;
-  transition:all .18s;
-}
-.logout-btn:hover{background:var(--red-bg);border-color:var(--red-bd)}
-
-/* ── LAYOUT ── */
-.page{
-  max-width:1180px;margin:0 auto;
-  padding:52px 28px 88px;
-  display:grid;grid-template-columns:1fr 460px;
-  gap:56px;align-items:start;
-}
-.left-panel{position:sticky;top:82px}
-
-/* ── LEFT PANEL ── */
-.eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--cyan);margin-bottom:20px;
-}
-.eyebrow::before{content:'';width:18px;height:1.5px;background:var(--cyan);border-radius:2px}
-.main-heading{
-  font-size:clamp(28px,3.2vw,42px);font-weight:800;
-  line-height:1.18;letter-spacing:-.025em;
-  color:var(--text);margin-bottom:14px;
-}
-.main-heading em{
-  font-style:normal;
-  background:linear-gradient(120deg,var(--cyan),#7C3AED);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.main-desc{
-  font-size:14px;line-height:1.85;color:var(--text-3);
-  font-weight:400;margin-bottom:36px;max-width:400px;
+#welcomeScreen.show {
+  display: flex;
+  animation: fadeUp .5s cubic-bezier(.22,1,.36,1) both;
 }
 
-/* schedule card */
-.sched-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);
-  overflow:hidden;margin-bottom:14px;
+.welcome-card {
+  background: #161d29;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--r-xl);
+  width: 100%; max-width: 480px;
+  overflow: hidden;
+  box-shadow: 0 32px 64px rgba(0,0,0,.6);
 }
-.sched-head{
-  padding:13px 18px;
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:9px;
-}
-.sched-head-ico{
-  width:26px;height:26px;border-radius:var(--r-sm);
-  background:var(--surface2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;color:var(--text-3);
-}
-.sched-head-label{font-size:11px;font-weight:700;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase}
-.live-clock{margin-left:auto;font-size:11px;font-weight:600;color:var(--cyan);font-variant-numeric:tabular-nums}
-.sched-body{padding:4px 0}
-.sched-row{
-  display:flex;align-items:center;gap:12px;
-  padding:10px 18px;
-  border-bottom:1px solid var(--border);
-  transition:background .2s;
-}
-.sched-row:last-child{border-bottom:none}
-.sched-row.is-open{background:rgba(16,185,129,.05)}
-.sched-row.is-next{background:rgba(0,212,200,.03)}
-.row-dot{width:6px;height:6px;border-radius:50%;background:var(--text-4);flex-shrink:0}
-.sched-row.is-open .row-dot{background:var(--green);box-shadow:0 0 0 3px var(--green-bg);animation:blink 2s ease infinite}
-.sched-row.is-next .row-dot{background:var(--cyan)}
-.row-info{flex:1;min-width:0}
-.row-name{font-size:13px;font-weight:600;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sched-row.is-open .row-name{color:var(--green)}
-.row-time{font-size:11px;color:var(--text-4);margin-top:2px}
-.row-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;text-transform:uppercase;white-space:nowrap}
-.tag-open{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)}
-.tag-next{background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,212,200,.25)}
-.tag-done{background:rgba(255,255,255,.04);color:var(--text-4);border:1px solid var(--border)}
 
-/* steps */
-.steps-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:18px}
-.steps-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.step-row{display:flex;align-items:flex-start;gap:13px;padding:9px 0;border-bottom:1px solid var(--border)}
-.step-row:last-child{border-bottom:none;padding-bottom:0}
-.step-row:first-child{padding-top:0}
-.step-num{
-  width:24px;height:24px;border-radius:50%;
-  border:1.5px solid var(--border2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;font-weight:700;color:var(--text-4);flex-shrink:0;margin-top:1px;
+/* hero section */
+.wc-hero {
+  padding: 44px 32px 36px;
+  text-align: center;
+  background: linear-gradient(180deg, #1e2a3d 0%, #161d29 100%);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  position: relative;
+  overflow: hidden;
 }
-.step-body{}
-.step-label{font-size:13px;font-weight:600;color:var(--text-2)}
-.step-hint{font-size:11px;color:var(--text-4);margin-top:2px}
+/* decorative rings behind icon */
+.wc-hero::before, .wc-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(26,86,219,.15);
+  left: 50%; top: 56px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.wc-hero::before { width: 160px; height: 160px; margin-top: -40px; }
+.wc-hero::after  { width: 220px; height: 220px; margin-top: -70px; border-color: rgba(26,86,219,.08); }
+
+.wc-icon {
+  position: relative; z-index: 1;
+  width: 76px; height: 76px;
+  border-radius: 22px;
+  border: 1.5px solid rgba(26,86,219,.4);
+  background: rgba(26,86,219,.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px; color: #6499f5;
+  margin: 0 auto 22px;
+}
+.wc-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(26,86,219,.15);
+  border: 1px solid rgba(26,86,219,.25);
+  border-radius: 100px;
+  padding: 4px 12px;
+  font-size: 10px; font-weight: 700;
+  color: #6499f5; letter-spacing: .12em; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.wc-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: #6499f5; animation: blink 2s ease infinite; }
+.wc-title {
+  font-size: 24px; font-weight: 800;
+  color: #ffffff; line-height: 1.25;
+  letter-spacing: -.02em; margin-bottom: 10px;
+}
+.wc-sub {
+  font-size: 13px; color: rgba(255,255,255,.45);
+  line-height: 1.75; font-weight: 400;
+}
+
+/* body section */
+.wc-body { padding: 28px 28px 32px; }
+
+/* info rows */
+.wc-info-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px; }
+.wc-info-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--r-md);
+  padding: 13px 14px;
+}
+.wc-info-ico {
+  width: 30px; height: 30px; border-radius: var(--r-sm);
+  background: rgba(26,86,219,.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: #6499f5; flex-shrink: 0; margin-top: 1px;
+}
+.wc-info-title { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.85); margin-bottom: 2px; }
+.wc-info-text  { font-size: 12px; color: rgba(255,255,255,.35); line-height: 1.55; }
+
+/* login button */
+.wc-login-btn {
+  width: 100%;
+  background: var(--accent);
+  color: #ffffff;
+  border: none; border-radius: var(--r-lg);
+  padding: 14px 24px;
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: 15px; font-weight: 800;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: all .2s;
+  box-shadow: 0 4px 16px rgba(26,86,219,.35);
+  margin-bottom: 14px;
+}
+.wc-login-btn:hover { background: #1e40af; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(26,86,219,.4); }
+
+.wc-note {
+  text-align: center;
+  font-size: 11.5px; color: rgba(255,255,255,.25);
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+
+/* ════════════════════════════════════
+   SITE HEADER
+════════════════════════════════════ */
+.site-header {
+  background: var(--white);
+  border-bottom: 1px solid var(--ink-15);
+  position: sticky; top: 0; z-index: 100;
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 32px; height: 60px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.header-brand-text { line-height: 1.2; }
+.header-brand-name  { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
+.header-brand-faculty { font-size: 10.5px; color: var(--ink-50); font-weight: 400; margin-top: 1px; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.header-badge {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--ink-07); border: 1px solid var(--ink-15);
+  border-radius: 100px; padding: 5px 12px;
+  font-size: 11px; font-weight: 600; color: var(--ink-70); letter-spacing: .04em;
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #16a34a;
+  flex-shrink: 0; animation: blink 2.4s ease infinite;
+}
+.logout-btn {
+  background: none; border: 1px solid var(--ink-15); border-radius: var(--r-sm);
+  padding: 5px 10px;
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-size: 11px; font-weight: 600; color: var(--error);
+  cursor: pointer; display: flex; align-items: center; gap: 4px;
+  transition: all .2s;
+}
+.logout-btn:hover { background: var(--error-bg); border-color: var(--error-bd); }
+
+/* ════════════════════════════════════
+   PAGE LAYOUT
+════════════════════════════════════ */
+.page-layout {
+  max-width: 1200px; margin: 0 auto;
+  padding: 48px 32px 80px;
+  display: grid; grid-template-columns: 1fr 480px;
+  gap: 48px; align-items: start;
+}
+.info-panel { position: sticky; top: 84px; }
+
+.info-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px;
+}
+.info-eyebrow::before { content: ''; width: 16px; height: 2px; background: var(--accent); border-radius: 2px; }
+.info-heading {
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 800; line-height: 1.2;
+  color: var(--ink); letter-spacing: -.02em; margin-bottom: 16px;
+}
+.info-desc {
+  font-size: 14px; line-height: 1.8;
+  color: var(--ink-50); font-weight: 400;
+  margin-bottom: 32px; max-width: 420px;
+}
+
+/* ── SCHEDULE CARD ── */
+.schedule-card, .steps-overview {
+  background: var(--white);
+  border: 1px solid var(--ink-15);
+  border-radius: var(--r-lg); overflow: hidden;
+  margin-bottom: 16px;
+}
+.schedule-head {
+  padding: 14px 18px; border-bottom: 1px solid var(--ink-07);
+  display: flex; align-items: center; gap: 9px;
+}
+.schedule-head-icon {
+  width: 28px; height: 28px; background: var(--ink-07); border-radius: var(--r-xs);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: var(--ink-50);
+}
+.schedule-head-title { font-size: 12px; font-weight: 700; color: var(--ink-70); letter-spacing: .06em; text-transform: uppercase; }
+.schedule-head-clock { margin-left: auto; font-size: 11px; font-weight: 600; color: var(--ink-50); font-variant-numeric: tabular-nums; }
+.schedule-body { padding: 6px 0; }
+.schedule-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 18px; border-bottom: 1px solid var(--ink-07);
+}
+.schedule-row:last-child { border-bottom: none; }
+.schedule-row.active-slot  { background: #f0fdf4; }
+.schedule-row.upcoming-slot{ background: var(--accent-bg); opacity: .8; }
+.schedule-row-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-15); flex-shrink: 0; margin-top: 2px; }
+.schedule-row.active-slot .schedule-row-dot  { background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.15); animation: blink 2s ease infinite; }
+.schedule-row.upcoming-slot .schedule-row-dot{ background: var(--accent); }
+.schedule-row-info { flex: 1; min-width: 0; }
+.schedule-row-name { font-size: 13px; font-weight: 600; color: var(--ink-70); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.schedule-row.active-slot .schedule-row-name { color: var(--success); }
+.schedule-row-time { font-size: 11px; color: var(--ink-30); margin-top: 2px; }
+.schedule-row-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; }
+.badge-open     { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-bd); }
+.badge-upcoming { background: var(--accent-bg);  color: var(--accent);  border: 1px solid #c7d7fc; }
+.badge-closed   { background: var(--ink-07);     color: var(--ink-30);  border: 1px solid var(--ink-15); }
+
+/* ── STEPS OVERVIEW ── */
+.steps-overview { padding: 18px; }
+.steps-overview-title { font-size: 12px; font-weight: 700; color: var(--ink-70); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.ov-step { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--ink-07); }
+.ov-step:last-child  { border-bottom: none; padding-bottom: 0; }
+.ov-step:first-child { padding-top: 0; }
+.ov-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1.5px solid var(--ink-15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: var(--ink-50); flex-shrink: 0;
+}
+.ov-label { font-size: 13px; font-weight: 600; color: var(--ink-70); }
+.ov-sub   { font-size: 11px; color: var(--ink-30); margin-top: 1px; }
 
 /* ── FORM CARD ── */
-.form-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r-xl);
-  overflow:hidden;
-  box-shadow:0 0 0 1px rgba(0,212,200,.04),0 24px 48px rgba(0,0,0,.35);
-  margin-bottom:14px;
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-50); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
 }
-.form-card-top{
-  padding:18px 22px 16px;
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:12px;
-}
-.fct-icon{
-  width:36px;height:36px;border-radius:var(--r-md);
-  background:var(--cyan-dim);border:1px solid rgba(0,212,200,.2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;color:var(--cyan);flex-shrink:0;
-}
-.fct-title{font-size:14px;font-weight:700;color:var(--text)}
-.fct-sub{font-size:11.5px;color:var(--text-3);margin-top:2px}
-.form-card-body{padding:22px}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--ink-15); }
 
-.field{margin-bottom:18px}
-.field:last-child{margin-bottom:0}
-.field-label{
-  display:flex;align-items:center;gap:6px;
-  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--text-3);margin-bottom:8px;
+.form-card, .notice-card {
+  background: var(--white);
+  border: 1px solid var(--ink-15);
+  border-radius: var(--r-lg); overflow: hidden;
+  margin-bottom: 16px;
 }
-.req{color:var(--cyan);font-size:14px;margin-left:1px}
+.form-card { box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04); }
 
-input[type="text"]{
-  width:100%;
-  background:var(--bg2);
-  border:1px solid var(--border2);
-  border-radius:var(--r-md);
-  padding:11px 14px;
-  font-family:'Sarabun',sans-serif;font-size:14px;color:var(--text);
-  outline:none;transition:all .15s;
+.form-card-head {
+  padding: 16px 22px; border-bottom: 1px solid var(--ink-07);
+  display: flex; align-items: center; gap: 10px;
 }
-input[type="text"]:focus{border-color:var(--cyan);box-shadow:0 0 0 3px var(--cyan-dim)}
-input[type="text"]::placeholder{color:var(--text-4)}
-input[type="text"][readonly]{
-  opacity:.55;cursor:not-allowed;
+.fch-icon {
+  width: 32px; height: 32px; background: var(--ink-07); border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--ink-50);
 }
-.field-hint{font-size:11px;color:var(--text-4);margin-top:6px;display:flex;align-items:center;gap:5px}
+.fch-title { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+.fch-sub   { font-size: 11.5px; color: var(--ink-50); margin-top: 1px; }
+.form-card-body { padding: 22px; }
 
-/* gps notice */
-.gps-notice{
-  background:var(--surface2);
-  border:1px solid var(--border);
-  border-radius:var(--r-lg);
-  padding:15px 16px;
-  display:flex;gap:13px;align-items:flex-start;
-  margin-bottom:14px;
+.field { margin-bottom: 18px; }
+.field:last-child { margin-bottom: 0; }
+.field-label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 700; color: var(--ink-70);
+  margin-bottom: 7px; text-transform: uppercase;
 }
-.gps-ico{
-  width:34px;height:34px;border-radius:var(--r-sm);
-  background:var(--cyan-dim);border:1px solid rgba(0,212,200,.15);
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;color:var(--cyan);flex-shrink:0;
+.req { color: var(--accent); margin-left: 1px; font-size: 14px; }
+
+input[type="text"] {
+  width: 100%; background: var(--white);
+  border: 1px solid var(--ink-15); border-radius: var(--r-sm);
+  padding: 10px 13px;
+  font-family: 'Noto Sans Thai', sans-serif; font-size: 14px; color: var(--ink);
+  outline: none; transition: all .15s;
 }
-.gps-title{font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:3px}
-.gps-text{font-size:12px;color:var(--text-3);line-height:1.7}
+input[type="text"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
+input[type="text"][readonly] { background: var(--ink-07); color: var(--ink-50); cursor: not-allowed; }
+.field-hint { font-size: 11px; color: var(--ink-30); margin-top: 5px; display: flex; gap: 5px; }
+
+.notice-inner { padding: 15px 18px; display: flex; gap: 12px; align-items: flex-start; }
+.notice-icon {
+  width: 32px; height: 32px; background: var(--ink-07); border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--ink-50); flex-shrink: 0;
+}
+.notice-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.notice-text  { font-size: 12.5px; color: var(--ink-50); line-height: 1.65; }
 
 /* open banner */
-.open-banner{
-  background:var(--green-bg);
-  border:1px solid var(--green-bd);
-  border-radius:var(--r-lg);
-  padding:12px 16px;
-  display:flex;align-items:center;gap:11px;
-  margin-bottom:14px;
+.status-banner { border-radius: var(--r-lg); margin-bottom: 16px; border: 1px solid var(--ink-15); }
+.status-banner.open { border-color: var(--success-bd); background: var(--success-bg); }
+.status-banner-inner { padding: 14px 18px; display: flex; gap: 13px; }
+.sb-icon {
+  width: 34px; height: 34px; border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;
 }
-.ob-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;animation:blink 2s ease infinite}
-.ob-title{font-size:13px;font-weight:700;color:var(--green)}
-.ob-sub{font-size:12px;color:rgba(16,185,129,.7);margin-top:1px}
+.status-banner.open .sb-icon { background: #d1fae5; color: var(--success); }
+.sb-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.status-banner.open .sb-title { color: var(--success); }
+.sb-text  { font-size: 12.5px; line-height: 1.6; }
+.status-banner.open .sb-text  { color: #047857; }
 
-/* ── SUBMIT BUTTON — the signature GPS pulse ── */
-.submit-wrap{position:relative;margin-top:4px}
-.submit-pulse{
-  position:absolute;inset:-6px;border-radius:calc(var(--r-lg) + 6px);
-  border:1.5px solid var(--cyan);opacity:0;
-  animation:none;pointer-events:none;
+/* submit */
+.submit-btn {
+  width: 100%; background: var(--ink); color: var(--white);
+  border: none; border-radius: var(--r-sm); padding: 12px 24px;
+  font-family: 'Noto Sans Thai', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px;
+  transition: all .15s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.1);
 }
-.submit-btn{
-  width:100%;
-  background:var(--cyan);
-  color:var(--bg);
-  border:none;border-radius:var(--r-lg);
-  padding:14px 24px;
-  font-family:'Sarabun',sans-serif;font-size:15px;font-weight:800;
-  cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  transition:all .2s;
-  position:relative;z-index:1;
-  box-shadow:0 0 24px rgba(0,212,200,.2);
-}
-.submit-btn:hover:not(:disabled){
-  background:#00EEE0;
-  box-shadow:0 0 36px rgba(0,212,200,.35);
-  transform:translateY(-1px);
-}
-.submit-btn:hover:not(:disabled) ~ .submit-pulse{
-  animation:gps-ring 1.6s ease infinite;
-}
-.submit-btn:disabled{opacity:.3;cursor:not-allowed;box-shadow:none}
-.submit-note{text-align:center;font-size:11px;color:var(--text-4);margin-top:10px}
+.submit-btn:hover:not(:disabled) { background: var(--ink-70); }
+.submit-btn:disabled { opacity: .45; cursor: not-allowed; }
+.submit-note { text-align: center; font-size: 11px; color: var(--ink-30); margin-top: 10px; }
 
-/* ── ALTERNATE SCREENS ── */
-.alt-screen{display:none}
-.alt-screen.show{display:flex;flex-direction:column;gap:14px;animation:fadeUp .4s cubic-bezier(.22,1,.36,1) both}
+/* ════════════════════════════════════
+   ALTERNATE SCREENS (invalid / closed)
+════════════════════════════════════ */
+.alt-screen { display: none; }
+.alt-screen.show { display: flex; flex-direction: column; gap: 16px; animation: fadeUp .4s cubic-bezier(.22,1,.36,1) both; }
+.alt-main-card {
+  background: var(--white); border: 1px solid var(--ink-15);
+  border-radius: var(--r-lg); overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
+}
+.alt-top { background: var(--ink); padding: 36px 28px 32px; text-align: center; }
+.alt-top.error-bg { background: var(--error); }
+.alt-top-icon {
+  width: 68px; height: 68px; border: 1.5px solid rgba(255,255,255,.14); border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: rgba(255,255,255,.6); margin: 0 auto 18px;
+}
+.alt-top-title { font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+.alt-top-sub   { font-size: 13px; color: rgba(255,255,255,.38); line-height: 1.65; }
+.alt-body { padding: 24px; }
 
-.alt-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r-xl);
-  overflow:hidden;
-  box-shadow:0 24px 48px rgba(0,0,0,.3);
+.auth-btn {
+  width: 100%; background: var(--accent); color: var(--white);
+  border: none; border-radius: var(--r-md); padding: 14px;
+  font-family: inherit; font-size: 15px; font-weight: 700;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+  box-shadow: 0 4px 12px rgba(26,86,219,.2); transition: all .2s; margin-bottom: 16px;
 }
-.alt-hero{
-  padding:40px 28px 32px;
-  text-align:center;
-  background:linear-gradient(160deg,var(--surface2),var(--surface));
-  border-bottom:1px solid var(--border);
-}
-.alt-hero.is-error{background:linear-gradient(160deg,rgba(239,68,68,.15),var(--surface))}
-.alt-hero-icon{
-  width:72px;height:72px;border-radius:22px;
-  border:1.5px solid var(--border2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:28px;color:var(--text-3);
-  margin:0 auto 20px;
-}
-.alt-hero.is-auth .alt-hero-icon{color:var(--cyan);border-color:rgba(0,212,200,.3);background:var(--cyan-dim)}
-.alt-hero.is-error .alt-hero-icon{color:var(--red);border-color:var(--red-bd);background:var(--red-bg)}
-.alt-title{font-size:22px;font-weight:800;color:var(--text);margin-bottom:10px}
-.alt-sub{font-size:13px;color:var(--text-3);line-height:1.7}
-.alt-body{padding:24px}
+.auth-btn:hover { background: #1e40af; transform: translateY(-1px); }
+.auth-btn.danger { background: var(--white); color: var(--error); border: 1px solid var(--error-bd); box-shadow: none; }
+.auth-btn.danger:hover { background: var(--error-bg); }
 
-.primary-btn{
-  width:100%;background:var(--cyan);color:var(--bg);
-  border:none;border-radius:var(--r-lg);
-  padding:14px;
-  font-family:'Sarabun',sans-serif;font-size:15px;font-weight:800;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;
-  transition:all .2s;margin-bottom:14px;
-  box-shadow:0 8px 24px rgba(0,212,200,.2);
+.next-slot-box {
+  background: var(--ink-07); border: 1px solid var(--ink-15);
+  border-radius: var(--r-md); padding: 16px; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 14px;
 }
-.primary-btn:hover{background:#00EEE0;transform:translateY(-1px)}
-.danger-btn{
-  width:100%;background:var(--red-bg);color:var(--red);
-  border:1px solid var(--red-bd);border-radius:var(--r-lg);
-  padding:13px;
-  font-family:'Sarabun',sans-serif;font-size:14px;font-weight:700;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;
-  transition:all .2s;
-}
-.danger-btn:hover{background:rgba(239,68,68,.15)}
-
-.info-box{
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:var(--r-md);padding:14px;margin-bottom:18px;
-}
-.info-box-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:5px}
-.info-box-val{font-size:14px;font-weight:600;color:var(--text)}
-
-.alert-row{
-  display:flex;align-items:flex-start;gap:10px;
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:var(--r-md);padding:12px;
-  font-size:12px;color:var(--text-3);line-height:1.65;
-}
-.alert-row i{color:var(--cyan);margin-top:2px;flex-shrink:0}
-
-.next-box{
-  display:flex;align-items:center;gap:14px;
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:var(--r-md);padding:14px;margin-bottom:18px;
-}
-.next-ico{
-  width:42px;height:42px;flex-shrink:0;
-  background:var(--cyan-dim);border-radius:var(--r-sm);
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;color:var(--cyan);
-}
-.next-label{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--text-3);margin-bottom:4px}
-.next-name{font-size:14px;font-weight:700;color:var(--text)}
-.next-time{font-size:12px;color:var(--text-3);margin-top:3px}
-
-/* ── PROCESS OVERLAY ── */
-#processOverlay{
-  position:fixed;inset:0;
-  background:rgba(7,11,20,.75);
-  backdrop-filter:blur(12px);
-  z-index:8888;
-  display:flex;align-items:center;justify-content:center;padding:24px;
-  opacity:0;pointer-events:none;transition:opacity .22s ease;
-}
-#processOverlay.visible{opacity:1;pointer-events:all}
-.proc-card{
-  background:var(--surface);
-  border:1px solid var(--border2);
-  border-radius:var(--r-xl);
-  width:100%;max-width:400px;
-  transform:translateY(12px) scale(.97);
-  transition:transform .28s cubic-bezier(.22,1,.36,1);
-  box-shadow:0 32px 64px rgba(0,0,0,.5);
-}
-#processOverlay.visible .proc-card{transform:translateY(0) scale(1)}
-.proc-head{
-  background:var(--bg2);
-  border-bottom:1px solid var(--border);
-  padding:16px 22px;
-  display:flex;align-items:center;gap:12px;
-  border-radius:var(--r-xl) var(--r-xl) 0 0;
-}
-.proc-head-ico{
-  width:32px;height:32px;border-radius:var(--r-sm);
-  background:var(--cyan-dim);border:1px solid rgba(0,212,200,.2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;color:var(--cyan);
-}
-.proc-eyebrow{font-size:10px;font-weight:700;color:var(--text-4);text-transform:uppercase;letter-spacing:.1em}
-.proc-title{font-size:14px;font-weight:700;color:var(--text)}
-.proc-body{padding:22px}
-
-.step-list{display:flex;flex-direction:column;gap:0}
-.si{display:flex;gap:14px;position:relative}
-.si:not(:last-child)::after{
-  content:'';position:absolute;left:13px;top:30px;
-  width:1px;height:calc(100% - 6px);
-  background:var(--border2);
-}
-.si.done:not(:last-child)::after{background:var(--cyan)}
-.si-dot-wrap{flex-shrink:0;width:27px;height:27px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
-.si-dot{
-  width:27px;height:27px;border-radius:50%;
-  border:1.5px solid var(--border2);
-  background:var(--surface);
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;color:var(--text-4);
-}
-.si.active .si-dot{border-color:var(--cyan);background:var(--cyan-dim);color:var(--cyan)}
-.si.done .si-dot{border-color:var(--cyan);background:var(--cyan);color:var(--bg)}
-.si.error .si-dot{border-color:var(--red);background:var(--red);color:#fff}
-.si-ring{
-  position:absolute;inset:-4px;border-radius:50%;
-  border:1.5px solid transparent;border-top-color:var(--cyan);
-  animation:spin .7s linear infinite;opacity:0;
-}
-.si.active .si-ring{opacity:1}
-.si-text{padding:3px 0 18px;flex:1}
-.si:last-child .si-text{padding-bottom:0}
-.si-title{font-size:13px;font-weight:700;color:var(--text-4)}
-.si.active .si-title{color:var(--text)}
-.si.done .si-title{color:var(--text-2)}
-.si.error .si-title{color:var(--red)}
-.si-desc{
-  font-size:11.5px;color:var(--text-3);
-  max-height:0;overflow:hidden;opacity:0;transition:all .28s;
-}
-.si.active .si-desc,.si.done .si-desc,.si.error .si-desc{max-height:56px;opacity:1;margin-top:3px}
-
-.proc-result{
-  margin-top:18px;padding:12px 14px;border-radius:var(--r-md);
-  font-size:13px;font-weight:600;display:none;gap:9px;align-items:center;
-}
-.proc-result.success{display:flex;background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)}
-.proc-result.error{display:flex;background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd)}
-.proc-close{
-  width:100%;margin-top:14px;
-  background:var(--cyan);color:var(--bg);
-  border:none;border-radius:var(--r-md);padding:11px;
-  font-family:'Sarabun',sans-serif;font-size:14px;font-weight:800;
-  cursor:pointer;display:none;align-items:center;justify-content:center;gap:8px;
-  transition:background .15s;
-}
-.proc-close:hover{background:#00EEE0}
-.proc-close.show{display:flex}
-.proc-close.is-error{background:var(--surface2);color:var(--text);border:1px solid var(--border2)}
-.proc-close.is-error:hover{background:var(--surface)}
-
-/* ── FOOTER ── */
-.site-footer{
-  border-top:1px solid var(--border);
-  padding:22px 28px;
-}
-.footer-inner{
-  max-width:1180px;margin:0 auto;
-  display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:12px;
-}
-.footer-l{font-size:12px;color:var(--text-4);display:flex;align-items:center;gap:8px}
-.footer-l strong{color:var(--text-3);font-weight:600}
-.footer-dot{width:3px;height:3px;border-radius:50%;background:var(--text-4)}
-.footer-r{font-size:11px;color:var(--text-4)}
-
-/* ── RESPONSIVE ── */
-@media(max-width:920px){
-  .page{grid-template-columns:1fr;padding:32px 20px 72px;gap:36px}
-  .left-panel{position:static}
-  .header-inner{padding:0 20px}
-}
-@media(max-width:540px){
-  .page{padding:24px 16px 64px}
-  .brand-sub{display:none}
-  .site-footer{padding:18px 20px}
-  .footer-inner{flex-direction:column;align-items:flex-start}
+.nsb-icon {
+  width: 42px; height: 42px; background: var(--white); border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent); font-size: 16px;
 }
 
-/* ── KEYFRAMES ── */
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-@keyframes fadeOut{to{opacity:0;pointer-events:none}}
-@keyframes loadFill{from{width:0}to{width:100%}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes gps-ring{
-  0%{opacity:.8;transform:scale(1)}
-  100%{opacity:0;transform:scale(1.15)}
+/* ════════════════════════════════════
+   PROCESS OVERLAY
+════════════════════════════════════ */
+#processOverlay {
+  position: fixed; inset: 0;
+  background: rgba(13,17,23,.6); backdrop-filter: blur(8px);
+  z-index: 8888; display: flex; align-items: center; justify-content: center; padding: 24px;
+  opacity: 0; pointer-events: none; transition: opacity .22s ease;
 }
-.animate-in{animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both}
-.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}
+#processOverlay.visible { opacity: 1; pointer-events: all; }
+.process-card {
+  background: var(--white); border-radius: var(--r-lg); border: 1px solid var(--ink-15);
+  width: 100%; max-width: 400px;
+  transform: translateY(10px) scale(.98); transition: transform .28s;
+}
+#processOverlay.visible .process-card { transform: translateY(0) scale(1); }
+.process-head { background: var(--ink); padding: 18px 24px; display: flex; gap: 12px; border-radius: var(--r-lg) var(--r-lg) 0 0; }
+.ph-icon { width: 32px; height: 32px; border: 1px solid rgba(255,255,255,.18); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; color: var(--white); }
+.ph-eyebrow { font-size: 10px; font-weight: 700; color: rgba(255,255,255,.35); text-transform: uppercase; }
+.ph-title   { font-size: 14px; font-weight: 700; color: var(--white); }
+.process-body { padding: 24px; }
+.step-item { display: flex; gap: 14px; position: relative; }
+.step-item:not(:last-child)::after { content: ''; position: absolute; left: 14px; top: 30px; width: 1px; height: calc(100% - 6px); background: var(--ink-15); }
+.step-item.done:not(:last-child)::after { background: var(--ink); }
+.step-dot-wrap { flex-shrink: 0; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+.step-dot { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--ink-15); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--ink-30); }
+.step-item.active .step-dot,
+.step-item.done   .step-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
+.step-item.error  .step-dot { border-color: #dc2626; background: #dc2626; color: var(--white); }
+.step-ring { position: absolute; inset: -3px; border-radius: 50%; border: 1.5px solid transparent; border-top-color: var(--ink); animation: spin .7s linear infinite; opacity: 0; }
+.step-item.active .step-ring { opacity: 1; }
+.step-text { padding: 4px 0 18px; flex: 1; }
+.step-item:last-child .step-text { padding-bottom: 0; }
+.step-title { font-size: 13px; font-weight: 700; color: var(--ink-30); }
+.step-item.active .step-title { color: var(--ink); }
+.step-item.done  .step-title { color: var(--ink-70); }
+.step-item.error .step-title { color: #dc2626; }
+.step-desc { font-size: 11.5px; color: var(--ink-50); max-height: 0; overflow: hidden; opacity: 0; transition: all .28s; }
+.step-item.active .step-desc,
+.step-item.done   .step-desc,
+.step-item.error  .step-desc { max-height: 56px; opacity: 1; margin-top: 2px; }
+.process-result { margin-top: 18px; padding: 11px 14px; border-radius: var(--r-sm); font-size: 13px; font-weight: 600; display: none; gap: 9px; }
+.process-result.success { display: flex; background: var(--success-bg); color: var(--success); border: 1px solid var(--success-bd); }
+.process-result.error   { display: flex; background: var(--error-bg);   color: var(--error);   border: 1px solid var(--error-bd); }
+.process-close { width: 100%; margin-top: 14px; background: var(--ink); color: var(--white); border: none; border-radius: var(--r-sm); padding: 11px; font-family: inherit; font-weight: 700; cursor: pointer; display: none; align-items: center; justify-content: center; gap: 8px; }
+.process-close.show { display: flex; }
 
-@media(prefers-reduced-motion:reduce){
-  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+/* ════════════════════════════════════
+   SITE FOOTER
+════════════════════════════════════ */
+.site-footer { border-top: 1px solid var(--ink-15); background: var(--white); padding: 20px 32px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-left  { font-size: 12px; color: var(--ink-50); display: flex; align-items: center; gap: 8px; }
+.footer-left strong { color: var(--ink-70); font-weight: 600; }
+.footer-sep   { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-30); }
+.footer-right { font-size: 11.5px; color: var(--ink-30); }
+
+/* ════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════ */
+@media (max-width: 900px) {
+  .page-layout { grid-template-columns: 1fr; padding: 32px 20px 64px; }
+  .info-panel { position: static; }
+  .header-inner { padding: 0 20px; }
+}
+@media (max-width: 540px) {
+  .page-layout { padding: 24px 16px 60px; }
+  .header-brand-faculty { display: none; }
+  .site-footer { padding: 16px 20px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .welcome-card { border-radius: var(--r-lg); }
+  .wc-hero { padding: 32px 22px 28px; }
+  .wc-body { padding: 22px 20px 26px; }
+}
+
+/* ════════════════════════════════════
+   KEYFRAMES
+════════════════════════════════════ */
+@keyframes spin     { to { transform: rotate(360deg); } }
+@keyframes blink    { 0%,100% { opacity:1; } 50% { opacity:.25; } }
+@keyframes fadeOut  { to { opacity:0; pointer-events:none; } }
+@keyframes loadFill { from { width:0; } to { width:100%; } }
+@keyframes fadeUp   { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+.animate-in { animation: fadeUp .5s cubic-bezier(.22,1,.36,1) both; }
+.delay-1 { animation-delay: .05s; }
+.delay-2 { animation-delay: .10s; }
+.delay-3 { animation-delay: .15s; }
+.delay-4 { animation-delay: .20s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
 </style>
 </head>
 <body>
 
-<!-- LOADER -->
+<!-- ══════════════════════════════════
+     LOADING SCREEN
+══════════════════════════════════ -->
 <div id="loadScreen">
-  <div class="ls-logo">
-    <div class="ls-outer"></div>
-    <div class="ls-mid"></div>
-    <div class="ls-core"><i class="fa-solid fa-location-crosshairs"></i></div>
+  <div class="ls-emblem">
+    <div class="ls-ring"></div>
+    <div class="ls-inner"></div>
+    <div class="ls-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
   </div>
-  <div class="ls-brand">
-    <div class="ls-name">English Education</div>
+  <div class="ls-wordmark">
+    <div class="ls-title">English Education</div>
     <div class="ls-sub">กำลังซิงค์ตารางเวลาและระบบยืนยันตัวตน…</div>
   </div>
-  <div class="ls-bar"><div class="ls-fill"></div></div>
+  <div class="ls-progress"><div class="ls-progress-fill"></div></div>
 </div>
 
-<!-- PROCESS OVERLAY -->
-<div id="processOverlay">
-  <div class="proc-card">
-    <div class="proc-head">
-      <div class="proc-head-ico"><i class="fa-solid fa-arrows-rotate"></i></div>
-      <div>
-        <div class="proc-eyebrow">Processing</div>
-        <div class="proc-title">กำลังดำเนินการ</div>
+<!-- ══════════════════════════════════
+     WELCOME SCREEN (fullscreen gate)
+══════════════════════════════════ -->
+<div id="welcomeScreen">
+  <div class="welcome-card">
+    <div class="wc-hero">
+      <div class="wc-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div class="wc-badge"><div class="wc-badge-dot"></div>Attendance System</div>
+      <div class="wc-title">ระบบบันทึก<br>การเข้าร่วมกิจกรรม</div>
+      <div class="wc-sub">สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์<br>มหาวิทยาลัยราชภัฏเลย</div>
+    </div>
+    <div class="wc-body">
+      <div class="wc-info-list">
+        <div class="wc-info-row">
+          <div class="wc-info-ico"><i class="fa-solid fa-envelope"></i></div>
+          <div>
+            <div class="wc-info-title">ใช้บัญชีอีเมลมหาวิทยาลัย</div>
+            <div class="wc-info-text">รูปแบบ sb[รหัสนักศึกษา]@lru.ac.th เท่านั้น</div>
+          </div>
+        </div>
+        <div class="wc-info-row">
+          <div class="wc-info-ico"><i class="fa-solid fa-location-crosshairs"></i></div>
+          <div>
+            <div class="wc-info-title">ต้องอยู่ในพื้นที่กิจกรรม</div>
+            <div class="wc-info-text">ระบบจะตรวจสอบพิกัด GPS ในรัศมี 100 เมตร</div>
+          </div>
+        </div>
+        <div class="wc-info-row">
+          <div class="wc-info-ico"><i class="fa-solid fa-clock"></i></div>
+          <div>
+            <div class="wc-info-title">ลงทะเบียนได้ในช่วงเวลาที่กำหนด</div>
+            <div class="wc-info-text">ตรวจสอบตารางเปิด–ปิดระบบก่อนเข้าใช้งาน</div>
+          </div>
+        </div>
+      </div>
+      <button class="wc-login-btn" onclick="loginUser()">
+        <i class="fa-solid fa-envelope"></i> เข้าสู่ระบบด้วย LRU Mail
+      </button>
+      <div class="wc-note">
+        <i class="fa-solid fa-lock" style="font-size:10px"></i>
+        ข้อมูลของคุณได้รับการปกป้องด้วย Auth0
       </div>
     </div>
-    <div class="proc-body">
-      <div class="step-list">
-        <div class="si" id="step-1">
-          <div class="si-dot-wrap"><div class="si-dot"></div><div class="si-ring"></div></div>
-          <div class="si-text"><div class="si-title">ตรวจสอบข้อมูลผู้ใช้</div><div class="si-desc" id="desc-1">ตรวจสอบรหัสนักศึกษาและชื่อ–สกุล</div></div>
-        </div>
-        <div class="si" id="step-2">
-          <div class="si-dot-wrap"><div class="si-dot"></div><div class="si-ring"></div></div>
-          <div class="si-text"><div class="si-title">ระบุพิกัด GPS</div><div class="si-desc" id="desc-2">กำลังขอสิทธิ์และรับสัญญาณตำแหน่ง</div></div>
-        </div>
-        <div class="si" id="step-3">
-          <div class="si-dot-wrap"><div class="si-dot"></div><div class="si-ring"></div></div>
-          <div class="si-text"><div class="si-title">ตรวจสอบพื้นที่กิจกรรม</div><div class="si-desc" id="desc-3">เปรียบเทียบพิกัดกับสถานที่กิจกรรม</div></div>
-        </div>
-        <div class="si" id="step-4">
-          <div class="si-dot-wrap"><div class="si-dot"></div><div class="si-ring"></div></div>
-          <div class="si-text"><div class="si-title">บันทึกข้อมูล</div><div class="si-desc" id="desc-4">ส่งข้อมูลและบันทึกลงฐานข้อมูล</div></div>
-        </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PROCESS OVERLAY
+══════════════════════════════════ -->
+<div id="processOverlay">
+  <div class="process-card">
+    <div class="process-head">
+      <div class="ph-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+      <div>
+        <div class="ph-eyebrow">Processing Request</div>
+        <div class="ph-title">กำลังดำเนินการ</div>
       </div>
-      <div class="proc-result" id="processResult"></div>
-      <button class="proc-close" id="processClose" onclick="closeOverlay()">
+    </div>
+    <div class="process-body">
+      <div class="step-list">
+        <div class="step-item" id="step-1"><div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div><div class="step-text"><div class="step-title">ตรวจสอบข้อมูลผู้ใช้</div><div class="step-desc" id="desc-1">ตรวจสอบรหัสนักศึกษาและชื่อ–สกุล</div></div></div>
+        <div class="step-item" id="step-2"><div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div><div class="step-text"><div class="step-title">ระบุพิกัด GPS</div><div class="step-desc" id="desc-2">กำลังขอสิทธิ์และรับสัญญาณตำแหน่ง</div></div></div>
+        <div class="step-item" id="step-3"><div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div><div class="step-text"><div class="step-title">ตรวจสอบพื้นที่กิจกรรม</div><div class="step-desc" id="desc-3">เปรียบเทียบพิกัดกับสถานที่กิจกรรม</div></div></div>
+        <div class="step-item" id="step-4"><div class="step-dot-wrap"><div class="step-dot"></div><div class="step-ring"></div></div><div class="step-text"><div class="step-title">บันทึกข้อมูล</div><div class="step-desc" id="desc-4">ส่งข้อมูลและบันทึกลงฐานข้อมูล</div></div></div>
+      </div>
+      <div class="process-result" id="processResult"></div>
+      <button class="process-close" id="processClose" onclick="closeOverlay()">
         <i class="fa-solid fa-check"></i><span>ตกลง</span>
       </button>
     </div>
   </div>
 </div>
 
-<!-- HEADER -->
+<!-- ══════════════════════════════════
+     SITE HEADER
+══════════════════════════════════ -->
 <header class="site-header">
   <div class="header-inner">
     <a class="header-brand" href="#">
-      <div class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-      <div>
-        <div class="brand-name">English Education</div>
-        <div class="brand-sub">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+      <div class="header-brand-text">
+        <div class="header-brand-name">English Education</div>
+        <div class="header-brand-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
       </div>
     </a>
     <div class="header-right">
-      <div class="sys-pill">
-        <div class="sys-dot" id="sysDot"></div>
-        <span id="sysLabel">กำลังตรวจสอบ…</span>
+      <div class="header-badge" id="headerBadge">
+        <div class="live-dot" id="headerDot"></div>
+        <span id="headerBadgeText">กำลังตรวจสอบ…</span>
       </div>
       <button id="logoutBtn" class="logout-btn" style="display:none" onclick="logoutUser()">
         <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
@@ -624,91 +668,73 @@ input[type="text"][readonly]{
   </div>
 </header>
 
-<!-- MAIN -->
-<main class="page">
+<!-- ══════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════ -->
+<main class="page-layout">
 
-  <!-- LEFT: info -->
-  <aside class="left-panel">
-    <div class="eyebrow animate-in d1">Attendance System</div>
-    <h1 class="main-heading animate-in d2">ระบบบันทึก<br><em>การเข้าร่วมกิจกรรม</em></h1>
-    <p class="main-desc animate-in d3">สำหรับนักศึกษาสาขาวิชาภาษาอังกฤษ คณะครุศาสตร์<br>มหาวิทยาลัยราชภัฏเลย เพื่อยืนยันการเข้าร่วมกิจกรรม</p>
+  <!-- LEFT: info panel -->
+  <aside class="info-panel">
+    <div class="info-eyebrow animate-in delay-1">Attendance System</div>
+    <h1 class="info-heading animate-in delay-2">ระบบบันทึก<br>การเข้าร่วมกิจกรรม</h1>
+    <p class="info-desc animate-in delay-3">สำหรับนักศึกษาสาขาวิชาภาษาอังกฤษ คณะครุศาสตร์<br>มหาวิทยาลัยราชภัฏเลย ใช้ยืนยันการเข้าร่วมกิจกรรม</p>
 
-    <div class="sched-card animate-in d3">
-      <div class="sched-head">
-        <div class="sched-head-ico"><i class="fa-regular fa-clock"></i></div>
-        <div class="sched-head-label">ตารางเปิด–ปิดระบบ</div>
-        <div class="live-clock" id="liveClock">--:--:--</div>
+    <div class="schedule-card animate-in delay-3">
+      <div class="schedule-head">
+        <div class="schedule-head-icon"><i class="fa-regular fa-clock"></i></div>
+        <div class="schedule-head-title">ตารางเปิด–ปิดระบบ</div>
+        <div class="schedule-head-clock" id="liveClock">--:--:--</div>
       </div>
-      <div class="sched-body" id="scheduleBody"></div>
+      <div class="schedule-body" id="scheduleBody"></div>
     </div>
 
-    <div class="steps-card animate-in d4">
-      <div class="steps-title"><i class="fa-solid fa-list-check"></i>ขั้นตอนการลงทะเบียน</div>
-      <div class="step-row"><div class="step-num">1</div><div class="step-body"><div class="step-label">ล็อกอินยืนยันตัวตน</div><div class="step-hint">ใช้บัญชีอีเมลมหาวิทยาลัย (@lru.ac.th)</div></div></div>
-      <div class="step-row"><div class="step-num">2</div><div class="step-body"><div class="step-label">อนุญาตการเข้าถึง Location</div><div class="step-hint">เลือก "อนุญาต" เมื่อเบราว์เซอร์ถาม</div></div></div>
-      <div class="step-row"><div class="step-num">3</div><div class="step-body"><div class="step-label">ระบบตรวจสอบพิกัด</div><div class="step-hint">ต้องอยู่ในรัศมี 100 เมตรจากสถานที่</div></div></div>
-      <div class="step-row"><div class="step-num">4</div><div class="step-body"><div class="step-label">บันทึกเวลาเข้าร่วม</div><div class="step-hint">ข้อมูลถูกบันทึกลงระบบทันที</div></div></div>
+    <div class="steps-overview animate-in delay-4">
+      <div class="steps-overview-title"><i class="fa-solid fa-list-check"></i>ขั้นตอนการลงทะเบียน</div>
+      <div class="ov-step"><div class="ov-num">1</div><div><div class="ov-label">ล็อกอินยืนยันตัวตน</div><div class="ov-sub">ใช้บัญชีอีเมลมหาวิทยาลัย (@lru.ac.th)</div></div></div>
+      <div class="ov-step"><div class="ov-num">2</div><div><div class="ov-label">อนุญาตการเข้าถึง Location</div><div class="ov-sub">เลือก "อนุญาต" เมื่อเบราว์เซอร์ถาม</div></div></div>
+      <div class="ov-step"><div class="ov-num">3</div><div><div class="ov-label">ระบบตรวจสอบพิกัด</div><div class="ov-sub">ต้องอยู่ในรัศมี 100 เมตรจากสถานที่</div></div></div>
+      <div class="ov-step"><div class="ov-num">4</div><div><div class="ov-label">บันทึกเวลาเข้าร่วม</div><div class="ov-sub">ข้อมูลถูกบันทึกลงระบบทันที</div></div></div>
     </div>
   </aside>
 
-  <!-- RIGHT: forms -->
+  <!-- RIGHT: form panel -->
   <section class="form-panel">
 
-    <!-- Auth screen -->
-    <div id="authScreen" class="alt-screen">
-      <div class="alt-card">
-        <div class="alt-hero is-auth">
-          <div class="alt-hero-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-          <div class="alt-title">ยินดีต้อนรับ</div>
-          <div class="alt-sub">เข้าสู่ระบบด้วยบัญชีอีเมลของมหาวิทยาลัย (@lru.ac.th)<br>เพื่อยืนยันตัวตนและดึงข้อมูลนักศึกษาโดยอัตโนมัติ</div>
-        </div>
-        <div class="alt-body">
-          <button class="primary-btn" onclick="loginUser()">
-            <i class="fa-solid fa-envelope"></i> เข้าสู่ระบบด้วย LRU Mail
-          </button>
-          <div class="alert-row">
-            <i class="fa-solid fa-circle-info"></i>
-            <span>ระบบรับเฉพาะอีเมลรูปแบบ <strong>sb[รหัสนักศึกษา]@lru.ac.th</strong> เท่านั้น</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Invalid email screen -->
+    <!-- Invalid email -->
     <div id="invalidEmailScreen" class="alt-screen">
-      <div class="alt-card">
-        <div class="alt-hero is-error">
-          <div class="alt-hero-icon"><i class="fa-solid fa-user-xmark"></i></div>
-          <div class="alt-title">อีเมลไม่ถูกต้อง</div>
-          <div class="alt-sub">บัญชีที่คุณใช้ล็อกอินไม่ใช่อีเมลนักศึกษาที่ถูกต้อง</div>
+      <div class="alt-main-card">
+        <div class="alt-top error-bg">
+          <div class="alt-top-icon" style="color:var(--white);border-color:rgba(255,255,255,.3)"><i class="fa-solid fa-user-xmark"></i></div>
+          <div class="alt-top-title">อีเมลไม่ถูกต้อง</div>
+          <div class="alt-top-sub">บัญชีที่คุณใช้ล็อกอินไม่ใช่อีเมลนักศึกษาที่ถูกต้อง</div>
         </div>
         <div class="alt-body">
-          <div class="info-box">
-            <div class="info-box-label">อีเมลปัจจุบันของคุณ</div>
-            <div class="info-box-val" id="invalidEmailDisplay">—</div>
+          <div style="background:var(--error-bg);border:1px solid var(--error-bd);border-radius:var(--r-md);padding:16px;margin-bottom:20px;">
+            <div style="font-size:11px;font-weight:700;color:var(--error);margin-bottom:4px;text-transform:uppercase;">อีเมลปัจจุบันของคุณ</div>
+            <div id="invalidEmailDisplay" style="font-size:14px;font-weight:600;color:var(--ink);">—</div>
           </div>
-          <button class="danger-btn" onclick="logoutUser()">
+          <button class="auth-btn danger" onclick="logoutUser()">
             <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบและลองใหม่
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Closed screen -->
+    <!-- Closed -->
     <div id="closedScreen" class="alt-screen">
-      <div class="alt-card">
-        <div class="alt-hero">
-          <div class="alt-hero-icon"><i class="fa-solid fa-lock"></i></div>
-          <div class="alt-title" id="closedTitle">หมดเวลากรอกข้อมูล</div>
-          <div class="alt-sub" id="closedSub">ระบบปิดรับบันทึกการเข้าร่วมแล้วในขณะนี้</div>
+      <div class="alt-main-card">
+        <div class="alt-top">
+          <div class="alt-top-icon"><i class="fa-solid fa-lock"></i></div>
+          <div class="alt-top-title" id="closedTitle">หมดเวลากรอกข้อมูล</div>
+          <div class="alt-top-sub" id="closedSub">ระบบปิดรับบันทึกการเข้าร่วมแล้วในขณะนี้</div>
         </div>
         <div class="alt-body">
-          <div id="nextSlotBox" class="next-box" style="display:none">
-            <div class="next-ico"><i class="fa-regular fa-clock"></i></div>
+          <div id="nextSlotBox" class="next-slot-box" style="display:none">
+            <div class="nsb-icon"><i class="fa-regular fa-clock"></i></div>
             <div>
-              <div class="next-label">รอบถัดไป</div>
-              <div class="next-name" id="nextSlotName">—</div>
-              <div class="next-time" id="nextSlotTime">—</div>
+              <div style="font-size:10px;font-weight:700;color:var(--ink-50);text-transform:uppercase;margin-bottom:3px;">รอบถัดไป</div>
+              <div id="nextSlotName" style="font-size:14.5px;font-weight:700;color:var(--ink);">—</div>
+              <div id="nextSlotTime" style="font-size:12px;color:var(--ink-50);margin-top:2px;">—</div>
             </div>
           </div>
         </div>
@@ -717,27 +743,30 @@ input[type="text"][readonly]{
 
     <!-- Main form -->
     <div id="formContents" style="display:none">
-      <div class="open-banner animate-in">
-        <div class="ob-dot"></div>
-        <div>
-          <div class="ob-title">ระบบเปิดรับบันทึกข้อมูล</div>
-          <div class="ob-sub" id="sbText">กรุณากรอกข้อมูลให้ครบถ้วนแล้วกดยืนยัน</div>
+      <div class="status-banner open animate-in">
+        <div class="status-banner-inner">
+          <div class="sb-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <div>
+            <div class="sb-title">ระบบเปิดรับบันทึกข้อมูล</div>
+            <div class="sb-text" id="sbText">กรุณากรอกข้อมูลและกดยืนยันเพื่อบันทึกการเข้าร่วม</div>
+          </div>
         </div>
       </div>
 
-      <div class="form-card animate-in d1">
-        <div class="form-card-top">
-          <div class="fct-icon"><i class="fa-solid fa-user-check"></i></div>
+      <p class="section-label animate-in delay-1">ข้อมูลนักศึกษา (ดึงจากระบบอัตโนมัติ)</p>
+      <div class="form-card animate-in delay-1">
+        <div class="form-card-head">
+          <div class="fch-icon"><i class="fa-solid fa-user-check"></i></div>
           <div>
-            <div class="fct-title">ข้อมูลผู้ใช้ที่ยืนยันแล้ว</div>
-            <div class="fct-sub" id="userEmailDisplay">ดึงข้อมูลสำเร็จ</div>
+            <div class="fch-title">ข้อมูลผู้ใช้ที่ยืนยันแล้ว</div>
+            <div class="fch-sub" id="userEmailDisplay">ดึงข้อมูลสำเร็จ</div>
           </div>
         </div>
         <div class="form-card-body">
           <div class="field">
             <div class="field-label"><i class="fa-solid fa-id-card"></i>รหัสนักศึกษา<span class="req">*</span></div>
             <input type="text" id="studentId" placeholder="กำลังโหลด…" autocomplete="off" readonly/>
-            <div class="field-hint"><i class="fa-solid fa-lock"></i>ดึงอัตโนมัติจากอีเมล — ไม่สามารถแก้ไขได้</div>
+            <div class="field-hint"><i class="fa-solid fa-lock"></i>ดึงอัตโนมัติจากอีเมล (ไม่สามารถแก้ไขได้)</div>
           </div>
           <div class="field">
             <div class="field-label"><i class="fa-regular fa-user"></i>ชื่อ–นามสกุล<span class="req">*</span></div>
@@ -747,21 +776,23 @@ input[type="text"][readonly]{
         </div>
       </div>
 
-      <div class="gps-notice animate-in d2">
-        <div class="gps-ico"><i class="fa-solid fa-location-crosshairs"></i></div>
-        <div>
-          <div class="gps-title">การตรวจสอบตำแหน่ง GPS</div>
-          <div class="gps-text">ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม กรุณาเลือก "อนุญาต" และต้องอยู่ในรัศมีไม่เกิน 100 เมตร</div>
+      <p class="section-label animate-in delay-2">ข้อกำหนดการเข้าร่วม</p>
+      <div class="notice-card animate-in delay-2">
+        <div class="notice-inner">
+          <div class="notice-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+          <div>
+            <div class="notice-title">การตรวจสอบตำแหน่ง GPS</div>
+            <div class="notice-text">ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม กรุณาเลือก "อนุญาต" และต้องอยู่ในรัศมีไม่เกิน 100 เมตร</div>
+          </div>
         </div>
       </div>
 
-      <div class="submit-wrap animate-in d3">
+      <div class="submit-wrap animate-in delay-4">
         <button class="submit-btn" id="submitBtn" onclick="startAttendanceProcess()">
-          <i class="fa-solid fa-location-dot"></i><span>ยืนยันและบันทึกการเข้าร่วม</span>
+          <i class="fa-solid fa-paper-plane"></i><span>ยืนยันและบันทึกการเข้าร่วม</span>
         </button>
-        <div class="submit-pulse" id="submitPulse"></div>
+        <div class="submit-note">ข้อมูลตำแหน่งใช้เพื่อยืนยันการเข้าร่วมเท่านั้น</div>
       </div>
-      <div class="submit-note">ข้อมูลตำแหน่งใช้เพื่อยืนยันการเข้าร่วมเท่านั้น ไม่ถูกจัดเก็บถาวร</div>
     </div>
 
   </section>
@@ -769,18 +800,14 @@ input[type="text"][readonly]{
 
 <footer class="site-footer">
   <div class="footer-inner">
-    <div class="footer-l">
-      <strong>English Education</strong>
-      <div class="footer-dot"></div>
-      <span>คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</span>
-    </div>
-    <div class="footer-r"><i class="fa-regular fa-copyright"></i> 2026 sorasukt</div>
+    <div class="footer-left"><strong>English Education</strong><div class="footer-sep"></div><span>คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</span></div>
+    <div class="footer-right"><i class="fa-regular fa-copyright"></i> 2026 sorasukt</div>
   </div>
 </footer>
 
 <script>
 /* ════════════════════════════════════════
-   CONFIG — GAS & Location (unchanged)
+   GAS & LOCATION CONFIG (unchanged)
 ════════════════════════════════════════ */
 const TARGET_LAT          = 17.5398426;
 const TARGET_LNG          = 101.7219437;
@@ -788,16 +815,16 @@ const MAX_DISTANCE_METERS = 100;
 const GAS_URL             = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
 
 /* ════════════════════════════════════════
-   CONFIG — Auth0 (unchanged)
+   AUTH0 CONFIG (unchanged)
 ════════════════════════════════════════ */
 const AUTH0_DOMAIN    = "litalkeducation.us.auth0.com";
 const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";
 
-let auth0Client = null;
-let isAuthenticated = false;
-let userProfile = null;
-let extractedStudentId = null;
-let SCHEDULE = [];
+let auth0Client         = null;
+let isAuthenticated     = false;
+let userProfile         = null;
+let extractedStudentId  = null;
+let SCHEDULE            = [];
 
 /* ── Auth0 helpers ── */
 async function configureAuth0() {
@@ -807,11 +834,18 @@ async function configureAuth0() {
     authorizationParams: { redirect_uri: window.location.origin + window.location.pathname }
   });
 }
-async function loginUser() { await auth0Client.loginWithRedirect(); }
-async function logoutUser() {
-  setCookie('att_name','', -1);
-  await auth0Client.logout({ logoutParams:{ returnTo: window.location.origin + window.location.pathname } });
+
+async function loginUser() {
+  await auth0Client.loginWithRedirect();
 }
+
+async function logoutUser() {
+  setCookie('att_name', '', -1);
+  await auth0Client.logout({
+    logoutParams: { returnTo: window.location.origin + window.location.pathname }
+  });
+}
+
 async function checkAuth() {
   await configureAuth0();
   const query = window.location.search;
@@ -823,11 +857,25 @@ async function checkAuth() {
   if (isAuthenticated) {
     userProfile = await auth0Client.getUser();
     document.getElementById('logoutBtn').style.display = 'flex';
+    // hide welcome screen now that user is logged in
+    hideWelcomeScreen();
     verifyUserEmail(userProfile.email);
   } else {
-    showScreen('authScreen');
+    // not logged in → show welcome screen
+    showWelcomeScreen();
   }
 }
+
+/* ── Welcome screen ── */
+function showWelcomeScreen() {
+  document.getElementById('welcomeScreen').classList.add('show');
+}
+function hideWelcomeScreen() {
+  const ws = document.getElementById('welcomeScreen');
+  ws.style.animation = 'fadeOut .3s ease forwards';
+  setTimeout(() => { ws.style.display = 'none'; ws.classList.remove('show'); }, 320);
+}
+
 function verifyUserEmail(email) {
   const regex = /^sb(\d+)@lru\.ac\.th$/i;
   const match = email.match(regex);
@@ -844,26 +892,29 @@ function verifyUserEmail(email) {
   }
 }
 
-/* ── Screen switcher ── */
+/* ── Screen switcher (for post-login screens) ── */
 function showScreen(id) {
-  ['authScreen','invalidEmailScreen','closedScreen'].forEach(s => document.getElementById(s).classList.remove('show'));
+  ['invalidEmailScreen', 'closedScreen'].forEach(s => document.getElementById(s).classList.remove('show'));
   document.getElementById('formContents').style.display = 'none';
-  if (id === 'formContents') document.getElementById('formContents').style.display = 'block';
-  else document.getElementById(id).classList.add('show');
+  if (id === 'formContents') {
+    document.getElementById('formContents').style.display = 'block';
+  } else {
+    document.getElementById(id).classList.add('show');
+  }
 }
 
 /* ── Schedule helpers ── */
 function parseGMT7(str) {
-  const [date,time] = str.split(' ');
-  const [y,mo,d] = date.split('-').map(Number);
-  const [h,m] = time.split(':').map(Number);
-  return new Date(y, mo-1, d, h, m, 0).getTime();
+  const [date, time] = str.split(' ');
+  const [y, mo, d]   = date.split('-').map(Number);
+  const [h, m]       = time.split(':').map(Number);
+  return new Date(y, mo - 1, d, h, m, 0).getTime();
 }
 function fmtTime(ts) {
-  return new Date(ts).toLocaleTimeString('th-TH',{timeZone:'Asia/Bangkok',hour:'2-digit',minute:'2-digit',hour12:false})+' น.';
+  return new Date(ts).toLocaleTimeString('th-TH', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit', hour12: false }) + ' น.';
 }
 function fmtDate(ts) {
-  return new Intl.DateTimeFormat('th-TH',{weekday:'short',day:'numeric',month:'short'}).format(new Date(ts));
+  return new Intl.DateTimeFormat('th-TH', { weekday: 'short', day: 'numeric', month: 'short' }).format(new Date(ts));
 }
 function slotStatus(slot) {
   const now = Date.now(), open = parseGMT7(slot.open), close = parseGMT7(slot.close);
@@ -876,22 +927,22 @@ function anySlotActive() { return SCHEDULE.some(s => slotStatus(s) === 'active')
 function renderSchedule() {
   const body = document.getElementById('scheduleBody');
   if (!SCHEDULE.length) {
-    body.innerHTML = `<div style="padding:16px 18px;font-size:13px;color:var(--text-4);text-align:center">ไม่มีตารางเวลาในระบบ</div>`;
+    body.innerHTML = `<div style="padding:16px 18px;font-size:13px;color:var(--ink-50);text-align:center">ไม่มีตารางเวลาในระบบ</div>`;
     return;
   }
   body.innerHTML = SCHEDULE.map(slot => {
-    const st = slotStatus(slot);
-    const open = parseGMT7(slot.open), close = parseGMT7(slot.close);
-    const rowCls  = st==='active'?'is-open':st==='upcoming'?'is-next':'';
-    const tagCls  = st==='active'?'tag-open':st==='upcoming'?'tag-next':'tag-done';
-    const tagTxt  = st==='active'?'เปิดอยู่':st==='upcoming'?'กำลังจะเปิด':'ปิดแล้ว';
-    return `<div class="sched-row ${rowCls}">
-      <div class="row-dot"></div>
-      <div class="row-info">
-        <div class="row-name">${slot.name}</div>
-        <div class="row-time">${fmtDate(open)} · ${fmtTime(open)} – ${fmtTime(close)}</div>
+    const st    = slotStatus(slot);
+    const open  = parseGMT7(slot.open), close = parseGMT7(slot.close);
+    const rowCls  = st === 'active' ? 'active-slot' : st === 'upcoming' ? 'upcoming-slot' : '';
+    const badgeCls= st === 'active' ? 'badge-open' : st === 'upcoming' ? 'badge-upcoming' : 'badge-closed';
+    const badgeTxt= st === 'active' ? 'เปิดอยู่'   : st === 'upcoming' ? 'กำลังจะเปิด'   : 'ปิดแล้ว';
+    return `<div class="schedule-row ${rowCls}">
+      <div class="schedule-row-dot"></div>
+      <div class="schedule-row-info">
+        <div class="schedule-row-name">${slot.name}</div>
+        <div class="schedule-row-time">${fmtDate(open)} &nbsp;·&nbsp; ${fmtTime(open)} – ${fmtTime(close)}</div>
       </div>
-      <span class="row-tag ${tagCls}">${tagTxt}</span>
+      <span class="schedule-row-badge ${badgeCls}">${badgeTxt}</span>
     </div>`;
   }).join('');
 }
@@ -900,104 +951,116 @@ let _wasOpen = null;
 function updateStatusUI() {
   if (!isAuthenticated || !extractedStudentId) return;
   const isOpen = anySlotActive();
-  const dot = document.getElementById('sysDot'), lbl = document.getElementById('sysLabel');
+  const dot = document.getElementById('headerDot');
+  const lbl = document.getElementById('headerBadgeText');
+
   if (isOpen) {
     showScreen('formContents');
     const active = SCHEDULE.find(s => slotStatus(s) === 'active');
     document.getElementById('sbText').textContent = `เปิดถึง ${fmtTime(parseGMT7(active.close))} — กรุณากรอกข้อมูลให้ครบถ้วน`;
     document.getElementById('submitBtn').disabled = false;
-    dot.className = 'sys-dot open'; lbl.textContent = 'ระบบเปิด';
+    dot.style.background  = '#16a34a';
+    dot.style.animation   = 'blink 2.4s ease infinite';
+    lbl.textContent       = 'ระบบเปิด';
     _wasOpen = true;
   } else {
     if (_wasOpen !== false) {
       const next = SCHEDULE.find(s => slotStatus(s) === 'upcoming');
       if (next) {
         document.getElementById('closedTitle').textContent = 'หมดเวลากรอกข้อมูล';
-        document.getElementById('closedSub').textContent = 'ระบบปิดรับบันทึกการเข้าร่วมชั่วคราว';
+        document.getElementById('closedSub').textContent   = 'ระบบปิดรับบันทึกการเข้าร่วมชั่วคราว';
         document.getElementById('nextSlotName').textContent = next.name;
         document.getElementById('nextSlotTime').textContent = `${fmtDate(parseGMT7(next.open))} · ${fmtTime(parseGMT7(next.open))}`;
         document.getElementById('nextSlotBox').style.display = 'flex';
       } else {
         document.getElementById('closedTitle').textContent = 'ปิดรับบันทึกข้อมูลแล้ว';
-        document.getElementById('closedSub').textContent = 'ไม่มีรอบที่เปิดรับอีกในขณะนี้';
+        document.getElementById('closedSub').textContent   = 'ไม่มีรอบที่เปิดรับอีกในขณะนี้';
         document.getElementById('nextSlotBox').style.display = 'none';
       }
       showScreen('closedScreen');
     }
     document.getElementById('submitBtn').disabled = true;
-    dot.className = 'sys-dot'; lbl.textContent = 'ระบบปิด';
+    dot.style.background  = '#9ca3af';
+    dot.style.animation   = 'none';
+    lbl.textContent       = 'ระบบปิด';
     _wasOpen = false;
   }
 }
 
 function updateClock() {
   document.getElementById('liveClock').textContent =
-    new Date().toLocaleTimeString('th-TH',{timeZone:'Asia/Bangkok',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false})+' น.';
+    new Date().toLocaleTimeString('th-TH', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }) + ' น.';
 }
 
 /* ── Cookies ── */
 const COOKIE_DAYS = 30;
-function setCookie(n,v,d){const e=new Date(Date.now()+d*864e5).toUTCString();document.cookie=`${n}=${encodeURIComponent(v)};expires=${e};path=/;SameSite=Strict`}
-function getCookie(n){const m=document.cookie.match(new RegExp('(?:^|; )'+n+'=([^;]*)'));return m?decodeURIComponent(m[1]):''}
+function setCookie(n, v, d) { const e = new Date(Date.now() + d * 864e5).toUTCString(); document.cookie = `${n}=${encodeURIComponent(v)};expires=${e};path=/;SameSite=Strict`; }
+function getCookie(n) { const m = document.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; }
 
 /* ── INIT (with white-screen fix) ── */
 window.addEventListener('load', async () => {
   updateClock();
+
   const dismissLoader = () => {
     const ls = document.getElementById('loadScreen');
     if (!ls) return;
-    ls.classList.add('out');
+    ls.classList.add('fade-out');
     document.body.classList.add('visible');
-    ls.addEventListener('animationend', () => ls.remove(), {once:true});
+    ls.addEventListener('animationend', () => ls.remove(), { once: true });
   };
+
   const safety = setTimeout(dismissLoader, 4000);
+
   try {
     const ctrl = new AbortController();
-    const ft = setTimeout(() => ctrl.abort(), 5000);
-    const res = await fetch(GAS_URL, {signal:ctrl.signal});
+    const ft   = setTimeout(() => ctrl.abort(), 5000);
+    const res  = await fetch(GAS_URL, { signal: ctrl.signal });
     clearTimeout(ft);
     const data = await res.json();
     if (data.status === 'success') SCHEDULE = data.data;
-  } catch(e){ console.error('Fetch error:', e); }
+  } catch (e) { console.error('Fetch error:', e); }
+
   renderSchedule();
-  try { await checkAuth(); } catch(e){ console.error('Auth error:', e); showScreen('authScreen'); }
+
+  try { await checkAuth(); } catch (e) { console.error('Auth error:', e); showWelcomeScreen(); }
+
   setInterval(() => { updateClock(); renderSchedule(); updateStatusUI(); }, 1000);
+
   clearTimeout(safety);
   setTimeout(dismissLoader, 600);
 });
 
 /* ── PROCESS OVERLAY ── */
 function openOverlay() {
-  [1,2,3,4].forEach(n => setStep(n,'idle'));
-  const r = document.getElementById('processResult');
-  r.className = 'proc-result'; r.innerHTML = '';
-  const c = document.getElementById('processClose');
-  c.classList.remove('show','is-error');
-  c.innerHTML = '<i class="fa-solid fa-check"></i><span>ตกลง</span>';
+  [1,2,3,4].forEach(n => setStep(n, 'idle'));
+  document.getElementById('processResult').className = 'process-result';
+  document.getElementById('processResult').innerHTML = '';
+  document.getElementById('processClose').classList.remove('show');
+  document.getElementById('processClose').innerHTML = '<i class="fa-solid fa-check"></i><span>ตกลง</span>';
   document.getElementById('processOverlay').classList.add('visible');
 }
-function closeOverlay() {
-  document.getElementById('processOverlay').classList.remove('visible');
-  updateStatusUI();
+function closeOverlay() { document.getElementById('processOverlay').classList.remove('visible'); updateStatusUI(); }
+
+function setStep(n, state, descText) {
+  const el  = document.getElementById('step-' + n);
+  const dot = el.querySelector('.step-dot');
+  const desc= document.getElementById('desc-' + n);
+  el.className = 'step-item' + (state !== 'idle' ? ' ' + state : '');
+  const icons = { active: 'fa-ellipsis', done: 'fa-check', error: 'fa-xmark' };
+  dot.innerHTML = state === 'idle'
+    ? `<span style="font-size:9px;font-weight:700;color:var(--ink-30)">${n}</span>`
+    : `<i class="fa-solid ${icons[state]}"></i><div class="step-ring"></div>`;
+  if (descText) desc.textContent = descText;
 }
-function setStep(n, state, desc) {
-  const el = document.getElementById('step-'+n);
-  const dot = el.querySelector('.si-dot');
-  const d   = document.getElementById('desc-'+n);
-  el.className = 'si' + (state !== 'idle' ? ' '+state : '');
-  const icons = {active:'fa-ellipsis',done:'fa-check',error:'fa-xmark'};
-  dot.innerHTML = state==='idle'
-    ? `<span style="font-size:9px;font-weight:700;color:var(--text-4)">${n}</span>`
-    : `<i class="fa-solid ${icons[state]}"></i><div class="si-ring"></div>`;
-  if (desc) d.textContent = desc;
-}
+
 function showResult(msg, type) {
-  const el = document.getElementById('processResult');
-  el.className = 'proc-result '+type;
-  el.innerHTML = `<i class="fa-solid ${type==='success'?'fa-circle-check':'fa-circle-exclamation'}"></i><span>${msg}</span>`;
+  const el   = document.getElementById('processResult');
+  const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+  el.className = 'process-result ' + type;
+  el.innerHTML = `<i class="fa-solid ${icon}"></i><span>${msg}</span>`;
   const btn = document.getElementById('processClose');
   btn.classList.add('show');
-  if (type === 'error') { btn.classList.add('is-error'); btn.innerHTML = '<i class="fa-solid fa-rotate-left"></i><span>ลองใหม่</span>'; }
+  if (type === 'error') btn.innerHTML = '<i class="fa-solid fa-rotate-left"></i><span>ลองใหม่</span>';
 }
 
 /* ── SUBMIT ── */
@@ -1006,73 +1069,74 @@ function startAttendanceProcess() {
   const name = document.getElementById('name').value.trim();
   if (!name) {
     const el = document.getElementById('name');
-    el.style.borderColor = 'var(--red)';
-    el.style.boxShadow = '0 0 0 3px var(--red-bg)';
+    el.style.borderColor = '#dc2626';
+    el.style.boxShadow   = '0 0 0 3px rgba(220,38,38,.1)';
     el.focus();
-    setTimeout(() => { el.style.borderColor=''; el.style.boxShadow=''; }, 2200);
+    setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 2200);
     return;
   }
   document.getElementById('submitBtn').disabled = true;
   setCookie('att_name', name, COOKIE_DAYS);
   openOverlay();
-  setStep(1,'active');
+  setStep(1, 'active');
   setTimeout(() => {
-    setStep(1,'done','ข้อมูลถูกต้องและครบถ้วน');
-    setStep(2,'active');
+    setStep(1, 'done', 'ข้อมูลถูกต้องและครบถ้วน');
+    setStep(2, 'active');
     if (!('geolocation' in navigator)) {
-      setStep(2,'error','เบราว์เซอร์นี้ไม่รองรับ GPS');
-      showResult('อุปกรณ์ไม่รองรับการระบุตำแหน่ง','error'); return;
+      setStep(2, 'error', 'เบราว์เซอร์นี้ไม่รองรับ GPS');
+      showResult('อุปกรณ์ไม่รองรับการระบุตำแหน่ง', 'error'); return;
     }
     navigator.geolocation.getCurrentPosition(
       pos => onGotPosition(pos, extractedStudentId, name),
       err => {
-        const msgs = {1:'ปฏิเสธสิทธิ์ Location — กรุณาเปิดสิทธิ์แล้วลองใหม่',2:'รับสัญญาณ GPS ไม่ได้ในขณะนี้',3:'หมดเวลาค้นหาตำแหน่ง — กรุณาลองใหม่'};
-        setStep(2,'error', msgs[err.code]??'ไม่สามารถระบุตำแหน่งได้');
-        showResult(msgs[err.code]??'เกิดข้อผิดพลาด GPS','error');
+        const msgs = { 1: 'ปฏิเสธสิทธิ์ Location — กรุณาเปิดสิทธิ์แล้วลองใหม่', 2: 'รับสัญญาณ GPS ไม่ได้ในขณะนี้', 3: 'หมดเวลาค้นหาตำแหน่ง — กรุณาลองใหม่' };
+        setStep(2, 'error', msgs[err.code] ?? 'ไม่สามารถระบุตำแหน่งได้');
+        showResult(msgs[err.code] ?? 'เกิดข้อผิดพลาด GPS', 'error');
       },
-      {enableHighAccuracy:true, timeout:15000, maximumAge:0}
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
     );
   }, 600);
 }
 
 function onGotPosition(position, studentId, name) {
-  const {latitude:lat, longitude:lng} = position.coords;
-  setStep(2,'done',`พิกัด ${lat.toFixed(5)}, ${lng.toFixed(5)}`);
-  setStep(3,'active');
+  const { latitude: lat, longitude: lng } = position.coords;
+  setStep(2, 'done', `พิกัด ${lat.toFixed(5)}, ${lng.toFixed(5)}`);
+  setStep(3, 'active');
   setTimeout(() => {
-    const dist = haversine(lat,lng,TARGET_LAT,TARGET_LNG);
+    const dist = haversine(lat, lng, TARGET_LAT, TARGET_LNG);
     if (dist > MAX_DISTANCE_METERS) {
-      setStep(3,'error',`ระยะห่าง ${Math.round(dist)} ม. — เกินรัศมีที่กำหนด`);
+      setStep(3, 'error', `ระยะห่าง ${Math.round(dist)} ม. — เกินรัศมีที่กำหนด`);
       showResult(`ตำแหน่งอยู่ห่างจากสถานที่ ${Math.round(dist)} ม. (อนุญาตไม่เกิน ${MAX_DISTANCE_METERS} ม.)`, 'error');
       return;
     }
-    setStep(3,'done',`ระยะห่าง ${Math.round(dist)} ม. — อยู่ในพื้นที่กิจกรรม`);
-    setStep(4,'active');
+    setStep(3, 'done', `ระยะห่าง ${Math.round(dist)} ม. — อยู่ในพื้นที่กิจกรรม`);
+    setStep(4, 'active');
     fetch(GAS_URL, {
-      method:'POST',
-      headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body: JSON.stringify({studentId, name, lat, lng, distance:Math.round(dist)})
-    }).then(r=>r.json()).then(result=>{
-      if (result.status==='success') {
-        setStep(4,'done','บันทึกข้อมูลเรียบร้อยแล้ว');
-        showResult('บันทึกการเข้าร่วมกิจกรรมสำเร็จ','success');
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ studentId, name, lat, lng, distance: Math.round(dist) })
+    }).then(r => r.json()).then(result => {
+      if (result.status === 'success') {
+        setStep(4, 'done', 'บันทึกข้อมูลเรียบร้อยแล้ว');
+        showResult('บันทึกการเข้าร่วมกิจกรรมสำเร็จ', 'success');
         document.getElementById('name').value = '';
       } else {
-        setStep(4,'error','เซิร์ฟเวอร์ตอบกลับผิดพลาด');
-        showResult('เกิดข้อผิดพลาดจากเซิร์ฟเวอร์: '+result.message,'error');
+        setStep(4, 'error', 'เซิร์ฟเวอร์ตอบกลับผิดพลาด');
+        showResult('เกิดข้อผิดพลาดจากเซิร์ฟเวอร์: ' + result.message, 'error');
       }
-    }).catch(()=>{
-      setStep(4,'error','ไม่สามารถเชื่อมต่อได้');
-      showResult('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่','error');
+    }).catch(() => {
+      setStep(4, 'error', 'ไม่สามารถเชื่อมต่อได้');
+      showResult('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่', 'error');
     });
   }, 500);
 }
 
-function haversine(lat1,lon1,lat2,lon2) {
-  const R=6_371_000, rad=v=>v*Math.PI/180;
-  const dLat=rad(lat2-lat1), dLon=rad(lon2-lon1);
-  const a=Math.sin(dLat/2)**2+Math.cos(rad(lat1))*Math.cos(rad(lat2))*Math.sin(dLon/2)**2;
-  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+function haversine(lat1, lon1, lat2, lon2) {
+  const R   = 6_371_000;
+  const rad = v => v * Math.PI / 180;
+  const dLat = rad(lat2 - lat1), dLon = rad(lon2 - lon1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 </script>
 </body>
