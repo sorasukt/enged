@@ -433,7 +433,7 @@
     </div>
     <div class="ls-wordmark">
         <div class="ls-title">English Education</div>
-        <div class="ls-sub" id="loadingSub">กำลังซิงค์ระบบและเตรียมความพร้อม...</div>
+        <div class="ls-sub" id="loadingSub">กำลังซิงค์ตารางเวลาและระบบยืนยันตัวตน...</div>
     </div>
     <div class="ls-progress"><div class="ls-progress-fill"></div></div>
 </div>
@@ -649,7 +649,7 @@ const MAX_DISTANCE_METERS = 100;
 const GAS_URL             = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
 
 /* ════════════════════════════════════════
-   ตั้งค่า AUTH0 
+   ตั้งค่า AUTH0
 ════════════════════════════════════════ */
 const AUTH0_DOMAIN    = "litalkeducation.us.auth0.com"; 
 const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";      
@@ -679,7 +679,6 @@ async function loginUser() {
 }
 
 async function logoutUser() {
-    // ล้าง Cookie ที่เก็บชื่อไว้เผื่อใช้ชื่อคนอื่น
     setCookie('att_name', '', -1); 
     await auth0Client.logout({
         logoutParams: { returnTo: window.location.origin + window.location.pathname }
@@ -689,7 +688,6 @@ async function logoutUser() {
 async function checkAuth() {
     await configureAuth0();
 
-    // เช็คว่ากลับมาจากการ Redirect ของ Auth0 หรือไม่
     const query = window.location.search;
     if (query.includes("code=") && query.includes("state=")) {
         await auth0Client.handleRedirectCallback();
@@ -708,23 +706,19 @@ async function checkAuth() {
 }
 
 function verifyUserEmail(email) {
-    // Regex เช็คว่าอีเมลต้องขึ้นต้นด้วย sb ตามด้วยตัวเลขล้วน (รหัสนักศึกษา) และลงท้ายด้วย @lru.ac.th
     const regex = /^sb(\d+)@lru\.ac\.th$/i;
     const match = email.match(regex);
 
     if (match) {
-        extractedStudentId = match[1]; // ดึงรหัสนักศึกษาออกมา
+        extractedStudentId = match[1]; 
         document.getElementById('studentId').value = extractedStudentId;
         document.getElementById('userEmailDisplay').textContent = "ล็อกอินด้วย: " + email;
         
-        // เมื่อยืนยันอีเมลผ่าน ให้โหลดชื่อจาก Cookie เก่า (ถ้ามี)
         const savedName = getCookie('att_name');
         if(savedName) document.getElementById('name').value = savedName;
 
-        // เช็คว่าระบบอยู่ในเวลาทำการไหม ถึงจะแสดงฟอร์ม
         updateStatusUI();
     } else {
-        // ถ้าอีเมลผิดรูปแบบ ให้แสดงหน้า Invalid
         document.getElementById('invalidEmailDisplay').textContent = email;
         showScreen('invalidEmailScreen');
     }
@@ -734,7 +728,6 @@ function verifyUserEmail(email) {
    จัดการการเปลี่ยนหน้า (Screens)
 ──────────────────────────────────────── */
 function showScreen(screenId) {
-    // ซ่อนหน้าทั้งหมดก่อน
     document.getElementById('authScreen').classList.remove('show');
     document.getElementById('invalidEmailScreen').classList.remove('show');
     document.getElementById('closedScreen').classList.remove('show');
@@ -801,7 +794,6 @@ function renderSchedule() {
 
 let _wasOpen = null; 
 function updateStatusUI() {
-    // ต้องผ่านการล็อกอินและใช้อีเมลถูกก่อน ถึงจะแสดงฟอร์มหรือหน้าปิดได้
     if(!isAuthenticated || !extractedStudentId) return;
 
     const isOpen = anySlotActive();
@@ -853,7 +845,170 @@ function updateClock() {
 }
 
 /* ────────────────────────────────────────
-   COOKIES (เก็บแค่ชื่อ เพราะรหัสล็อกไว้แล้ว)
+   COOKIES 
 ──────────────────────────────────────── */
 const COOKIE_DAYS = 30;
-function setCookie(name, value, days) { const exp = new Date(Date.now() + days * 864e5).toUTCString(); document.cookie = `${name}=${encodeURIComponent
+function setCookie(name, value, days) { const exp = new Date(Date.now() + days * 864e5).toUTCString(); document.cookie = `${name}=${encodeURIComponent(value)};expires=${exp};path=/;SameSite=Strict`; }
+function getCookie(name) { const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; }
+
+/* ────────────────────────────────────────
+   INIT FLOW (Try-Catch Protected)
+──────────────────────────────────────── */
+window.addEventListener('load', async () => {
+    updateClock();
+
+    // 1. ซิงค์ตารางเวลาจาก Google Sheets
+    try {
+        const response = await fetch(GAS_URL);
+        const result = await response.json();
+        if (result.status === 'success') SCHEDULE = result.data;
+    } catch (error) { 
+        console.error("Network Error (GAS Time Table):", error); 
+    }
+
+    renderSchedule();
+
+    // 2. ดำเนินการเช็ค Auth0 (ครอบ Try-Catch เพื่อความปลอดภัยสูงสุด ป้องกันจอขาว)
+    try {
+        await checkAuth();
+    } catch (error) { 
+        console.error("Auth0 Initialization Error:", error);
+        // แสดง Welcome Screen เผื่อกรณียังไม่ได้ตั้งค่า URL เพื่อให้ระบบไม่ล่ม
+        showScreen('authScreen');
+        document.getElementById('headerBadgeText').textContent = 'รอการล็อกอิน';
+    }
+
+    // 3. เริ่มลูปตรวจสอบสถานะ Real-time
+    setInterval(() => {
+        updateClock();
+        renderSchedule();
+        if (isAuthenticated && extractedStudentId) {
+            updateStatusUI();
+        }
+    }, 1000);
+
+    // 4. บังคับเฟดหน้าจอโหลดติ้งออกเสมอ ไม่ให้ค้างเป็นจอเปล่า
+    setTimeout(() => {
+        const ls = document.getElementById('loadScreen');
+        if (ls) {
+            ls.classList.add('fade-out');
+            ls.addEventListener('animationend', () => ls.remove(), { once: true });
+        }
+        document.body.classList.add('visible');
+    }, 600);
+});
+
+/* ────────────────────────────────────────
+   PROCESS OVERLAY & SUBMIT
+──────────────────────────────────────── */
+function openOverlay() {
+    [1,2,3,4].forEach(n => setStep(n, 'idle'));
+    document.getElementById('processResult').className = 'process-result';
+    document.getElementById('processResult').innerHTML = '';
+    document.getElementById('processClose').classList.remove('show');
+    document.getElementById('processClose').innerHTML = '<i class="fa-solid fa-check"></i><span>ตกลง</span>';
+    document.getElementById('processOverlay').classList.add('visible');
+}
+function closeOverlay() { document.getElementById('processOverlay').classList.remove('visible'); updateStatusUI(); }
+function setStep(n, state, descText) {
+    const el  = document.getElementById('step-' + n);
+    const dot = el.querySelector('.step-dot');
+    const desc= document.getElementById('desc-' + n);
+    el.className = 'step-item' + (state !== 'idle' ? ' ' + state : '');
+    const icons = { active: 'fa-ellipsis', done: 'fa-check', error: 'fa-xmark' };
+    dot.innerHTML = state === 'idle' ? `<span style="font-size:9px;font-weight:700;color:var(--ink-30)">${n}</span>` : `<i class="fa-solid ${icons[state]}"></i><div class="step-ring"></div>`;
+    if (descText) desc.textContent = descText;
+}
+function showResult(msg, type) {
+    const el   = document.getElementById('processResult');
+    const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+    el.className = 'process-result ' + type;
+    el.innerHTML = `<i class="fa-solid ${icon}"></i><span>${msg}</span>`;
+    const btn = document.getElementById('processClose');
+    btn.classList.add('show');
+    if (type === 'error') btn.innerHTML = '<i class="fa-solid fa-rotate-left"></i><span>ลองใหม่</span>';
+}
+
+function startAttendanceProcess() {
+    if (!anySlotActive() || !extractedStudentId) return;
+
+    const name = document.getElementById('name').value.trim();
+    if (!name) {
+        const el = document.getElementById('name');
+        el.classList.add('invalid');
+        setTimeout(() => el.classList.remove('invalid'), 2000);
+        return;
+    }
+
+    document.getElementById('submitBtn').disabled = true;
+    setCookie('att_name', name, COOKIE_DAYS); 
+    openOverlay();
+
+    setStep(1, 'active');
+    setTimeout(() => {
+        setStep(1, 'done', 'ข้อมูลถูกต้องและครบถ้วน');
+        setStep(2, 'active');
+
+        if (!('geolocation' in navigator)) {
+            setStep(2, 'error', 'เบราว์เซอร์นี้ไม่รองรับ GPS');
+            showResult('อุปกรณ์ไม่รองรับการระบุตำแหน่ง', 'error');
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(
+            pos => onGotPosition(pos, extractedStudentId, name),
+            err => {
+                const msgs = { 1: 'ปฏิเสธสิทธิ์ Location — กรุณาเปิดสิทธิ์แล้วลองใหม่', 2: 'รับสัญญาณ GPS ไม่ได้ในขณะนี้', 3: 'หมดเวลาค้นหาตำแหน่ง — กรุณาลองใหม่' };
+                setStep(2, 'error', msgs[err.code] ?? 'ไม่สามารถระบุตำแหน่งได้');
+                showResult(msgs[err.code] ?? 'เกิดข้อผิดพลาด GPS', 'error');
+            }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+        );
+    }, 600);
+}
+
+function onGotPosition(position, studentId, name) {
+    const { latitude: lat, longitude: lng } = position.coords;
+    setStep(2, 'done', `พิกัด ${lat.toFixed(5)}, ${lng.toFixed(5)}`);
+    setStep(3, 'active');
+
+    setTimeout(() => {
+        const dist = haversine(lat, lng, TARGET_LAT, TARGET_LNG);
+        if (dist > MAX_DISTANCE_METERS) {
+            setStep(3, 'error', `ระยะห่าง ${Math.round(dist)} ม. — เกินรัศมีที่กำหนด`);
+            showResult(`ตำแหน่งอยู่ห่างจากสถานที่ ${Math.round(dist)} ม. (อนุญาตไม่เกิน ${MAX_DISTANCE_METERS} ม.)`, 'error');
+            return;
+        }
+
+        setStep(3, 'done', `ระยะห่าง ${Math.round(dist)} ม. — อยู่ในพื้นที่กิจกรรม`);
+        setStep(4, 'active');
+
+        fetch(GAS_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ studentId, name, lat, lng, distance: Math.round(dist) })
+        }).then(r => r.json()).then(result => {
+            if (result.status === 'success') {
+                setStep(4, 'done', 'บันทึกข้อมูลเรียบร้อยแล้ว');
+                showResult('บันทึกการเข้าร่วมกิจกรรมสำเร็จ', 'success');
+                document.getElementById('name').value = '';
+            } else {
+                setStep(4, 'error', 'เซิร์ฟเวอร์ตอบกลับผิดพลาด');
+                showResult('เกิดข้อผิดพลาดจากเซิร์ฟเวอร์: ' + result.message, 'error');
+            }
+        }).catch(() => {
+            setStep(4, 'error', 'ไม่สามารถเชื่อมต่อได้');
+            showResult('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่', 'error');
+        });
+    }, 500);
+}
+
+function haversine(lat1, lon1, lat2, lon2) {
+    const R   = 6_371_000;
+    const rad = v => v * Math.PI / 180;
+    const dLat = rad(lat2 - lat1), dLon = rad(lon2 - lon1);
+    const a = Math.sin(dLat/2)**2 + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLon/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+</script>
+
+</body>
+</html>
