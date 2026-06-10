@@ -29,13 +29,16 @@
             --ink-15:   #d1d5db;
             --ink-07:   #f3f4f6;
             --white:    #ffffff;
-            --accent:   #0d1117; /* ดำ */
+            --accent:   #0d1117; /* ดำแบบ LITALK */
             --success:  #065f46;
             --success-bg: #ecfdf5;
             --success-bd: #a7f3d0;
             --error:    #991b1b;
             --error-bg: #fef2f2;
             --error-bd: #fecaca;
+            --warn:     #92400e;
+            --warn-bg:  #fffbeb;
+            --warn-bd:  #fde68a;
             --r-xs: 4px;
             --r-sm: 6px;
             --r-md: 10px;
@@ -201,6 +204,7 @@
         input[type="text"]:read-only { background: var(--ink-07); color: var(--ink-50); border-color: var(--ink-15); cursor: not-allowed; }
         
         .field-hint { font-size: 11px; color: var(--ink-30); margin-top: 5px; display: flex; gap: 5px; }
+
         .notice-inner { padding: 15px 18px; display: flex; gap: 12px; align-items: flex-start; }
         .notice-icon { width: 32px; height: 32px; background: var(--ink-07); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--ink-50); flex-shrink: 0; }
         .notice-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
@@ -538,10 +542,11 @@ let extractedStudentId = null;
 let SCHEDULE = [];
 
 /* ────────────────────────────────────────
-   ฟังก์ชัน Auth0 (เหมือน LITALK)
+   ฟังก์ชัน Auth0 
 ──────────────────────────────────────── */
+// กำหนดฟังก์ชันเริ่มต้น Auth0 อย่างปลอดภัย
 async function configureAuth0() {
-    auth0Client = await createAuth0Client({
+    auth0Client = await auth0.createAuth0Client({
         domain: AUTH0_DOMAIN,
         clientId: AUTH0_CLIENT_ID,
         authorizationParams: {
@@ -732,9 +737,9 @@ window.addEventListener('load', async () => {
 
     renderSchedule();
 
-    // 2. ดำเนินการเช็ค Auth0 (ครอบ Try-Catch เพื่อป้องกันจอขาว)
+    // 2. ดำเนินการเช็ค Auth0 
     try {
-        await configureAuth0();
+        await configureAuth0(); // ทำการเชื่อมต่อ Auth0 อย่างปลอดภัย
 
         const query = window.location.search;
         if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
@@ -767,7 +772,7 @@ window.addEventListener('load', async () => {
         }
     }, 1000);
 
-    // 4. บังคับเฟดหน้าจอโหลดติ้งออกเสมอ
+    // 4. บังคับเฟดหน้าจอโหลดติ้งออกเสมอ ป้องกันหน้าจอขาว 100%
     setTimeout(() => {
         const ls = document.getElementById('loadScreen');
         if (ls) {
