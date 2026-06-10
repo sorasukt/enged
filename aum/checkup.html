@@ -512,13 +512,13 @@
         <div id="authScreen" class="alt-screen">
             <div class="alt-main-card">
                 <div class="alt-top">
-                    <div class="alt-top-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <div class="alt-top-title">เข้าสู่ระบบเพื่อดำเนินการต่อ</div>
-                    <div class="alt-top-sub">กรุณาเข้าสู่ระบบด้วยบัญชีอีเมลของมหาวิทยาลัย<br>เพื่อยืนยันตัวตนและดึงรหัสนักศึกษาโดยอัตโนมัติ</div>
+                    <div class="alt-top-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="alt-top-title">ยินดีต้อนรับสู่ระบบเช็คชื่อ</div>
+                    <div class="alt-top-sub">กรุณาเข้าสู่ระบบด้วยบัญชีอีเมลของมหาวิทยาลัย (@lru.ac.th)<br>เพื่อยืนยันตัวตนและดึงข้อมูลนักศึกษาโดยอัตโนมัติ</div>
                 </div>
                 <div class="alt-body">
                     <button class="auth-btn" onclick="loginUser()">
-                        <i class="fa-brands fa-google"></i> เข้าสู่ระบบด้วย Auth0
+                        <i class="fa-solid fa-envelope"></i> เข้าสู่ระบบด้วย LRU Mail
                     </button>
                     <div class="closed-hints" style="border-top:0; padding-top:0;">
                         <div class="closed-hint-row">
@@ -649,10 +649,10 @@ const MAX_DISTANCE_METERS = 100;
 const GAS_URL             = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
 
 /* ════════════════════════════════════════
-   ตั้งค่า AUTH0 (เปลี่ยนให้ตรงกับแอปของคุณ)
+   ตั้งค่า AUTH0 
 ════════════════════════════════════════ */
-const AUTH0_DOMAIN    = "litalkeducation.us.auth0.com"; // ใส่ Auth0 Domain ของคุณ
-const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";      // ใส่ Auth0 Client ID ของคุณ
+const AUTH0_DOMAIN    = "litalkeducation.us.auth0.com"; 
+const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";      
 
 let auth0Client = null;
 let isAuthenticated = false;
