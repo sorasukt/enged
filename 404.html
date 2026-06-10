@@ -4,191 +4,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - ไม่พบหน้าที่ต้องการ | English Education</title>
-    <link rel="manifest" href="/manifest.json">
-    <link rel="apple-touch-icon" href="/img/enged-192.png">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="404 - ไม่พบหน้าที่ต้องการ | English Education">
-    <meta property="og:url" content="https://sorasukt.github.io/enged/404">
-    <meta property="og:image" content="https://sorasukt.github.io/enged/img/og/home.png">
-    <meta property="og:description"
-        content="404 - ไม่พบหน้าที่ต้องการ | English Education สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย">
-    <!-- Fonts -->
+    <title>404 — sorasukt</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-    <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
 
     <style>
         :root {
-            --primary-red: #d32f2f;
-            --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
-            --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #ffffff 50%, #fef2f2 100%);
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.8);
-            --text-main: #1a1a2e;
-            --text-muted: #64748b;
-            --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.08);
+            --bg: #ffffff;
+            --text: #0a0a0a;
+            --muted: #888;
+            --border: #e8e8e8;
+            --accent: #ff0000;
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-gradient: linear-gradient(135deg, #0f0f13 0%, #1a1a1e 50%, #111115 100%);
-                --glass-bg: rgba(30, 30, 35, 0.85);
-                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-                --text-main: #f0f0f5;
-                --text-muted: #94a3b8;
-                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
-            }
-
-            .bg-shape {
-                opacity: 0.2;
-            }
-
-            .error-card {
-                background: rgba(30, 30, 35, 0.75) !important;
-                backdrop-filter: blur(40px) saturate(180%) !important;
-                -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
-                border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
-                box-shadow:
-                    0 8px 32px rgba(0, 0, 0, 0.4),
-                    0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
-            }
-
-            .error-card::before {
-                background: linear-gradient(45deg,
-                        transparent 40%,
-                        rgba(255, 255, 255, 0.06) 50%,
-                        transparent 60%) !important;
-            }
-
-            footer {
-                color: #6b7280 !important;
-            }
-        }
-
-        * {
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html,
         body {
-            font-family: 'IBM Plex Sans Thai', 'Inter', sans-serif;
-            background: var(--bg-gradient);
-            min-height: 100vh;
-            color: var(--text-main);
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Anuphan', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        /* Background Shapes */
-        .bg-shape {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: -1;
-            opacity: 0.5;
-            animation: float 25s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        .shape-1 {
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, rgba(229, 57, 53, 0.15) 0%, rgba(255, 82, 82, 0.1) 100%);
-            top: -100px;
-            left: -100px;
-        }
-
-        .shape-2 {
-            width: 350px;
-            height: 350px;
-            background: linear-gradient(135deg, rgba(255, 82, 82, 0.12) 0%, rgba(229, 57, 53, 0.08) 100%);
-            bottom: -100px;
-            right: -100px;
-            animation-delay: -8s;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            50% {
-                transform: translate(-20px, 30px) scale(0.95);
-            }
-        }
-
-        .container {
-            max-width: 500px;
-            width: 100%;
-        }
-
-        /* Error Card */
-        .error-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border: 1.5px solid rgba(255, 255, 255, 0.6);
-            border-radius: 24px;
-            box-shadow:
-                var(--shadow-soft),
-                0 0 0 1px rgba(255, 255, 255, 0.8) inset;
-            padding: 3rem 2rem;
-            animation: fadeIn 0.5s ease-out;
-            position: relative;
             overflow: hidden;
         }
 
-        .error-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg,
-                    transparent 40%,
-                    rgba(255, 255, 255, 0.3) 50%,
-                    transparent 60%);
-            animation: glassShine 8s ease-in-out infinite;
+        /* ─── NAV ─── */
+        nav {
+            border-bottom: 1px solid var(--border);
+            padding: 0 28px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo em {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        /* ─── GRID BG ─── */
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 48px 48px;
             pointer-events: none;
+            opacity: .35;
             z-index: 0;
         }
 
-        .error-card>* {
+        /* ─── MAIN ─── */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
             z-index: 1;
+            padding: 28px;
         }
 
-        @keyframes glassShine {
-
-            0%,
-            100% {
-                transform: translateX(-100%) rotate(45deg);
-            }
-
-            50% {
-                transform: translateX(100%) rotate(45deg);
-            }
+        .content {
+            text-align: center;
+            max-width: 600px;
         }
 
-        @keyframes fadeIn {
+        /* big 404 */
+        .four-o-four {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .num {
+            font-size: clamp(7rem, 22vw, 14rem);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -8px;
+            color: var(--text);
+            opacity: .07;
+            user-select: none;
+            animation: fadeIn .6s ease both;
+        }
+
+        .num-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .n {
+            font-size: clamp(5rem, 14vw, 9rem);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -4px;
+            animation: slideUp .5s cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        .n:nth-child(1) {
+            animation-delay: .1s;
+        }
+
+        .n:nth-child(2) {
+            color: var(--accent);
+            animation-delay: .2s;
+        }
+
+        .n:nth-child(3) {
+            animation-delay: .3s;
+        }
+
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
 
             to {
@@ -197,128 +154,196 @@
             }
         }
 
-        /* 404 Number */
-        .error-code {
-            font-size: 8rem;
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            margin-bottom: 1rem;
-            font-family: 'Inter', sans-serif;
-            animation: pulse 2s ease-in-out infinite;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: .07;
+            }
         }
 
-        @keyframes pulse {
+        /* slash divider */
+        .slash-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 20px 0 24px;
+            animation: slideUp .5s cubic-bezier(.16, 1, .3, 1) .35s both;
+        }
+
+        .slash-line::before,
+        .slash-line::after {
+            content: '';
+            flex: 1;
+            max-width: 80px;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .slash {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        /* text */
+        .title {
+            font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            animation: slideUp .5s cubic-bezier(.16, 1, .3, 1) .4s both;
+        }
+
+        .desc {
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            animation: slideUp .5s cubic-bezier(.16, 1, .3, 1) .45s both;
+        }
+
+        /* buttons */
+        .btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideUp .5s cubic-bezier(.16, 1, .3, 1) .5s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            padding: 13px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: 'Anuphan', sans-serif;
+            font-size: .95rem;
+            transition: all .25s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 20px rgba(255, 0, 0, .22);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(255, 0, 0, .32);
+        }
+
+        .btn-outline {
+            border: 1.5px solid var(--border);
+            color: var(--text);
+            background: white;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text);
+            background: var(--text);
+            color: white;
+        }
+
+        /* blinking cursor */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.1em;
+            background: var(--accent);
+            border-radius: 2px;
+            vertical-align: text-bottom;
+            margin-left: 4px;
+            animation: blink 1.1s step-end infinite;
+        }
+
+        @keyframes blink {
 
             0%,
             100% {
-                transform: scale(1);
+                opacity: 1;
             }
 
             50% {
-                transform: scale(1.02);
+                opacity: 0;
             }
         }
 
-        .error-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            color: var(--text-main);
-        }
-
-        .error-message {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        /* Back Button */
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: var(--primary-gradient);
-            color: white;
-            text-decoration: none;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 50px;
-            box-shadow: 0 10px 20px rgba(211, 47, 47, 0.25);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: none;
-            cursor: pointer;
-        }
-
-        .back-btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(211, 47, 47, 0.35);
-        }
-
-        .back-btn:active {
-            transform: translateY(0) scale(0.98);
-        }
-
-        /* Footer */
+        /* ─── FOOTER ─── */
         footer {
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            opacity: 0.7;
+            border-top: 1px solid var(--border);
+            padding: 20px 28px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .82rem;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
         }
 
-        @media (max-width: 480px) {
-            .error-code {
-                font-size: 6rem;
-            }
-
-            h1 {
-                font-size: 1.25rem;
-            }
-
-            .error-card {
-                padding: 2rem 1.5rem;
-            }
+        footer strong {
+            color: var(--accent);
         }
     </style>
 </head>
 
 <body>
 
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
+    <div class="grid-bg"></div>
 
-    <div class="container">
-        <div class="error-card">
-            <div class="error-code">404</div>
-            <div class="error-icon">🔍</div>
-            <h1>ไม่พบหน้าที่คุณต้องการ</h1>
-            <p class="error-message">
-                ขออภัย หน้าเว็บที่คุณกำลังมองหาอาจถูกลบไปแล้ว<br>
-                หรือลิงก์อาจไม่ถูกต้อง
+    <nav>
+        <a href="/" class="logo"><em>/</em>sorasukt</a>
+    </nav>
+
+    <main>
+        <div class="content">
+
+            <div class="four-o-four">
+                <div class="num">404</div>
+                <div class="num-overlay">
+                    <span class="n">4</span>
+                    <span class="n">0</span>
+                    <span class="n">4</span>
+                </div>
+            </div>
+
+            <div class="slash-line">
+                <span class="slash">/</span>
+            </div>
+
+            <h1 class="title">Page Not Found<span class="cursor"></span></h1>
+
+            <p class="desc">
+                The page you're looking for has been moved, deleted,<br>
+                or never existed. Let's get you back on track.
             </p>
-            <a href="index.html" class="back-btn">
-                <i class="fas fa-home"></i>
-                <span>กลับหน้าหลัก</span>
-            </a>
-        </div>
 
-        <footer>
-            &copy; 2026 English Education, Loei Rajabhat University <br>
-            Made with ❤️ by Sorasuk Thongkum
-        </footer>
-    </div>
+            <div class="btns">
+                <a href="https://sorasukt.github.io/enged/" class="btn btn-primary">
+                    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 12l8.954-8.955a1.126 1.126 0 0 1 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                    </svg>
+                    Back to Home
+                </a>
+                <a href="https://sorasukt.github.io/#projects" class="btn btn-outline">
+                    View Projects
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        © 2026 <strong>sorasukt</strong> — All Rights Reserved.
+    </footer>
 
 </body>
 
