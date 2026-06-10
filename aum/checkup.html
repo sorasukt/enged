@@ -29,16 +29,13 @@
             --ink-15:   #d1d5db;
             --ink-07:   #f3f4f6;
             --white:    #ffffff;
-            --accent:   #1a56db;
+            --accent:   #0d1117; /* ดำ */
             --success:  #065f46;
             --success-bg: #ecfdf5;
             --success-bd: #a7f3d0;
             --error:    #991b1b;
             --error-bg: #fef2f2;
             --error-bd: #fecaca;
-            --warn:     #92400e;
-            --warn-bg:  #fffbeb;
-            --warn-bd:  #fde68a;
             --r-xs: 4px;
             --r-sm: 6px;
             --r-md: 10px;
@@ -71,15 +68,13 @@
         }
         .ls-emblem { position: relative; width: 72px; height: 72px; }
         .ls-ring {
-            position: absolute; inset: 0;
-            border-radius: 50%;
+            position: absolute; inset: 0; border-radius: 50%;
             border: 2px solid rgba(255,255,255,.1);
             border-top-color: rgba(255,255,255,.7);
             animation: spin .9s linear infinite;
         }
         .ls-inner {
-            position: absolute; inset: 10px;
-            border-radius: 50%;
+            position: absolute; inset: 10px; border-radius: 50%;
             border: 1.5px solid rgba(255,255,255,.06);
             border-top-color: rgba(255,255,255,.35);
             animation: spin 1.4s linear infinite reverse;
@@ -91,240 +86,127 @@
         }
         .ls-wordmark { text-align: center; }
         .ls-title {
-            font-size: 13px; font-weight: 700;
-            color: rgba(255,255,255,.85);
+            font-size: 13px; font-weight: 700; color: rgba(255,255,255,.85);
             letter-spacing: .12em; text-transform: uppercase;
         }
         .ls-sub {
-            font-size: 11px; font-weight: 400;
-            color: rgba(255,255,255,.35);
+            font-size: 11px; font-weight: 400; color: rgba(255,255,255,.35);
             margin-top: 4px; letter-spacing: .04em;
         }
         .ls-progress {
-            width: 160px; height: 2px;
-            background: rgba(255,255,255,.08);
+            width: 160px; height: 2px; background: rgba(255,255,255,.08);
             border-radius: 2px; overflow: hidden;
         }
         .ls-progress-fill {
-            height: 100%;
-            background: rgba(255,255,255,.5);
-            border-radius: 2px;
-            animation: loadFill 1.3s cubic-bezier(.4,0,.2,1) forwards;
+            height: 100%; background: rgba(255,255,255,.5);
+            border-radius: 2px; animation: loadFill 1.3s cubic-bezier(.4,0,.2,1) forwards;
         }
         #loadScreen.fade-out { animation: fadeOut .45s ease forwards; }
 
         /* ── Site Header ── */
         .site-header {
-            background: var(--white);
-            border-bottom: 1px solid var(--ink-15);
+            background: var(--white); border-bottom: 1px solid var(--ink-15);
             position: sticky; top: 0; z-index: 100;
         }
         .header-inner {
-            max-width: 1200px; margin: 0 auto;
-            padding: 0 32px; height: 60px;
-            display: flex; align-items: center;
-            justify-content: space-between; gap: 24px;
+            max-width: 1200px; margin: 0 auto; padding: 0 32px; height: 60px;
+            display: flex; align-items: center; justify-content: space-between; gap: 24px;
         }
-        .header-brand {
-            display: flex; align-items: center;
-            gap: 12px; text-decoration: none;
-        }
+        .header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
         .header-brand-text { line-height: 1.2; }
-        .header-brand-name {
-            font-size: 13px; font-weight: 700;
-            color: var(--ink); letter-spacing: -.01em;
-        }
-        .header-brand-faculty {
-            font-size: 10.5px; color: var(--ink-50);
-            font-weight: 400; margin-top: 1px;
-        }
+        .header-brand-name { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
+        .header-brand-faculty { font-size: 10.5px; color: var(--ink-50); font-weight: 400; margin-top: 1px; }
         .header-right { display: flex; align-items: center; gap: 12px; }
         .header-badge {
             display: flex; align-items: center; gap: 6px;
-            background: var(--ink-07);
-            border: 1px solid var(--ink-15);
-            border-radius: 100px;
-            padding: 5px 12px;
-            font-size: 11px; font-weight: 600;
-            color: var(--ink-70); letter-spacing: .04em;
+            background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: 100px;
+            padding: 5px 12px; font-size: 11px; font-weight: 600; color: var(--ink-70);
         }
         .live-dot {
-            width: 6px; height: 6px;
-            border-radius: 50%; background: #16a34a;
-            flex-shrink: 0;
-            animation: blink 2.4s ease infinite;
+            width: 6px; height: 6px; border-radius: 50%; background: #16a34a;
+            flex-shrink: 0; animation: blink 2.4s ease infinite;
         }
         .logout-btn {
-            background: none; border: 1px solid var(--ink-15);
-            border-radius: var(--r-sm); padding: 5px 10px;
-            font-family: 'Noto Sans Thai', sans-serif;
-            font-size: 11px; font-weight: 600; color: var(--error);
-            cursor: pointer; display: flex; align-items: center; gap: 4px;
+            background: none; border: 1px solid var(--ink-15); border-radius: var(--r-sm);
+            padding: 5px 10px; font-family: 'Noto Sans Thai', sans-serif; font-size: 11px;
+            font-weight: 600; color: var(--error); cursor: pointer; display: flex; align-items: center; gap: 4px;
             transition: all .2s;
         }
         .logout-btn:hover { background: var(--error-bg); border-color: var(--error-bd); }
 
         /* ── Page Layout ── */
         .page-layout {
-            max-width: 1200px; margin: 0 auto;
-            padding: 48px 32px 80px;
-            display: grid; grid-template-columns: 1fr 480px;
-            gap: 48px; align-items: start;
+            max-width: 1200px; margin: 0 auto; padding: 48px 32px 80px;
+            display: grid; grid-template-columns: 1fr 480px; gap: 48px; align-items: start;
         }
         .info-panel { position: sticky; top: 84px; }
         .info-eyebrow {
-            display: inline-flex; align-items: center; gap: 7px;
-            font-size: 11px; font-weight: 700;
-            letter-spacing: .12em; text-transform: uppercase;
-            color: var(--accent); margin-bottom: 16px;
+            display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700;
+            letter-spacing: .12em; text-transform: uppercase; color: var(--ink); margin-bottom: 16px;
         }
-        .info-eyebrow::before {
-            content: ''; width: 16px; height: 2px;
-            background: var(--accent); border-radius: 2px;
-        }
-        .info-heading {
-            font-size: clamp(26px, 3vw, 36px);
-            font-weight: 800; line-height: 1.2;
-            color: var(--ink); letter-spacing: -.02em; margin-bottom: 16px;
-        }
-        .info-desc {
-            font-size: 14px; line-height: 1.8;
-            color: var(--ink-50); font-weight: 400;
-            margin-bottom: 32px; max-width: 420px;
-        }
+        .info-eyebrow::before { content: ''; width: 16px; height: 2px; background: var(--ink); border-radius: 2px; }
+        .info-heading { font-size: clamp(26px, 3vw, 36px); font-weight: 800; line-height: 1.2; color: var(--ink); letter-spacing: -.02em; margin-bottom: 16px; }
+        .info-desc { font-size: 14px; line-height: 1.8; color: var(--ink-50); font-weight: 400; margin-bottom: 32px; max-width: 420px; }
 
         /* ── Cards ── */
         .schedule-card, .steps-overview, .form-card, .notice-card, .status-card {
-            background: var(--white);
-            border: 1px solid var(--ink-15);
-            border-radius: var(--r-lg); overflow: hidden;
-            margin-bottom: 16px;
+            background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 16px;
         }
-        .schedule-head {
-            padding: 14px 18px; border-bottom: 1px solid var(--ink-07);
-            display: flex; align-items: center; gap: 9px;
-        }
-        .schedule-head-icon {
-            width: 28px; height: 28px; background: var(--ink-07); border-radius: var(--r-xs);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px; color: var(--ink-50);
-        }
-        .schedule-head-title {
-            font-size: 12px; font-weight: 700; color: var(--ink-70);
-            letter-spacing: .06em; text-transform: uppercase;
-        }
-        .schedule-head-clock {
-            margin-left: auto; font-size: 11px; font-weight: 600;
-            color: var(--ink-50); font-variant-numeric: tabular-nums;
-        }
+        .schedule-head { padding: 14px 18px; border-bottom: 1px solid var(--ink-07); display: flex; align-items: center; gap: 9px; }
+        .schedule-head-icon { width: 28px; height: 28px; background: var(--ink-07); border-radius: var(--r-xs); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--ink-50); }
+        .schedule-head-title { font-size: 12px; font-weight: 700; color: var(--ink-70); letter-spacing: .06em; text-transform: uppercase; }
+        .schedule-head-clock { margin-left: auto; font-size: 11px; font-weight: 600; color: var(--ink-50); font-variant-numeric: tabular-nums; }
         .schedule-body { padding: 6px 0; }
-        .schedule-row {
-            display: flex; align-items: center; gap: 12px; padding: 10px 18px;
-            border-bottom: 1px solid var(--ink-07);
-        }
+        .schedule-row { display: flex; align-items: center; gap: 12px; padding: 10px 18px; border-bottom: 1px solid var(--ink-07); }
         .schedule-row:last-child { border-bottom: none; }
         .schedule-row.active-slot { background: #f0fdf4; }
-        .schedule-row-dot {
-            width: 7px; height: 7px; border-radius: 50%;
-            background: var(--ink-15); flex-shrink: 0; margin-top: 2px;
-        }
-        .schedule-row.active-slot .schedule-row-dot {
-            background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.15);
-            animation: blink 2s ease infinite;
-        }
-        .schedule-row.upcoming-slot .schedule-row-dot { background: var(--accent); }
+        .schedule-row-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-15); flex-shrink: 0; margin-top: 2px; }
+        .schedule-row.active-slot .schedule-row-dot { background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.15); animation: blink 2s ease infinite; }
+        .schedule-row.upcoming-slot .schedule-row-dot { background: var(--ink); }
         .schedule-row-info { flex: 1; min-width: 0; }
-        .schedule-row-name {
-            font-size: 13px; font-weight: 600; color: var(--ink-70);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
+        .schedule-row-name { font-size: 13px; font-weight: 600; color: var(--ink-70); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .schedule-row.active-slot .schedule-row-name { color: var(--success); }
         .schedule-row-time { font-size: 11px; color: var(--ink-30); margin-top: 2px; }
-        .schedule-row-badge {
-            font-size: 10px; font-weight: 700; text-transform: uppercase;
-            padding: 3px 8px; border-radius: 100px;
-        }
+        .schedule-row-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; }
         .badge-open { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-bd); }
-        .badge-upcoming { background: var(--accent-2,#e8f0fe); color: var(--accent); border: 1px solid #c7d7fc; }
+        .badge-upcoming { background: var(--ink-07); color: var(--ink); border: 1px solid var(--ink-15); }
         .badge-closed { background: var(--ink-07); color: var(--ink-30); border: 1px solid var(--ink-15); }
 
         .steps-overview { padding: 18px; }
-        .steps-overview-title {
-            font-size: 12px; font-weight: 700; color: var(--ink-70);
-            margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
-        }
-        .ov-step {
-            display: flex; align-items: center; gap: 12px; padding: 8px 0;
-            border-bottom: 1px solid var(--ink-07);
-        }
+        .steps-overview-title { font-size: 12px; font-weight: 700; color: var(--ink-70); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+        .ov-step { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--ink-07); }
         .ov-step:last-child { border-bottom: none; padding-bottom: 0; }
         .ov-step:first-child { padding-top: 0; }
-        .ov-num {
-            width: 22px; height: 22px; border-radius: 50%;
-            border: 1.5px solid var(--ink-15); display: flex; align-items: center; justify-content: center;
-            font-size: 10px; font-weight: 700; color: var(--ink-50); flex-shrink: 0;
-        }
+        .ov-num { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--ink-15); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--ink-50); flex-shrink: 0; }
         .ov-label { font-size: 13px; font-weight: 600; color: var(--ink-70); }
         .ov-sub { font-size: 11px; color: var(--ink-30); margin-top: 1px; }
 
-        .section-label {
-            font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-            color: var(--ink-50); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
-        }
+        .section-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-50); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .section-label::after { content: ''; flex: 1; height: 1px; background: var(--ink-15); }
 
         .form-card { box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04); }
-        .form-card-head {
-            padding: 16px 22px; border-bottom: 1px solid var(--ink-07);
-            display: flex; align-items: center; gap: 10px;
-        }
-        .fch-icon {
-            width: 32px; height: 32px; background: var(--ink-07); border-radius: var(--r-sm);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 13px; color: var(--ink-50);
-        }
+        .form-card-head { padding: 16px 22px; border-bottom: 1px solid var(--ink-07); display: flex; align-items: center; gap: 10px; }
+        .fch-icon { width: 32px; height: 32px; background: var(--ink-07); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--ink-50); }
         .fch-title { font-size: 13.5px; font-weight: 700; color: var(--ink); }
         .fch-sub { font-size: 11.5px; color: var(--ink-50); margin-top: 1px; }
         .form-card-body { padding: 22px; }
 
         .field { margin-bottom: 18px; }
         .field:last-child { margin-bottom: 0; }
-        .field-label {
-            display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700;
-            color: var(--ink-70); margin-bottom: 7px; text-transform: uppercase;
-        }
-        .req { color: var(--accent); margin-left: 1px; font-size: 14px; }
+        .field-label { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--ink-70); margin-bottom: 7px; text-transform: uppercase; }
+        .req { color: var(--error); margin-left: 1px; font-size: 14px; }
         
-        input[type="text"] {
-            width: 100%; background: var(--white); border: 1px solid var(--ink-15);
-            border-radius: var(--r-sm); padding: 10px 13px;
-            font-family: 'Noto Sans Thai', sans-serif; font-size: 14px; color: var(--ink);
-            outline: none; transition: all .15s;
-        }
-        input[type="text"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
-        input[type="text"]:read-only {
-            background: var(--ink-07); color: var(--ink-50);
-            border-color: var(--ink-15); cursor: not-allowed;
-        }
+        input[type="text"] { width: 100%; background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-sm); padding: 10px 13px; font-family: 'Noto Sans Thai', sans-serif; font-size: 14px; color: var(--ink); outline: none; transition: all .15s; }
+        input[type="text"]:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(13, 17, 23, 0.1); }
+        input[type="text"]:read-only { background: var(--ink-07); color: var(--ink-50); border-color: var(--ink-15); cursor: not-allowed; }
         
         .field-hint { font-size: 11px; color: var(--ink-30); margin-top: 5px; display: flex; gap: 5px; }
-
         .notice-inner { padding: 15px 18px; display: flex; gap: 12px; align-items: flex-start; }
-        .notice-icon {
-            width: 32px; height: 32px; background: var(--ink-07); border-radius: var(--r-sm);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 13px; color: var(--ink-50); flex-shrink: 0;
-        }
+        .notice-icon { width: 32px; height: 32px; background: var(--ink-07); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--ink-50); flex-shrink: 0; }
         .notice-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
         .notice-text { font-size: 12.5px; color: var(--ink-50); line-height: 1.65; }
 
-        .submit-btn {
-            width: 100%; background: var(--ink); color: var(--white);
-            border: none; border-radius: var(--r-sm); padding: 12px 24px;
-            font-family: 'Noto Sans Thai', sans-serif; font-size: 14px; font-weight: 700;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px;
-            transition: all .15s; box-shadow: 0 1px 3px rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.1);
-        }
+        .submit-btn { width: 100%; background: var(--ink); color: var(--white); border: none; border-radius: var(--r-sm); padding: 12px 24px; font-family: 'Noto Sans Thai', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px; transition: all .15s; box-shadow: 0 1px 3px rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.1); }
         .submit-btn:hover:not(:disabled) { background: var(--ink-70); }
         .submit-btn:disabled { opacity: .45; cursor: not-allowed; }
         .submit-note { text-align: center; font-size: 11px; color: var(--ink-30); margin-top: 10px; }
@@ -332,10 +214,7 @@
         /* Status Banners */
         .status-banner { border-radius: var(--r-lg); margin-bottom: 16px; border: 1px solid var(--ink-15); }
         .status-banner-inner { padding: 14px 18px; display: flex; gap: 13px; }
-        .sb-icon {
-            width: 34px; height: 34px; border-radius: var(--r-sm);
-            display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;
-        }
+        .sb-icon { width: 34px; height: 34px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
         .sb-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
         .sb-text { font-size: 12.5px; line-height: 1.6; }
         .status-banner.open { border-color: var(--success-bd); background: var(--success-bg); }
@@ -347,27 +226,27 @@
         .alt-screen { display: none; }
         .alt-screen.show { display: flex; flex-direction: column; gap: 16px; animation: fadeUp .4s cubic-bezier(.22,1,.36,1) both; }
         .alt-main-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04); }
+        
+        /* สไตล์ Welcome Page ขาว-ดำ แบบ LITALK */
+        .alt-top.welcome { background: var(--white); padding: 48px 32px 32px; text-align: center; border-bottom: 1px solid var(--ink-07); }
+        .welcome-logo { width: 80px; height: auto; margin: 0 auto 20px; display: block; }
+        .welcome-title { font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 10px; letter-spacing: -.02em; }
+        .welcome-sub { font-size: 13.5px; color: var(--ink-50); font-weight: 400; line-height: 1.65; max-width: 320px; margin: 0 auto; }
+        
         .alt-top { background: var(--ink); padding: 36px 28px 32px; text-align: center; }
         .alt-top.error-bg { background: var(--error); }
-        .alt-top-icon {
-            width: 68px; height: 68px; border: 1.5px solid rgba(255,255,255,.14); border-radius: 20px;
-            display: flex; align-items: center; justify-content: center; font-size: 28px; color: rgba(255,255,255,.6); margin: 0 auto 18px;
-        }
+        .alt-top-icon { width: 68px; height: 68px; border: 1.5px solid rgba(255,255,255,.14); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: rgba(255,255,255,.6); margin: 0 auto 18px; }
         .alt-top-title { font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
         .alt-top-sub { font-size: 13px; color: rgba(255,255,255,.38); font-weight: 400; line-height: 1.65; }
-        .alt-body { padding: 24px; }
+        .alt-body { padding: 32px; }
         
-        .auth-btn {
-            width: 100%; background: var(--accent); color: var(--white);
-            border: none; border-radius: var(--r-md); padding: 14px;
-            font-family: inherit; font-size: 15px; font-weight: 700;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
-            box-shadow: 0 4px 12px rgba(26,86,219,.2); transition: all .2s; margin-bottom: 16px;
-        }
-        .auth-btn:hover { background: #1e40af; transform: translateY(-1px); }
-        
+        .auth-btn { width: 100%; background: var(--ink); color: var(--white); border: none; border-radius: var(--r-sm); padding: 14px; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.15); transition: all .2s; margin-bottom: 20px; }
+        .auth-btn:hover { background: var(--ink-70); transform: translateY(-1px); }
         .auth-btn.danger { background: var(--white); color: var(--error); border: 1px solid var(--error-bd); box-shadow: none; }
         .auth-btn.danger:hover { background: var(--error-bg); }
+
+        .auth-hint { font-size: 12px; color: var(--ink-50); text-align: center; line-height: 1.6; }
+        .auth-hint strong { color: var(--ink-70); }
 
         /* Process Overlay */
         #processOverlay { position: fixed; inset: 0; background: rgba(13,17,23,.6); backdrop-filter: blur(8px); z-index: 8888; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity .22s ease; }
@@ -433,7 +312,7 @@
     </div>
     <div class="ls-wordmark">
         <div class="ls-title">English Education</div>
-        <div class="ls-sub" id="loadingSub">กำลังซิงค์ตารางเวลาและระบบยืนยันตัวตน...</div>
+        <div class="ls-sub" id="loadingSub">กำลังตรวจสอบระบบและยืนยันตัวตน...</div>
     </div>
     <div class="ls-progress"><div class="ls-progress-fill"></div></div>
 </div>
@@ -511,20 +390,18 @@
 
         <div id="authScreen" class="alt-screen">
             <div class="alt-main-card">
-                <div class="alt-top">
-                    <div class="alt-top-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                    <div class="alt-top-title">ยินดีต้อนรับสู่ระบบเช็คชื่อ</div>
-                    <div class="alt-top-sub">กรุณาเข้าสู่ระบบด้วยบัญชีอีเมลของมหาวิทยาลัย (@lru.ac.th)<br>เพื่อยืนยันตัวตนและดึงข้อมูลนักศึกษาโดยอัตโนมัติ <br><br> หากไม่เคยเข้าใช้งานระบบของสาขาวิชาฯ โปรดลงเลือกลงทะเบียนเมื่อเลือก "เข้าสู่ระบบด้วย LRU Maill"</div>
+                <div class="alt-top welcome">
+                    <img src="https://sorasukt.github.io/enged/img/enged.png" alt="ENGED Logo" class="welcome-logo">
+                    <div class="welcome-title">ยินดีต้อนรับเข้าสู่ระบบ</div>
+                    <div class="welcome-sub">กรุณาเข้าสู่ระบบด้วยบัญชีอีเมลของมหาวิทยาลัยเพื่อยืนยันตัวตนและบันทึกเวลาเข้าร่วมกิจกรรม</div>
                 </div>
                 <div class="alt-body">
                     <button class="auth-btn" onclick="loginUser()">
                         <i class="fa-solid fa-envelope"></i> เข้าสู่ระบบด้วย LRU Mail
                     </button>
-                    <div class="closed-hints" style="border-top:0; padding-top:0;">
-                        <div class="closed-hint-row">
-                            <i class="fa-solid fa-circle-info"></i>
-                            <span>ระบบรับเฉพาะอีเมลรูปแบบ: <strong>sb[รหัสนักศึกษา]@lru.ac.th</strong> เท่านั้น</span>
-                        </div>
+                    <div class="auth-hint">
+                        หากไม่เคยเข้าใช้งานระบบของสาขาวิชาฯ<br>ระบบจะนำคุณไปสร้างบัญชีอัตโนมัติเมื่อกดเข้าสู่ระบบ<br><br>
+                        (ระบบรองรับเฉพาะอีเมลรูปแบบ <strong>sb[รหัส]@lru.ac.th</strong>)
                     </div>
                 </div>
             </div>
@@ -558,7 +435,7 @@
                 </div>
                 <div class="alt-body">
                     <div id="nextSlotBox" class="next-slot-box" style="display:none; background:var(--ink-07); border:1px solid var(--ink-15); border-radius:var(--r-md); padding:16px; margin-bottom:20px; display:flex; align-items:center; gap:14px;">
-                        <div class="nsb-icon" style="width:42px; height:42px; background:var(--white); border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; color:var(--accent); font-size:16px;"><i class="fa-regular fa-clock"></i></div>
+                        <div class="nsb-icon" style="width:42px; height:42px; background:var(--white); border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; color:var(--ink); font-size:16px;"><i class="fa-regular fa-clock"></i></div>
                         <div>
                             <div style="font-size:10px; font-weight:700; color:var(--ink-50); text-transform:uppercase; margin-bottom:3px;">รอบถัดไป</div>
                             <div id="nextSlotName" style="font-size:14.5px; font-weight:700; color:var(--ink);">—</div>
@@ -649,42 +526,46 @@ const MAX_DISTANCE_METERS = 100;
 const GAS_URL             = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
 
 /* ════════════════════════════════════════
-   ตั้งค่า AUTH0 (เปลี่ยนให้ตรงกับแอปของคุณ)
+   ตั้งค่า AUTH0
 ════════════════════════════════════════ */
 const AUTH0_DOMAIN    = "litalkeducation.us.auth0.com"; 
 const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";      
 
-// ใช้ new auth0.Auth0Client ตามแบบฉบับที่ทดสอบมาแล้วว่าทำงานได้ 100%
-const auth0Client = new auth0.Auth0Client({
-    domain: AUTH0_DOMAIN,
-    clientId: AUTH0_CLIENT_ID,
-    authorizationParams: {
-        redirect_uri: window.location.href.split('?')[0]
-    }
-});
-
+let auth0Client = null;
 let isAuthenticated = false;
 let userProfile = null;
 let extractedStudentId = null;
-
 let SCHEDULE = [];
 
 /* ────────────────────────────────────────
-   ฟังก์ชัน Auth0
+   ฟังก์ชัน Auth0 (เหมือน LITALK)
 ──────────────────────────────────────── */
+async function configureAuth0() {
+    auth0Client = await createAuth0Client({
+        domain: AUTH0_DOMAIN,
+        clientId: AUTH0_CLIENT_ID,
+        authorizationParams: {
+            redirect_uri: window.location.origin + window.location.pathname
+        }
+    });
+}
+
 async function loginUser() {
+    if (!auth0Client) {
+        alert("ระบบขัดข้อง กรุณารีเฟรชหน้าเว็บ หรือตรวจสอบว่าไม่ได้เปิดจากไฟล์ตรงๆ (file://)");
+        return;
+    }
     try {
         await auth0Client.loginWithRedirect();
     } catch (error) {
         console.error("Login Error:", error);
-        alert("ระบบขัดข้อง ไม่สามารถล็อกอินได้ในขณะนี้\n(หมายเหตุ: การทดสอบบนเครื่องต้องไม่ได้เปิดไฟล์ด้วยวิธีดับเบิลคลิกตรงๆ)");
     }
 }
 
 async function logoutUser() {
     setCookie('att_name', '', -1); 
     await auth0Client.logout({
-        logoutParams: { returnTo: window.location.href.split('?')[0] }
+        logoutParams: { returnTo: window.location.origin + window.location.pathname }
     });
 }
 
@@ -835,7 +716,7 @@ function setCookie(name, value, days) { const exp = new Date(Date.now() + days *
 function getCookie(name) { const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; }
 
 /* ────────────────────────────────────────
-   INIT FLOW (Try-Catch Protected + Global Client)
+   INIT FLOW (Try-Catch Protected)
 ──────────────────────────────────────── */
 window.addEventListener('load', async () => {
     updateClock();
@@ -853,6 +734,8 @@ window.addEventListener('load', async () => {
 
     // 2. ดำเนินการเช็ค Auth0 (ครอบ Try-Catch เพื่อป้องกันจอขาว)
     try {
+        await configureAuth0();
+
         const query = window.location.search;
         if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
             await auth0Client.handleRedirectCallback();
