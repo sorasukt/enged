@@ -89,11 +89,35 @@
 
         .ls-status-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.4); flex-shrink: 0; }
         .ls-status-dot.spin {
-            background: none; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.2);
-            border-top-color: rgba(255,255,255,.8); border-radius: 50%; animation: spin .8s linear infinite;
+            width: 65px;
+            height: 30px;
+            position: relative;
+            background: none;
+            border-radius: 0;
+            border: none;
+            animation: none;
         }
-        .ls-status-dot.ok { background: #4ade80; animation: none; width: 6px; height: 6px; }
-        .ls-status-dot.err { background: #f87171; animation: none; width: 6px; height: 6px; }
+        .ls-status-dot.spin:before {
+            content: "";
+            position: absolute;
+            border-radius: 50px;
+            box-shadow: 0 0 0 3px inset #fff;
+            animation: l3 0.75s infinite alternate;
+        }
+        .ls-status-dot.ok { background: #4ade80; animation: none; width: 6px; height: 6px; border-radius: 50%; }
+        .ls-status-dot.err { background: #f87171; animation: none; width: 6px; height: 6px; border-radius: 50%; }
+        
+        @keyframes l3 {
+            0% {
+                inset: 0 35px 0 0;
+            }
+            50% {
+                inset: 0 0 0 0;
+            }
+            100% {
+                inset: 0 0 0 35px;
+            }
+        }
         .ls-status-text { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.55); }
 
         .ls-progress-wrap { width: 200px; }
@@ -297,7 +321,7 @@
         input[type="text"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
         input[type="text"].invalid { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,.08); }
         input[type="text"].complete { border-color: #16a34a; }
-        input::placeholder { color: var(--ink-30); font-size: 14px; }
+        input::placeholder { color: var(--ink-30); font-size: 16px; }
 
         .id-progress { height: 2px; background: var(--ink-15); border-radius: 0 0 var(--r-sm) var(--r-sm); overflow: hidden; margin-top: -1px; border: none; }
         .id-progress-fill { height: 100%; width: 0; border-radius: 2px; transition: width .15s, background .15s; }
@@ -413,8 +437,25 @@
         .action-btn:hover { border-color: var(--ink-30); color: var(--ink); background: var(--white); }
         .action-btn i { font-size: 10px; }
 
-        /* spinner utility */
-        .spin-s { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.2); border-top-color: rgba(255,255,255,.8); border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
+        .loader-mini {
+            width: 30px;
+            height: 14px;
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .loader-mini:before {
+            content: "";
+            position: absolute;
+            border-radius: 50px;
+            box-shadow: 0 0 0 2px inset currentColor;
+            animation: l3-mini 0.75s infinite alternate;
+        }
+        @keyframes l3-mini {
+            0% { inset: 0 16px 0 0; }
+            50% { inset: 0 0 0 0; }
+            100% { inset: 0 0 0 16px; }
+        }
 
         /* ════ FOOTER ════ */
         .site-footer { border-top: 1px solid var(--ink-15); background: var(--white); padding: 18px 32px; }
@@ -915,7 +956,7 @@ function performSearch(sid, act) {
 
     document.getElementById('formCard').classList.add('dimmed');
     document.getElementById('searchBtn').disabled = true;
-    document.getElementById('searchBtn').innerHTML = '<div class="spin-s"></div><span>กำลังค้นหา...</span>';
+    document.getElementById('searchBtn').innerHTML = '<div class="loader-mini"></div><span>กำลังค้นหา...</span>';
 
     hide('pendingCard'); hide('errorCard'); hide('resultArea');
     show('processCard');

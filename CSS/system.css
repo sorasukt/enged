@@ -123,10 +123,6 @@
                 border-color: rgba(255, 255, 255, 0.1) !important;
             }
 
-            .spinner-border.text-danger {
-                border-color: transparent !important;
-                border-top-color: var(--primary-color) !important;
-            }
 
             /* Fix buttons */
             .btn-outline-secondary {
@@ -411,4 +407,24 @@
             color: var(--primary-color);
             transform: translateX(-3px);
             box-shadow: 0 6px 20px rgba(211, 47, 47, 0.15);
+        }
+
+        .loader-mini {
+            width: 30px;
+            height: 14px;
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .loader-mini:before {
+            content: "";
+            position: absolute;
+            border-radius: 50px;
+            box-shadow: 0 0 0 2px inset currentColor;
+            animation: l3-mini 0.75s infinite alternate;
+        }
+        @keyframes l3-mini {
+            0% { inset: 0 16px 0 0; }
+            50% { inset: 0 0 0 0; }
+            100% { inset: 0 0 0 16px; }
         }

@@ -83,9 +83,8 @@
                 background: #333 !important;
             }
 
-            .loader {
-                border-color: #333 !important;
-                border-top-color: var(--primary-red) !important;
+            .loader:before {
+                box-shadow: 0 0 0 3px inset var(--primary-red) !important;
             }
 
             .total-votes {
@@ -462,18 +461,27 @@
         }
 
         .loader {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #e2e8f0;
-            border-top-color: var(--primary-red);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 2rem auto
+            width: 65px;
+            height: 30px;
+            position: relative;
+            margin: 2rem auto;
         }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg)
+        .loader:before {
+            content: "";
+            position: absolute;
+            border-radius: 50px;
+            box-shadow: 0 0 0 3px inset var(--primary-red, #d32f2f);
+            animation: l3 0.75s infinite alternate;
+        }
+        @keyframes l3 {
+            0% {
+                inset: 0 35px 0 0;
+            }
+            50% {
+                inset: 0 0 0 0;
+            }
+            100% {
+                inset: 0 0 0 35px;
             }
         }
 

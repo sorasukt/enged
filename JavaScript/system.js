@@ -24,7 +24,7 @@ window.onload = function () {
     if (paramName && paramId) {
         console.log("Auto search initiated:", paramName, paramId);
         document.getElementById('inputSection').classList.add('hidden-mode');
-        document.getElementById('welcomeText').innerHTML = '<span class="text-danger"><div class="spinner-border spinner-border-sm me-1"></div> กำลังค้นหาข้อมูลอัตโนมัติ...</span>';
+        document.getElementById('welcomeText').innerHTML = '<span class="text-danger d-inline-flex align-items-center gap-2"><div class="loader-mini"></div> กำลังค้นหาข้อมูลอัตโนมัติ...</span>';
         performSearch(paramId, paramName, true);
     }
 };
@@ -97,7 +97,7 @@ function performSearch(id, act, isAuto) {
 
     if (!isAuto) {
         document.getElementById('searchBtn').disabled = true;
-        document.getElementById('searchBtn').innerHTML = '<span class="spinner-border spinner-border-sm"></span> กำลังค้นหา...';
+        document.getElementById('searchBtn').innerHTML = '<div class="loader-mini"></div> กำลังค้นหา...';
     }
 
     fetch(`${GAS_API_URL}?action=search&id=${encodeURIComponent(id)}&criteria=${encodeURIComponent(act)}`)
