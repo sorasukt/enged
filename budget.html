@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ระบบบันทึกงบประมาณโครงการ - sorasukt</title>
+
+    <!-- Noto Sans Thai -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <!-- Auth0 SPA SDK -->
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #0d1117;
+            --ink-70: #3d4451;
+            --ink-50: #6b7280;
+            --ink-30: #9ca3af;
+            --ink-15: #d1d5db;
+            --ink-07: #f8fafc;
+            --white: #ffffff;
+            --accent: #0d1117;
+            --success: #065f46;
+            --success-bg: #ecfdf5;
+            --success-bd: #a7f3d0;
+            --error: #991b1b;
+            --error-bg: #fef2f2;
+            --error-bd: #fecaca;
+            --warn: #92400e;
+            --warn-bg: #fffbeb;
+            --warn-bd: #fde68a;
+            --r-xs: 6px;
+            --r-sm: 10px;
+            --r-md: 14px;
+            --r-lg: 20px;
+            --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --card-shadow: 0 10px 30px -10px rgba(13, 17, 23, 0.05), 0 1px 3px rgba(13, 17, 23, 0.02);
+            --card-shadow-hover: 0 20px 40px -15px rgba(13, 17, 23, 0.1), 0 2px 8px rgba(13, 17, 23, 0.04);
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans Thai', sans-serif;
+            background: #f8fafc;
+            background-image:
+                radial-gradient(circle at top right, rgba(99, 102, 241, 0.03) 0%, transparent 60%),
+                radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.03) 0%, transparent 60%);
+            color: var(--ink);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ════ LOGIN PAGE ════ */
+        #loginPage {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        #loginPage.show {
+            display: block;
+        }
+
+        .login-wrapper {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            min-height: 100vh;
+        }
+
+        .login-brand-side {
+            background: radial-gradient(circle at top right, #1e293b, #0f172a, var(--ink));
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .login-brand-side::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 480px;
+            height: 480px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, transparent 70%);
+            filter: blur(30px);
+        }
+
+        .login-brand-side::after {
+            content: '';
+            position: absolute;
+            bottom: -10%;
+            left: -10%;
+            width: 580px;
+            height: 580px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
+            filter: blur(30px);
+        }
+
+        .login-brand-side .grid-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 2;
+            max-width: 480px;
+            animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .brand-logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .brand-logo-text {
+            line-height: 1.25;
+        }
+
+        .brand-logo-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -.01em;
+            text-transform: uppercase;
+        }
+
+        .brand-logo-faculty {
+            font-size: 12px;
+            color: rgba(255, 255, 255, .5);
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .brand-tagline {
+            margin-bottom: 48px;
+        }
+
+        .brand-tagline h2 {
+            font-size: 38px;
+            font-weight: 800;
+            line-height: 1.25;
+            letter-spacing: -.03em;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff 30%, rgba(255, 255, 255, 0.8) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-tagline p {
+            font-size: 15.5px;
+            color: rgba(255, 255, 255, .6);
+            line-height: 1.75;
+        }
+
+        .brand-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .brand-features li {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 14.5px;
+            color: rgba(255, 255, 255, .8);
+        }
+
+        .brand-feat-icon {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: var(--r-sm);
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: rgba(255, 255, 255, .8);
+            transition: var(--transition-bounce);
+        }
+
+        .brand-features li:hover .brand-feat-icon {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .brand-feat-label {
+            font-weight: 700;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .brand-feat-sub {
+            font-size: 12px;
+            color: rgba(255, 255, 255, .45);
+            margin-top: 2px;
+        }
+
+        .login-form-side {
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            position: relative;
+        }
+
+        .login-form-container {
+            width: 100%;
+            max-width: 420px;
+            animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+        }
+
+        .mobile-brand {
+            display: none;
+            margin-bottom: 36px;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .login-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--ink-50);
+            margin-bottom: 12px;
+        }
+
+        .login-eyebrow::before {
+            content: '';
+            width: 16px;
+            height: 2px;
+            background: var(--ink-15);
+            border-radius: 2px;
+        }
+
+        .login-title {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -.02em;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            font-size: 14.5px;
+            color: var(--ink-50);
+            margin-bottom: 40px;
+            line-height: 1.65;
+        }
+
+        .login-card {
+            background: var(--white);
+            border: 1px solid rgba(13, 17, 23, 0.08);
+            border-radius: var(--r-lg);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .login-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            border-color: rgba(13, 17, 23, 0.12);
+        }
+
+        .login-card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .login-card-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--ink);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--white);
+        }
+
+        .login-card-label {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .login-card-sub {
+            font-size: 12px;
+            color: var(--ink-50);
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: var(--ink);
+            color: var(--white);
+            border: none;
+            border-radius: var(--r-sm);
+            padding: 15px 24px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 18px rgba(13, 17, 23, .22);
+            transition: var(--transition);
+            margin-bottom: 20px;
+        }
+
+        .auth-btn:hover {
+            background: var(--ink-70);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(13, 17, 23, .28);
+        }
+
+        .auth-btn.danger {
+            background: var(--white);
+            color: var(--error);
+            border: 1.5px solid var(--error-bd);
+            box-shadow: none;
+        }
+
+        .auth-btn.danger:hover {
+            background: var(--error-bg);
+            border-color: var(--error);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(153, 27, 27, 0.08);
+        }
+
+        .auth-hint {
+            font-size: 12px;
+            color: var(--ink-50);
+            text-align: center;
+            line-height: 1.8;
+            padding: 20px 0 0;
+            border-top: 1px dashed var(--ink-15);
+            margin-top: 4px;
+        }
+
+        .auth-hint strong {
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .login-support {
+            text-align: center;
+            margin-top: 36px;
+            font-size: 13px;
+            color: var(--ink-30);
+        }
+
+        .login-support a {
+            color: var(--ink-50);
+            font-weight: 700;
+            text-decoration: none;
+            border-bottom: 1.5px solid transparent;
+            transition: var(--transition);
+        }
+
+        .login-support a:hover {
+            color: var(--ink);
+            border-bottom-color: var(--ink-50);
+        }
+
+        /* Invalid email screen */
+        .invalid-card {
+            background: var(--white);
+            border: 1px solid var(--error-bd);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(153, 27, 27, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .invalid-top {
+            background: var(--error);
+            padding: 32px 24px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .invalid-top-icon {
+            width: 52px;
+            height: 52px;
+            border: 2px solid rgba(255, 255, 255, .3);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #fff;
+            margin: 0 auto 16px;
+        }
+
+        .invalid-top-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .invalid-top-sub {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .invalid-body {
+            padding: 24px;
+        }
+
+        .invalid-email-box {
+            background: var(--error-bg);
+            border: 1px solid var(--error-bd);
+            border-radius: var(--r-md);
+            padding: 14px 18px;
+            margin-bottom: 20px;
+        }
+
+        .invalid-email-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--error);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: .05em;
+        }
+
+        .invalid-email-value {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        /* ════ MAIN APP VIEW ════ */
+        #mainApp {
+            display: none;
+        }
+
+        #mainApp.show {
+            display: block;
+        }
+
+        .site-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px) saturate(190%);
+            -webkit-backdrop-filter: blur(12px) saturate(190%);
+            border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .header-brand-text {
+            line-height: 1.25;
+        }
+
+        .header-brand-name {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -.01em;
+        }
+
+        .header-brand-faculty {
+            font-size: 11px;
+            color: var(--ink-50);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: 100px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink-70);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .logout-btn {
+            background: none;
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            padding: 6px 12px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--error);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            background: var(--error-bg);
+            border-color: var(--error-bd);
+            transform: translateY(-1px);
+        }
+
+        /* Page Layout Grid */
+        .page-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 32px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .info-panel {
+            position: sticky;
+            top: 110px;
+        }
+
+        .info-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--ink-50);
+            margin-bottom: 12px;
+        }
+
+        .info-eyebrow::before {
+            content: '';
+            width: 16px;
+            height: 2px;
+            background: var(--ink);
+            border-radius: 2px;
+        }
+
+        .info-heading {
+            font-size: clamp(28px, 3.2vw, 38px);
+            font-weight: 800;
+            line-height: 1.25;
+            color: var(--ink);
+            letter-spacing: -.02em;
+            margin-bottom: 16px;
+        }
+
+        .info-desc {
+            font-size: 14.5px;
+            line-height: 1.8;
+            color: var(--ink-50);
+            margin-bottom: 32px;
+            max-width: 440px;
+        }
+
+        /* Form Card */
+        .form-card,
+        .steps-overview,
+        .notice-card {
+            background: var(--white);
+            border: 1px solid rgba(13, 17, 23, 0.06);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .form-card:hover,
+        .steps-overview:hover,
+        .notice-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            border-color: rgba(13, 17, 23, 0.12);
+        }
+
+        /* card top bar */
+        .card-bar {
+            background: var(--ink);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(13, 17, 23, 0.05);
+        }
+
+        .card-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-bar-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            color: var(--white);
+        }
+
+        .card-bar-text {
+            line-height: 1.2;
+        }
+
+        .card-bar-label {
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .4);
+        }
+
+        .card-bar-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--white);
+            margin-top: 2px;
+        }
+
+        /* step pills */
+        .step-pills {
+            display: flex;
+            gap: 6px;
+        }
+
+        .step-pill {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .25);
+        }
+
+        .step-pill.active {
+            background: var(--white);
+            width: 22px;
+            border-radius: 4px;
+        }
+
+        /* Form body */
+        .form-body {
+            padding: 24px;
+        }
+
+        /* Section header */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            margin-top: 32px;
+        }
+
+        .section-label:first-child {
+            margin-top: 0;
+        }
+
+        .section-label-line {
+            flex: 1;
+            height: 1px;
+            background: var(--ink-15);
+        }
+
+        .section-label-text {
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--ink-50);
+            white-space: nowrap;
+        }
+
+        /* Fields */
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .field:last-child {
+            margin-bottom: 0;
+        }
+
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .field-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--ink-70);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+        }
+
+        .field-label i {
+            color: var(--ink-50);
+            font-size: 12px;
+        }
+
+        .req {
+            color: var(--error);
+            margin-left: 2px;
+            font-weight: 800;
+        }
+
+        /* Inputs */
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            background: #f8fafc;
+            border: 1.5px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            padding: 12px 16px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 16px;
+            color: var(--ink);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            border-color: var(--ink);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(13, 17, 23, 0.08);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--ink-30);
+        }
+
+        textarea {
+            resize: none;
+            line-height: 1.65;
+        }
+
+        /* Total field */
+        .total-wrap {
+            position: relative;
+        }
+
+        .total-input {
+            background: var(--ink) !important;
+            border-color: var(--ink) !important;
+            color: var(--white) !important;
+            font-weight: 800 !important;
+            font-size: 18px !important;
+            padding-right: 52px !important;
+        }
+
+        .total-suffix {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.45);
+            pointer-events: none;
+        }
+
+        /* Custom Dropdown */
+        .custom-select-wrap {
+            position: relative;
+        }
+
+        .custom-select-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            background: #f8fafc;
+            border: 1.5px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            padding: 12px 16px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 16px;
+            color: var(--ink-30);
+            cursor: pointer;
+            user-select: none;
+            transition: var(--transition);
+        }
+
+        .custom-select-trigger.has-value {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        .custom-select-trigger.open,
+        .custom-select-trigger:hover {
+            background: var(--white);
+            border-color: var(--ink);
+        }
+
+        .custom-select-trigger.open {
+            box-shadow: 0 0 0 4px rgba(13, 17, 23, 0.08);
+            border-radius: var(--r-sm) var(--r-sm) 0 0;
+        }
+
+        .trigger-text {
+            flex: 1;
+        }
+
+        .trigger-icon {
+            font-size: 11px;
+            color: var(--ink-50);
+            transition: transform .22s cubic-bezier(.22, 1, .36, 1);
+            flex-shrink: 0;
+        }
+
+        .custom-select-trigger.open .trigger-icon {
+            transform: rotate(180deg);
+        }
+
+        .custom-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border: 1.5px solid var(--ink);
+            border-top: none;
+            border-radius: 0 0 var(--r-sm) var(--r-sm);
+            box-shadow: 0 12px 32px rgba(13, 17, 23, 0.1);
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .custom-dropdown.open {
+            display: block;
+            animation: dropIn .2s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .dropdown-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 16px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 14px;
+            color: var(--ink-70);
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--ink-07);
+        }
+
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-option:hover {
+            background: var(--ink-07);
+            color: var(--ink);
+        }
+
+        .dropdown-option.selected {
+            background: var(--ink);
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .option-check {
+            font-size: 11px;
+            width: 16px;
+            text-align: center;
+            flex-shrink: 0;
+            opacity: 0;
+        }
+
+        .dropdown-option.selected .option-check {
+            opacity: 1;
+        }
+
+        .option-tag {
+            margin-left: auto;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            background: var(--ink-15);
+            color: var(--ink-50);
+            padding: 2px 7px;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .dropdown-option.selected .option-tag {
+            background: rgba(255, 255, 255, .15);
+            color: rgba(255, 255, 255, .6);
+        }
+
+        /* hidden real select */
+        .real-select {
+            display: none;
+        }
+
+        /* File upload */
+        .file-zone {
+            position: relative;
+            border: 1.5px dashed var(--ink-30);
+            border-radius: var(--r-sm);
+            background: #f8fafc;
+            padding: 24px 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .file-zone:hover,
+        .file-zone.drag-over {
+            border-color: var(--ink);
+            background: var(--white);
+        }
+
+        .file-zone input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .file-zone-inner {
+            pointer-events: none;
+        }
+
+        .file-zone-icon {
+            font-size: 22px;
+            color: var(--ink-30);
+            margin-bottom: 8px;
+            transition: var(--transition);
+        }
+
+        .file-zone:hover .file-zone-icon,
+        .file-zone.drag-over .file-zone-icon {
+            color: var(--ink);
+        }
+
+        .file-zone-label {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--ink-70);
+        }
+
+        .file-zone-label.selected {
+            color: var(--ink);
+        }
+
+        .file-zone-hint {
+            font-size: 11.5px;
+            color: var(--ink-50);
+            margin-top: 4px;
+        }
+
+        /* Submit */
+        .submit-btn {
+            width: 100%;
+            background: var(--ink);
+            color: var(--white);
+            border: none;
+            border-radius: var(--r-sm);
+            padding: 15px 24px;
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 18px rgba(13, 17, 23, 0.22);
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: var(--ink-70);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(13, 17, 23, 0.28);
+        }
+
+        .submit-btn:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+
+        /* Status msg */
+        .status-msg {
+            display: none;
+            margin-top: 14px;
+            padding: 12px 16px;
+            border-radius: var(--r-sm);
+            font-size: 13.5px;
+            font-weight: 700;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .status-msg.success {
+            display: flex;
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1.5px solid var(--success-bd);
+        }
+
+        .status-msg.error {
+            display: flex;
+            background: var(--error-bg);
+            color: var(--error);
+            border: 1.5px solid var(--error-bd);
+        }
+
+        /* Onboarding Checklist */
+        .steps-overview {
+            padding: 24px;
+        }
+
+        .steps-overview-title {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+        }
+
+        .ov-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px dashed var(--ink-15);
+            position: relative;
+        }
+
+        .ov-step:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .ov-step:first-child {
+            padding-top: 0;
+        }
+
+        .ov-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid var(--ink);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--ink);
+            flex-shrink: 0;
+            z-index: 2;
+            box-shadow: 0 2px 4px rgba(13, 17, 23, 0.05);
+        }
+
+        .ov-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .ov-sub {
+            font-size: 12px;
+            color: var(--ink-50);
+            margin-top: 3px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        /* Notice Card */
+        .notice-card {
+            background: var(--white);
+            border: 1px solid rgba(13, 17, 23, 0.06);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .notice-inner {
+            padding: 20px 24px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            background: rgba(13, 17, 23, 0.01);
+        }
+
+        .notice-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--ink-70);
+            flex-shrink: 0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .notice-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .notice-text {
+            font-size: 13px;
+            color: var(--ink-50);
+            line-height: 1.75;
+            font-weight: 500;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 36px;
+            font-size: 12px;
+            color: var(--ink-30);
+        }
+
+        .loader-mini {
+            width: 30px;
+            height: 14px;
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .loader-mini:before {
+            content: "";
+            position: absolute;
+            border-radius: 50px;
+            box-shadow: 0 0 0 2px inset currentColor;
+            animation: l3-mini 0.75s infinite alternate;
+        }
+
+        @keyframes l3-mini {
+            0% { inset: 0 16px 0 0; }
+            50% { inset: 0 0 0 0; }
+            100% { inset: 0 0 0 16px; }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .login-wrapper { grid-template-columns: 1fr; }
+            .login-brand-side { display: none; }
+            .mobile-brand { display: flex; }
+            .mobile-brand-icon { width: 44px; height: 44px; background: var(--ink); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--white); }
+            .mobile-brand-name { font-size: 15px; font-weight: 800; color: var(--ink); text-transform: uppercase; }
+            .mobile-brand-sub { font-size: 11px; color: var(--ink-50); margin-top: 2px; font-weight: 500; }
+            .login-form-side { padding: 48px 24px; }
+            .page-layout { grid-template-columns: 1fr; padding: 32px 20px 64px; gap: 32px; }
+            .info-panel { position: static; }
+            .header-inner { padding: 0 20px; }
+        }
+
+        @media (max-width: 540px) {
+            .login-form-side { padding: 36px 16px; }
+            .page-layout { padding: 24px 16px 60px; }
+            .header-brand-faculty { display: none; }
+        }
+
+        @keyframes dropIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loginPage" class="show">
+        <div class="login-wrapper">
+            <div class="login-brand-side">
+                <div class="grid-overlay"></div>
+                <div class="brand-content">
+                    <div class="brand-logo-wrap">
+                        <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="ENGED Logo"
+                            style="height:52px;width:auto;border-radius:8px;">
+                        <div class="brand-logo-text">
+                            <div class="brand-logo-name">English Education</div>
+                            <div class="brand-logo-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                        </div>
+                    </div>
+                    <div class="brand-tagline">
+                        <h2>ระบบบริหาร<br>งบประมาณโครงการ</h2>
+                        <p>สำหรับจัดเก็บข้อมูลค่าใช้จ่ายโครงการ เอกสารแนบ และหลักฐานประกอบงบประมาณอย่างเป็นระบบและปลอดภัย</p>
+                    </div>
+                    <ul class="brand-features">
+                        <li>
+                            <div class="brand-feat-icon"><i class="fa-solid fa-lock"></i></div>
+                            <div>
+                                <div class="brand-feat-label">สิทธิ์การเข้าใช้งานพิเศษ</div>
+                                <div class="brand-feat-sub">เฉพาะผู้รับผิดชอบที่ได้รับการอนุญาตเท่านั้น</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="brand-feat-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                            <div>
+                                <div class="brand-feat-label">จัดเก็บข้อมูลเรียลไทม์</div>
+                                <div class="brand-feat-sub">รองรับการอัปโหลดไฟล์หลักฐาน PDF หรือรูปภาพ</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="login-form-side">
+                <div class="login-form-container">
+                    <div class="mobile-brand">
+                        <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="ENGED Logo"
+                            style="height:40px;width:auto;border-radius:6px;">
+                        <div>
+                            <div class="mobile-brand-name">English Education</div>
+                            <div class="mobile-brand-sub">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                        </div>
+                    </div>
+
+                    <div id="loadingScreen" style="padding: 48px 0; text-align: center;">
+                        <div class="loader-mini" style="margin: 0 auto 16px;"></div>
+                        <p style="color: var(--ink-50); font-weight: 700; font-size: 14.5px;">กำลังตรวจสอบสิทธิ์...</p>
+                    </div>
+
+                    <div id="authScreen" style="display: none;">
+                        <div class="login-eyebrow">Budget Management</div>
+                        <h1 class="login-title">เข้าสู่ระบบ</h1>
+                        <p class="login-subtitle">กรุณาลงชื่อเข้าใช้งานด้วยบัญชีอีเมลมหาวิทยาลัยเพื่อบันทึกข้อมูลและใช้จ่ายงบประมาณโครงการ</p>
+                        <div class="login-card">
+                            <div class="login-card-header">
+                                <div class="login-card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                                <div>
+                                    <div class="login-card-label">เฉพาะผู้ดูแลระบบงบประมาณ</div>
+                                    <div class="login-card-sub">Authorized Personnel Only</div>
+                                </div>
+                            </div>
+                            <button class="auth-btn" onclick="loginUser()">
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i> ลงชื่อเข้าใช้งานด้วย LRU Mail
+                            </button>
+                            <div class="auth-hint">
+                                บัญชีผู้ดูแลจะต้องได้รับสิทธิ์การเข้าใช้งานพิเศษ<br>
+                                อีเมลที่ได้รับอนุญาต: <strong>sb6740102220@lru.ac.th</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="deniedScreen" style="display: none;">
+                        <div class="login-eyebrow">Security Alert</div>
+                        <h1 class="login-title">ไม่มีสิทธิ์เข้าใช้งาน</h1>
+                        <p class="login-subtitle">บัญชีของคุณไม่ได้รับอนุญาตให้เข้าใช้งานระบบบริหารงบประมาณนี้</p>
+                        <div class="invalid-card">
+                            <div class="invalid-top">
+                                <div class="invalid-top-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                <div class="invalid-top-title">อีเมลไม่ตรงกับสิทธิ์ที่กำหนด</div>
+                                <div class="invalid-top-sub">เฉพาะเจ้าหน้าที่ผู้รับผิดชอบโครงการ</div>
+                            </div>
+                            <div class="invalid-body">
+                                <div class="invalid-email-box">
+                                    <div class="invalid-email-label">อีเมลปัจจุบันของคุณ</div>
+                                    <div class="invalid-email-value" id="currentEmail">—</div>
+                                </div>
+                                <button class="auth-btn danger" onclick="logoutUser()">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบและเปลี่ยนบัญชี
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mainApp">
+        <header class="site-header">
+            <div class="header-inner">
+                <a class="header-brand" href="#">
+                    <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="Logo"
+                        style="height:32px;width:auto;border-radius:4px;">
+                    <div class="header-brand-text">
+                        <div class="header-brand-name">English Education</div>
+                        <div class="header-brand-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                    </div>
+                </a>
+                <div class="header-right">
+                    <div class="header-badge">
+                        <span style="color: var(--ink-50); font-weight: 500;">สิทธิ์การใช้งาน: </span>
+                        <strong style="margin-left: 5px; color: var(--ink);" id="userEmailDisplay">sb6740102220@lru.ac.th</strong>
+                    </div>
+                    <button class="logout-btn" onclick="logoutUser()">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="page-layout">
+            <aside class="info-panel">
+                <div class="info-eyebrow">Budget Control</div>
+                <h1 class="info-heading">ระบบบริหาร<br>งบประมาณโครงการ</h1>
+                <p class="info-desc">สำหรับบันทึกรายงานการใช้จ่ายงบประมาณ แนบหลักฐานการจ่าย และจัดประเภทโครงการเพื่อความโปร่งใสและตรวจสอบได้</p>
+                <div class="steps-overview">
+                    <div class="steps-overview-title"><i class="fa-solid fa-list-check"></i>ขั้นตอนการส่งบันทึก</div>
+                    <div class="ov-step">
+                        <div class="ov-num">1</div>
+                        <div>
+                            <div class="ov-label">ยืนยันรหัสเข้าใช้งาน</div>
+                            <div class="ov-sub">ล็อกอินผ่าน LRU Mail ที่ได้รับสิทธิ์บริหารงบประมาณ</div>
+                        </div>
+                    </div>
+                    <div class="ov-step">
+                        <div class="ov-num">2</div>
+                        <div>
+                            <div class="ov-label">ระบุรายละเอียดค่าใช้จ่าย</div>
+                            <div class="ov-sub">เลือกหมวดหมู่ วันที่ และระบุรายการการใช้จ่ายจริง</div>
+                        </div>
+                    </div>
+                    <div class="ov-step">
+                        <div class="ov-num">3</div>
+                        <div>
+                            <div class="ov-label">คำนวณและแนบหลักฐาน</div>
+                            <div class="ov-sub">ใส่จำนวนหน่วย/ราคาต่อหน่วย และอัปโหลดไฟล์ใบเสร็จ (Image/PDF)</div>
+                        </div>
+                    </div>
+                    <div class="ov-step">
+                        <div class="ov-num">4</div>
+                        <div>
+                            <div class="ov-label">บันทึกส่งรายงาน</div>
+                            <div class="ov-sub">กดยืนยัน ข้อมูลจะเข้าระบบส่วนกลางของสาขาวิชาทันที</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notice-card">
+                    <div class="notice-inner">
+                        <div class="notice-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+                        <div>
+                            <div class="notice-title">ข้อแนะนำการแนบไฟล์</div>
+                            <div class="notice-text">ภาพถ่ายหรือ PDF ใบเสร็จรับเงินจะต้องมีรายละเอียดผู้รับเงิน รายการชัดเจน และขนาดไฟล์ไม่เกิน 10MB</div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="form-panel" id="appScreen">
+                <div class="form-card">
+                    <div class="card-bar">
+                        <div class="card-bar-left">
+                            <div class="card-bar-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                            <div class="card-bar-text">
+                                <div class="card-bar-label">New Budget Entry</div>
+                                <div class="card-bar-title">บันทึกรายการใช้จ่ายใหม่</div>
+                            </div>
+                        </div>
+                        <div class="step-pills">
+                            <div class="step-pill active"></div>
+                            <div class="step-pill"></div>
+                            <div class="step-pill"></div>
+                        </div>
+                    </div>
+                    <div class="form-body">
+                        <form id="budgetForm">
+                            <div class="section-label">
+                                <span class="section-label-text"><i class="fa-solid fa-circle-info" style="margin-right:5px"></i>ข้อมูลทั่วไป</span>
+                                <div class="section-label-line"></div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">
+                                    <i class="fa-regular fa-calendar"></i> วันที่ทำรายการ <span class="req">*</span>
+                                </div>
+                                <input type="date" id="date" required />
+                            </div>
+                            <div class="field">
+                                <div class="field-label">
+                                    <i class="fa-solid fa-layer-group"></i> หมวดเงิน <span class="req">*</span>
+                                </div>
+                                <div class="custom-select-wrap" id="selectWrap">
+                                    <div class="custom-select-trigger" id="selectTrigger" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+                                        <span class="trigger-text" id="triggerText">กรุณาเลือกหมวดเงิน</span>
+                                        <i class="fa-solid fa-chevron-down trigger-icon"></i>
+                                    </div>
+                                    <div class="custom-dropdown" id="customDropdown" role="listbox">
+                                        <div class="dropdown-option" data-value="- ค่าจ้างชั่วคราว"><i class="fa-solid fa-check option-check"></i> <span>ค่าจ้างชั่วคราว</span> <span class="option-tag">บุคลากร</span></div>
+                                        <div class="dropdown-option" data-value="- ค่าตอบแทน"><i class="fa-solid fa-check option-check"></i> <span>ค่าตอบแทน</span> <span class="option-tag">ดำเนินงาน</span></div>
+                                        <div class="dropdown-option" data-value="- ค่าใช้สอย"><i class="fa-solid fa-check option-check"></i> <span>ค่าใช้สอย</span> <span class="option-tag">ดำเนินงาน</span></div>
+                                        <div class="dropdown-option" data-value="- ค่าวัสดุ"><i class="fa-solid fa-check option-check"></i> <span>ค่าวัสดุ</span> <span class="option-tag">ดำเนินงาน</span></div>
+                                        <div class="dropdown-option" data-value="- ค่าสาธารณูปโภค"><i class="fa-solid fa-check option-check"></i> <span>ค่าสาธารณูปโภค</span> <span class="option-tag">ดำเนินงาน</span></div>
+                                        <div class="dropdown-option" data-value="- ค่าครุภัณฑ์"><i class="fa-solid fa-check option-check"></i> <span>ค่าครุภัณฑ์</span> <span class="option-tag">ลงทุน</span></div>
+                                        <div class="dropdown-option" data-value="- ที่ดิน , สิ่งก่อสร้าง"><i class="fa-solid fa-check option-check"></i> <span>ที่ดิน / สิ่งก่อสร้าง</span> <span class="option-tag">ลงทุน</span></div>
+                                        <div class="dropdown-option" data-value="งบเงินอุดหนุน"><i class="fa-solid fa-check option-check"></i> <span>งบเงินอุดหนุน</span> <span class="option-tag">อุดหนุน</span></div>
+                                        <div class="dropdown-option" data-value="งบรายจ่ายอื่นๆ"><i class="fa-solid fa-check option-check"></i> <span>งบรายจ่ายอื่นๆ</span> <span class="option-tag">อื่นๆ</span></div>
+                                    </div>
+                                    <select id="category" class="real-select" required>
+                                        <option value="" disabled selected></option>
+                                        <option value="- ค่าจ้างชั่วคราว">- ค่าจ้างชั่วคราว</option>
+                                        <option value="- ค่าตอบแทน">- ค่าตอบแทน</option>
+                                        <option value="- ค่าใช้สอย">- ค่าใช้สอย</option>
+                                        <option value="- ค่าวัสดุ">- ค่าวัสดุ</option>
+                                        <option value="- ค่าสาธารณูปโภค">- ค่าสาธารณูปโภค</option>
+                                        <option value="- ค่าครุภัณฑ์">- ค่าครุภัณฑ์</option>
+                                        <option value="- ที่ดิน , สิ่งก่อสร้าง">- ที่ดิน , สิ่งก่อสร้าง</option>
+                                        <option value="งบเงินอุดหนุน">งบเงินอุดหนุน</option>
+                                        <option value="งบรายจ่ายอื่นๆ">งบรายจ่ายอื่นๆ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">
+                                    <i class="fa-regular fa-pen-to-square"></i> รายการ / รายละเอียด <span class="req">*</span>
+                                </div>
+                                <input type="text" id="details" required placeholder="เช่น ค่าอุปกรณ์ประกอบกิจกรรม" />
+                            </div>
+                            <div class="section-label">
+                                <span class="section-label-text"><i class="fa-solid fa-calculator" style="margin-right:5px"></i>คำนวณยอดเงิน</span>
+                                <div class="section-label-line"></div>
+                            </div>
+                            <div class="row-2">
+                                <div class="field" style="margin-bottom:0">
+                                    <div class="field-label">
+                                        <i class="fa-solid fa-hashtag"></i> จำนวนหน่วย <span class="req">*</span>
+                                    </div>
+                                    <input type="number" id="qty" min="1" required placeholder="0" oninput="calculateTotal()" />
+                                </div>
+                                <div class="field" style="margin-bottom:0">
+                                    <div class="field-label">
+                                        <i class="fa-solid fa-coins"></i> ราคาต่อหน่วย (บาท) <span class="req">*</span>
+                                    </div>
+                                    <input type="number" id="price" step="0.01" required placeholder="0.00" oninput="calculateTotal()" />
+                                </div>
+                            </div>
+                            <div class="field" style="margin-top:16px">
+                                <div class="field-label"><i class="fa-solid fa-money-bill-wave"></i> จำนวนเงินรวม</div>
+                                <div class="total-wrap">
+                                    <input type="text" id="total" class="total-input" readonly placeholder="0.00" />
+                                    <span class="total-suffix">บาท</span>
+                                </div>
+                            </div>
+                            <div class="section-label">
+                                <span class="section-label-text"><i class="fa-solid fa-paperclip" style="margin-right:5px"></i>ข้อมูลเพิ่มเติม</span>
+                                <div class="section-label-line"></div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label"><i class="fa-regular fa-comment-dots"></i> หมายเหตุ</div>
+                                <textarea id="note" rows="3" placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)"></textarea>
+                            </div>
+                            <div class="field">
+                                <div class="field-label"><i class="fa-solid fa-file-arrow-up"></i> แนบไฟล์หลักฐาน</div>
+                                <div class="file-zone" id="fileZone">
+                                    <input type="file" id="file" accept="image/*,.pdf" onchange="onFileChange(this)" />
+                                    <div class="file-zone-inner">
+                                        <div class="file-zone-icon"><i class="fa-regular fa-file-image"></i></div>
+                                        <div class="file-zone-label" id="fileLabel">คลิกหรือลากไฟล์มาวางที่นี่</div>
+                                        <div class="file-zone-hint">รองรับ รูปภาพ และ PDF ขนาดไม่เกิน 10 MB</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" id="submitBtn" class="submit-btn" style="margin-top: 10px;">
+                                <i class="fa-solid fa-floppy-disk"></i> <span id="submitText">บันทึกข้อมูล</span>
+                            </button>
+                            <div id="statusMessage" class="status-msg"></div>
+                        </form>
+                    </div>
+                    <div class="form-footer">
+                        <i class="fa-solid fa-copyright"></i> 2026 English Education, LRU
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbynESsU9hxZ-MfZo2hSodAb7KsYvoWhhfLJnUcR_X5Qpmkxx5VQlmKUg1dNQbrAmtcN/exec';
+
+        /* ─── Custom Dropdown ─── */
+        const trigger = document.getElementById('selectTrigger');
+        const dropdown = document.getElementById('customDropdown');
+        const trigText = document.getElementById('triggerText');
+        const realSelect = document.getElementById('category');
+
+        function openDropdown() { trigger.classList.add('open'); dropdown.classList.add('open'); trigger.setAttribute('aria-expanded', 'true'); }
+        function closeDropdown() { trigger.classList.remove('open'); dropdown.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); }
+
+        trigger.addEventListener('click', () => { trigger.classList.contains('open') ? closeDropdown() : openDropdown(); });
+        trigger.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger.classList.contains('open') ? closeDropdown() : openDropdown(); } if (e.key === 'Escape') closeDropdown(); });
+
+        document.querySelectorAll('.dropdown-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                const val = opt.dataset.value;
+                const label = opt.querySelector('span:first-of-type').textContent;
+                document.querySelectorAll('.dropdown-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                trigText.textContent = label;
+                trigger.classList.add('has-value');
+                realSelect.value = val;
+                closeDropdown();
+            });
+        });
+
+        document.addEventListener('click', e => { if (!document.getElementById('selectWrap').contains(e.target)) closeDropdown(); });
+
+        /* ─── Calculate ─── */
+        function calculateTotal() {
+            const qty = parseFloat(document.getElementById('qty').value) || 0;
+            const price = parseFloat(document.getElementById('price').value) || 0;
+            const total = qty * price;
+            document.getElementById('total').value = total > 0 ? total.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '';
+        }
+
+        /* ─── File ─── */
+        function onFileChange(input) {
+            const label = document.getElementById('fileLabel');
+            const icon = document.querySelector('.file-zone-icon i');
+            if (input.files.length > 0) {
+                const name = input.files[0].name;
+                const isImg = input.files[0].type.startsWith('image/');
+                label.textContent = name;
+                label.classList.add('selected');
+                icon.className = isImg ? 'fa-regular fa-image' : 'fa-regular fa-file-pdf';
+            } else {
+                label.textContent = 'คลิกหรือลากไฟล์มาวางที่นี่';
+                label.classList.remove('selected');
+                icon.className = 'fa-regular fa-file-image';
+            }
+        }
+
+        const fileZone = document.getElementById('fileZone');
+        fileZone.addEventListener('dragover', e => { e.preventDefault(); fileZone.classList.add('drag-over'); });
+        fileZone.addEventListener('dragleave', () => fileZone.classList.remove('drag-over'));
+        fileZone.addEventListener('drop', () => fileZone.classList.remove('drag-over'));
+
+        /* ─── Submit ─── */
+        document.getElementById('budgetForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const status = document.getElementById('statusMessage');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loader-mini"></div><span>กำลังบันทึก...</span>';
+            status.className = 'status-msg';
+            const fileInput = document.getElementById('file');
+            let fileBase64 = null, fileName = null, fileMimeType = null;
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                fileName = file.name;
+                fileMimeType = file.type;
+                fileBase64 = await new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onload = ev => resolve(ev.target.result);
+                    reader.readAsDataURL(file);
+                });
+            }
+            const payload = { date: document.getElementById('date').value, category: document.getElementById('category').value, details: document.getElementById('details').value, qty: document.getElementById('qty').value, price: document.getElementById('price').value, note: document.getElementById('note').value, fileName, fileMimeType, fileBase64 };
+            try {
+                const res = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
+                const result = await res.json();
+                if (result.status === 'success') {
+                    status.innerHTML = '<i class="fa-solid fa-circle-check"></i> บันทึกข้อมูลและอัปโหลดไฟล์สำเร็จ';
+                    status.className = 'status-msg success';
+                    document.getElementById('budgetForm').reset();
+                    document.getElementById('total').value = '';
+                    trigText.textContent = 'กรุณาเลือกหมวดเงิน';
+                    trigger.classList.remove('has-value');
+                    document.querySelectorAll('.dropdown-option').forEach(o => o.classList.remove('selected'));
+                    document.getElementById('fileLabel').textContent = 'คลิกหรือลากไฟล์มาวางที่นี่';
+                    document.getElementById('fileLabel').classList.remove('selected');
+                    document.querySelector('.file-zone-icon i').className = 'fa-regular fa-file-image';
+                } else { throw new Error(result.message); }
+            } catch (err) {
+                status.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> เกิดข้อผิดพลาด: ' + err.message;
+                status.className = 'status-msg error';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i><span>บันทึกข้อมูล</span>';
+            }
+        });
+
+        /* ─── Auth0 Integration ─── */
+        const AUTH0_DOMAIN = "litalkeducation.us.auth0.com";
+        const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";
+        const ALLOWED_EMAIL = "sb6740102220@lru.ac.th";
+        let auth0Client = null;
+
+        async function initAuth() {
+            try {
+                auth0Client = await auth0.createAuth0Client({ domain: AUTH0_DOMAIN, clientId: AUTH0_CLIENT_ID, authorizationParams: { redirect_uri: window.location.origin + window.location.pathname } });
+                const query = window.location.search;
+                if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
+                    await auth0Client.handleRedirectCallback();
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+                const isAuthenticated = await auth0Client.isAuthenticated();
+                if (isAuthenticated) {
+                    const user = await auth0Client.getUser();
+                    if (user.email === ALLOWED_EMAIL) {
+                        document.getElementById('userEmailDisplay').textContent = user.email;
+                        showScreen('appScreen');
+                    } else {
+                        document.getElementById('currentEmail').textContent = user.email;
+                        showScreen('deniedScreen');
+                    }
+                } else {
+                    showScreen('authScreen');
+                }
+            } catch (err) {
+                console.error("Auth0 init error:", err);
+                showScreen('authScreen');
+            }
+        }
+
+        function showScreen(screenId) {
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('deniedScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'none';
+            if (screenId === 'appScreen') {
+                document.getElementById('loginPage').classList.remove('show');
+                document.getElementById('mainApp').classList.add('show');
+                document.getElementById('appScreen').style.display = 'block';
+            } else {
+                document.getElementById('mainApp').classList.remove('show');
+                document.getElementById('loginPage').classList.add('show');
+                document.getElementById(screenId).style.display = 'block';
+            }
+        }
+
+        async function loginUser() {
+            if (auth0Client) await auth0Client.loginWithRedirect();
+        }
+
+        async function logoutUser() {
+            if (auth0Client) {
+                await auth0Client.logout({
+                    logoutParams: { returnTo: window.location.origin + window.location.pathname }
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initAuth();
+        });
+    </script>
+</body>
+
+</html>
