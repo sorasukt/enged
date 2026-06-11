@@ -33,9 +33,9 @@
             --ink-50: #6b7280;
             --ink-30: #9ca3af;
             --ink-15: #d1d5db;
-            --ink-07: #f3f4f6;
+            --ink-07: #f8fafc;
             --white: #ffffff;
-            --accent: #1a56db;
+            --accent: #0d1117;
             --success: #065f46;
             --success-bg: #ecfdf5;
             --success-bd: #a7f3d0;
@@ -45,9 +45,14 @@
             --warn: #92400e;
             --warn-bg: #fffbeb;
             --warn-bd: #fde68a;
-            --r-sm: 6px;
-            --r-md: 10px;
-            --r-lg: 14px;
+            --r-xs: 6px;
+            --r-sm: 10px;
+            --r-md: 14px;
+            --r-lg: 20px;
+            --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --card-shadow: 0 10px 30px -10px rgba(13, 17, 23, 0.05), 0 1px 3px rgba(13, 17, 23, 0.02);
+            --card-shadow-hover: 0 20px 40px -15px rgba(13, 17, 23, 0.1), 0 2px 8px rgba(13, 17, 23, 0.04);
         }
 
         html {
@@ -56,7 +61,10 @@
 
         body {
             font-family: 'Noto Sans Thai', sans-serif;
-            background: var(--ink-07);
+            background: #f8fafc;
+            background-image:
+                radial-gradient(circle at top right, rgba(99, 102, 241, 0.03) 0%, transparent 60%),
+                radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.03) 0%, transparent 60%);
             color: var(--ink);
             min-height: 100vh;
             opacity: 0;
@@ -333,37 +341,40 @@
             color: var(--ink);
         }
 
-        /* ════ HEADER ════ */
+        /* Site Header (Translucent Blur) */
         .site-header {
-            background: var(--white);
-            border-bottom: 1px solid var(--ink-15);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px) saturate(190%);
+            -webkit-backdrop-filter: blur(12px) saturate(190%);
+            border-bottom: 1px solid rgba(13, 17, 23, 0.08);
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: var(--transition);
         }
 
         .header-inner {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 32px;
-            height: 58px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
+            gap: 24px;
         }
 
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 14px;
             text-decoration: none;
         }
 
         .header-logo {
-            width: 30px;
-            height: 30px;
-            border-radius: var(--r-sm);
+            width: 32px;
+            height: 32px;
+            border-radius: var(--r-xs);
             overflow: hidden;
             flex-shrink: 0;
         }
@@ -374,35 +385,43 @@
             object-fit: cover;
         }
 
-        .header-brand-name {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--ink);
+        .header-brand-text {
+            line-height: 1.25;
         }
 
-        .header-brand-sub {
-            font-size: 10px;
+        .header-brand-name {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -.01em;
+        }
+
+        .header-brand-faculty {
+            font-size: 11px;
             color: var(--ink-50);
-            margin-top: 1px;
+            font-weight: 500;
+            margin-top: 2px;
         }
 
         .header-back {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--ink-50);
             text-decoration: none;
-            padding: 5px 11px;
+            padding: 6px 12px;
             border: 1px solid var(--ink-15);
-            border-radius: 100px;
-            transition: color .15s, border-color .15s;
+            border-radius: var(--r-sm);
+            transition: var(--transition);
         }
 
         .header-back:hover {
             color: var(--ink);
-            border-color: var(--ink-30);
+            border-color: var(--ink-70);
+            background: var(--ink-07);
+            transform: translateY(-1px);
         }
 
         .header-back i {
@@ -1759,16 +1778,15 @@
         <div class="header-inner">
             <a class="header-brand" href="/enged">
                 <div class="header-logo">
-                    <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico"
-                        alt="Logo">
+                    <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="Logo">
                 </div>
-                <div>
+                <div class="header-brand-text">
                     <div class="header-brand-name">English Education</div>
-                    <div class="header-brand-sub">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                    <div class="header-brand-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
                 </div>
             </a>
             <a href="/enged" class="header-back">
-                <i class="fa-solid fa-chevron-left"></i>หน้าหลัก
+                <i class="fa-solid fa-chevron-left"></i>กลับหน้าหลัก
             </a>
         </div>
     </header>

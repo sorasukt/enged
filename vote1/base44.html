@@ -6,256 +6,391 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ระบบตรวจสอบ (Base 44) | English Education</title>
     <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
     <style>
-        :root {
-            --primary-red: #d32f2f;
-            --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
-            --bg-gradient: radial-gradient(circle at 10% 20%, rgb(255, 240, 240) 0%, rgb(255, 255, 255) 90%);
-            --glass-bg: rgba(255, 255, 255, 0.92);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.9);
-            --text-main: #2c3e50;
-            --text-muted: #636e72;
-            --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.1);
-            --radius-lg: 24px;
-            --radius-md: 16px
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-gradient: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
-                --glass-bg: rgba(30, 30, 35, 0.85);
-                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-                --text-main: #e0e0e0;
-                --text-muted: #a0a0a0;
-                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
-            }
-
-            .bg-shape {
-                opacity: 0.2;
-            }
-
-            .glass-card {
-                background: rgba(30, 30, 35, 0.75) !important;
-                backdrop-filter: blur(40px) saturate(180%) !important;
-                -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
-                border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
-                box-shadow:
-                    0 8px 32px rgba(0, 0, 0, 0.4),
-                    0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
-            }
-
-            .glass-card::before {
-                background: linear-gradient(45deg,
-                        transparent 40%,
-                        rgba(255, 255, 255, 0.06) 50%,
-                        transparent 60%) !important;
-            }
-
-            .back-home-btn {
-                background: rgba(30, 30, 35, 0.8) !important;
-                border-color: rgba(255, 255, 255, 0.1) !important;
-                color: #ccc !important;
-            }
-
-            .back-home-btn:hover {
-                background: rgba(50, 50, 60, 0.9) !important;
-                color: var(--primary-red) !important;
-            }
-
-            .icon-box {
-                background: rgba(59, 130, 246, 0.15) !important;
-            }
-
-            .topic-item {
-                background: rgba(255, 255, 255, 0.03) !important;
-            }
-
-            footer {
-                color: #6b7280 !important;
-            }
-
-            html {
-                background: #121212 !important;
-            }
-        }
-
-        * {
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box
+        }
+
+        :root {
+            --ink: #0d1117;
+            --ink-70: #3d4451;
+            --ink-50: #6b7280;
+            --ink-30: #9ca3af;
+            --ink-15: #d1d5db;
+            --ink-07: #f8fafc;
+            --white: #ffffff;
+            --accent: #0d1117;
+            --success: #065f46;
+            --success-bg: #ecfdf5;
+            --success-bd: #a7f3d0;
+            --error: #991b1b;
+            --error-bg: #fef2f2;
+            --error-bd: #fecaca;
+            --warn: #92400e;
+            --warn-bg: #fffbeb;
+            --warn-bd: #fde68a;
+            --r-xs: 6px;
+            --r-sm: 10px;
+            --r-md: 14px;
+            --r-lg: 20px;
+            --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --card-shadow: 0 10px 30px -10px rgba(13, 17, 23, 0.05), 0 1px 3px rgba(13, 17, 23, 0.02);
+            --card-shadow-hover: 0 20px 40px -15px rgba(13, 17, 23, 0.1), 0 2px 8px rgba(13, 17, 23, 0.04);
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'IBM Plex Sans Thai', sans-serif;
-            background: var(--bg-gradient);
-            min-height: 100vh;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-x: hidden
-        }
-
-        .bg-shape {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: -1;
-            opacity: 0.6;
-            pointer-events: none
-        }
-
-        .shape-1 {
-            width: 300px;
-            height: 300px;
-            background: #ffcdd2;
-            top: -100px;
-            left: -100px
-        }
-
-        .shape-2 {
-            width: 250px;
-            height: 250px;
-            background: #ffebee;
-            bottom: -50px;
-            right: -50px
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex-grow: 1
-        }
-
-        /* Floating back button */
-        .back-home-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            border-radius: 30px;
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
-            z-index: 100;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem
-        }
-
-        .back-home-btn:hover {
-            background: white;
-            color: var(--primary-red);
-            transform: translateX(-3px);
-            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.15)
-        }
-
-        .icon-box {
-            width: 80px;
-            height: 80px;
-            border-radius: 24px;
-            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            color: var(--primary-red)
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border: 1.5px solid rgba(255, 255, 255, 0.6);
-            border-radius: var(--radius-lg);
-            box-shadow:
-                var(--shadow-soft),
-                0 0 0 1px rgba(255, 255, 255, 0.8) inset;
-            padding: 2rem;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-        }
-
-        .topic-item {
-            margin-bottom: 2rem;
+            font-family: 'Noto Sans Thai', sans-serif;
             background: #f8fafc;
-            padding: 1.5rem;
-            border-radius: var(--radius-md);
+            background-image:
+                radial-gradient(circle at top right, rgba(99, 102, 241, 0.03) 0%, transparent 60%),
+                radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.03) 0%, transparent 60%);
+            color: var(--ink);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Site Header */
+        .site-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px) saturate(190%);
+            -webkit-backdrop-filter: blur(12px) saturate(190%);
+            border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--r-xs);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-brand-text {
+            line-height: 1.25;
+        }
+
+        .header-brand-name {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -.01em;
+        }
+
+        .header-brand-faculty {
+            font-size: 11px;
+            color: var(--ink-50);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .header-back {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink-50);
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            transition: var(--transition);
+        }
+
+        .header-back:hover {
+            color: var(--ink);
+            border-color: var(--ink-70);
+            background: var(--ink-07);
+            transform: translateY(-1px);
+        }
+
+        .header-back i {
+            font-size: 9px;
+        }
+
+        /* Layout */
+        .page-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 32px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .info-panel {
+            position: sticky;
+            top: 110px;
+        }
+
+        .info-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--ink-50);
+            margin-bottom: 12px;
+        }
+
+        .info-eyebrow::before {
+            content: '';
+            width: 16px;
+            height: 2px;
+            background: var(--ink);
+            border-radius: 2px;
+        }
+
+        .info-heading {
+            font-size: clamp(28px, 3.2vw, 38px);
+            font-weight: 800;
+            line-height: 1.25;
+            color: var(--ink);
+            letter-spacing: -.02em;
+            margin-bottom: 16px;
+        }
+
+        .info-desc {
+            font-size: 14.5px;
+            line-height: 1.8;
+            color: var(--ink-50);
+            margin-bottom: 32px;
+            max-width: 440px;
+        }
+
+        /* Cards and Elements */
+        .form-card {
+            background: var(--white);
+            border: 1px solid rgba(13, 17, 23, 0.06);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .form-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            border-color: rgba(13, 17, 23, 0.12);
+        }
+
+        .card-bar {
+            background: var(--ink);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(13, 17, 23, 0.05);
+        }
+
+        .card-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-bar-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            color: var(--white);
+        }
+
+        .card-bar-text {
+            line-height: 1.2;
+        }
+
+        .card-bar-label {
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .4);
+        }
+
+        .card-bar-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--white);
+            margin-top: 2px;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* Topic Item Container */
+        .topic-item {
+            margin-bottom: 24px;
+            background: var(--ink-07);
+            border: 1px solid var(--ink-15);
+            padding: 20px;
+            border-radius: var(--r-md);
+            transition: var(--transition);
+        }
+
+        .topic-item:hover {
+            background: var(--white);
+            border-color: var(--ink-30);
+            box-shadow: var(--card-shadow);
         }
 
         .topic-title {
-            font-weight: 700;
-            margin-bottom: 0.75rem;
+            font-weight: 800;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            color: var(--text-main);
-            font-size: 1.1rem;
+            gap: 8px;
+            color: var(--ink);
+            font-size: 15px;
+        }
+
+        .topic-title i {
+            font-size: 16px;
+        }
+
+        .topic-content {
+            font-size: 13.5px;
+            color: var(--ink-70);
+            line-height: 1.75;
+            font-weight: 500;
         }
 
         .topic-content ul {
-            padding-left: 1.5rem;
-            margin-top: 0.5rem;
+            padding-left: 18px;
+            margin-top: 8px;
         }
 
         .topic-content li {
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-            line-height: 1.6;
+            margin-bottom: 6px;
         }
 
-        .topic-content p {
-            line-height: 1.6;
+        .topic-content li b {
+            color: var(--ink);
+            font-weight: 700;
         }
 
-        /* ImageViewer Lightbox */
+        /* Diagrams style */
+        .diagram-img {
+            width: 100%;
+            border-radius: var(--r-xs);
+            margin-top: 8px;
+            cursor: pointer;
+            border: 1px solid var(--ink-15);
+            transition: var(--transition);
+        }
+
+        .diagram-img:hover {
+            transform: scale(1.015);
+            border-color: var(--ink-70);
+            box-shadow: var(--card-shadow);
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            border-radius: var(--r-sm);
+            padding: 14px 20px;
+            font-family: inherit;
+            font-size: 14.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(13, 17, 23, 0.15);
+        }
+
+        .btn-primary:hover {
+            background: var(--ink-70);
+            transform: translateY(-2px);
+        }
+
+        /* Lightbox Image Viewer Overlay */
         .image-viewer-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(13, 17, 23, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 3000;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+            transition: var(--transition);
+            padding: 24px;
         }
 
         .image-viewer-overlay.active {
@@ -264,12 +399,13 @@
         }
 
         .image-viewer-content {
-            max-width: 90%;
+            max-width: 100%;
             max-height: 90vh;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
+            border-radius: var(--r-md);
+            box-shadow: 0 30px 60px -15px rgba(13, 17, 23, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.95);
+            transition: var(--transition-bounce);
         }
 
         .image-viewer-overlay.active .image-viewer-content {
@@ -278,167 +414,207 @@
 
         .image-viewer-close {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            color: white;
-            font-size: 2rem;
+            top: 24px;
+            right: 24px;
+            color: var(--white);
+            font-size: 18px;
             cursor: pointer;
             z-index: 3001;
-            background: rgba(255, 255, 255, 0.1);
-            width: 50px;
-            height: 50px;
+            background: rgba(13, 17, 23, 0.5);
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
         .image-viewer-close:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--ink);
             transform: rotate(90deg);
         }
 
         footer {
-            margin-top: auto;
-            padding-top: 2rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            opacity: 0.7;
-            text-align: center
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: var(--ink-30);
+            line-height: 1.6;
         }
 
-        @media(max-width:600px) {
-            body {
-                padding: 1rem
+        /* Responsive styling */
+        @media (max-width: 900px) {
+            .page-layout {
+                grid-template-columns: 1fr;
+                padding: 32px 20px 64px;
+                gap: 32px;
             }
 
-            .glass-card {
-                padding: 1.5rem
+            .info-panel {
+                position: static;
             }
 
-            .topic-item {
-                padding: 1rem
+            .header-inner {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .page-layout {
+                padding: 24px 16px 60px;
+            }
+
+            .header-brand-faculty {
+                display: none;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
 
-    <!-- Floating back button -->
-    <a href="results" class="back-home-btn">
-        <i class="fas fa-chevron-left"></i> ผลการเลือกตั้ง
-    </a>
-
-    <div class="container">
-        <div class="icon-box">
-            <i class="fas fa-shield-alt"></i>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="header-brand" href="/enged">
+                <div class="header-logo">
+                    <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="Logo">
+                </div>
+                <div class="header-brand-text">
+                    <div class="header-brand-name">English Education</div>
+                    <div class="header-brand-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                </div>
+            </a>
+            <a href="results" class="header-back">
+                <i class="fa-solid fa-chevron-left"></i>กลับผลการเลือกตั้ง
+            </a>
         </div>
+    </header>
 
-        <div class="glass-card">
-            <h1>ระบบตรวจสอบ (Base 44)</h1>
-            <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">
-                รายละเอียดโครงสร้างความโปร่งใสของระบบเลือกตั้ง
-            </p>
+    <main class="page-layout">
 
-            <div class="topic-item">
-                <div class="topic-title">
-                    <i class="fas fa-sitemap" style="color: #64748b;"></i>
-                    ภาพรวมการทำงาน (System Architecture)
+        <!-- Left Panel: Info & Eyebrow -->
+        <aside class="info-panel">
+            <div class="info-eyebrow">Technical Architecture</div>
+            <h1 class="info-heading">ระบบตรวจสอบ<br>กลไกความโปร่งใส</h1>
+            <p class="info-desc">รายละเอียดโครงสร้างระบบ สถาปัตยกรรมฐานข้อมูล และกลไกความปลอดภัยเพื่อป้องกันการทุจริตเลือกตั้งด้วยกระบวนการเข้ารหัสผ่านระบบคลาวด์</p>
+        </aside>
+
+        <!-- Right Panel: Architecture Content Card -->
+        <section class="main-panel">
+            <div class="form-card">
+                <div class="card-bar">
+                    <div class="card-bar-left">
+                        <div class="card-bar-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="card-bar-text">
+                            <div class="card-bar-label">Transparency System</div>
+                            <div class="card-bar-title">โครงสร้างการทำงานสถาปัตยกรรม</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="topic-content">
-                    <img src="img/หลักการทำงานของระบบ.png" alt="System Architecture"
-                        style="width: 100%; border-radius: 8px; margin-top: 0.5rem; cursor: pointer; transition: transform 0.2s;"
-                        onclick="viewImage(this.src)" onmouseover="this.style.transform='scale(1.02)'"
-                        onmouseout="this.style.transform='scale(1)'" title="คลิกเพื่อขยายภาพ">
+
+                <div class="card-body">
+                    
+                    <div class="topic-item">
+                        <div class="topic-title">
+                            <i class="fa-solid fa-sitemap" style="color: var(--ink-70);"></i>
+                            ภาพรวมการทำงาน (System Architecture)
+                        </div>
+                        <div class="topic-content">
+                            <p style="margin-bottom: 12px;">ภาพประกอบหลักการทำงานและโฟลว์การแลกเปลี่ยนข้อมูลระหว่างไคลเอนต์และเซิร์ฟเวอร์:</p>
+                            <img src="img/หลักการทำงานของระบบ.png" alt="System Architecture" class="diagram-img" onclick="viewImage(this.src)" title="คลิกเพื่อขยายภาพ">
+                        </div>
+                    </div>
+
+                    <div class="topic-item">
+                        <div class="topic-title">
+                            <i class="fa-solid fa-database" style="color: var(--success);"></i>
+                            1. Google Sheets (Database)
+                        </div>
+                        <div class="topic-content">
+                            <p>มีชีทหลัก 3 แผ่นในการประมวลผลและจัดเก็บข้อมูลอย่างปลอดภัย:</p>
+                            <ul>
+                                <li><b>รายชื่อนักศึกษา:</b> จัดเก็บรหัสผู้มีสิทธิ์ ข้อมูลกลุ่มเรียน และชื่อ-สกุล</li>
+                                <li><b>ข้อมูลผู้สมัคร:</b> จัดเก็บรายชื่อ หมายเลข ลิงก์ภาพถ่าย และสังกัดพรรค</li>
+                                <li><b>การเลือกตั้ง:</b> บันทึกรายละเอียดการเลือกตั้งของผู้ใช้สิทธิ์และคะแนนโหวต</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="topic-item">
+                        <div class="topic-title">
+                            <i class="fa-solid fa-gears" style="color: var(--warn);"></i>
+                            2. Google Script (Backend API)
+                        </div>
+                        <div class="topic-content">
+                            <p>ทำหน้าที่เป็น API เซิร์ฟเวอร์รองรับคำขอในรูปแบบ JSON:</p>
+                            <ul>
+                                <li><code>checkRights()</code>: ตรวจสอบสิทธิ์เลือกตั้งของนักศึกษาเพื่ออนุญาตการเข้าคูหา</li>
+                                <li><code>getCandidates()</code>: ดึงข้อมูลหมายเลขและข้อมูลผู้สมัครทั้งหมด</li>
+                                <li><code>saveVote()</code>: ส่งข้อมูลโหวตบันทึกสถิติและเรียกใช้ Discord Webhook</li>
+                                <li><code>getResults()</code>: ประมวลผลและส่งยอดนับคะแนนสดแบบเรียลไทม์</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="topic-item">
+                        <div class="topic-title">
+                            <i class="fa-solid fa-display" style="color: #3b82f6;"></i>
+                            3. หน้าเว็บส่วนหน้า (Frontend Features)
+                        </div>
+                        <div class="topic-content">
+                            <p>การแสดงผลส่วนผู้ใช้งานและคุณสมบัติหลัก:</p>
+                            <ul>
+                                <li><b>Real-time Check:</b> ระบบเปิด-ปิดคูหาเลือกตั้งตามเวลาจริงของเซิร์ฟเวอร์</li>
+                                <li><b>Auto Refresh:</b> หน้าแสดงผลนับคะแนนจะดึงข้อมูลใหม่ทุก ๆ 30 วินาที</li>
+                                <li><b>Leading Badge:</b> คำนวณผู้มีคะแนนสูงสุดแบบไดนามิกพร้อมเหรียญทองสถานะ</li>
+                                <li><b>Progress Bar:</b> แสดงความคืบหน้าของคะแนนเสียงเป็นกราฟแท่งแบบเคลื่อนไหว</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="topic-item">
+                        <div class="topic-title">
+                            <i class="fa-solid fa-lock" style="color: var(--error);"></i>
+                            4. ระบบจำลองบล็อกเชน (Base 44)
+                        </div>
+                        <div class="topic-content">
+                            <p>การจำลองระบบป้องกันความถูกต้องของข้อมูล (Data Integrity Simulation):</p>
+                            <ul>
+                                <li><b>Status Indicator:</b> ไฟกะพริบเพื่อระบุสถานะการออนไลน์และระดับการประมวลผลข้อมูล</li>
+                                <li><b>Integrity Hash:</b> การเข้ารหัสแบบ SHA เพื่อสร้างรหัสสแตมป์บล็อกประวัติ เปลี่ยนรหัสทุก ๆ 5 วินาที</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="topic-item">
+                        <div class="topic-title">
+                            <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
+                            5. Discord Notifications Webhook
+                        </div>
+                        <div class="topic-content">
+                            <p>ทุกครั้งที่มีผู้ร่วมลงคะแนนเสร็จสิ้น ระบบหลังบ้านจะเรียกใช้ Webhook เพื่อส่งข้อความรายงานแจ้งเตือนคะแนนเสียงใหม่ในดิสคอร์ดของเจ้าหน้าที่แบบอัตโนมัติ</p>
+                        </div>
+                    </div>
+
+                    <a href="results" class="btn btn-primary" style="margin-top: 16px;">
+                        <i class="fa-solid fa-arrow-left"></i> กลับไปหน้าผลการเลือกตั้ง
+                    </a>
                 </div>
             </div>
 
-            <div class="topic-item">
-                <div class="topic-title">
-                    <i class="fas fa-database" style="color: #10b981;"></i>
-                    1. Google Sheet (Database)
-                </div>
-                <div class="topic-content">
-                    <p>มี 3 ชีทหลักในการจัดเก็บข้อมูล:</p>
-                    <ul>
-                        <li><b>รายชื่อนักศึกษา:</b> เก็บข้อมูลผู้มีสิทธิ์เลือกตั้ง (รหัส, กลุ่ม, ชื่อ)</li>
-                        <li><b>ข้อมูลผู้สมัคร:</b> เก็บหมายเลขและชื่อพรรค/ผู้สมัคร</li>
-                        <li><b>การเลือกตั้ง:</b> บันทึกผลการลงคะแนน (ใครโหวตหมายเลขอะไร)</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="topic-item">
-                <div class="topic-title">
-                    <i class="fas fa-cogs" style="color: #f59e0b;"></i>
-                    2. Google Script (Backend)
-                </div>
-                <div class="topic-content">
-                    <p>ทำหน้าที่เป็น API Server รับ Request และส่งข้อมูลกลับ:</p>
-                    <ul>
-                        <li><code>checkRights()</code>: ตรวจสอบสิทธิ์และสถานะการโหวต</li>
-                        <li><code>getCandidates()</code>: ดึงรายชื่อผู้สมัคร</li>
-                        <li><code>saveVote()</code>: บันทึกคะแนน + ส่งแจ้งเตือน Discord</li>
-                        <li><code>getResults()</code>: นับคะแนนและส่งผลกลับเป็น JSON</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="topic-item">
-                <div class="topic-title">
-                    <i class="fas fa-desktop" style="color: #3b82f6;"></i>
-                    3. หน้าเว็บ (Frontend) & Features
-                </div>
-                <div class="topic-content">
-                    <p>ขั้นตอนการทำงานและฟีเจอร์:</p>
-                    <ul>
-                        <li><b>Real-time Check:</b> ตรวจสอบเวลาเลือกตั้งอัตโนมัติ</li>
-                        <li><b>Auto Refresh:</b> โหลดผลคะแนนใหม่ทุก 30 วินาที 🔄</li>
-                        <li><b>Leading Badge:</b> แสดงสัญลักษณ์ผู้ที่มีคะแนนนำ 🏆</li>
-                        <li><b>Progress Bar:</b> แสดง % คะแนนพร้อม Animation 📊</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="topic-item">
-                <div class="topic-title">
-                    <i class="fas fa-shield-alt" style="color: #ef4444;"></i>
-                    4. ระบบ Base 44 (จำลอง)
-                </div>
-                <div class="topic-content">
-                    <p>องค์ประกอบเพื่อแสดงความโปร่งใส (Transparency Simulation):</p>
-                    <ul>
-                        <li><b>Status Dot:</b> แสดงสถานะการเชื่อมต่อ (Online)</li>
-                        <li><b>Integrity Hash:</b> แสดง ID สุ่มเพื่อจำลองการตรวจสอบข้อมูล (เปลี่ยนทุก 5 วินาที)</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="topic-item">
-                <div class="topic-title">
-                    <i class="fab fa-discord" style="color: #5865F2;"></i>
-                    5. Notification
-                </div>
-                <div class="topic-content">
-                    <p>เมื่อมีการโหวต ระบบจะส่ง Webhook ไปยัง Discord เพื่อแจ้งเตือนแบบ Real-time: "📢
-                        มีผู้ลงคะแนนใหม่ให้กับ หมายเลข X"</p>
-                </div>
-            </div>
-
-        </div>
-        <footer>&copy; 2026 English Education, All rights reserved. <br>
-            Made with ❤️ by Sorasuk Thongkum</footer>
-    </div>
+            <footer>
+                &copy; 2026 English Education, LRU. <br>
+                Made with ❤️ by Sorasuk Thongkum
+            </footer>
+        </section>
+    </main>
 
     <!-- Image Viewer Overlay -->
     <div class="image-viewer-overlay" id="imageViewer" onclick="closeImageViewer()">
         <div class="image-viewer-close">
-            <i class="fas fa-times"></i>
+            <i class="fa-solid fa-xmark"></i>
         </div>
         <img class="image-viewer-content" id="imageViewerImg" src="" alt="Full View">
     </div>

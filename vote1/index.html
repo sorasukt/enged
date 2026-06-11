@@ -20,525 +20,444 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <style>
-        :root {
-            --primary-red: #d32f2f;
-            --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
-            --bg-gradient: radial-gradient(circle at 10% 20%, rgb(255, 240, 240) 0%, rgb(255, 255, 255) 90%);
-            --glass-bg: rgba(255, 255, 255, 0.92);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.9);
-            --text-main: #2c3e50;
-            --text-muted: #636e72;
-            --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.1);
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --success-color: #10b981;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-gradient: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
-                --glass-bg: rgba(30, 30, 35, 0.85);
-                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-                --text-main: #e0e0e0;
-                --text-muted: #a0a0a0;
-                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
-            }
-
-            .bg-shape {
-                opacity: 0.2;
-            }
-
-            .glass-card {
-                background: var(--glass-bg) !important;
-                border-color: rgba(255, 255, 255, 0.1) !important;
-            }
-
-            .back-home-btn {
-                background: rgba(30, 30, 35, 0.8) !important;
-                border-color: rgba(255, 255, 255, 0.1) !important;
-                color: #ccc !important;
-            }
-
-            .back-home-btn:hover {
-                background: rgba(50, 50, 60, 0.9) !important;
-                color: var(--primary-red) !important;
-            }
-
-            .icon-container {
-                background: rgba(59, 130, 246, 0.15) !important;
-            }
-
-            .icon-container.active {
-                background: rgba(16, 185, 129, 0.15) !important;
-            }
-
-            .schedule-box,
-            .time-box,
-            .closing-time-box {
-                background: rgba(255, 255, 255, 0.05) !important;
-                border-color: rgba(255, 255, 255, 0.1) !important;
-                color: #e0e0e0 !important;
-            }
-
-            .schedule-time {
-                color: #e0e0e0 !important;
-            }
-
-            .time-value {
-                color: var(--primary-red) !important;
-            }
-
-            .time-label {
-                color: #94a3b8 !important;
-            }
-
-            .notice-card {
-                background: rgba(211, 47, 47, 0.1) !important;
-                border-color: rgba(211, 47, 47, 0.3) !important;
-            }
-
-            .notice-title {
-                color: var(--primary-red) !important;
-            }
-
-            .notice-text {
-                color: #e0e0e0 !important;
-            }
-
-            .closing-countdown {
-                background: rgba(255, 152, 0, 0.1) !important;
-                border-color: rgba(255, 152, 0, 0.3) !important;
-            }
-
-            .voting-instructions {
-                background: rgba(16, 185, 129, 0.1) !important;
-                border-color: rgba(16, 185, 129, 0.3) !important;
-                color: #e0e0e0 !important;
-            }
-
-            .voting-instructions li {
-                color: #e0e0e0 !important;
-            }
-
-            .btn-secondary {
-                background: transparent !important;
-                border-color: var(--primary-red) !important;
-                color: var(--primary-red) !important;
-            }
-
-            .btn-secondary:hover {
-                background: rgba(211, 47, 47, 0.1) !important;
-            }
-
-            .icon-container.closed {
-                background: rgba(255, 255, 255, 0.1) !important;
-                color: #757575 !important;
-            }
-
-            footer {
-                color: #6b7280 !important;
-            }
-
-            /* Fix white edges on mobile */
-            html {
-                background: #0f0f13 !important;
-            }
-        }
-
-        * {
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+        }
+
+        :root {
+            --ink: #0d1117;
+            --ink-70: #3d4451;
+            --ink-50: #6b7280;
+            --ink-30: #9ca3af;
+            --ink-15: #d1d5db;
+            --ink-07: #f8fafc;
+            --white: #ffffff;
+            --accent: #0d1117;
+            --success: #065f46;
+            --success-bg: #ecfdf5;
+            --success-bd: #a7f3d0;
+            --error: #991b1b;
+            --error-bg: #fef2f2;
+            --error-bd: #fecaca;
+            --warn: #92400e;
+            --warn-bg: #fffbeb;
+            --warn-bd: #fde68a;
+            --r-xs: 6px;
+            --r-sm: 10px;
+            --r-md: 14px;
+            --r-lg: 20px;
+            --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --card-shadow: 0 10px 30px -10px rgba(13, 17, 23, 0.05), 0 1px 3px rgba(13, 17, 23, 0.02);
+            --card-shadow-hover: 0 20px 40px -15px rgba(13, 17, 23, 0.1), 0 2px 8px rgba(13, 17, 23, 0.04);
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'IBM Plex Sans Thai', sans-serif;
-            background: var(--bg-gradient);
+            font-family: 'Noto Sans Thai', sans-serif;
+            background: #f8fafc;
+            background-image:
+                radial-gradient(circle at top right, rgba(99, 102, 241, 0.03) 0%, transparent 60%),
+                radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.03) 0%, transparent 60%);
+            color: var(--ink);
             min-height: 100vh;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
             overflow-x: hidden;
+            position: relative;
         }
 
-        .bg-shape {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: -1;
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        .shape-1 {
-            width: 300px;
-            height: 300px;
-            background: #ffcdd2;
-            top: -100px;
-            left: -100px;
-        }
-
-        .shape-2 {
-            width: 250px;
-            height: 250px;
-            background: #ffebee;
-            bottom: -50px;
-            right: -50px;
-        }
-
-        .shape-3 {
-            width: 200px;
-            height: 200px;
-            background: #fce4ec;
-            top: 40%;
-            right: 5%;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            25% {
-                transform: translate(30px, -40px) scale(1.05);
-            }
-
-            50% {
-                transform: translate(-20px, 30px) scale(0.95);
-            }
-
-            75% {
-                transform: translate(40px, 20px) scale(1.02);
-            }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .container {
-            width: 100%;
-            max-width: 580px;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex-grow: 1;
-        }
-
-        /* Floating back button */
-        .back-home-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            border-radius: 30px;
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
+        /* Site Header */
+        .site-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px) saturate(190%);
+            -webkit-backdrop-filter: blur(12px) saturate(190%);
+            border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+            position: sticky;
+            top: 0;
             z-index: 100;
-            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 70px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: space-between;
+            gap: 24px;
         }
 
-        .back-home-btn:hover {
-            background: white;
-            color: var(--primary-red);
-            transform: translateX(-3px);
-            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.15);
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
         }
 
-        .icon-container {
-            width: 80px;
-            height: 80px;
-            border-radius: 24px;
-            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--r-xs);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-brand-text {
+            line-height: 1.25;
+        }
+
+        .header-brand-name {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -.01em;
+        }
+
+        .header-brand-faculty {
+            font-size: 11px;
+            color: var(--ink-50);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .header-back {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink-50);
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            transition: var(--transition);
+        }
+
+        .header-back:hover {
+            color: var(--ink);
+            border-color: var(--ink-70);
+            background: var(--ink-07);
+            transform: translateY(-1px);
+        }
+
+        .header-back i {
+            font-size: 9px;
+        }
+
+        /* Layout */
+        .page-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 32px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .info-panel {
+            position: sticky;
+            top: 110px;
+        }
+
+        .info-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--ink-50);
+            margin-bottom: 12px;
+        }
+
+        .info-eyebrow::before {
+            content: '';
+            width: 16px;
+            height: 2px;
+            background: var(--ink);
+            border-radius: 2px;
+        }
+
+        .info-heading {
+            font-size: clamp(28px, 3.2vw, 38px);
+            font-weight: 800;
+            line-height: 1.25;
+            color: var(--ink);
+            letter-spacing: -.02em;
+            margin-bottom: 16px;
+        }
+
+        .info-desc {
+            font-size: 14.5px;
+            line-height: 1.8;
+            color: var(--ink-50);
+            margin-bottom: 32px;
+            max-width: 440px;
+        }
+
+        /* Cards and Elements */
+        .form-card,
+        .steps-overview,
+        .notice-card,
+        .schedule-box,
+        .closing-countdown {
+            background: var(--white);
+            border: 1px solid rgba(13, 17, 23, 0.06);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .form-card:hover,
+        .steps-overview:hover,
+        .notice-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            border-color: rgba(13, 17, 23, 0.12);
+        }
+
+        .card-bar {
+            background: var(--ink);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(13, 17, 23, 0.05);
+        }
+
+        .card-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-bar-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--r-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            color: var(--primary-red);
-            animation: fadeInDown 0.6s ease-out;
-            transition: all 0.5s ease;
+            font-size: 15px;
+            color: var(--white);
+        }
+
+        .card-bar-text {
+            line-height: 1.2;
+        }
+
+        .card-bar-label {
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .4);
+        }
+
+        .card-bar-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--white);
+            margin-top: 2px;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* Onboarding steps checklist */
+        .steps-overview {
+            padding: 24px;
+        }
+
+        .steps-overview-title {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+        }
+
+        .ov-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px dashed var(--ink-15);
+            position: relative;
+        }
+
+        .ov-step:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .ov-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid var(--ink);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--ink);
+            flex-shrink: 0;
+            z-index: 2;
+            box-shadow: 0 2px 4px rgba(13, 17, 23, 0.05);
+        }
+
+        .ov-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .ov-sub {
+            font-size: 12px;
+            color: var(--ink-50);
+            margin-top: 3px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        /* Status Icon Container */
+        .icon-container {
+            width: 76px;
+            height: 76px;
+            border-radius: var(--r-md);
+            background: var(--ink-07);
+            border: 1px solid var(--ink-15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 28px;
+            color: var(--ink);
+            transition: var(--transition);
         }
 
         .icon-container.active {
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            color: var(--success-color);
+            background: var(--success-bg);
+            color: var(--success);
+            border-color: var(--success-bd);
         }
 
-        /* Hide elements when voting is open */
-        .hide-when-open {
-            display: none !important;
+        .icon-container.closed {
+            background: var(--error-bg);
+            color: var(--error);
+            border-color: var(--error-bd);
         }
 
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: var(--glass-border);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-soft);
-            padding: 2rem;
-            width: 100%;
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-align: center;
-        }
-
-        .subtitle {
-            font-size: 1rem;
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .schedule-box {
-            background: white;
-            border-radius: var(--radius-md);
-            padding: 1.25rem;
-            text-align: center;
-            margin: 1.5rem 0;
-            border: 1px solid #e2e8f0;
-        }
-
-        .schedule-time {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        .schedule-time span {
-            display: block;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--primary-red);
-            margin-top: 0.5rem;
-        }
-
+        /* Countdown Elements */
         .countdown-label {
+            font-size: 11.5px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--ink-50);
             text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
+            margin-bottom: 12px;
         }
 
         .countdown-container {
-            display: flex;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
         }
 
         .time-box {
-            background: white;
-            border-radius: var(--radius-md);
-            padding: 1rem;
-            min-width: 70px;
+            background: var(--ink-07);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            padding: 12px;
             text-align: center;
-            border: 1px solid #e2e8f0;
         }
 
         .time-value {
             display: block;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--primary-red);
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--ink);
             line-height: 1;
         }
 
         .time-label {
             display: block;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-        }
-
-        .notice-card {
-            background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
-            border: 1px solid rgba(211, 47, 47, 0.2);
-            border-radius: var(--radius-md);
-            padding: 1.25rem;
-            margin-top: 1.5rem;
-        }
-
-        .notice-title {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            color: var(--primary-red);
-            margin-bottom: 0.5rem;
-        }
-
-        .notice-text {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .notice-text a {
-            color: var(--primary-red);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .notice-text a:hover {
-            text-decoration: underline;
-        }
-
-        /* Voting Instructions - shown after countdown ends */
-        .voting-instructions {
-            display: none;
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            animation: fadeInUp 0.5s ease-out;
-        }
-
-        .voting-instructions.show {
-            display: block;
-        }
-
-        .voting-instructions-title {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 10px;
             font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--success-color);
-            margin-bottom: 1rem;
+            color: var(--ink-50);
+            text-transform: uppercase;
+            margin-top: 4px;
         }
 
-        .voting-instructions ol {
-            padding-left: 1.25rem;
-            margin: 0;
+        /* Schedule and closing box styling */
+        .schedule-box {
+            background: var(--ink-07);
+            border: 1px solid var(--ink-15);
+            padding: 18px;
+            margin-bottom: 24px;
+            border-radius: var(--r-md);
         }
 
-        .voting-instructions li {
-            font-size: 0.9rem;
-            color: var(--text-main);
-            line-height: 1.8;
-            margin-bottom: 0.5rem;
+        .schedule-time {
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: var(--ink-70);
+            text-align: center;
         }
 
-        .voting-instructions li:last-child {
-            margin-bottom: 0;
+        .schedule-time span {
+            display: block;
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--ink);
+            margin: 4px 0;
         }
 
-        .voting-instructions li::marker {
-            color: var(--success-color);
-            font-weight: 600;
-        }
-
-        /* Action buttons - shown after countdown ends */
-        .action-buttons {
-            display: none;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .action-buttons.show {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius-md);
-            font-family: inherit;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: var(--primary-red);
-            border: 2px solid var(--primary-red);
-        }
-
-        .btn-secondary:hover {
-            background: #fff5f5;
-            transform: translateY(-2px);
-        }
-
-        /* Closing countdown - shown when voting is open */
         .closing-countdown {
             display: none;
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            border: 1px solid rgba(255, 152, 0, 0.3);
-            border-radius: var(--radius-md);
-            padding: 1.25rem;
-            margin-top: 1.5rem;
+            background: var(--warn-bg);
+            border: 1px solid var(--warn-bd);
+            padding: 18px;
             text-align: center;
+            margin-bottom: 24px;
+            border-radius: var(--r-md);
         }
 
         .closing-countdown.show {
@@ -549,208 +468,400 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            color: #f57c00;
-            margin-bottom: 0.75rem;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--warn);
+            margin-bottom: 12px;
+            text-transform: uppercase;
         }
 
         .closing-countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 240px;
+            margin: 0 auto;
         }
 
         .closing-time-box {
-            background: white;
-            border-radius: 8px;
-            padding: 0.5rem 0.75rem;
-            min-width: 50px;
-            text-align: center;
-            border: 1px solid rgba(255, 152, 0, 0.2);
+            background: var(--white);
+            border: 1px solid var(--warn-bd);
+            border-radius: var(--r-sm);
+            padding: 8px;
         }
 
         .closing-time-value {
             display: block;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #f57c00;
-            line-height: 1;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--warn);
         }
 
         .closing-time-label {
             display: block;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
+            font-size: 9px;
+            color: var(--warn);
+            font-weight: 700;
+            margin-top: 2px;
         }
 
-        /* Voting closed state */
-        .icon-container.closed {
-            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
-            color: #9e9e9e;
+        /* Notice Card */
+        .notice-inner {
+            padding: 20px 24px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            background: rgba(13, 17, 23, 0.01);
+        }
+
+        .notice-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--ink-70);
+            flex-shrink: 0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .notice-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .notice-text {
+            font-size: 13px;
+            color: var(--ink-50);
+            line-height: 1.75;
+            font-weight: 500;
+        }
+
+        .notice-text a {
+            color: var(--ink);
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        /* Voting Instructions */
+        .voting-instructions {
+            display: none;
+            background: var(--success-bg);
+            border: 1px solid var(--success-bd);
+            padding: 20px;
+            border-radius: var(--r-md);
+            margin-bottom: 24px;
+        }
+
+        .voting-instructions.show {
+            display: block;
+        }
+
+        .voting-instructions-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--success);
+            margin-bottom: 12px;
+        }
+
+        .voting-instructions ol {
+            padding-left: 18px;
+        }
+
+        .voting-instructions li {
+            font-size: 13px;
+            color: #047857;
+            line-height: 1.7;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .voting-instructions li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Button controls */
+        .action-buttons {
+            display: none;
+            gap: 12px;
+        }
+
+        .action-buttons.show {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            border-radius: var(--r-sm);
+            padding: 14px 20px;
+            font-family: inherit;
+            font-size: 14.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(13, 17, 23, 0.15);
+        }
+
+        .btn-primary:hover {
+            background: var(--ink-70);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--ink);
+            border: 1.5px solid var(--ink-15);
+        }
+
+        .btn-secondary:hover {
+            background: var(--ink-07);
+            border-color: var(--ink);
+            transform: translateY(-2px);
+        }
+
+        .hide-when-open {
+            display: none !important;
         }
 
         footer {
-            margin-top: auto;
-            padding-top: 2rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            opacity: 0.7;
             text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: var(--ink-30);
         }
 
-        @media (max-width: 600px) {
-            body {
-                padding: 1rem;
+        /* Responsive styling */
+        @media (max-width: 900px) {
+            .page-layout {
+                grid-template-columns: 1fr;
+                padding: 32px 20px 64px;
+                gap: 32px;
             }
 
-            h1 {
-                font-size: 1.5rem;
+            .info-panel {
+                position: static;
             }
 
-            .glass-card {
-                padding: 1.5rem;
-                border-radius: var(--radius-md);
+            .header-inner {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .page-layout {
+                padding: 24px 16px 60px;
             }
 
-            .icon-container {
-                width: 64px;
-                height: 64px;
-                font-size: 1.5rem;
-            }
-
-            .countdown-container {
-                gap: 0.5rem;
-            }
-
-            .time-box {
-                min-width: 60px;
-                padding: 0.75rem;
-            }
-
-            .time-value {
-                font-size: 1.5rem;
+            .header-brand-faculty {
+                display: none;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
-    <div class="bg-shape shape-3"></div>
 
-    <!-- Floating back button -->
-    <a href="/enged" class="back-home-btn">
-        <i class="fas fa-chevron-left"></i> หน้าหลัก
-    </a>
-
-    <div class="container">
-        <div class="icon-container" id="iconContainer">
-            <i class="fa-regular fa-clock" id="mainIcon"></i>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="header-brand" href="/enged">
+                <div class="header-logo">
+                    <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="Logo">
+                </div>
+                <div class="header-brand-text">
+                    <div class="header-brand-name">English Education</div>
+                    <div class="header-brand-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                </div>
+            </a>
+            <a href="/enged" class="header-back">
+                <i class="fa-solid fa-chevron-left"></i>กลับหน้าหลัก
+            </a>
         </div>
+    </header>
 
-        <div class="glass-card">
-            <h1 id="mainTitle">ยังไม่ถึงเวลาเลือกตั้ง</h1>
-            <p class="subtitle" id="mainSubtitle">ขณะนี้ยังไม่ถึงเวลาเลือกตั้ง</p>
+    <main class="page-layout">
 
-            <div class="schedule-box" id="scheduleBox">
-                <p class="schedule-time">
-                    ระบบจะเปิดให้เลือกตั้งในวันที่
-                    <span>28 มกราคม 2569 เวลา 13:00 น.</span>
-                    และปิดรับการเลือกตั้งในวันที่
-                    <span>เวลา 15:00 น.</span>
-                    ของวันเลือกตั้ง
-                </p>
+        <!-- Left Panel: Info and Guide -->
+        <aside class="info-panel">
+            <div class="info-eyebrow">Election System</div>
+            <h1 class="info-heading">ระบบเลือกตั้ง<br>ผู้แทนสาขาวิชา</h1>
+            <p class="info-desc">สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย ร่วมใจใช้สิทธิ์เลือกตั้งผู้แทนสาขาวิชาด้วยระบบอิเล็กทรอนิกส์</p>
+
+            <!-- Onboarding steps checklist -->
+            <div class="steps-overview">
+                <div class="steps-overview-title"><i class="fa-solid fa-list-check"></i>วิธีการลงคะแนน</div>
+                <div class="ov-step">
+                    <div class="ov-num">1</div>
+                    <div>
+                        <div class="ov-label">แสดงตนที่จุดลงทะเบียน</div>
+                        <div class="ov-sub">รับสิทธิ์ลงทะเบียนและแสดงบัตรประจำตัวนักศึกษา</div>
+                    </div>
+                </div>
+                <div class="ov-step">
+                    <div class="ov-num">2</div>
+                    <div>
+                        <div class="ov-label">เข้าสู่ระบบตรวจสอบสิทธิ์</div>
+                        <div class="ov-sub">กรอกรหัสนักศึกษาบนระบบเพื่อยืนยันตัวตน</div>
+                    </div>
+                </div>
+                <div class="ov-step">
+                    <div class="ov-num">3</div>
+                    <div>
+                        <div class="ov-label">ลงคะแนนเสียง</div>
+                        <div class="ov-sub">ทำเครื่องหมายเลือกหมายเลขผู้สมัครที่ต้องการลงคะแนน</div>
+                    </div>
+                </div>
+                <div class="ov-step">
+                    <div class="ov-num">4</div>
+                    <div>
+                        <div class="ov-label">ยืนยันผลการลงคะแนน</div>
+                        <div class="ov-sub">กดยืนยันการเลือกตั้ง ข้อมูลจะถูกเข้ารหัสและบันทึกทันที</div>
+                    </div>
+                </div>
             </div>
 
-            <p class="countdown-label" id="countdownLabel">ระบบจะเปิดใช้งานในอีก</p>
-            <div class="countdown-container" id="countdown">
-                <div class="time-box">
-                    <span class="time-value" id="days">00</span>
-                    <span class="time-label">วัน</span>
-                </div>
-                <div class="time-box">
-                    <span class="time-value" id="hours">00</span>
-                    <span class="time-label">ชั่วโมง</span>
-                </div>
-                <div class="time-box">
-                    <span class="time-value" id="minutes">00</span>
-                    <span class="time-label">นาที</span>
-                </div>
-                <div class="time-box">
-                    <span class="time-value" id="seconds">00</span>
-                    <span class="time-label">วินาที</span>
-                </div>
-            </div>
-
+            <!-- Guidelines notice card -->
             <div class="notice-card">
-                <div class="notice-title">
-                    <i class="fas fa-circle-info"></i>
-                    ข้อควรทราบ
-                </div>
-                <p class="notice-text">
-                    ระบบจะเปิดใช้งานในวันเลือกตั้ง ตามที่ประกาศไว้ ตรวจสอบสิทธิ์การเลือกตั้งได้ที่
-                    <a href="info">ตรวจสอบสิทธิ์การเลือกตั้ง</a>
-                </p>
-            </div>
-
-            <!-- Closing countdown - shown when voting is open -->
-            <div class="closing-countdown" id="closingCountdown">
-                <div class="closing-countdown-title">
-                    <i class="fas fa-clock"></i>
-                    เวลาปิดรับการเลือกตั้ง
-                </div>
-                <div class="closing-countdown-timer">
-                    <div class="closing-time-box">
-                        <span class="closing-time-value" id="closingHours">00</span>
-                        <span class="closing-time-label">ชั่วโมง</span>
-                    </div>
-                    <div class="closing-time-box">
-                        <span class="closing-time-value" id="closingMinutes">00</span>
-                        <span class="closing-time-label">นาที</span>
-                    </div>
-                    <div class="closing-time-box">
-                        <span class="closing-time-value" id="closingSeconds">00</span>
-                        <span class="closing-time-label">วินาที</span>
+                <div class="notice-inner">
+                    <div class="notice-icon"><i class="fa-solid fa-circle-info"></i></div>
+                    <div>
+                        <div class="notice-title">ข้อควรทราบ</div>
+                        <div class="notice-text">
+                            ระบบจะเปิดและปิดรับลงคะแนนตรงเวลาที่ประกาศไว้ ตรวจสอบสิทธิ์เลือกตั้งของท่านได้ที่ <a href="info">ตรวจสอบสิทธิ์เลือกตั้ง</a>
+                        </div>
                     </div>
                 </div>
             </div>
+        </aside>
 
-            <!-- Voting Instructions - shows after countdown ends -->
-            <div class="voting-instructions" id="votingInstructions">
-                <div class="voting-instructions-title">
-                    <i class="fas fa-check-circle"></i>
-                    วิธีการเลือกตั้ง 2569
+        <!-- Right Panel: Status Card -->
+        <section class="main-panel">
+            <div class="form-card">
+                <div class="card-bar">
+                    <div class="card-bar-left">
+                        <div class="card-bar-icon"><i class="fa-solid fa-check-to-slot"></i></div>
+                        <div class="card-bar-text">
+                            <div class="card-bar-label">Election Status</div>
+                            <div class="card-bar-title">สถานะการลงคะแนน</div>
+                        </div>
+                    </div>
                 </div>
-                <ol>
-                    <li>ลงทะเบียนผู้มีสิทธิ์เลือกตั้งที่จุดลงทะเบียน</li>
-                    <li>แสดงบัตรประจำตัวนักศึกษา</li>
-                    <li>เข้าคูหาเลือกตั้งอิเล็กทรอนิกส์</li>
-                    <li>กรอกรหัสนักศึกษา และกดเข้าสู่ระบบ</li>
-                    <li>เลือกเบอร์ที่ท่านสนใจ เมื่อเลือกแล้วให้เลื่อนไปด้านล่างสุด กด ยืนยันการเลือกตั้ง</li>
-                    <li>เมื่อเลือกตั้งสำเร็จระบบจะแสดงหน้าเลือกตั้งสำเร็จ หากมีข้อผิดพลาดโปรดลองทำรายการใหม่อีกครั้ง
-                    </li>
-                </ol>
+
+                <div class="card-body">
+                    <!-- Status Icon -->
+                    <div class="icon-container" id="iconContainer">
+                        <i class="fa-regular fa-clock" id="mainIcon"></i>
+                    </div>
+
+                    <h2 id="mainTitle" style="font-weight: 800; font-size: 22px; text-align: center; margin-bottom: 8px;">ยังไม่ถึงเวลาเลือกตั้ง</h2>
+                    <p class="subtitle" id="mainSubtitle" style="color: var(--ink-50); font-size: 14px; text-align: center; margin-bottom: 24px;">ขณะนี้ยังไม่ถึงเวลาเลือกตั้ง</p>
+
+                    <!-- Schedule Box -->
+                    <div class="schedule-box" id="scheduleBox">
+                        <p class="schedule-time">
+                            ระบบจะเปิดให้เลือกตั้งในวันที่
+                            <span>28 มกราคม 2569 เวลา 13:00 น.</span>
+                            และปิดรับการเลือกตั้งในเวลา
+                            <span>15:00 น. ของวันเดียวกัน</span>
+                        </p>
+                    </div>
+
+                    <!-- Countdown box -->
+                    <p class="countdown-label" id="countdownLabel">ระบบจะเปิดใช้งานในอีก</p>
+                    <div class="countdown-container" id="countdown">
+                        <div class="time-box">
+                            <span class="time-value" id="days">00</span>
+                            <span class="time-label">วัน</span>
+                        </div>
+                        <div class="time-box">
+                            <span class="time-value" id="hours">00</span>
+                            <span class="time-label">ชม.</span>
+                        </div>
+                        <div class="time-box">
+                            <span class="time-value" id="minutes">00</span>
+                            <span class="time-label">นาที</span>
+                        </div>
+                        <div class="time-box">
+                            <span class="time-value" id="seconds">00</span>
+                            <span class="time-label">วิ</span>
+                        </div>
+                    </div>
+
+                    <!-- Closing countdown (shown when open) -->
+                    <div class="closing-countdown" id="closingCountdown">
+                        <div class="closing-countdown-title">
+                            <i class="fa-solid fa-clock"></i>
+                            เวลาปิดรับการเลือกตั้ง
+                        </div>
+                        <div class="closing-countdown-timer">
+                            <div class="closing-time-box">
+                                <span class="closing-time-value" id="closingHours">00</span>
+                                <span class="closing-time-label">ชั่วโมง</span>
+                            </div>
+                            <div class="closing-time-box">
+                                <span class="closing-time-value" id="closingMinutes">00</span>
+                                <span class="closing-time-label">นาที</span>
+                            </div>
+                            <div class="closing-time-box">
+                                <span class="closing-time-value" id="closingSeconds">00</span>
+                                <span class="closing-time-label">วินาที</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Voting Instructions -->
+                    <div class="voting-instructions" id="votingInstructions">
+                        <div class="voting-instructions-title">
+                            <i class="fa-solid fa-circle-check"></i>
+                            วิธีการลงคะแนนเสียง
+                        </div>
+                        <ol>
+                            <li>ลงทะเบียนผู้มีสิทธิ์เลือกตั้งและแสดงตน</li>
+                            <li>ตรวจสอบสิทธิ์เลือกตั้งผ่านหน้าเว็บไซต์</li>
+                            <li>กรอกรหัสนักศึกษาของท่านเพื่อเข้าคูหา</li>
+                            <li>ทำเครื่องหมายเลือกผู้สมัคร หรือเลือกไม่ประสงค์ลงคะแนน</li>
+                            <li>กดยืนยันการลงคะแนนที่ปุ่มด้านล่างสุด</li>
+                        </ol>
+                    </div>
+
+                    <!-- Action buttons -->
+                    <div class="action-buttons" id="actionButtons">
+                        <a href="info" class="btn btn-secondary">
+                            <i class="fa-solid fa-user-check"></i> ตรวจสอบสิทธิ์เลือกตั้ง
+                        </a>
+                        <a href="results" class="btn btn-primary" style="margin-top: 10px;">
+                            <i class="fa-solid fa-vote-yea"></i> ดูผลการเลือกตั้ง
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Action buttons - shown after countdown ends -->
-            <div class="action-buttons" id="actionButtons">
-                <a href="info" class="btn btn-secondary">
-                    <i class="fas fa-user-check"></i>
-                    ตรวจสอบสิทธิ์เลือกตั้ง
-                </a>
-                <a href="results" class="btn btn-primary">
-                    <i class="fas fa-vote-yea"></i>
-                    ดูผลการเลือกตั้ง
-                </a>
-            </div>
-        </div>
-
-        <footer>&copy; 2026 English Education, All rights reserved. <br>
-            Made with ❤️ by Sorasuk Thongkum</footer>
-    </div>
+            <footer>
+                &copy; 2026 English Education, LRU. <br>
+                Made with ❤️ by Sorasuk Thongkum
+            </footer>
+        </section>
+    </main>
 
     <script src="/JavaScript/pwa.js"></script>
     <script>

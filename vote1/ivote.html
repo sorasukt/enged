@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบเลือกตั้งออนไลน์ | English Education</title>
+    <title>เข้าคูหาเลือกตั้งออนไลน์ | English Education</title>
     <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
     <meta property="og:type" content="website">
     <meta property="og:title" content="ระบบเลือกตั้งออนไลน์ | English Education">
@@ -12,479 +12,511 @@
     <meta property="og:image" content="https://sorasukt.github.io/enged/img/og/vote.png">
     <meta property="og:description"
         content="ระบบเลือกตั้งออนไลน์ | English Education สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย">
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-
+    
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <style>
-        :root {
-            --primary-red: #d32f2f;
-            --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
-            --bg-gradient: radial-gradient(circle at 10% 20%, rgb(255, 240, 240) 0%, rgb(255, 255, 255) 90%);
-            --glass-bg: rgba(255, 255, 255, 0.92);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.9);
-            --text-main: #2c3e50;
-            --text-muted: #636e72;
-            --shadow-soft: 0 8px 32px rgba(211, 47, 47, 0.1);
-            --shadow-hover: 0 20px 40px rgba(211, 47, 47, 0.15);
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --success-color: #10b981;
-            --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-gradient: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
-                --glass-bg: rgba(30, 30, 35, 0.85);
-                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-                --text-main: #e0e0e0;
-                --text-muted: #a0a0a0;
-                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
-                --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.4);
-            }
-
-            .bg-shape {
-                opacity: 0.2;
-            }
-
-            .glass-card {
-                background: var(--glass-bg) !important;
-                border-color: rgba(255, 255, 255, 0.1) !important;
-            }
-
-            .back-home-btn {
-                background: rgba(30, 30, 35, 0.8) !important;
-                border-color: rgba(255, 255, 255, 0.1) !important;
-                color: #ccc !important;
-            }
-
-            .back-home-btn:hover {
-                background: rgba(50, 50, 60, 0.9) !important;
-                color: var(--primary-red) !important;
-            }
-
-            .icon-container {
-                background: rgba(59, 130, 246, 0.15) !important;
-            }
-
-            .icon-container.success {
-                background: rgba(16, 185, 129, 0.15) !important;
-            }
-
-            .input-field {
-                background: rgba(255, 255, 255, 0.05) !important;
-                border-color: rgba(255, 255, 255, 0.1) !important;
-                color: #fff !important;
-            }
-
-            .input-field::placeholder {
-                color: #6b7280 !important;
-            }
-
-            .user-info {
-                background: rgba(255, 255, 255, 0.05) !important;
-                color: #e0e0e0 !important;
-            }
-
-            .user-info strong {
-                color: #fff !important;
-            }
-
-            .candidate-card {
-                background: rgba(255, 255, 255, 0.03) !important;
-                border-color: rgba(255, 255, 255, 0.1) !important;
-                color: #e0e0e0 !important;
-            }
-
-            .candidate-card:hover {
-                border-color: var(--primary-red) !important;
-                background: rgba(211, 47, 47, 0.05) !important;
-            }
-
-            .candidate-card.selected {
-                background: rgba(211, 47, 47, 0.15) !important;
-                border-color: var(--primary-red) !important;
-            }
-
-            .candidate-info {
-                color: #e0e0e0 !important;
-            }
-
-            .candidate-party {
-                color: #94a3b8 !important;
-            }
-
-            .candidate-radio {
-                border-color: #64748b !important;
-            }
-
-            .btn:disabled {
-                background: rgba(255, 255, 255, 0.1) !important;
-                color: #757575 !important;
-            }
-
-            .loader:before {
-                box-shadow: 0 0 0 3px inset var(--primary-red) !important;
-            }
-
-            /* Time status specific - CRITICAL: !important to override white background */
-            .time-status-card {
-                background: #1e1e23 !important;
-                color: #f0f0f5 !important;
-            }
-
-            .time-status-card h2 {
-                color: var(--primary-red) !important;
-            }
-
-            .time-status-card p {
-                color: #94a3b8 !important;
-            }
-
-            .time-status-title {
-                color: #f0f0f5 !important;
-            }
-
-            .time-status-subtitle {
-                color: #94a3b8 !important;
-            }
-
-            .time-status-box {
-                background: rgba(255, 255, 255, 0.05) !important;
-                color: #e0e0e0 !important;
-            }
-
-            .time-value {
-                color: var(--primary-red) !important;
-            }
-
-            .time-label {
-                color: #94a3b8 !important;
-            }
-
-            .time-status-icon {
-                background: rgba(59, 130, 246, 0.15) !important;
-            }
-
-            .time-status-icon.waiting {
-                background: rgba(25, 118, 210, 0.15) !important;
-            }
-
-            .time-status-icon.closed {
-                background: rgba(255, 255, 255, 0.1) !important;
-                color: #757575 !important;
-            }
-
-            footer {
-                color: #6b7280 !important;
-            }
-
-            /* Fix white edges on mobile */
-            html {
-                background: #0f0f13 !important;
-            }
-        }
-
-        * {
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+        }
+
+        :root {
+            --ink: #0d1117;
+            --ink-70: #3d4451;
+            --ink-50: #6b7280;
+            --ink-30: #9ca3af;
+            --ink-15: #d1d5db;
+            --ink-07: #f8fafc;
+            --white: #ffffff;
+            --accent: #0d1117;
+            --success: #065f46;
+            --success-bg: #ecfdf5;
+            --success-bd: #a7f3d0;
+            --error: #991b1b;
+            --error-bg: #fef2f2;
+            --error-bd: #fecaca;
+            --warn: #92400e;
+            --warn-bg: #fffbeb;
+            --warn-bd: #fde68a;
+            --r-xs: 6px;
+            --r-sm: 10px;
+            --r-md: 14px;
+            --r-lg: 20px;
+            --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --card-shadow: 0 10px 30px -10px rgba(13, 17, 23, 0.05), 0 1px 3px rgba(13, 17, 23, 0.02);
+            --card-shadow-hover: 0 20px 40px -15px rgba(13, 17, 23, 0.1), 0 2px 8px rgba(13, 17, 23, 0.04);
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'IBM Plex Sans Thai', sans-serif;
-            background: var(--bg-gradient);
+            font-family: 'Noto Sans Thai', sans-serif;
+            background: #f8fafc;
+            background-image:
+                radial-gradient(circle at top right, rgba(99, 102, 241, 0.03) 0%, transparent 60%),
+                radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.03) 0%, transparent 60%);
+            color: var(--ink);
             min-height: 100vh;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
             overflow-x: hidden;
+            position: relative;
         }
 
-        .bg-shape {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: -1;
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        .shape-1 {
-            width: 300px;
-            height: 300px;
-            background: #ffcdd2;
-            top: -100px;
-            left: -100px;
-        }
-
-        .shape-2 {
-            width: 250px;
-            height: 250px;
-            background: #ffebee;
-            bottom: -50px;
-            right: -50px;
-        }
-
-        .shape-3 {
-            width: 200px;
-            height: 200px;
-            background: #fce4ec;
-            top: 40%;
-            right: 5%;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            25% {
-                transform: translate(30px, -40px) scale(1.05);
-            }
-
-            50% {
-                transform: translate(-20px, 30px) scale(0.95);
-            }
-
-            75% {
-                transform: translate(40px, 20px) scale(1.02);
-            }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .container {
-            width: 100%;
-            max-width: 580px;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex-grow: 1;
-        }
-
-        /* Floating back button */
-        .back-home-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            border-radius: 30px;
-            color: var(--text-muted);
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
+        /* Site Header */
+        .site-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px) saturate(190%);
+            -webkit-backdrop-filter: blur(12px) saturate(190%);
+            border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+            position: sticky;
+            top: 0;
             z-index: 100;
+            transition: var(--transition);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
-        .back-home-btn:hover {
-            background: white;
-            color: var(--primary-red);
-            transform: translateX(-3px);
-            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.15);
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--r-xs);
+            overflow: hidden;
+            flex-shrink: 0;
         }
 
-        .icon-container {
-            width: 80px;
-            height: 80px;
-            border-radius: 24px;
-            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            color: var(--primary-red);
-            animation: fadeInDown 0.6s ease-out;
-        }
-
-        .icon-container.success {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            color: var(--success-color);
-        }
-
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: var(--glass-border);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-soft);
-            padding: 2rem;
+        .header-logo img {
             width: 100%;
-            animation: fadeInUp 0.6s ease-out;
+            height: 100%;
+            object-fit: cover;
         }
 
-        h1 {
-            font-size: 1.75rem;
+        .header-brand-text {
+            line-height: 1.25;
+        }
+
+        .header-brand-name {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -.01em;
+        }
+
+        .header-brand-faculty {
+            font-size: 11px;
+            color: var(--ink-50);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .header-back {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-align: center;
+            color: var(--ink-50);
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            transition: var(--transition);
         }
 
-        h1.success-title {
-            background: var(--success-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .header-back:hover {
+            color: var(--ink);
+            border-color: var(--ink-70);
+            background: var(--ink-07);
+            transform: translateY(-1px);
         }
 
-        .subtitle {
-            font-size: 1rem;
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 1.5rem;
+        .header-back i {
+            font-size: 9px;
         }
 
-        .input-field {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            border: 2px solid #e2e8f0;
-            border-radius: var(--radius-md);
-            font-size: 1.1rem;
-            font-family: inherit;
-            text-align: center;
-            transition: all 0.3s ease;
-            background: white;
+        /* Layout */
+        .page-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 32px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 40px;
+            align-items: start;
         }
 
-        .input-field:focus {
-            outline: none;
-            border-color: var(--primary-red);
-            box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.1);
+        .info-panel {
+            position: sticky;
+            top: 110px;
         }
 
-        .input-field::placeholder {
-            color: #94a3b8;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .info-eyebrow {
             display: inline-flex;
             align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--ink-50);
+            margin-bottom: 12px;
+        }
+
+        .info-eyebrow::before {
+            content: '';
+            width: 16px;
+            height: 2px;
+            background: var(--ink);
+            border-radius: 2px;
+        }
+
+        .info-heading {
+            font-size: clamp(28px, 3.2vw, 38px);
+            font-weight: 800;
+            line-height: 1.25;
+            color: var(--ink);
+            letter-spacing: -.02em;
+            margin-bottom: 16px;
+        }
+
+        .info-desc {
+            font-size: 14.5px;
+            line-height: 1.8;
+            color: var(--ink-50);
+            margin-bottom: 32px;
+            max-width: 440px;
+        }
+
+        /* Cards and Elements */
+        .form-card,
+        .steps-overview,
+        .notice-card {
+            background: var(--white);
+            border: 1px solid rgba(13, 17, 23, 0.06);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .form-card:hover,
+        .steps-overview:hover,
+        .notice-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            border-color: rgba(13, 17, 23, 0.12);
+        }
+
+        .card-bar {
+            background: var(--ink);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(13, 17, 23, 0.05);
+        }
+
+        .card-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-bar-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            text-decoration: none;
+            font-size: 15px;
+            color: var(--white);
+        }
+
+        .card-bar-text {
+            line-height: 1.2;
+        }
+
+        .card-bar-label {
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .4);
+        }
+
+        .card-bar-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--white);
+            margin-top: 2px;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* Onboarding steps checklist */
+        .steps-overview {
+            padding: 24px;
+        }
+
+        .steps-overview-title {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+        }
+
+        .ov-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px dashed var(--ink-15);
+            position: relative;
+        }
+
+        .ov-step:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .ov-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid var(--ink);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--ink);
+            flex-shrink: 0;
+            z-index: 2;
+            box-shadow: 0 2px 4px rgba(13, 17, 23, 0.05);
+        }
+
+        .ov-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .ov-sub {
+            font-size: 12px;
+            color: var(--ink-50);
+            margin-top: 3px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        /* Notice Card */
+        .notice-inner {
+            padding: 20px 24px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            background: rgba(13, 17, 23, 0.01);
+        }
+
+        .notice-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--ink-70);
+            flex-shrink: 0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .notice-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+
+        .notice-text {
+            font-size: 13px;
+            color: var(--ink-50);
+            line-height: 1.75;
+            font-weight: 500;
+        }
+
+        /* Button controls */
+        .btn {
             width: 100%;
+            border-radius: var(--r-sm);
+            padding: 14px 20px;
+            font-family: inherit;
+            font-size: 14.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
         }
 
         .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+            background: var(--ink);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(13, 17, 23, 0.15);
         }
 
         .btn-primary:hover {
+            background: var(--ink-70);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(211, 47, 47, 0.4);
         }
 
         .btn-success {
-            background: var(--success-gradient);
-            color: white;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            background: var(--success);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(6, 95, 70, 0.15);
         }
 
         .btn-success:hover {
+            background: #047857;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
         }
 
         .btn:disabled {
-            background: #e2e8f0;
-            color: #94a3b8;
+            background: var(--ink-15);
+            color: var(--ink-30);
             cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+            transform: none !important;
+            box-shadow: none !important;
         }
 
+        /* Form Inputs (with iOS auto-zoom prevention: min 16px) */
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            font-family: inherit;
+            font-size: 16px; /* Prevents auto-zoom on iOS */
+            font-weight: 500;
+            color: var(--ink);
+            background: var(--white);
+            border: 1.5px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--ink);
+            box-shadow: 0 0 0 3px rgba(13, 17, 23, 0.05);
+        }
+
+        .form-control::placeholder {
+            color: var(--ink-30);
+        }
+
+        /* User Info Banner */
         .user-info {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border-radius: var(--radius-md);
-            padding: 1rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            background: var(--ink-07);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-md);
+            padding: 14px 18px;
+            font-size: 13.5px;
+            color: var(--ink-70);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
         }
 
         .user-info strong {
-            color: var(--text-main);
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        /* Candidate Ballot Layout */
+        .candidate-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
         }
 
         .candidate-card {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: var(--radius-md);
-            padding: 1.25rem;
+            background: var(--white);
+            border: 1.5px solid var(--ink-15);
+            border-radius: var(--r-md);
+            padding: 18px 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            gap: 16px;
+            position: relative;
+            box-shadow: var(--card-shadow);
         }
 
         .candidate-card:hover {
-            border-color: var(--primary-red);
-            box-shadow: var(--shadow-soft);
+            border-color: var(--ink-70);
+            background: var(--ink-07);
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-1.5px);
         }
 
         .candidate-card.selected {
-            border-color: var(--primary-red);
-            background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
+            border-color: var(--ink);
+            background: var(--ink-07);
+            box-shadow: var(--card-shadow-hover);
         }
 
         .candidate-card input[type="radio"] {
@@ -492,234 +524,240 @@
         }
 
         .candidate-radio {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #cbd5e1;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--ink-30);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            background: var(--white);
         }
 
         .candidate-card.selected .candidate-radio {
-            border-color: var(--primary-red);
-            background: var(--primary-red);
+            border-color: var(--ink);
+            background: var(--ink);
         }
 
         .candidate-card.selected .candidate-radio::after {
             content: '';
             width: 8px;
             height: 8px;
-            background: white;
+            background: var(--white);
             border-radius: 50%;
+        }
+
+        .candidate-img {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--r-xs);
+            object-fit: cover;
+            border: 1px solid var(--ink-15);
+            flex-shrink: 0;
         }
 
         .candidate-info {
             flex-grow: 1;
+            line-height: 1.4;
         }
 
         .candidate-number {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary-red);
-            margin-bottom: 0.25rem;
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--ink);
         }
 
         .candidate-party {
-            font-size: 0.9rem;
-            color: var(--text-muted);
+            font-size: 12.5px;
+            color: var(--ink-50);
+            font-weight: 500;
+            margin-top: 2px;
         }
 
-        .candidate-img {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .loader {
-            width: 65px;
-            height: 30px;
-            position: relative;
-            margin: 1.5rem auto;
-            display: none;
-        }
-        .loader:before {
-            content: "";
-            position: absolute;
-            border-radius: 50px;
-            box-shadow: 0 0 0 3px inset var(--primary-red, #d32f2f);
-            animation: l3 0.75s infinite alternate;
-        }
-        @keyframes l3 {
-            0% {
-                inset: 0 35px 0 0;
-            }
-            50% {
-                inset: 0 0 0 0;
-            }
-            100% {
-                inset: 0 0 0 35px;
-            }
-        }
-
+        /* Error Message */
         .error-msg {
-            color: #dc2626;
-            font-size: 0.9rem;
+            color: var(--error);
+            font-size: 13.5px;
+            font-weight: 600;
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 12px;
         }
 
         .hidden {
             display: none !important;
         }
 
-        /* Time status overlay */
+        /* Loader Capsule Side-to-Side */
+        .loader {
+            width: 30px;
+            height: 14px;
+            position: relative;
+            display: none;
+        }
+
+        .loader:before {
+            content: "";
+            position: absolute;
+            border-radius: 50px;
+            box-shadow: 0 0 0 2px inset var(--ink);
+            animation: l3-mini 0.75s infinite alternate;
+        }
+
+        @keyframes l3-mini {
+            0% { inset: 0 16px 0 0; }
+            50% { inset: 0 0 0 0; }
+            100% { inset: 0 0 0 16px; }
+        }
+
+        /* Full-screen Overlay when poll is inactive */
         .time-status-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(13, 17, 23, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 24px;
         }
 
         .time-status-card {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: 2rem;
-            max-width: 400px;
+            background: var(--white);
+            border: 1px solid rgba(13, 17, 23, 0.08);
+            border-radius: var(--r-lg);
+            padding: 40px 32px;
+            max-width: 440px;
             width: 100%;
             text-align: center;
-            animation: fadeInUp 0.5s ease-out;
+            box-shadow: 0 30px 60px -15px rgba(13, 17, 23, 0.15);
+            animation: fadeUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .time-status-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 24px;
+            width: 76px;
+            height: 76px;
+            border-radius: var(--r-md);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
+            margin: 0 auto 24px;
+            font-size: 28px;
+            transition: var(--transition);
         }
 
         .time-status-icon.waiting {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            color: #1976d2;
+            background: var(--warn-bg);
+            color: var(--warn);
+            border: 1px solid var(--warn-bd);
         }
 
         .time-status-icon.closed {
-            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
-            color: #9e9e9e;
+            background: var(--error-bg);
+            color: var(--error);
+            border: 1px solid var(--error-bd);
         }
 
         .time-status-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 8px;
         }
 
         .time-status-subtitle {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            font-size: 14.5px;
+            color: var(--ink-50);
+            margin-bottom: 24px;
+            line-height: 1.6;
         }
 
         .time-status-countdown {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 32px;
         }
 
         .time-status-box {
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 0.75rem;
-            min-width: 60px;
+            background: var(--ink-07);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            padding: 10px;
+            text-align: center;
         }
 
         .time-status-value {
             display: block;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-red);
-            line-height: 1;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--ink);
         }
 
         .time-status-label {
             display: block;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
+            font-size: 9px;
+            color: var(--ink-50);
+            font-weight: 700;
+            margin-top: 2px;
+            text-transform: uppercase;
         }
 
-        .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: var(--primary-gradient);
-            color: white;
-            text-decoration: none;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-back:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         footer {
-            margin-top: auto;
-            padding-top: 2rem;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            opacity: 0.7;
             text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: var(--ink-30);
+            line-height: 1.6;
         }
 
-        @media (max-width: 600px) {
-            body {
-                padding: 1rem;
+        /* Responsive styling */
+        @media (max-width: 900px) {
+            .page-layout {
+                grid-template-columns: 1fr;
+                padding: 32px 20px 64px;
+                gap: 32px;
             }
 
-            h1 {
-                font-size: 1.5rem;
+            .info-panel {
+                position: static;
             }
 
-            .glass-card {
-                padding: 1.5rem;
-                border-radius: var(--radius-md);
+            .header-inner {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .page-layout {
+                padding: 24px 16px 60px;
             }
 
-            .icon-container {
-                width: 64px;
-                height: 64px;
-                font-size: 1.5rem;
+            .header-brand-faculty {
+                display: none;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
-    <div class="bg-shape shape-3"></div>
 
     <!-- Time Status Overlay - shown when voting is not open -->
     <div id="timeStatusOverlay" class="time-status-overlay hidden">
@@ -737,7 +775,7 @@
                 </div>
                 <div class="time-status-box">
                     <span class="time-status-value" id="statusHours">00</span>
-                    <span class="time-status-label">ชั่วโมง</span>
+                    <span class="time-status-label">ชม.</span>
                 </div>
                 <div class="time-status-box">
                     <span class="time-status-value" id="statusMinutes">00</span>
@@ -745,83 +783,170 @@
                 </div>
                 <div class="time-status-box">
                     <span class="time-status-value" id="statusSeconds">00</span>
-                    <span class="time-status-label">วินาที</span>
+                    <span class="time-status-label">วิ</span>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Login Section -->
-    <div id="loginSection" class="container">
-        <div class="icon-container">
-            <i class="fas fa-vote-yea"></i>
-        </div>
-
-        <div class="glass-card">
-            <h1>เข้าสู่คูหาเลือกตั้ง</h1>
-            <p class="subtitle">กรุณากรอกรหัสนักศึกษา 10 หลักเพื่อเข้าคูหา</p>
-
-            <input type="text" id="studentIdInput" class="input-field" maxlength="10" placeholder="รหัสนักศึกษา"
-                inputmode="numeric">
-
-            <div style="margin-top: 1.5rem;">
-                <button class="btn btn-primary" onclick="verifyUser()">
-                    <i class="fas fa-sign-in-alt"></i>
-                    เข้าสู่คูหา
-                </button>
-            </div>
-
-            <div id="loginLoader" class="loader"></div>
-            <p id="loginError" class="error-msg"></p>
-        </div>
-
-        <footer>&copy; 2026 English Education, All rights reserved. <br>
-            Made with ❤️ by Sorasuk Thongkum</footer>
-    </div>
-
-    <!-- Vote Section -->
-    <div id="voteSection" class="container hidden">
-        <div class="icon-container">
-            <i class="fas fa-check-to-slot"></i>
-        </div>
-
-        <div class="glass-card">
-            <h1>บัตรเลือกตั้ง</h1>
-            <div id="userInfoDisplay" class="user-info"></div>
-
-            <div id="candidateList"></div>
-
-            <button id="btnConfirm" class="btn btn-success" onclick="confirmVote()" style="margin-top: 1rem;">
-                <i class="fas fa-check-circle"></i>
-                ยืนยันการเลือกตั้ง
-            </button>
-
-            <div id="voteLoader" class="loader"></div>
-        </div>
-
-        <footer>&copy; 2026 English Education, All rights reserved. <br>
-            Made with ❤️ by Sorasuk Thongkum</footer>
-    </div>
-
-    <!-- Success Section -->
-    <div id="successSection" class="container hidden">
-        <div class="icon-container success">
-            <i class="fas fa-check"></i>
-        </div>
-
-        <div class="glass-card" style="text-align: center;">
-            <h1 class="success-title">เลือกตั้งเสร็จสิ้น</h1>
-            <p class="subtitle">ขอบคุณที่ใช้สิทธิ์ ข้อมูลของท่านถูกบันทึกเรียบร้อยแล้ว</p>
-
-            <a href="https://sorasukt.github.io/enged/vote/ivote" class="btn btn-primary">
-                <i class="fas fa-vote-yea"></i>
-                เลือกตั้งใหม่สำหรับนักศึกษาคนถัดไป
+            <a href="/enged" class="btn btn-primary" style="display: inline-flex; width: auto; margin: 0 auto;">
+                <i class="fa-solid fa-chevron-left"></i> กลับหน้าหลัก
             </a>
         </div>
-
-        <footer>&copy; 2026 English Education, All rights reserved. <br>
-            Made with ❤️ by Sorasuk Thongkum</footer>
     </div>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="header-brand" href="/enged">
+                <div class="header-logo">
+                    <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="Logo">
+                </div>
+                <div class="header-brand-text">
+                    <div class="header-brand-name">English Education</div>
+                    <div class="header-brand-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                </div>
+            </a>
+            <a href="/enged" class="header-back">
+                <i class="fa-solid fa-chevron-left"></i>กลับหน้าหลัก
+            </a>
+        </div>
+    </header>
+
+    <main class="page-layout">
+
+        <!-- Left Panel: Info and Guide -->
+        <aside class="info-panel">
+            <div class="info-eyebrow">Election Booth</div>
+            <h1 class="info-heading">คูหาลงคะแนน<br>อิเล็กทรอนิกส์</h1>
+            <p class="info-desc">สิทธิ์เลือกตั้งของท่านมีความสำคัญ ข้อมูลการลงคะแนนทุกคะแนนเสียงจะถูกเข้ารหัสลับและจัดเก็บในระบบคลาวด์อย่างปลอดภัย</p>
+
+            <!-- Onboarding steps checklist -->
+            <div class="steps-overview">
+                <div class="steps-overview-title"><i class="fa-solid fa-list-check"></i>ขั้นตอนและกติกาการเลือกตั้ง</div>
+                <div class="ov-step">
+                    <div class="ov-num">1</div>
+                    <div>
+                        <div class="ov-label">ยืนยันรหัสนักศึกษา</div>
+                        <div class="ov-sub">กรอกรหัสนักศึกษาของตนเองเพื่อรับสิทธิ์บัตรเลือกตั้ง</div>
+                    </div>
+                </div>
+                <div class="ov-step">
+                    <div class="ov-num">2</div>
+                    <div>
+                        <div class="ov-label">ทำเครื่องหมายเลือกผู้สมัคร</div>
+                        <div class="ov-sub">คลิกหรือแตะที่ผู้สมัครที่ต้องการลงคะแนน สามารถเลือกได้ 1 หมายเลขเท่านั้น</div>
+                    </div>
+                </div>
+                <div class="ov-step">
+                    <div class="ov-num">3</div>
+                    <div>
+                        <div class="ov-label">กดยืนยันการเลือกตั้ง</div>
+                        <div class="ov-sub">กดยืนยันคะแนนเพื่อบันทึกผลเข้าระบบ เมื่อยืนยันแล้วจะไม่สามารถแก้ไขหรือลงคะแนนใหม่ได้</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notice card -->
+            <div class="notice-card">
+                <div class="notice-inner">
+                    <div class="notice-icon" style="color: var(--success); border-color: var(--success-bd); background: var(--success-bg);"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div>
+                        <div class="notice-title" style="color: var(--success);">ความปลอดภัยสูงสุด</div>
+                        <div class="notice-text" style="color: #047857;">
+                            ระบบดำเนินการตามมาตรการเก็บรักษาความลับของการลงคะแนนเสียง (Secret Ballot) ไม่สามารถตรวจสอบย้อนกลับว่านักศึกษาลงคะแนนให้ผู้สมัครท่านใด
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right Panel: Step Container (Login -> Vote -> Success) -->
+        <section class="main-panel">
+
+            <!-- 1. Login Section -->
+            <div id="loginSection" class="form-card">
+                <div class="card-bar">
+                    <div class="card-bar-left">
+                        <div class="card-bar-icon"><i class="fa-solid fa-sign-in-alt"></i></div>
+                        <div class="card-bar-text">
+                            <div class="card-bar-label">Booth Authentication</div>
+                            <div class="card-bar-title">เข้าสู่คูหาเลือกตั้ง</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <p class="form-instruction" style="color: var(--ink-70); font-size: 14.5px; margin-bottom: 16px; font-weight: 500;">กรุณากรอกรหัสนักศึกษา 10 หลักของท่านเพื่อเข้าคูหา</p>
+                    
+                    <div class="form-group">
+                        <input type="text" id="studentIdInput" class="form-control" maxlength="10" placeholder="รหัสนักศึกษา 10 หลัก" inputmode="numeric" style="text-align: center; font-size: 18px; font-weight: 600; letter-spacing: 1px;">
+                    </div>
+
+                    <button class="btn btn-primary" onclick="verifyUser()">
+                        <i class="fa-solid fa-right-to-bracket"></i> เข้าสู่คูหา
+                    </button>
+
+                    <div id="loginLoader" class="loader" style="margin: 24px auto;"></div>
+                    <p id="loginError" class="error-msg"></p>
+                </div>
+            </div>
+
+            <!-- 2. Vote Section -->
+            <div id="voteSection" class="form-card hidden">
+                <div class="card-bar">
+                    <div class="card-bar-left">
+                        <div class="card-bar-icon"><i class="fa-solid fa-check-to-slot"></i></div>
+                        <div class="card-bar-text">
+                            <div class="card-bar-label">Digital Ballot</div>
+                            <div class="card-bar-title">บัตรเลือกตั้งผู้แทน</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div id="userInfoDisplay" class="user-info"></div>
+
+                    <p class="form-instruction" style="color: var(--ink-70); font-size: 14px; margin-bottom: 16px; font-weight: 500;">โปรดแตะเลือกหมายเลขผู้สมัครที่ท่านต้องการลงคะแนนเสียง:</p>
+
+                    <div id="candidateList" class="candidate-list"></div>
+
+                    <button id="btnConfirm" class="btn btn-success" onclick="confirmVote()">
+                        <i class="fa-solid fa-check-double"></i> ยืนยันการลงคะแนน
+                    </button>
+
+                    <div id="voteLoader" class="loader" style="margin: 24px auto;"></div>
+                </div>
+            </div>
+
+            <!-- 3. Success Section -->
+            <div id="successSection" class="form-card hidden">
+                <div class="card-bar" style="background: var(--success);">
+                    <div class="card-bar-left">
+                        <div class="card-bar-icon" style="background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3);"><i class="fa-solid fa-circle-check"></i></div>
+                        <div class="card-bar-text">
+                            <div class="card-bar-label" style="color: rgba(255,255,255,0.7)">Completed</div>
+                            <div class="card-bar-title">ทำรายการเสร็จสิ้น</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body" style="text-align: center; padding: 40px 24px;">
+                    <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--success-bg); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 20px;">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h2 style="font-weight: 800; font-size: 20px; color: var(--success); margin-bottom: 8px;">ลงคะแนนเสียงเรียบร้อย</h2>
+                    <p style="color: var(--ink-50); font-size: 14px; line-height: 1.6; margin-bottom: 32px; font-weight: 500;">ขอบคุณที่ร่วมเป็นส่วนหนึ่งของการเลือกตั้งผู้แทนสาขาวิชา</p>
+
+                    <a href="https://sorasukt.github.io/enged/vote/ivote" class="btn btn-primary" style="max-width: 280px; margin: 0 auto;">
+                        <i class="fa-solid fa-arrow-rotate-right"></i> สำหรับนักศึกษาคนถัดไป
+                    </a>
+                </div>
+            </div>
+
+            <footer>
+                &copy; 2026 English Education, LRU. <br>
+                Made with ❤️ by Sorasuk Thongkum
+            </footer>
+        </section>
+    </main>
 
     <script>
         const APP_URL = "https://script.google.com/macros/s/AKfycbzMAhUcwoYV-OuYne_h6qeIczrI0qGfv58_qgls9k8ONWJEdZGoZgqofrtVCNxZu3qk1w/exec";
@@ -875,8 +1000,8 @@
                         document.getElementById('voteSection').classList.remove('hidden');
 
                         document.getElementById('userInfoDisplay').innerHTML = `
-                            <i class="fas fa-user"></i> 
-                            ผู้ใช้สิทธิ์: <strong>${currentUser.name}</strong> (${currentUser.group})
+                            <i class="fas fa-user" style="color: var(--ink-50);"></i> 
+                            <span>ผู้ใช้สิทธิ์: <strong>${currentUser.name}</strong> (${currentUser.group})</span>
                         `;
 
                         const list = document.getElementById('candidateList');
