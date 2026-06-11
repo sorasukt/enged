@@ -416,6 +416,7 @@
             display: inline-block;
             flex-shrink: 0;
         }
+
         .loader-mini:before {
             content: "";
             position: absolute;
@@ -423,8 +424,17 @@
             box-shadow: 0 0 0 2px inset currentColor;
             animation: l3-mini 0.75s infinite alternate;
         }
+
         @keyframes l3-mini {
-            0% { inset: 0 16px 0 0; }
-            50% { inset: 0 0 0 0; }
-            100% { inset: 0 0 0 16px; }
+            0% {
+                inset: 0 16px 0 0;
+            }
+
+            50% {
+                inset: 0 0 0 0;
+            }
+
+            100% {
+                inset: 0 0 0 16px;
+            }
         }

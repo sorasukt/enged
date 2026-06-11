@@ -76,7 +76,7 @@ body {
     align-items: center;
     overflow-x: hidden;
     position: relative;
-    padding: 0 1.5rem 2.5rem;
+    padding: 0 0 2.5rem;
     /* Removed top padding for sticky header */
     transition: background-color 0.3s ease;
 }
@@ -160,8 +160,8 @@ body {
     flex-direction: column;
     align-items: center;
     flex-grow: 1;
-    padding-top: 2.5rem;
-    /* Added top padding to spacing below header */
+    padding: 2.5rem 1.5rem 0;
+    /* Added top/horizontal padding to spacing below header */
 }
 
 /* Hero Section */
@@ -1007,8 +1007,54 @@ footer {
    ======================================== */
 
 @media (max-width: 600px) {
+    .header-inner {
+        padding: 0 1rem;
+        height: 60px;
+    }
+
+    .header-brand {
+        gap: 8px;
+    }
+
+    .header-logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        padding: 2px;
+    }
+
+    .header-brand-name {
+        font-size: 13.5px;
+    }
+
+    .header-brand-sub {
+        display: none;
+    }
+
+    .header-badge {
+        padding: 4px 10px;
+        font-size: 11px;
+        max-width: 140px;
+    }
+
+    .header-badge span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+    }
+
+    .logout-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
     body {
-        padding: 2rem 1rem;
+        padding: 0 0 2rem;
+    }
+
+    .container {
+        padding: 1.5rem 1rem 0;
     }
 
     h1 {
@@ -1425,32 +1471,52 @@ footer {
     text-decoration: none;
 }
 
+.header-brand:hover .header-logo {
+    transform: scale(1.06) rotate(3deg);
+    box-shadow: var(--shadow-hover);
+}
+
 .header-logo {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-sm);
-    overflow: hidden;
+    width: 38px;
+    height: 38px;
+    background: var(--white);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 3px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    transition: var(--transition-bounce);
 }
 
 .header-logo img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+}
+
+.header-brand-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .header-brand-name {
-    font-size: 14.5px;
-    font-weight: 800;
+    font-size: 15px;
+    font-weight: 700;
     color: var(--text-main);
     letter-spacing: -.01em;
+    line-height: 1.25;
 }
 
 .header-brand-sub {
     font-size: 11px;
     color: var(--text-muted);
     font-weight: 500;
-    margin-top: 2px;
+    margin-top: 1px;
+    line-height: 1.25;
 }
 
 .header-right {
