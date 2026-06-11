@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0d1117">
+    <title>ระบบค้นหา Token Key | English Education</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ระบบค้นหา Token Key | English Education">
+    <meta property="og:url" content="https://sorasukt.github.io/enged/sys">
+    <meta property="og:image" content="https://sorasukt.github.io/enged/img/og/token.png">
+    <meta property="og:description" content="ระบบค้นหารหัสกิจกรรมและ Token Key | English Education">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ink:        #0d1117;
+            --ink-70:     #3d4451;
+            --ink-50:     #6b7280;
+            --ink-30:     #9ca3af;
+            --ink-15:     #d1d5db;
+            --ink-07:     #f3f4f6;
+            --white:      #ffffff;
+            --accent:     #1a56db;
+            --success:    #065f46;
+            --success-bg: #ecfdf5;
+            --success-bd: #a7f3d0;
+            --error:      #991b1b;
+            --error-bg:   #fef2f2;
+            --error-bd:   #fecaca;
+            --warn:       #92400e;
+            --warn-bg:    #fffbeb;
+            --warn-bd:    #fde68a;
+            --r-sm: 6px;
+            --r-md: 10px;
+            --r-lg: 14px;
+        }
+
+        html { -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: 'Noto Sans Thai', sans-serif;
+            background: var(--ink-07);
+            color: var(--ink);
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity .3s ease;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        body.visible { opacity: 1; }
+
+        /* ════ LOADING SCREEN ════ */
+        #loadScreen {
+            position: fixed; inset: 0;
+            background: var(--ink);
+            z-index: 9999;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 28px;
+        }
+
+        .ls-logo {
+            width: 64px; height: 64px;
+            border: 1.5px solid rgba(255,255,255,.15);
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; color: rgba(255,255,255,.8);
+        }
+
+        .ls-wordmark { text-align: center; }
+        .ls-title { font-size: 14px; font-weight: 700; color: rgba(255,255,255,.9); letter-spacing: .1em; text-transform: uppercase; }
+        .ls-sub   { font-size: 11.5px; color: rgba(255,255,255,.35); margin-top: 5px; }
+
+        .ls-status {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 100px;
+            padding: 8px 18px;
+            min-width: 220px; justify-content: center;
+        }
+
+        .ls-status-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.4); flex-shrink: 0; }
+        .ls-status-dot.spin {
+            width: 65px;
+            height: 30px;
+            position: relative;
+            background: none;
+            border-radius: 0;
+            border: none;
+            animation: none;
+        }
+        .ls-status-dot.spin:before {
+            content: "";
+            position: absolute;
+            border-radius: 50px;
+            box-shadow: 0 0 0 3px inset #fff;
+            animation: l3 0.75s infinite alternate;
+        }
+        .ls-status-dot.ok { background: #4ade80; animation: none; width: 6px; height: 6px; border-radius: 50%; }
+        .ls-status-dot.err { background: #f87171; animation: none; width: 6px; height: 6px; border-radius: 50%; }
+        
+        @keyframes l3 {
+            0% {
+                inset: 0 35px 0 0;
+            }
+            50% {
+                inset: 0 0 0 0;
+            }
+            100% {
+                inset: 0 0 0 35px;
+            }
+        }
+        .ls-status-text { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.55); }
+
+        .ls-progress-wrap { width: 200px; }
+        .ls-bar { height: 2px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden; }
+        .ls-bar-fill { height: 100%; background: rgba(255,255,255,.5); border-radius: 2px; width: 0; transition: width .4s ease; }
+
+        #loadScreen.fade-out { animation: fadeOut .4s ease forwards; }
+
+        /* ════ INFO MODAL ════ */
+        #infoModal {
+            position: fixed; inset: 0;
+            background: rgba(13,17,23,.6);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 8888;
+            display: flex; align-items: center; justify-content: center; padding: 24px;
+            opacity: 0; pointer-events: none;
+            transition: opacity .22s ease;
+        }
+
+        #infoModal.visible { opacity: 1; pointer-events: all; }
+
+        .modal-card {
+            background: var(--white); border-radius: 16px;
+            border: 1px solid var(--ink-15); box-shadow: 0 24px 64px rgba(0,0,0,.2);
+            width: 100%; max-width: 360px; overflow: hidden;
+            transform: translateY(12px) scale(.97);
+            transition: transform .28s cubic-bezier(.22,1,.36,1);
+        }
+
+        #infoModal.visible .modal-card { transform: translateY(0) scale(1); }
+
+        .modal-top { background: var(--ink); padding: 28px 24px; text-align: center; }
+
+        .modal-top-icon {
+            width: 50px; height: 50px; border: 1.5px solid rgba(255,255,255,.15); border-radius: 13px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; color: rgba(255,255,255,.75); margin: 0 auto 14px;
+        }
+
+        .modal-top-title { font-size: 16px; font-weight: 800; color: var(--white); letter-spacing: -.01em; margin-bottom: 5px; }
+        .modal-top-sub   { font-size: 12px; color: rgba(255,255,255,.38); line-height: 1.6; }
+        .modal-body { padding: 20px; }
+
+        .modal-notice {
+            background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: var(--r-md);
+            padding: 13px 15px; font-size: 13px; color: var(--ink-50); line-height: 1.7; margin-bottom: 14px;
+        }
+
+        .modal-btn {
+            width: 100%; border: none; border-radius: var(--r-sm); padding: 11px;
+            font-family: inherit; font-size: 13.5px; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+            text-decoration: none; transition: background .15s, border-color .15s;
+        }
+
+        .modal-btn.primary { background: var(--ink); color: var(--white); margin-bottom: 8px; }
+        .modal-btn.primary:hover { background: var(--ink-70); }
+        .modal-btn.ghost { background: none; border: 1px solid var(--ink-15); color: var(--ink-50); }
+        .modal-btn.ghost:hover { border-color: var(--ink-30); color: var(--ink); }
+
+        /* ════ HEADER ════ */
+        .site-header {
+            background: var(--white); border-bottom: 1px solid var(--ink-15);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1200px; margin: 0 auto; padding: 0 32px; height: 58px;
+            display: flex; align-items: center; justify-content: space-between; gap: 20px;
+        }
+
+        .header-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .header-logo { width: 30px; height: 30px; border-radius: var(--r-sm); overflow: hidden; flex-shrink: 0; }
+        .header-logo img { width: 100%; height: 100%; object-fit: cover; }
+        .header-brand-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+        .header-brand-sub  { font-size: 10px; color: var(--ink-50); margin-top: 1px; }
+
+        .header-back {
+            display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--ink-50); text-decoration: none;
+            padding: 5px 11px; border: 1px solid var(--ink-15); border-radius: 100px; transition: color .15s, border-color .15s;
+        }
+        .header-back:hover { color: var(--ink); border-color: var(--ink-30); }
+        .header-back i { font-size: 9px; }
+
+        /* ════ PAGE LAYOUT ════ */
+        .page-layout {
+            max-width: 1200px; margin: 0 auto; padding: 44px 32px 80px;
+            display: grid; grid-template-columns: 1fr 460px; gap: 44px; align-items: start;
+        }
+
+        /* ── Info Panel ── */
+        .info-panel { position: sticky; top: 82px; }
+        .info-eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+        .info-eyebrow::before { content: ''; width: 14px; height: 2px; background: var(--accent); border-radius: 2px; }
+        .info-heading { font-size: clamp(24px, 2.8vw, 34px); font-weight: 800; line-height: 1.2; color: var(--ink); letter-spacing: -.02em; margin-bottom: 12px; }
+        .info-desc    { font-size: 13.5px; line-height: 1.8; color: var(--ink-50); margin-bottom: 28px; max-width: 380px; }
+        .info-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); padding: 18px; margin-bottom: 12px; }
+        .info-card-title { font-size: 11px; font-weight: 700; color: var(--ink-70); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+        .info-card-title i { color: var(--ink-30); font-size: 10px; }
+
+        .info-step { display: flex; align-items: center; gap: 11px; padding: 8px 0; border-bottom: 1px solid var(--ink-07); }
+        .info-step:last-child { border-bottom: none; padding-bottom: 0; }
+        .info-step:first-child { padding-top: 0; }
+        .step-num { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--ink-15); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: var(--ink-50); flex-shrink: 0; }
+        .step-label { font-size: 12.5px; font-weight: 600; color: var(--ink-70); }
+        .step-sub   { font-size: 10.5px; color: var(--ink-30); margin-top: 1px; }
+
+        .warn-strip { display: flex; align-items: flex-start; gap: 9px; background: var(--warn-bg); border: 1px solid var(--warn-bd); border-radius: var(--r-md); padding: 12px 14px; font-size: 12px; color: var(--warn); line-height: 1.65; }
+        .warn-strip i { font-size: 11px; margin-top: 1px; flex-shrink: 0; }
+
+        /* ── Section label ── */
+        .section-label { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-50); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .section-label::after { content: ''; flex: 1; height: 1px; background: var(--ink-15); }
+
+        /* ── Form card ── */
+        .form-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04); margin-bottom: 12px; position: relative; z-index: 10; transition: opacity .2s, transform .2s; }
+        .form-card.dimmed { opacity: .5; pointer-events: none; transform: scale(.99); }
+        .form-card-head { padding: 14px 20px; border-bottom: 1px solid var(--ink-07); display: flex; align-items: center; gap: 10px; }
+        .fch-icon { width: 28px; height: 28px; background: var(--ink-07); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--ink-50); }
+        .fch-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+        .fch-sub   { font-size: 11px; color: var(--ink-50); margin-top: 1px; }
+        .form-card-body { padding: 18px 20px; }
+
+        .field { margin-bottom: 14px; }
+        .field:last-child { margin-bottom: 0; }
+        .field-label { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--ink-70); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 6px; }
+        .field-label-right { margin-left: auto; font-size: 10.5px; font-weight: 600; color: var(--ink-30); letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
+        .field-label-right.complete { color: #16a34a; }
+        .field-label i { font-size: 10px; color: var(--ink-30); width: 12px; text-align: center; }
+
+        /* Custom select */
+        .custom-select-wrap { position: relative; width: 100%; }
+
+        .custom-select-trigger {
+            display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+            background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-sm);
+            padding: 11px 14px; font-family: inherit; font-size: 16px; color: var(--ink-30);
+            cursor: pointer; user-select: none; transition: border-color .15s, box-shadow .15s;
+            width: 100%; /* แก้ปัญหาทะลุกล่องระดับแรก */
+        }
+
+        .custom-select-trigger.has-value { color: var(--ink); }
+        .custom-select-trigger:hover { border-color: var(--accent); }
+        .custom-select-trigger.open {
+            border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,86,219,.1);
+            border-radius: var(--r-sm) var(--r-sm) 0 0; border-bottom-color: var(--ink-15);
+        }
+
+        .trigger-text { 
+            flex: 1; 
+            min-width: 0; /* CRITICAL FIX: บังคับไม่ให้ข้อความดันกล่องจนทะลุ */
+            font-size: 16px; 
+            text-align: left; 
+            white-space: normal;
+            word-break: keep-all; 
+            overflow-wrap: anywhere; /* ให้ยอมตัดคำลงบรรทัดใหม่ถ้ายาวเกินไปจริงๆ */
+            line-height: 1.5; 
+        }
+
+        .trigger-icon { font-size: 10px; color: var(--ink-30); transition: transform .2s; flex-shrink: 0; margin-top: 6px; }
+        .custom-select-trigger.open .trigger-icon { transform: rotate(180deg); }
+
+        .custom-dropdown {
+            display: none; position: absolute; top: 100%; left: 0; right: 0;
+            background: var(--white); border: 1px solid var(--accent); border-top: none;
+            border-radius: 0 0 var(--r-sm) var(--r-sm);
+            box-shadow: 0 8px 24px rgba(0,0,0,.1); z-index: 50;
+            max-height: 240px; overflow-y: auto;
+        }
+
+        .custom-dropdown.open { display: block; animation: dropIn .15s ease both; }
+
+        .dropdown-opt {
+            padding: 12px 14px; font-family: inherit; font-size: 14px; color: var(--ink-70);
+            cursor: pointer; border-bottom: 1px solid var(--ink-07);
+            transition: background .1s; 
+            display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+        }
+
+        .dropdown-opt-text {
+            flex: 1; min-width: 0; text-align: left; white-space: normal; 
+            word-break: keep-all; overflow-wrap: anywhere; line-height: 1.5;
+        }
+
+        .dropdown-opt:last-child { border-bottom: none; }
+        .dropdown-opt:hover { background: var(--ink-07); color: var(--ink); }
+        .dropdown-opt.selected { background: var(--ink); color: var(--white); font-weight: 600; }
+        
+        .dd-check { font-size: 10px; opacity: 0; flex-shrink: 0; margin-top: 5px; color: var(--ink); transition: opacity .15s; }
+        .dropdown-opt.selected .dd-check { opacity: 1; color: var(--white); }
+
+        .dropdown-empty { padding: 12px; font-size: 12.5px; color: var(--ink-30); text-align: center; }
+        .real-select { display: none; }
+
+        /* Input */
+        input[type="text"] {
+            width: 100%; background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-sm);
+            padding: 11px 14px; font-family: inherit; font-size: 16px; color: var(--ink);
+            outline: none; transition: border-color .15s, box-shadow .15s; -webkit-appearance: none;
+        }
+        input[type="text"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
+        input[type="text"].invalid { border-color: #dc2626; box-shadow: 0 0 0 3px rgba(220,38,38,.08); }
+        input[type="text"].complete { border-color: #16a34a; }
+        input::placeholder { color: var(--ink-30); font-size: 16px; }
+
+        .id-progress { height: 2px; background: var(--ink-15); border-radius: 0 0 var(--r-sm) var(--r-sm); overflow: hidden; margin-top: -1px; border: none; }
+        .id-progress-fill { height: 100%; width: 0; border-radius: 2px; transition: width .15s, background .15s; }
+        .field-hint { font-size: 11px; color: var(--ink-30); margin-top: 6px; display: flex; align-items: center; gap: 5px; }
+        .field-hint i { font-size: 9px; }
+
+        /* Submit */
+        .submit-btn {
+            width: 100%; background: var(--ink); color: var(--white); border: none; border-radius: var(--r-sm);
+            padding: 13px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 9px;
+            transition: background .15s, transform .1s, box-shadow .15s;
+            box-shadow: 0 1px 3px rgba(0,0,0,.15), 0 4px 12px rgba(0,0,0,.1);
+        }
+        .submit-btn:hover:not(:disabled) { background: var(--ink-70); box-shadow: 0 2px 8px rgba(0,0,0,.2), 0 8px 20px rgba(0,0,0,.12); }
+        .submit-btn:active:not(:disabled) { transform: translateY(1px); }
+        .submit-btn:disabled { opacity: .38; cursor: not-allowed; }
+        .submit-btn i { font-size: 11px; }
+
+        /* config alert */
+        .config-alert { background: var(--warn-bg); border: 1px solid var(--warn-bd); border-radius: var(--r-lg); padding: 12px 15px; font-size: 12.5px; color: var(--warn); display: none; align-items: center; gap: 9px; margin-bottom: 12px; font-weight: 600; }
+        .config-alert.show { display: flex; }
+        .config-alert i { flex-shrink: 0; font-size: 11px; }
+
+        /* ════ PROCESS CARD ════ */
+        .process-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); overflow: hidden; margin-top: 12px; }
+        .process-card-top { background: var(--ink); padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+        .pct-icon { width: 30px; height: 30px; border: 1px solid rgba(255,255,255,.18); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 12px; color: rgba(255,255,255,.8); }
+        .pct-title { font-size: 14px; font-weight: 700; color: var(--white); }
+        .pct-sub   { font-size: 11px; color: rgba(255,255,255,.38); margin-top: 2px; }
+        .process-steps { padding: 18px 20px; display: flex; flex-direction: column; gap: 0; }
+
+        .ps-item { display: flex; align-items: flex-start; gap: 12px; position: relative; }
+        .ps-item:not(:last-child)::after { content: ''; position: absolute; left: 13px; top: 28px; width: 1px; height: calc(100% - 4px); background: var(--ink-15); transition: background .3s; }
+        .ps-item.done:not(:last-child)::after { background: var(--ink); }
+
+        .ps-dot-wrap { flex-shrink: 0; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+        .ps-dot { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--ink-15); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--ink-30); transition: all .25s cubic-bezier(.22,1,.36,1); }
+        .ps-item.active .ps-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
+        .ps-item.done   .ps-dot { border-color: var(--ink); background: var(--ink); color: var(--white); }
+        .ps-item.error  .ps-dot { border-color: #dc2626; background: #dc2626; color: var(--white); }
+        .ps-ring { position: absolute; inset: -3px; border-radius: 50%; border: 1.5px solid transparent; border-top-color: var(--ink); animation: spin .7s linear infinite; opacity: 0; transition: opacity .2s; }
+        .ps-item.active .ps-ring { opacity: 1; }
+
+        .ps-text { padding: 3px 0 16px; flex: 1; }
+        .ps-item:last-child .ps-text { padding-bottom: 0; }
+        .ps-title { font-size: 12.5px; font-weight: 700; color: var(--ink-30); transition: color .25s; }
+        .ps-item.active .ps-title { color: var(--ink); }
+        .ps-item.done   .ps-title { color: var(--ink-70); }
+        .ps-item.error  .ps-title { color: #dc2626; }
+        .ps-desc { font-size: 11px; color: var(--ink-50); margin-top: 2px; max-height: 0; overflow: hidden; opacity: 0; transition: max-height .25s, opacity .25s; }
+        .ps-item.active .ps-desc, .ps-item.done .ps-desc, .ps-item.error .ps-desc { max-height: 40px; opacity: 1; }
+
+        /* alert box */
+        .alert-box { border-radius: var(--r-lg); overflow: hidden; margin-top: 12px; border: 1px solid; }
+        .alert-box.warn  { background: var(--warn-bg);  border-color: var(--warn-bd); }
+        .alert-box.error { background: var(--error-bg); border-color: var(--error-bd); }
+        .alert-box-head { padding: 14px 18px; display: flex; align-items: center; gap: 11px; }
+        .alert-box-icon { width: 30px; height: 30px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+        .alert-box.warn  .alert-box-icon  { background: #fef3c7; color: var(--warn); }
+        .alert-box.error .alert-box-icon  { background: #fee2e2; color: var(--error); }
+        .alert-box-title { font-size: 13px; font-weight: 700; }
+        .alert-box.warn  .alert-box-title { color: var(--warn); }
+        .alert-box.error .alert-box-title { color: var(--error); }
+        .alert-box-sub   { font-size: 11.5px; color: var(--ink-50); margin-top: 2px; }
+        .alert-box-body  { padding: 0 18px 16px; }
+
+        .alert-btn { width: 100%; border: none; border-radius: var(--r-sm); padding: 10px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: background .15s; }
+        .alert-btn.primary { background: var(--ink); color: var(--white); margin-bottom: 7px; }
+        .alert-btn.primary:hover { background: var(--ink-70); }
+        .alert-btn.ghost { background: none; border: 1px solid var(--ink-15); color: var(--ink-50); }
+        .alert-btn.ghost:hover { border-color: var(--ink-30); color: var(--ink); }
+
+        .monitoring-badge { display: none; align-items: center; gap: 6px; background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: 100px; padding: 6px 12px; font-size: 11px; color: var(--ink-50); font-weight: 600; width: 100%; justify-content: center; margin-bottom: 7px; }
+        .monitoring-badge.show { display: flex; }
+        .monitoring-badge i { font-size: 10px; animation: spin 1.4s linear infinite; }
+        .tech-detail { background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: var(--r-sm); padding: 9px 11px; font-size: 11px; font-family: monospace; color: var(--ink-50); margin: 10px 0; line-height: 1.5; }
+        .deploy-hint { font-size: 11.5px; color: var(--warn); margin-bottom: 10px; display: flex; gap: 6px; align-items: flex-start; line-height: 1.5; }
+        .deploy-hint i { margin-top: 2px; flex-shrink: 0; font-size: 10px; }
+
+        /* ════ RESULT ════ */
+        #resultArea { margin-top: 12px; }
+        .result-header { background: var(--ink); border-radius: var(--r-lg); padding: 18px 20px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+        .rh-avatar { width: 40px; height: 40px; border: 1.5px solid rgba(255,255,255,.15); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: rgba(255,255,255,.6); flex-shrink: 0; }
+        
+        .rh-eyebrow { font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,.35); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 3px; white-space: normal; word-break: keep-all; line-height: 1.4; }
+        .rh-name    { font-size: 15px; font-weight: 800; color: var(--white); letter-spacing: -.01em; }
+        .rh-meta    { font-size: 11px; color: rgba(255,255,255,.38); margin-top: 3px; }
+
+        .token-label { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-50); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+        .token-label::after { content: ''; flex: 1; height: 1px; background: var(--ink-15); }
+        .token-card { background: var(--white); border: 1px solid var(--ink-15); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+        .token-card-head { padding: 9px 15px; border-bottom: 1px solid var(--ink-07); font-size: 10px; font-weight: 700; color: var(--ink-50); letter-spacing: .06em; text-transform: uppercase; }
+        .token-card-body { padding: 11px 13px; display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .code-pill { display: flex; align-items: center; gap: 7px; background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: var(--r-sm); padding: 8px 11px; font-size: 13.5px; font-weight: 700; color: var(--ink-70); cursor: pointer; transition: all .15s; flex: 1; min-width: 110px; user-select: none; }
+        .code-pill:hover { background: var(--white); border-color: var(--ink-30); }
+        .code-pill:active { transform: scale(.98); }
+        .code-pill i { font-size: 10px; color: var(--ink-30); }
+        .copy-icon { margin-left: auto; transition: color .15s; }
+
+        .token-pill { display: flex; align-items: center; gap: 7px; background: var(--ink); border: 1px solid transparent; border-radius: var(--r-sm); padding: 8px 11px; font-size: 13.5px; font-weight: 700; color: var(--white); cursor: pointer; transition: all .15s; flex: 1; min-width: 110px; user-select: none; }
+        .token-pill:hover { background: var(--ink-70); }
+        .token-pill:active { transform: scale(.98); }
+        .token-pill i { font-size: 10px; color: rgba(255,255,255,.4); }
+
+        /* copy toast */
+        .copy-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(4px); background: var(--ink); color: var(--white); border-radius: 100px; padding: 9px 18px; font-size: 12.5px; font-weight: 600; display: flex; align-items: center; gap: 7px; opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; z-index: 999; }
+        .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        .result-actions { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px; padding-top: 12px; flex-wrap: wrap; }
+        .action-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 100px; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer; transition: all .15s; text-decoration: none; background: none; border: 1px solid var(--ink-15); color: var(--ink-50); }
+        .action-btn:hover { border-color: var(--ink-30); color: var(--ink); background: var(--white); }
+        .action-btn i { font-size: 10px; }
+
+        .loader-mini {
+            width: 30px;
+            height: 14px;
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .loader-mini:before {
+            content: "";
+            position: absolute;
+            border-radius: 50px;
+            box-shadow: 0 0 0 2px inset currentColor;
+            animation: l3-mini 0.75s infinite alternate;
+        }
+        @keyframes l3-mini {
+            0% { inset: 0 16px 0 0; }
+            50% { inset: 0 0 0 0; }
+            100% { inset: 0 0 0 16px; }
+        }
+
+        /* ════ FOOTER ════ */
+        .site-footer { border-top: 1px solid var(--ink-15); background: var(--white); padding: 18px 32px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+        .footer-left  { font-size: 11.5px; color: var(--ink-50); display: flex; align-items: center; gap: 7px; }
+        .footer-left strong { color: var(--ink-70); font-weight: 600; }
+        .footer-sep   { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-30); }
+        .footer-right { font-size: 11px; color: var(--ink-30); display: flex; align-items: center; gap: 5px; }
+        .footer-right i { font-size: 9px; }
+
+        /* ════ RESPONSIVE ════ */
+        @media (max-width: 900px) {
+            .page-layout { display: flex; flex-direction: column; padding: 28px 20px 60px; gap: 28px; }
+            .info-panel { order: 2; position: static; }
+            section { order: 1; width: 100%; }
+            .header-inner { padding: 0 20px; }
+        }
+
+        @media (max-width: 540px) {
+            .page-layout { padding: 20px 16px 60px; gap: 22px; }
+            .header-brand-sub { display: none; }
+            .site-footer { padding: 14px 20px; }
+            .footer-inner { flex-direction: column; align-items: flex-start; gap: 6px; }
+            .token-card-body { flex-direction: column; }
+            .code-pill, .token-pill { min-width: unset; width: 100%; }
+        }
+
+        /* ════ KEYFRAMES ════ */
+        @keyframes spin     { to { transform: rotate(360deg); } }
+        @keyframes blink    { 0%,100% { opacity:1; } 50% { opacity:.25; } }
+        @keyframes fadeOut  { to { opacity:0; pointer-events:none; } }
+        @keyframes fadeUp   { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes dropIn   { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+
+        .fade-up { animation: fadeUp .45s cubic-bezier(.22,1,.36,1) both; }
+        .d1 { animation-delay: .05s; }
+        .d2 { animation-delay: .1s; }
+        .d3 { animation-delay: .15s; }
+        .d4 { animation-delay: .2s; }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div id="loadScreen">
+    <div class="ls-logo"><i class="fa-solid fa-key"></i></div>
+    <div class="ls-wordmark">
+        <div class="ls-title">English Education</div>
+        <div class="ls-sub">มหาวิทยาลัยราชภัฏเลย</div>
+    </div>
+    <div class="ls-status" id="lsStatus">
+        <div class="ls-status-dot spin" id="lsDot"></div>
+        <span class="ls-status-text" id="lsText">กำลังโหลด...</span>
+    </div>
+    <div class="ls-progress-wrap">
+        <div class="ls-bar"><div class="ls-bar-fill" id="lsBar"></div></div>
+    </div>
+</div>
+
+<div id="infoModal">
+    <div class="modal-card">
+        <div class="modal-top">
+            <div class="modal-top-icon"><i class="fa-solid fa-bullhorn"></i></div>
+            <div class="modal-top-title">แจ้งเตือนสำคัญ</div>
+            <div class="modal-top-sub">โปรดอ่านก่อนใช้งานระบบ</div>
+        </div>
+        <div class="modal-body">
+            <div class="modal-notice">
+                ให้นักศึกษานำรหัสกิจกรรมไปค้นหาบนเว็บไซต์ระบบกิจกรรมของมหาวิทยาลัย<br><br>
+                Token Key มีระยะเวลาจำกัด โปรดกรอกทันทีที่ประกาศ
+            </div>
+            <a href="https://act.lru.ac.th/std_System/index.php" target="_blank" class="modal-btn primary">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>ระบบกิจกรรมมหาวิทยาลัย
+            </a>
+            <button class="modal-btn ghost" onclick="closeModal()">ปิด</button>
+        </div>
+    </div>
+</div>
+
+<div class="copy-toast" id="copyToast">
+    <i class="fa-solid fa-check"></i>
+    <span id="copyToastText">คัดลอกแล้ว</span>
+</div>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a class="header-brand" href="index.html">
+            <div class="header-logo">
+                <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="Logo">
+            </div>
+            <div>
+                <div class="header-brand-name">English Education</div>
+                <div class="header-brand-sub">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+            </div>
+        </a>
+        <a href="/enged/" class="header-back">
+            <i class="fa-solid fa-chevron-left"></i>หน้าหลัก
+        </a>
+    </div>
+</header>
+
+<main class="page-layout">
+
+    <aside class="info-panel">
+        <div class="info-eyebrow fade-up">Token Key System</div>
+        <h1 class="info-heading fade-up d1">ค้นหารหัส<br>กิจกรรม & Token</h1>
+        <p class="info-desc fade-up d2">ระบบค้นหารหัสกิจกรรมและ Token Key สำหรับนักศึกษาสาขาวิชาภาษาอังกฤษ มหาวิทยาลัยราชภัฏเลย</p>
+
+        <div class="info-card fade-up d3">
+            <div class="info-card-title"><i class="fa-solid fa-list-check"></i>ขั้นตอนการใช้งาน</div>
+            <div class="info-step">
+                <div class="step-num">1</div>
+                <div><div class="step-label">เลือกกิจกรรม</div><div class="step-sub">เลือกจากรายการที่ระบบโหลดให้</div></div>
+            </div>
+            <div class="info-step">
+                <div class="step-num">2</div>
+                <div><div class="step-label">กรอกรหัสนักศึกษา</div><div class="step-sub">ตัวเลข 10 หลัก ไม่มีช่องว่าง</div></div>
+            </div>
+            <div class="info-step">
+                <div class="step-num">3</div>
+                <div><div class="step-label">กดค้นหา</div><div class="step-sub">ระบบดึงข้อมูล Token ของคุณ</div></div>
+            </div>
+            <div class="info-step">
+                <div class="step-num">4</div>
+                <div><div class="step-label">คลิกคัดลอกรหัส</div><div class="step-sub">นำไปกรอกในระบบมหาวิทยาลัย</div></div>
+            </div>
+        </div>
+
+        <div class="warn-strip fade-up d4">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Token Key มีอายุจำกัด กรุณากรอกทันทีที่ได้รับ อย่าเปิดเผยให้ผู้อื่นทราบ
+        </div>
+    </aside>
+
+    <section>
+
+        <div class="config-alert fade-up" id="configAlert">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span id="alertMsg">ยังไม่ได้ตั้งค่า URL</span>
+        </div>
+
+        <div id="searchSection">
+            <p class="section-label fade-up">ค้นหาข้อมูล</p>
+
+            <div class="form-card fade-up d1" id="formCard">
+                <div class="form-card-head">
+                    <div class="fch-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div>
+                        <div class="fch-title">ข้อมูลการค้นหา</div>
+                        <div class="fch-sub">เลือกกิจกรรมและกรอกรหัสนักศึกษา</div>
+                    </div>
+                </div>
+                <div class="form-card-body">
+
+                    <div class="field">
+                        <div class="field-label">
+                            <i class="fa-solid fa-layer-group"></i>กิจกรรม
+                        </div>
+                        <div class="custom-select-wrap" id="selectWrap">
+                            <div class="custom-select-trigger" id="selectTrigger" tabindex="0"
+                                onclick="toggleDropdown()" onkeydown="handleSelectKey(event)">
+                                <span class="trigger-text" id="triggerText">กำลังโหลดรายการ...</span>
+                                <i class="fa-solid fa-chevron-down trigger-icon"></i>
+                            </div>
+                            <div class="custom-dropdown" id="customDropdown">
+                                <div class="dropdown-empty">
+                                    <i class="fa-solid fa-rotate fa-spin" style="margin-right:6px;font-size:10px"></i>กำลังโหลด...
+                                </div>
+                            </div>
+                            <select id="activitySelect" class="real-select"><option value="" disabled selected></option></select>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="field-label">
+                            <i class="fa-solid fa-id-card"></i>รหัสนักศึกษา
+                            <span class="field-label-right" id="idCounter">0 / 10</span>
+                        </div>
+                        <input type="text" id="studentId" placeholder="เช่น 6401234567"
+                            maxlength="10" inputmode="numeric"
+                            oninput="onIdInput(this)" onkeydown="if(event.key==='Enter')searchData()" />
+                        <div class="id-progress"><div class="id-progress-fill" id="idBar"></div></div>
+                        <div class="field-hint"><i class="fa-solid fa-circle-info"></i>ตัวเลข 10 หลัก ตามบัตรนักศึกษา</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="fade-up d2">
+                <button class="submit-btn" id="searchBtn" onclick="searchData()" disabled>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span id="searchBtnText">ค้นหาข้อมูล</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="processCard" class="process-card hidden fade-up">
+            <div class="process-card-top">
+                <div class="pct-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+                <div>
+                    <div class="pct-title">กำลังดำเนินการ</div>
+                    <div class="pct-sub">Processing Request</div>
+                </div>
+            </div>
+            <div class="process-steps">
+                <div class="ps-item" id="ps-1">
+                    <div class="ps-dot-wrap"><div class="ps-dot"></div><div class="ps-ring"></div></div>
+                    <div class="ps-text">
+                        <div class="ps-title">ตรวจสอบข้อมูล</div>
+                        <div class="ps-desc" id="psd-1">ตรวจสอบรหัสนักศึกษาและกิจกรรมที่เลือก</div>
+                    </div>
+                </div>
+                <div class="ps-item" id="ps-2">
+                    <div class="ps-dot-wrap"><div class="ps-dot"></div><div class="ps-ring"></div></div>
+                    <div class="ps-text">
+                        <div class="ps-title">ดึงข้อมูลจากเซิร์ฟเวอร์</div>
+                        <div class="ps-desc" id="psd-2">ส่งคำขอไปยัง Server</div>
+                    </div>
+                </div>
+                <div class="ps-item" id="ps-3">
+                    <div class="ps-dot-wrap"><div class="ps-dot"></div><div class="ps-ring"></div></div>
+                    <div class="ps-text">
+                        <div class="ps-title">ประมวลผลและแสดงข้อมูล</div>
+                        <div class="ps-desc" id="psd-3">เตรียมแสดงรหัสกิจกรรมและ Token</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="pendingCard" class="alert-box warn hidden fade-up">
+            <div class="alert-box-head">
+                <div class="alert-box-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                <div>
+                    <div class="alert-box-title">กำลังดำเนินการจัดขอรหัส</div>
+                    <div class="alert-box-sub">สาขาวิชายังไม่ได้อัปโหลด Token สำหรับกิจกรรมนี้</div>
+                </div>
+            </div>
+            <div class="alert-box-body">
+                <div class="monitoring-badge" id="monitoringBadge">
+                    <i class="fa-solid fa-rotate"></i>กำลังตรวจสอบอัตโนมัติทุก 1 นาที
+                </div>
+                <button class="alert-btn primary" id="btnEnableNotify" onclick="enableNotification()">
+                    <i class="fa-solid fa-bell"></i>แจ้งเตือนเมื่อได้รับรหัส
+                </button>
+                <button class="alert-btn ghost" onclick="resetAll()">
+                    <i class="fa-solid fa-rotate-left"></i>ค้นหาใหม่
+                </button>
+            </div>
+        </div>
+
+        <div id="errorCard" class="alert-box error hidden fade-up">
+            <div class="alert-box-head">
+                <div class="alert-box-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+                <div>
+                    <div class="alert-box-title">พบข้อผิดพลาด</div>
+                    <div class="alert-box-sub" id="errorDetail">โปรดตรวจสอบข้อมูลหรือติดต่อผู้ดูแลระบบ</div>
+                </div>
+            </div>
+            <div class="alert-box-body">
+                <div class="tech-detail" id="technicalError" style="display:none"></div>
+                <div class="deploy-hint hidden" id="deployHint">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span>ลอง Deploy > New Deployment</span>
+                </div>
+                <button class="alert-btn primary" onclick="resetAll()">
+                    <i class="fa-solid fa-rotate-left"></i>กลับไปค้นหา
+                </button>
+            </div>
+        </div>
+
+        <div id="resultArea" class="hidden fade-up">
+            <p class="section-label" style="margin-top:16px">ผลการค้นหา</p>
+
+            <div class="result-header">
+                <div class="rh-avatar"><i class="fa-solid fa-user-graduate"></i></div>
+                <div style="min-width:0;flex:1;overflow:hidden">
+                    <div class="rh-eyebrow" id="resActivity">—</div>
+                    <div class="rh-name" id="resName">—</div>
+                    <div class="rh-meta">รหัส <span id="resId">—</span> · กลุ่ม <span id="resGroup">—</span></div>
+                </div>
+            </div>
+
+            <p class="token-label"><i class="fa-solid fa-key"></i>รายการ Token</p>
+
+            <div id="activitiesList"></div>
+
+            <div class="result-actions">
+                <button class="action-btn" id="shareBtn" onclick="copyResultLink()" style="display:none">
+                    <i class="fa-solid fa-share-nodes"></i>แชร์ลิงก์
+                </button>
+                <button class="action-btn" onclick="resetAll()">
+                    <i class="fa-solid fa-rotate-right"></i>ค้นหารายการอื่น
+                </button>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-left">
+            <strong>English Education</strong>
+            <div class="footer-sep"></div>
+            <span>คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</span>
+        </div>
+        <div class="footer-right">
+            <i class="fa-regular fa-copyright"></i>2026 sorasukt
+        </div>
+    </div>
+</footer>
+
+<script>
+/* ════ CONFIG ════ */
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxNif4pv3SL70z-xSRNHoU1fwvAEOwp7QmgqQZbH7yITzeWycZPKcbb0cSCu7g2TJiWog/exec";
+
+let _sid = '', _act = '', _monitorTimer;
+
+/* ════ LOADING SCREEN ════ */
+function lsUpdate(text, state = 'spin') {
+    const dot  = document.getElementById('lsDot');
+    const txt  = document.getElementById('lsText');
+    txt.textContent = text;
+    dot.className = 'ls-status-dot ' + state;
+}
+
+function lsProgress(pct) {
+    document.getElementById('lsBar').style.width = pct + '%';
+}
+
+/* ════ INIT ════ */
+window.addEventListener('load', async () => {
+    lsUpdate('กำลังเชื่อมต่อระบบ...', 'spin');
+    lsProgress(20);
+
+    let activities = [];
+    try {
+        lsUpdate('กำลังโหลดรายการกิจกรรม...', 'spin');
+        lsProgress(50);
+        activities = await fetchActivitiesData();
+        lsProgress(85);
+        lsUpdate('พร้อมใช้งาน', 'ok');
+        populateActivities(activities);
+    } catch (e) {
+        lsUpdate('โหลดข้อมูลไม่สำเร็จ', 'err');
+        showConfigAlert(`เชื่อมต่อล้มเหลว: ${e.message}`);
+    }
+
+    lsProgress(100);
+
+    await delay(500);
+
+    const ls = document.getElementById('loadScreen');
+    ls.classList.add('fade-out');
+    document.body.classList.add('visible');
+    ls.addEventListener('animationend', () => ls.remove(), { once: true });
+
+    setTimeout(() => document.getElementById('infoModal').classList.add('visible'), 300);
+
+    const p   = new URLSearchParams(location.search);
+    const act = p.get('a') || p.get('name') || p.get('activity');
+    const sid = p.get('s') || p.get('id');
+
+    if (act && sid) {
+        document.getElementById('studentId').value = sid;
+        onIdInput(document.getElementById('studentId'));
+        document.getElementById('triggerText').textContent = act;
+        document.getElementById('selectTrigger').classList.add('has-value');
+        document.getElementById('activitySelect').value = act;
+        _act = act; _sid = sid;
+        setTimeout(() => performSearch(sid, act), 800);
+    }
+});
+
+async function fetchActivitiesData() {
+    const r = await fetch(`${GAS_URL}?action=getActivities`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const ct = r.headers.get('content-type') || '';
+    if (!ct.includes('application/json')) throw new Error('ได้รับ HTML แทน JSON');
+    const data = await r.json();
+    if (!Array.isArray(data)) throw new Error('รูปแบบข้อมูลไม่ถูกต้อง');
+    return data;
+}
+
+function populateActivities(data) {
+    const dropdown = document.getElementById('customDropdown');
+    const realSel  = document.getElementById('activitySelect');
+
+    if (!data.length) {
+        dropdown.innerHTML = '<div class="dropdown-empty">ไม่พบรายการกิจกรรม</div>';
+        return;
+    }
+
+    dropdown.innerHTML = '';
+    realSel.innerHTML  = '<option value="" disabled selected></option>';
+
+    data.forEach(act => {
+        const div = document.createElement('div');
+        div.className = 'dropdown-opt';
+        div.dataset.value = act;
+        div.innerHTML = `<span class="dropdown-opt-text">${escHtml(act)}</span><i class="fa-solid fa-check dd-check"></i>`;
+        div.onclick = () => selectOption(act, act);
+        dropdown.appendChild(div);
+
+        const opt = document.createElement('option');
+        opt.value = act; opt.text = act;
+        realSel.appendChild(opt);
+    });
+
+    if (document.getElementById('triggerText').textContent.includes('กำลังโหลด')) {
+        document.getElementById('triggerText').textContent = 'กรุณาเลือกกิจกรรม';
+    }
+}
+
+function closeModal() { document.getElementById('infoModal').classList.remove('visible'); }
+
+function showConfigAlert(msg) {
+    document.getElementById('alertMsg').textContent = msg;
+    document.getElementById('configAlert').classList.add('show');
+}
+
+/* ════ ID INPUT ════ */
+function onIdInput(el) {
+    el.value = el.value.replace(/[^0-9]/g, '');
+    const len = el.value.length;
+    document.getElementById('idCounter').textContent = `${len} / 10`;
+    document.getElementById('idCounter').className = 'field-label-right' + (len === 10 ? ' complete' : '');
+
+    const bar = document.getElementById('idBar');
+    bar.style.width = `${len * 10}%`;
+    bar.style.background = len === 10 ? '#16a34a' : len >= 6 ? 'var(--accent)' : 'var(--ink-30)';
+
+    el.classList.toggle('complete', len === 10);
+    el.classList.remove('invalid');
+    refreshSearchBtn();
+}
+
+/* ════ DROPDOWN ════ */
+function toggleDropdown() {
+    document.getElementById('selectTrigger').classList.contains('open') ? closeDropdown() : openDropdown();
+}
+
+function openDropdown() {
+    document.getElementById('selectTrigger').classList.add('open');
+    document.getElementById('customDropdown').classList.add('open');
+}
+
+function closeDropdown() {
+    document.getElementById('selectTrigger').classList.remove('open');
+    document.getElementById('customDropdown').classList.remove('open');
+}
+
+function handleSelectKey(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleDropdown(); }
+    if (e.key === 'Escape') closeDropdown();
+}
+
+document.addEventListener('click', e => {
+    if (!document.getElementById('selectWrap').contains(e.target)) closeDropdown();
+});
+
+function selectOption(value, label) {
+    document.getElementById('activitySelect').value = value;
+    document.getElementById('triggerText').textContent = label;
+    document.getElementById('selectTrigger').classList.add('has-value');
+    document.querySelectorAll('.dropdown-opt').forEach(o => o.classList.remove('selected'));
+    document.querySelector(`.dropdown-opt[data-value="${CSS.escape(value)}"]`)?.classList.add('selected');
+    closeDropdown();
+    _act = value;
+    refreshSearchBtn();
+}
+
+function refreshSearchBtn() {
+    const ok = !!document.getElementById('activitySelect').value
+            && document.getElementById('studentId').value.length === 10;
+    document.getElementById('searchBtn').disabled = !ok;
+}
+
+/* ════ SEARCH ════ */
+function searchData() {
+    const act = document.getElementById('activitySelect').value;
+    const sid = document.getElementById('studentId').value.trim();
+    if (!act)          { shake('selectTrigger'); return; }
+    if (sid.length !== 10) { shake('studentId');    return; }
+    performSearch(sid, act);
+}
+
+function shake(id) {
+    const el = document.getElementById(id);
+    el.classList.add('invalid');
+    setTimeout(() => el.classList.remove('invalid'), 1800);
+}
+
+function performSearch(sid, act) {
+    _sid = sid; _act = act;
+    if (_monitorTimer) clearInterval(_monitorTimer);
+
+    document.getElementById('formCard').classList.add('dimmed');
+    document.getElementById('searchBtn').disabled = true;
+    document.getElementById('searchBtn').innerHTML = '<div class="loader-mini"></div><span>กำลังค้นหา...</span>';
+
+    hide('pendingCard'); hide('errorCard'); hide('resultArea');
+    show('processCard');
+
+    setPs(1, 'active'); setPs(2, 'idle'); setPs(3, 'idle');
+
+    setTimeout(() => {
+        setPs(1, 'done', 'ข้อมูลถูกต้อง พร้อมค้นหา');
+        setPs(2, 'active');
+
+        fetch(`${GAS_URL}?action=search&id=${encodeURIComponent(sid)}&criteria=${encodeURIComponent(act)}`)
+            .then(async r => {
+                if (!r.ok) throw new Error(r.status === 404 ? '404 — URL ผิด หรือยังไม่ได้ Deploy' : `HTTP ${r.status}`);
+                const ct = r.headers.get('content-type') || '';
+                if (!ct.includes('application/json')) throw new Error('ได้รับ HTML แทน JSON');
+                return r.json();
+            })
+            .then(data => {
+                setPs(2, 'done', 'รับข้อมูลสำเร็จ');
+                setPs(3, 'active');
+                setTimeout(() => {
+                    setPs(3, 'done', 'พร้อมแสดงผล');
+                    setTimeout(() => {
+                        hide('processCard');
+                        showResult(data);
+                    }, 300);
+                }, 400);
+            })
+            .catch(e => {
+                setPs(2, 'error', e.message);
+                setTimeout(() => { hide('processCard'); showError(e); }, 500);
+            })
+            .finally(() => {
+                document.getElementById('searchBtn').innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><span>ค้นหาข้อมูล</span>';
+                refreshSearchBtn();
+                document.getElementById('formCard').classList.remove('dimmed');
+            });
+    }, 500);
+}
+
+/* ════ PROCESS STEPS ════ */
+function setPs(n, state, desc) {
+    const el  = document.getElementById('ps-' + n);
+    const dot = el.querySelector('.ps-dot');
+    const dEl = document.getElementById('psd-' + n);
+    el.className = 'ps-item ' + state;
+    const icons = { active: 'fa-ellipsis', done: 'fa-check', error: 'fa-xmark', idle: '' };
+    dot.innerHTML = state === 'idle'
+        ? `<span style="font-size:9px;font-weight:700;color:var(--ink-30)">${n}</span>`
+        : `<i class="fa-solid ${icons[state]}"></i><div class="ps-ring"></div>`;
+    if (desc && dEl) dEl.textContent = desc;
+}
+
+/* ════ SHOW RESULT / ERROR ════ */
+function showResult(data) {
+    if (!data?.found) {
+        document.getElementById('errorDetail').textContent = 'ไม่พบข้อมูลสำหรับรหัสนักศึกษานี้ในกิจกรรมที่เลือก';
+        document.getElementById('technicalError').style.display = 'none';
+        document.getElementById('deployHint').classList.add('hidden');
+        show('errorCard'); return;
+    }
+
+    const activities = data?.data?.activities || [];
+
+    if (activities.length > 0 && activities[0].code === 'กำลังดำเนินการ') {
+        show('pendingCard'); return;
+    }
+
+    document.getElementById('resActivity').textContent = data.data?.activityName || '—';
+    document.getElementById('resName').textContent     = data.data?.name         || '—';
+    document.getElementById('resId').textContent       = data.data?.studentId    || '—';
+    document.getElementById('resGroup').textContent    = data.data?.group        || '—';
+
+    let html = '';
+    activities.forEach((item, i) => {
+        if (item.code || item.token) {
+            
+            /* ดัก Bug กรณีไม่มี code หรือ token ส่งมา จะได้ไม่สร้างปุ่มว่างๆ */
+            let pills = '';
+            if (item.code) {
+                pills += `<div class="code-pill" onclick="copyText('${escHtml(item.code)}','รหัสกิจกรรม',this)">
+                            <i class="fa-solid fa-hashtag"></i>
+                            <span>${escHtml(item.code)}</span>
+                            <i class="fa-regular fa-copy copy-icon"></i>
+                          </div>`;
+            }
+            if (item.token) {
+                pills += `<div class="token-pill" onclick="copyText('${escHtml(item.token)}','Token Key',this)">
+                            <i class="fa-solid fa-key"></i>
+                            <span>${escHtml(item.token)}</span>
+                            <i class="fa-regular fa-copy copy-icon"></i>
+                          </div>`;
+            }
+
+            html += `
+            <div class="token-card">
+                <div class="token-card-head">รายการที่ ${i + 1}</div>
+                <div class="token-card-body">
+                    ${pills}
+                </div>
+            </div>`;
+        }
+    });
+
+    document.getElementById('activitiesList').innerHTML = html || '<div style="font-size:12.5px;color:var(--ink-50);padding:4px 0">ไม่พบรายการ Token</div>';
+    document.getElementById('shareBtn').style.display = 'flex';
+
+    document.getElementById('searchSection').classList.add('hidden');
+    show('resultArea');
+}
+
+function showError(e) {
+    document.getElementById('errorDetail').textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อ';
+    const tech = document.getElementById('technicalError');
+    tech.textContent = 'Technical: ' + e.message;
+    tech.style.display = 'block';
+    document.getElementById('deployHint').classList.toggle('hidden', !e.message.includes('404') && !e.message.includes('HTML'));
+    show('errorCard');
+}
+
+function resetAll() {
+    if (_monitorTimer) clearInterval(_monitorTimer);
+    ['processCard','pendingCard','errorCard','resultArea'].forEach(hide);
+    document.getElementById('monitoringBadge').classList.remove('show');
+    document.getElementById('btnEnableNotify').style.display = '';
+    document.getElementById('shareBtn').style.display = 'none';
+
+    document.getElementById('searchSection').classList.remove('hidden');
+    document.getElementById('studentId').value = '';
+    document.getElementById('idCounter').textContent = '0 / 10';
+    document.getElementById('idCounter').className = 'field-label-right';
+    
+    /* แก้ Bug สีของ progress bar ค้างตอน reset */
+    document.getElementById('idBar').style.width = '0';
+    document.getElementById('idBar').style.background = 'var(--ink-30)';
+    document.getElementById('studentId').classList.remove('complete', 'invalid');
+    refreshSearchBtn();
+
+    if (window.history.pushState) {
+        window.history.pushState({}, '', location.pathname);
+    }
+}
+
+/* ════ COPY ════ */
+let _toastTimer;
+
+function copyText(txt, label, el) {
+    if (!txt) return;
+    navigator.clipboard.writeText(txt).then(() => {
+        const icon = el?.querySelector('.copy-icon');
+        if (icon) { icon.className = 'fa-solid fa-check copy-icon'; setTimeout(() => icon.className = 'fa-regular fa-copy copy-icon', 2000); }
+        toast(`คัดลอก${label}แล้ว`);
+    });
+}
+
+function toast(msg) {
+    const el = document.getElementById('copyToast');
+    document.getElementById('copyToastText').textContent = msg;
+    el.classList.add('show');
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function copyResultLink() {
+    const url = `${location.protocol}//${location.host}${location.pathname}?a=${encodeURIComponent(_act)}&s=${encodeURIComponent(_sid)}`;
+    navigator.clipboard.writeText(url).then(() => {
+        const btn = document.getElementById('shareBtn');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i>คัดลอกแล้ว';
+        setTimeout(() => btn.innerHTML = orig, 2000);
+    });
+}
+
+/* ════ NOTIFICATIONS ════ */
+function enableNotification() {
+    if (!('Notification' in window)) { alert('บราวเซอร์ไม่รองรับการแจ้งเตือน'); return; }
+    Notification.requestPermission().then(p => {
+        if (p === 'granted') startMonitoring();
+        else alert('กรุณาอนุญาตการแจ้งเตือนในเบราว์เซอร์');
+    });
+}
+
+function startMonitoring() {
+    document.getElementById('btnEnableNotify').style.display = 'none';
+    document.getElementById('monitoringBadge').classList.add('show');
+    _monitorTimer = setInterval(() => {
+        fetch(`${GAS_URL}?action=search&id=${encodeURIComponent(_sid)}&criteria=${encodeURIComponent(_act)}`)
+            .then(r => r.json())
+            .then(d => {
+                if (d?.found && d.data?.activities?.[0]?.code !== 'กำลังดำเนินการ') {
+                    new Notification('Token มาแล้ว!', { body: 'คลิกเพื่อดูรหัสกิจกรรม', icon: 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico' });
+                    clearInterval(_monitorTimer);
+                    hide('pendingCard');
+                    showResult(d);
+                }
+            });
+    }, 60000);
+}
+
+/* ════ HELPERS ════ */
+function show(id) { document.getElementById(id).classList.remove('hidden'); }
+function hide(id) { document.getElementById(id).classList.add('hidden'); }
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+function escHtml(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+</script>
+</body>
+</html>
