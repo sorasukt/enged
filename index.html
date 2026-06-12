@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#d32f2f" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#0f0f13" media="(prefers-color-scheme: dark)">
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="/img/enged-512.png">
@@ -35,6 +35,80 @@
 
 <body>
 
+    <!-- ════ MOBILE MENU DRAWER ════ -->
+    <div id="mobileMenuDrawer" class="mobile-menu-drawer" onclick="if(event.target===this)toggleMobileMenu()">
+        <div class="drawer-content">
+            <div class="drawer-header">
+                <div class="drawer-title">เมนูระบบ</div>
+                <button class="drawer-close-btn" onclick="toggleMobileMenu()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="drawerAuthArea" class="drawer-auth-area">
+                <!-- Will be dynamically populated -->
+            </div>
+
+            <div class="drawer-divider"></div>
+
+            <nav class="drawer-nav">
+                <a href="/enged" class="drawer-nav-link active" id="drawerNavLinkHome"><i
+                        class="fa-solid fa-house"></i>หน้าหลัก</a>
+                <a href="/enged/checkup" class="drawer-nav-link" id="drawerNavLinkCheckup"><i
+                        class="fa-solid fa-user-check"></i>บันทึกกิจกรรม</a>
+                <a href="/enged/sys" class="drawer-nav-link" id="drawerNavLinkSys"><i class="fa-solid fa-key"></i>ค้นหา
+                    Token Key</a>
+                <a href="/enged/budget" class="drawer-nav-link" id="drawerNavLinkBudget"><i
+                        class="fa-solid fa-wallet"></i>บริหารงบประมาณ</a>
+                <a href="/enged/vote" class="drawer-nav-link" id="drawerNavLinkVote"><i
+                        class="fa-solid fa-check-to-slot"></i>ลงคะแนนเลือกตั้ง</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ════ PROFILE MODAL ════ -->
+    <div id="profileModal" class="profile-modal" onclick="if(event.target===this)closeProfileModal()">
+        <div class="profile-modal-card">
+            <div class="profile-modal-top">
+                <div class="profile-modal-avatar-wrap">
+                    <img id="profileModalAvatar" src="" alt="Profile Picture">
+                </div>
+                <h3 class="profile-modal-title">แก้ไขข้อมูลส่วนตัว</h3>
+                <p class="profile-modal-sub" id="profileModalEmail"></p>
+            </div>
+            <div class="profile-modal-body">
+                <div class="profile-field" style="margin-bottom: 16px; text-align: center;">
+                    <label for="profileUploadInput"
+                        style="cursor: pointer; display: inline-block; padding: 6px 12px; background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: 6px; font-size: 12px; font-weight: 600; color: var(--ink-70); transition: var(--transition);">
+                        <i class="fa-solid fa-camera" style="margin-right: 4px;"></i> เปลี่ยนรูปโปรไฟล์
+                    </label>
+                    <input type="file" id="profileUploadInput" accept="image/*" style="display: none;"
+                        onchange="previewProfileImage(event)">
+                </div>
+                <div class="profile-field">
+                    <label class="profile-label">ชื่อ–นามสกุล</label>
+                    <input type="text" id="profileInputName" placeholder="กรอกชื่อจริง-นามสกุล">
+                </div>
+                <div class="profile-field">
+                    <label class="profile-label">รหัสนักศึกษา</label>
+                    <input type="text" id="profileInputId" readonly
+                        style="background: var(--ink-07); cursor: not-allowed;">
+                    <div class="profile-field-hint">รหัสนักศึกษาดึงอัตโนมัติจากอีเมลและแก้ไขไม่ได้</div>
+                </div>
+
+                <div class="profile-modal-actions">
+                    <button class="profile-btn save" onclick="saveProfileData()">บันทึกข้อมูล</button>
+                    <button class="profile-btn cancel" onclick="closeProfileModal()">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="copy-toast" id="copyToast">
+        <i class="fa-solid fa-check"></i>
+        <span id="copyToastText">คัดลอกแล้ว</span>
+    </div>
+
     <div class="bg-shape shape-1"></div>
     <div class="bg-shape shape-2"></div>
     <div class="bg-shape shape-3"></div>
@@ -48,13 +122,29 @@
                 </div>
                 <div class="header-brand-text">
                     <div class="header-brand-name">English Education</div>
-                    <div class="header-brand-sub">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                    <div class="header-brand-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
                 </div>
             </a>
-            <div class="header-right" id="authHeaderArea">
-                <div class="header-spinner">
-                    <div class="loader-mini"></div> กำลังตรวจสอบสิทธิ์...
+
+            <!-- Desktop Navigation Menu -->
+            <nav class="header-nav" id="desktopNav">
+                <a href="/enged" class="nav-link active">หน้าหลัก</a>
+                <a href="/enged/checkup" class="nav-link">บันทึกกิจกรรม</a>
+                <a href="/enged/sys" class="nav-link">ค้นหา Token Key</a>
+                <a href="/enged/budget" class="nav-link">บริหารงบประมาณ</a>
+                <a href="/enged/vote" class="nav-link">ลงคะแนนเลือกตั้ง</a>
+            </nav>
+
+            <div class="header-right">
+                <div id="authHeaderArea" style="display: flex; align-items: center; gap: 12px;">
+                    <div class="header-spinner">
+                        <div class="loader-mini"></div> กำลังตรวจสอบสิทธิ์...
+                    </div>
                 </div>
+                <!-- Hamburger Button -->
+                <button class="hamburger-btn" onclick="toggleMobileMenu(event)" aria-label="Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
         </div>
     </header>
@@ -182,6 +272,8 @@
                         รวมถึงการปลูกฝังความรู้ ความคิดและจิตใจที่มีคุณธรรมแก่เยาวชน
                         เพื่อให้เติบโตขึ้นเป็นพลเมืองที่ดีและมีประสิทธิภาพของประเทศชาติในกาลข้างหน้า
                         ผู้เป็นครูจึงจัดได้ว่าเป็นผู้ที่มีบทบาทอย่างสำคัญในการสร้างสรรค์อนาคตของชาติบ้านเมือง
+                        รวมถึงการปลูกฝังความรู้ ความคิดและจิตใจที่มีคุณธรรมแก่เยาวชน
+                        เพื่อให้เติบโตขึ้นเป็นพลเมืองที่ดีและมีประสิทธิภาพของประเทศชาติในกาลข้างหน้า
                     </p>
                 </div>
             </div>
@@ -274,7 +366,7 @@
                     <h5>แจ้งเตือนสำคัญ</h5>
                     <p class="modal-description">
                         ระบบค้นหา Token Key ของสาขาวิชา
-                        <br> จะถูกปิดในวันที่ <b>30 มกราคม พ.ศ. 2569 เวลา 18.00 น.</b>
+                        <br> จะถูกปิด in วันที่ <b>30 มกราคม พ.ศ. 2569 เวลา 18.00 น.</b>
                         <br> นักศึกษาสามารถดำเนินการค้นหา Token Key ได้ในระยะเวลาดังกล่าว
                         หลังจากนั้นระบบจะปิดและไม่สามารถค้นหาได้
                         <br><br>
@@ -431,6 +523,94 @@
             document.querySelector('.slider-dots').style.display = 'none';
         }
 
+        const GAS_PROFILE_UPDATE_URL = "https://script.google.com/macros/s/AKfycbxz6ZQpBN-JcfA3eY0yaIQobiSTFiXRMl-SDWXLTaQMI5mvBUw81KlU0uC7NwPDkgqD/exec";
+
+        async function saveProfileData() {
+            const saveBtn = document.querySelector('.profile-btn.save');
+            const origBtnText = saveBtn.innerHTML;
+
+            const inputName = document.getElementById('profileInputName');
+            const fileInput = document.getElementById('profileUploadInput');
+
+            const nameVal = inputName ? inputName.value.trim() : '';
+            if (!nameVal) {
+                alert('กรุณากรอกชื่อ-นามสกุล');
+                return;
+            }
+
+            saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
+            saveBtn.disabled = true;
+
+            try {
+                let imageBase64 = null;
+                let imageMimeType = null;
+                let imageFileName = null;
+
+                if (fileInput && fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    imageMimeType = file.type;
+                    imageFileName = file.name;
+
+                    imageBase64 = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                }
+
+                // ดึง Token ของผู้ใช้ปัจจุบันเพื่อยืนยันตัวตน
+                const token = await auth0Client.getTokenSilently();
+
+
+
+                const payload = {
+                    access_token: token,
+                    name: nameVal,
+                    imageBase64: imageBase64,
+                    imageMimeType: imageMimeType,
+                    imageFileName: imageFileName
+                };
+
+                const res = await fetch(GAS_PROFILE_UPDATE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+
+                setCookie('att_name', nameVal, 30);
+                if (userProfile) {
+                    userProfile.name = nameVal;
+                    if (data.picture) userProfile.picture = data.picture;
+                }
+
+                updateAuthUI();
+                closeProfileModal();
+                alert('อัปเดตโปรไฟล์สำเร็จแล้ว');
+
+            } catch (err) {
+                console.error(err);
+                alert('เกิดข้อผิดพลาดในการอัปเดตโปรไฟล์: ' + err.message);
+            } finally {
+                saveBtn.innerHTML = origBtnText;
+                saveBtn.disabled = false;
+            }
+        }
+
+        function previewProfileImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profileModalAvatar').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
         // Image Modal Functionality
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
@@ -473,11 +653,115 @@
 
         /* ════════════════════════════════════════
            ตั้งค่า AUTH0 (Home Page Single Sign-On)
-        ════════════════════════════════════════ */
+         ════════════════════════════════════════ */
         const AUTH0_DOMAIN = "litalkeducation.us.auth0.com";
         const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";
 
         let auth0Client = null;
+        let isAuthenticated = false;
+        let userProfile = null;
+        let extractedStudentId = '';
+
+        function escHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g,
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+
+        function toast(msg) {
+            const t = document.getElementById('copyToast');
+            const txt = document.getElementById('copyToastText');
+            if (t && txt) {
+                txt.textContent = msg;
+                t.classList.add('show');
+                setTimeout(() => t.classList.remove('show'), 2000);
+            }
+        }
+
+        /* ════ COOKIE HELPERS ════ */
+        function setCookie(name, value, days) {
+            const exp = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = `${name}=${encodeURIComponent(value)};expires=${exp};path=/;SameSite=Strict`;
+        }
+
+        function getCookie(name) {
+            const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+            return m ? decodeURIComponent(m[1]) : '';
+        }
+
+        /* ════ DROPDOWN & PROFILE FUNCTIONS ════ */
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('userDropdownMenu');
+            const btn = document.querySelector('.user-profile-btn');
+            if (!menu || !btn) return;
+            const isShown = menu.classList.contains('show');
+            closeDropdowns();
+            if (!isShown) {
+                menu.classList.add('show');
+                btn.classList.add('open');
+            }
+        }
+
+        function closeDropdowns() {
+            const menu = document.getElementById('userDropdownMenu');
+            const btn = document.querySelector('.user-profile-btn');
+            if (menu) menu.classList.remove('show');
+            if (btn) btn.classList.remove('open');
+        }
+
+        document.addEventListener('click', () => {
+            closeDropdowns();
+        });
+
+        function toggleMobileMenu(event) {
+            if (event) event.stopPropagation();
+            const drawer = document.getElementById('mobileMenuDrawer');
+            if (!drawer) return;
+            const isOpen = drawer.classList.contains('open');
+            if (isOpen) {
+                drawer.classList.remove('open');
+                setTimeout(() => {
+                    drawer.style.display = 'none';
+                }, 250);
+            } else {
+                drawer.style.display = 'flex';
+                drawer.offsetHeight;
+                drawer.classList.add('open');
+            }
+        }
+
+        function openProfileModal() {
+            closeDropdowns();
+            const modal = document.getElementById('profileModal');
+            const avatar = document.getElementById('profileModalAvatar');
+            const email = document.getElementById('profileModalEmail');
+            const inputName = document.getElementById('profileInputName');
+            const inputId = document.getElementById('profileInputId');
+
+            if (modal && userProfile) {
+                avatar.src = userProfile.picture || 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
+                email.textContent = userProfile.email || '—';
+
+                const regex = /^sb(\d+)@lru\.ac\.th$/i;
+                const match = (userProfile.email || '').match(regex);
+                extractedStudentId = match ? match[1] : '';
+                inputId.value = extractedStudentId || '—';
+
+                const savedName = getCookie('att_name') || userProfile.name || userProfile.nickname || '';
+                inputName.value = savedName;
+
+                modal.classList.add('visible');
+            }
+        }
+
+        function closeProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal) modal.classList.remove('visible');
+        }
+
+
 
         async function configureAuth0() {
             auth0Client = await auth0.createAuth0Client({
@@ -500,7 +784,6 @@
 
         async function logoutUser() {
             if (!auth0Client) return;
-            // Clear attendance name cache like checkup.html does
             document.cookie = 'att_name=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             await auth0Client.logout({
                 logoutParams: { returnTo: window.location.origin + window.location.pathname }
@@ -509,44 +792,100 @@
 
         async function updateAuthUI() {
             const authArea = document.getElementById('authHeaderArea');
+            const drawerAuth = document.getElementById('drawerAuthArea');
             if (!authArea) return;
 
             try {
-                const isAuthenticated = await auth0Client.isAuthenticated();
+                isAuthenticated = await auth0Client.isAuthenticated();
                 if (isAuthenticated) {
-                    const user = await auth0Client.getUser();
+                    userProfile = await auth0Client.getUser();
 
-                    // User is logged in: show profile info & logout button
+                    const displayName = getCookie('att_name') || userProfile.name || userProfile.nickname || 'นักศึกษา';
+                    const avatarUrl = userProfile.picture || 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
+
                     authArea.innerHTML = `
-                        <div class="header-badge">
-                            <div class="live-dot"></div>
-                            <span>ล็อกอินแล้ว: <strong>${user.email}</strong></span>
+                        <div class="user-dropdown-container">
+                            <button class="user-profile-btn" onclick="toggleUserDropdown(event)">
+                                <img src="${avatarUrl}" alt="Avatar" class="user-avatar-mini">
+                                <span class="user-name-mini">${escHtml(displayName)}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                            </button>
+                            <div class="user-dropdown-menu" id="userDropdownMenu">
+                                <div class="user-dropdown-header">
+                                    <img src="${avatarUrl}" alt="Avatar" class="user-avatar-large">
+                                    <div class="user-info-text">
+                                        <div class="user-name-full">${escHtml(displayName)}</div>
+                                        <div class="user-email-full">${escHtml(userProfile.email)}</div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item" onclick="openProfileModal()">
+                                    <i class="fa-solid fa-user-gear"></i>แก้ไขข้อมูลส่วนตัว
+                                </button>
+                                <button class="dropdown-item logout" onclick="logoutUser()">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>ออกจากระบบ
+                                </button>
+                            </div>
                         </div>
-                        <button class="logout-btn" onclick="logoutUser()">
-                            <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
-                        </button>
                     `;
+
+                    if (drawerAuth) {
+                        drawerAuth.innerHTML = `
+                            <img src="${avatarUrl}" alt="Avatar" class="drawer-avatar">
+                            <div class="drawer-username">${escHtml(displayName)}</div>
+                            <div class="drawer-email">${escHtml(userProfile.email)}</div>
+                            <button class="drawer-auth-btn secondary" onclick="openProfileModal()">
+                                <i class="fa-solid fa-user-gear"></i>แก้ไขข้อมูลส่วนตัว
+                            </button>
+                            <button class="drawer-auth-btn logout" onclick="logoutUser()">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>ออกจากระบบ
+                            </button>
+                        `;
+                    }
 
                     // Modify the "บันทึกการเข้าร่วมกิจกรรม" card text to reflect logged in state
                     const serviceCardText = document.querySelector('.service-card.lru-mail .card-content p');
                     if (serviceCardText) {
-                        serviceCardText.innerHTML = `<span style="color: #10b981; font-weight: 600;"><i class="fas fa-check-circle"></i> ยืนยันตัวตนแล้ว</span> — แตะเพื่อบันทึกพิกัดกิจกรรม`;
+                        serviceCardText.innerHTML = `<span style="color: var(--ink); font-weight: 600;"><i class="fas fa-check-circle"></i> ยืนยันตัวตนแล้ว</span> — แตะเพื่อบันทึกพิกัดกิจกรรม`;
                     }
                 } else {
-                    // User is not logged in: show login button
-                    authArea.innerHTML = `
+                    const loginBtnHtml = `
                         <button class="login-header-btn" onclick="loginUser()">
                             <i class="fa-solid fa-arrow-right-to-bracket"></i> เข้าสู่ระบบด้วย LRU Mail
                         </button>
                     `;
+                    authArea.innerHTML = loginBtnHtml;
+
+                    if (drawerAuth) {
+                        drawerAuth.innerHTML = `
+                            <div style="font-size:12px;color:var(--ink-50);margin-bottom:12px;">กรุณาเข้าสู่ระบบเพื่อใช้งานเมนูเต็มรูปแบบ</div>
+                            <button class="drawer-auth-btn primary" onclick="loginUser()">
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i>เข้าสู่ระบบด้วย LRU Mail
+                            </button>
+                        `;
+                    }
+
+                    const serviceCardText = document.querySelector('.service-card.lru-mail .card-content p');
+                    if (serviceCardText) {
+                        serviceCardText.innerHTML = `เข้าสู่ระบบด้วย LRU Mail เพื่อเช็คชื่อเข้าร่วมกิจกรรม`;
+                    }
                 }
             } catch (error) {
                 console.error("Error updating Auth UI:", error);
-                authArea.innerHTML = `
+                const fallbackLogin = `
                     <button class="login-header-btn" onclick="loginUser()">
                         <i class="fa-solid fa-arrow-right-to-bracket"></i> เข้าสู่ระบบ
                     </button>
                 `;
+                authArea.innerHTML = fallbackLogin;
+
+                if (drawerAuth) {
+                    drawerAuth.innerHTML = `
+                        <button class="drawer-auth-btn primary" onclick="loginUser()">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i>เข้าสู่ระบบ
+                        </button>
+                    `;
+                }
             }
         }
     </script>

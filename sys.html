@@ -69,8 +69,8 @@
             font-family: 'Noto Sans Thai', sans-serif;
             background: #f8fafc;
             background-image:
-                radial-gradient(circle at top right, rgba(99, 102, 241, 0.03) 0%, transparent 60%),
-                radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.03) 0%, transparent 60%);
+                radial-gradient(circle at top right, rgba(0, 0, 0, 0.015) 0%, transparent 60%),
+                radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.02) 0%, transparent 60%);
             color: var(--ink);
             min-height: 100vh;
             opacity: 0;
@@ -347,12 +347,13 @@
             color: var(--ink);
         }
 
-        /* Site Header (Translucent Blur) */
+        /* Site Header (Premium Glassmorphism) */
         .site-header {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px) saturate(190%);
-            -webkit-backdrop-filter: blur(12px) saturate(190%);
-            border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 4px 24px rgba(0, 0, 0, 0.02);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -363,11 +364,11 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 32px;
-            height: 70px;
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 24px;
+            gap: 16px;
         }
 
         .header-brand {
@@ -375,20 +376,68 @@
             align-items: center;
             gap: 14px;
             text-decoration: none;
+            color: inherit;
+            flex-shrink: 0;
+        }
+
+        /* Desktop Navigation */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            margin-left: 24px;
+            margin-right: auto;
+        }
+        .nav-link {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--ink-50);
+            text-decoration: none;
+            transition: var(--transition);
+            padding: 8px 14px;
+            border-radius: 8px;
+            position: relative;
+            letter-spacing: -0.01em;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 16px;
+            height: 2px;
+            border-radius: 2px;
+            background: var(--ink);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-link:hover { color: var(--ink); background: var(--ink-07); }
+        .nav-link:hover::after { transform: translateX(-50%) scaleX(1); }
+        .nav-link.active { color: var(--ink); font-weight: 700; background: var(--ink-07); }
+        .nav-link.active::after { transform: translateX(-50%) scaleX(1); }
+        @media (max-width: 900px) {
+            .header-nav { display: none; }
         }
 
         .header-logo {
-            width: 32px;
-            height: 32px;
-            border-radius: var(--r-xs);
-            overflow: hidden;
+            width: 36px;
+            height: 36px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-shrink: 0;
+            transition: var(--transition);
         }
 
         .header-logo img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            border-radius: calc(var(--r-sm) - 3px);
         }
 
         .header-brand-text {
@@ -404,8 +453,8 @@
 
         .header-brand-faculty {
             font-size: 11px;
-            color: var(--ink-50);
-            font-weight: 500;
+            color: #2563eb;
+            font-weight: 600;
             margin-top: 2px;
         }
 
@@ -1852,21 +1901,6 @@
         }
 
         @media (max-width: 600px) {
-            .header-inner {
-                height: auto;
-                padding: 12px 20px;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-
-            .header-right {
-                width: 100%;
-                justify-content: space-between;
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-
             .header-badge {
                 padding: 4px 10px;
                 font-size: 11px;
@@ -2540,6 +2574,12 @@
                 <p class="profile-modal-sub" id="profileModalEmail"></p>
             </div>
             <div class="profile-modal-body">
+                <div class="profile-field" style="margin-bottom: 16px; text-align: center;">
+                    <label for="profileUploadInput" style="cursor: pointer; display: inline-block; padding: 6px 12px; background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: 6px; font-size: 12px; font-weight: 600; color: var(--ink-70); transition: var(--transition);">
+                        <i class="fa-solid fa-camera" style="margin-right: 4px;"></i> เปลี่ยนรูปโปรไฟล์
+                    </label>
+                    <input type="file" id="profileUploadInput" accept="image/*" style="display: none;" onchange="previewProfileImage(event)">
+                </div>
                 <div class="profile-field">
                     <label class="profile-label">ชื่อ–นามสกุล</label>
                     <input type="text" id="profileInputName" placeholder="กรอกชื่อจริง-นามสกุล">
@@ -2578,6 +2618,7 @@
             
             <!-- Desktop Navigation Menu -->
             <nav class="header-nav" id="desktopNav">
+                <a href="/enged" class="nav-link">หน้าหลัก</a>
                 <a href="/enged/checkup" class="nav-link">บันทึกกิจกรรม</a>
                 <a href="/enged/sys" class="nav-link active">ค้นหา Token Key</a>
                 <a href="/enged/budget" class="nav-link">บริหารงบประมาณ</a>
@@ -2590,9 +2631,6 @@
                         <div class="loader-mini"></div> กำลังตรวจสอบสิทธิ์...
                     </div>
                 </div>
-                <a href="/enged" class="header-back">
-                    <i class="fa-solid fa-chevron-left"></i>กลับหน้าหลัก
-                </a>
                 <!-- Hamburger Button -->
                 <button class="hamburger-btn" onclick="toggleMobileMenu(event)" aria-label="Menu">
                     <i class="fa-solid fa-bars"></i>
@@ -2618,7 +2656,7 @@
             <div class="drawer-divider"></div>
             
             <nav class="drawer-nav">
-                <a href="/enged/" class="drawer-nav-link" id="drawerNavLinkHome"><i class="fa-solid fa-house"></i>หน้าแรก</a>
+                <a href="/enged" class="drawer-nav-link" id="drawerNavLinkHome"><i class="fa-solid fa-house"></i>หน้าหลัก</a>
                 <a href="/enged/checkup" class="drawer-nav-link" id="drawerNavLinkCheckup"><i class="fa-solid fa-user-check"></i>บันทึกกิจกรรม</a>
                 <a href="/enged/sys" class="drawer-nav-link active" id="drawerNavLinkSys"><i class="fa-solid fa-key"></i>ค้นหา Token Key</a>
                 <a href="/enged/budget" class="drawer-nav-link" id="drawerNavLinkBudget"><i class="fa-solid fa-wallet"></i>บริหารงบประมาณ</a>
@@ -3187,22 +3225,89 @@
             if (modal) modal.classList.remove('visible');
         }
 
-        function saveProfileData() {
+        const GAS_PROFILE_UPDATE_URL = "https://script.google.com/macros/s/AKfycbxz6ZQpBN-JcfA3eY0yaIQobiSTFiXRMl-SDWXLTaQMI5mvBUw81KlU0uC7NwPDkgqD/exec";
+
+        async function saveProfileData() {
+            const saveBtn = document.querySelector('.profile-btn.save');
+            const origBtnText = saveBtn.innerHTML;
+            
             const inputName = document.getElementById('profileInputName');
+            const fileInput = document.getElementById('profileUploadInput');
+            
             const nameVal = inputName ? inputName.value.trim() : '';
             if (!nameVal) {
                 alert('กรุณากรอกชื่อ-นามสกุล');
                 return;
             }
 
-            setCookie('att_name', nameVal, 30);
-            
-            if (userProfile) {
-                userProfile.name = nameVal;
+            saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
+            saveBtn.disabled = true;
+
+            try {
+                let imageBase64 = null;
+                let imageMimeType = null;
+                let imageFileName = null;
+
+                if (fileInput && fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    imageMimeType = file.type;
+                    imageFileName = file.name;
+                    
+                    imageBase64 = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                }
+
+                const token = await auth0Client.getTokenSilently();
+
+                const payload = {
+                    access_token: token,
+                    name: nameVal,
+                    imageBase64: imageBase64,
+                    imageMimeType: imageMimeType,
+                    imageFileName: imageFileName
+                };
+
+                const res = await fetch(GAS_PROFILE_UPDATE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+
+                setCookie('att_name', nameVal, 30);
+                if (userProfile) {
+                    userProfile.name = nameVal;
+                    if (data.picture) userProfile.picture = data.picture;
+                }
+                
+                updateAuthUI();
+                closeProfileModal();
+                toast('อัปเดตโปรไฟล์สำเร็จแล้ว');
+                
+            } catch (err) {
+                console.error(err);
+                alert('เกิดข้อผิดพลาดในการอัปเดตโปรไฟล์: ' + err.message);
+            } finally {
+                saveBtn.innerHTML = origBtnText;
+                saveBtn.disabled = false;
             }
-            updateAuthUI();
-            closeProfileModal();
-            toast('บันทึกข้อมูลส่วนตัวสำเร็จ');
+        }
+        
+        function previewProfileImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profileModalAvatar').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
         }
 
         /* ════ COOKIE HELPERS ════ */

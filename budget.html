@@ -64,8 +64,8 @@
             font-family: 'Noto Sans Thai', sans-serif;
             background: #f8fafc;
             background-image:
-                radial-gradient(circle at top right, rgba(99, 102, 241, 0.03) 0%, transparent 60%),
-                radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.03) 0%, transparent 60%);
+                radial-gradient(circle at top right, rgba(0, 0, 0, 0.015) 0%, transparent 60%),
+                radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.02) 0%, transparent 60%);
             color: var(--ink);
             min-height: 100vh;
             overflow-x: hidden;
@@ -110,7 +110,7 @@
             width: 480px;
             height: 480px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
             filter: blur(30px);
         }
 
@@ -122,7 +122,7 @@
             width: 580px;
             height: 580px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
             filter: blur(30px);
         }
 
@@ -494,10 +494,11 @@
         }
 
         .site-header {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px) saturate(190%);
-            -webkit-backdrop-filter: blur(12px) saturate(190%);
-            border-bottom: 1px solid rgba(13, 17, 23, 0.08);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 4px 24px rgba(0, 0, 0, 0.02);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -508,18 +509,41 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 32px;
-            height: 70px;
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 24px;
+            gap: 16px;
         }
 
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             text-decoration: none;
+            color: inherit;
+        }
+
+        .header-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: 8px;
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 5px;
         }
 
         .header-brand-text {
@@ -535,15 +559,15 @@
 
         .header-brand-faculty {
             font-size: 11px;
-            color: var(--ink-50);
-            font-weight: 500;
+            color: #2563eb;
+            font-weight: 600;
             margin-top: 2px;
         }
 
         .header-right {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
         }
 
         .header-badge {
@@ -1248,44 +1272,839 @@
         }
 
         @keyframes l3-mini {
-            0% { inset: 0 16px 0 0; }
-            50% { inset: 0 0 0 0; }
-            100% { inset: 0 0 0 16px; }
+            0% {
+                inset: 0 16px 0 0;
+            }
+
+            50% {
+                inset: 0 0 0 0;
+            }
+
+            100% {
+                inset: 0 0 0 16px;
+            }
+        }
+
+        /* ════ DESKTOP NAV ════ */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            margin-left: 24px;
+            margin-right: auto;
+        }
+
+        .header-nav .nav-link {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--ink-50);
+            text-decoration: none;
+            transition: var(--transition);
+            padding: 8px 14px;
+            border-radius: 8px;
+            position: relative;
+            letter-spacing: -0.01em;
+        }
+
+        .header-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 16px;
+            height: 2px;
+            border-radius: 2px;
+            background: var(--ink);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .header-nav .nav-link:hover {
+            color: var(--ink);
+            background: var(--ink-07);
+        }
+
+        .header-nav .nav-link:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .header-nav .nav-link.active {
+            color: var(--ink);
+            font-weight: 700;
+            background: var(--ink-07);
+        }
+
+        .header-nav .nav-link.active::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* ════ USER DROPDOWN ════ */
+        .user-dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: 100px;
+            padding: 5px 12px 5px 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .02);
+            font-family: inherit;
+        }
+
+        .user-profile-btn:hover {
+            border-color: var(--ink-30);
+            background: var(--ink-07);
+        }
+
+        .user-avatar-mini {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--ink-15);
+        }
+
+        .user-name-mini {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--ink-70);
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dropdown-arrow {
+            font-size: 9px;
+            color: var(--ink-30);
+            transition: transform .2s;
+        }
+
+        .user-profile-btn.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .user-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-md);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            z-index: 1000;
+            overflow: hidden;
+            transform-origin: top right;
+        }
+
+        .user-dropdown-menu.show {
+            display: block;
+            animation: dropIn .2s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .user-dropdown-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--ink-07);
+        }
+
+        .user-avatar-large {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid var(--white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-info-text {
+            min-width: 0;
+            flex: 1;
+            text-align: left;
+        }
+
+        .user-name-full {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--ink);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .user-email-full {
+            font-size: 11px;
+            color: var(--ink-50);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-top: 2px;
+        }
+
+        .dd-divider {
+            height: 1px;
+            background: var(--ink-15);
+        }
+
+        .dd-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--ink-70);
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dd-item:hover {
+            background: var(--ink-07);
+            color: var(--ink);
+        }
+
+        .dd-item i {
+            font-size: 12px;
+            color: var(--ink-50);
+            width: 16px;
+            text-align: center;
+        }
+
+        .dd-item.logout {
+            color: #dc2626;
+        }
+
+        .dd-item.logout:hover {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .dd-item.logout i {
+            color: #ef4444;
+        }
+
+        /* ════ HAMBURGER ════ */
+        .hamburger-btn {
+            display: none;
+            background: none;
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            width: 36px;
+            height: 36px;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--ink-70);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .hamburger-btn:hover {
+            background: var(--ink-07);
+            color: var(--ink);
+            border-color: var(--ink-30);
+        }
+
+        /* ════ MOBILE DRAWER ════ */
+        .mobile-menu-drawer {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 17, 23, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: none;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: opacity .25s ease;
+        }
+
+        .mobile-menu-drawer.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .drawer-content {
+            background: var(--white);
+            width: 280px;
+            height: 100%;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform .25s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .mobile-menu-drawer.open .drawer-content {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--ink-15);
+        }
+
+        .drawer-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--ink);
+            text-transform: uppercase;
+            letter-spacing: .03em;
+        }
+
+        .drawer-close-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--ink-50);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .drawer-close-btn:hover {
+            color: var(--ink);
+        }
+
+        .drawer-auth-area {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .drawer-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--ink-15);
+            margin: 0 auto 12px;
+        }
+
+        .drawer-username {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink);
+            word-break: break-all;
+        }
+
+        .drawer-email {
+            font-size: 11.5px;
+            color: var(--ink-50);
+            margin-top: 3px;
+            word-break: break-all;
+        }
+
+        .drawer-auth-btn {
+            width: 100%;
+            margin-top: 12px;
+            border-radius: var(--r-sm);
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .drawer-auth-btn.primary {
+            background: var(--ink);
+            color: var(--white);
+            border: none;
+        }
+
+        .drawer-auth-btn.primary:hover {
+            background: var(--ink-70);
+        }
+
+        .drawer-auth-btn.secondary {
+            background: none;
+            border: 1px solid var(--ink-15);
+            color: var(--ink-70);
+        }
+
+        .drawer-auth-btn.secondary:hover {
+            border-color: var(--ink-30);
+            background: var(--ink-07);
+        }
+
+        .drawer-auth-btn.logout {
+            background: none;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            margin-top: 8px;
+        }
+
+        .drawer-auth-btn.logout:hover {
+            background: #fef2f2;
+            border-color: #fca5a5;
+        }
+
+        .drawer-divider {
+            height: 1px;
+            background: var(--ink-15);
+            margin: 0 20px;
+        }
+
+        .drawer-nav {
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .drawer-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: var(--r-sm);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink-70);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .drawer-nav-link:hover,
+        .drawer-nav-link.active {
+            background: var(--ink-07);
+            color: var(--ink);
+        }
+
+        .drawer-nav-link.active {
+            font-weight: 700;
+        }
+
+        .drawer-nav-link i {
+            font-size: 14px;
+            color: var(--ink-50);
+            width: 18px;
+            text-align: center;
+        }
+
+        /* ════ PROFILE MODAL ════ */
+        .profile-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 17, 23, .6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s ease;
+        }
+
+        .profile-modal.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .profile-modal-card {
+            background: var(--white);
+            border-radius: var(--r-lg);
+            border: 1px solid var(--ink-15);
+            box-shadow: 0 24px 64px rgba(0, 0, 0, .2);
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+            transform: translateY(16px) scale(.96);
+            transition: transform .3s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .profile-modal.visible .profile-modal-card {
+            transform: translateY(0) scale(1);
+        }
+
+        .profile-modal-top {
+            background: var(--ink);
+            padding: 32px 24px 24px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .profile-modal-avatar-wrap {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin: 0 auto 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        #profileModalAvatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-modal-title {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -.01em;
+        }
+
+        .profile-modal-sub {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+        }
+
+        .profile-modal-body {
+            padding: 24px;
+        }
+
+        .profile-field {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .profile-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--ink-70);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            margin-bottom: 6px;
+        }
+
+        .profile-field input[type="text"] {
+            width: 100%;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            padding: 10px 12px;
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--ink);
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .profile-field input[type="text"]:focus {
+            border-color: var(--ink);
+        }
+
+        .profile-field-hint {
+            font-size: 10.5px;
+            color: var(--ink-30);
+            margin-top: 5px;
+        }
+
+        .profile-modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .profile-btn {
+            flex: 1;
+            border: none;
+            border-radius: var(--r-sm);
+            padding: 11px;
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .15s, border-color .15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-btn.save {
+            background: var(--ink);
+            color: var(--white);
+        }
+
+        .profile-btn.save:hover {
+            background: var(--ink-70);
+        }
+
+        .profile-btn.cancel {
+            background: none;
+            border: 1px solid var(--ink-15);
+            color: var(--ink-50);
+        }
+
+        .profile-btn.cancel:hover {
+            border-color: var(--ink-30);
+            color: var(--ink);
+        }
+
+        /* ════ TOAST ════ */
+        .copy-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--ink);
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: var(--r-sm);
+            font-size: 13.5px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(13, 17, 23, 0.25);
+            z-index: 10001;
+            opacity: 0;
+            transition: transform .25s cubic-bezier(.22, 1, .36, 1), opacity .25s ease;
+            pointer-events: none;
+        }
+
+        .copy-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Login button in header */
+        .login-header-btn {
+            background: var(--ink);
+            color: var(--white);
+            border: none;
+            border-radius: var(--r-sm);
+            padding: 8px 14px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+        }
+
+        .login-header-btn:hover {
+            background: var(--ink-70);
+            transform: translateY(-1px);
+        }
+
+        .header-spinner {
+            color: var(--ink-50);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         /* Responsive */
         @media (max-width: 900px) {
-            .login-wrapper { grid-template-columns: 1fr; }
-            .login-brand-side { display: none; }
-            .mobile-brand { display: flex; }
-            .mobile-brand-icon { width: 44px; height: 44px; background: var(--ink); border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--white); }
-            .mobile-brand-name { font-size: 15px; font-weight: 800; color: var(--ink); text-transform: uppercase; }
-            .mobile-brand-sub { font-size: 11px; color: var(--ink-50); margin-top: 2px; font-weight: 500; }
-            .login-form-side { padding: 48px 24px; }
-            .page-layout { grid-template-columns: 1fr; padding: 32px 20px 64px; gap: 32px; }
-            .info-panel { position: static; }
-            .header-inner { padding: 0 20px; }
+            .login-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .login-brand-side {
+                display: none;
+            }
+
+            .mobile-brand {
+                display: flex;
+            }
+
+            .mobile-brand-icon {
+                width: 44px;
+                height: 44px;
+                background: var(--ink);
+                border-radius: var(--r-sm);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                color: var(--white);
+            }
+
+            .mobile-brand-name {
+                font-size: 15px;
+                font-weight: 800;
+                color: var(--ink);
+                text-transform: uppercase;
+            }
+
+            .mobile-brand-sub {
+                font-size: 11px;
+                color: var(--ink-50);
+                margin-top: 2px;
+                font-weight: 500;
+            }
+
+            .login-form-side {
+                padding: 48px 24px;
+            }
+
+            .page-layout {
+                grid-template-columns: 1fr;
+                padding: 32px 20px 64px;
+                gap: 32px;
+            }
+
+            .info-panel {
+                position: static;
+            }
+
+            .header-inner {
+                padding: 0 20px;
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .hamburger-btn {
+                display: flex;
+            }
+
+            .header-right .user-dropdown-container,
+            .header-right .login-header-btn {
+                display: none !important;
+            }
         }
 
         @media (max-width: 540px) {
-            .login-form-side { padding: 36px 16px; }
-            .page-layout { padding: 24px 16px 60px; }
-            .header-brand-faculty { display: none; }
+            .login-form-side {
+                padding: 36px 16px;
+            }
+
+            .page-layout {
+                padding: 24px 16px 60px;
+            }
+
+            .header-brand-faculty {
+                display: none;
+            }
         }
 
         @keyframes dropIn {
-            from { opacity: 0; transform: translateY(-6px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 
 <body>
+
+    <!-- ════ MOBILE MENU DRAWER ════ -->
+    <div id="mobileMenuDrawer" class="mobile-menu-drawer" onclick="if(event.target===this)toggleMobileMenu()">
+        <div class="drawer-content">
+            <div class="drawer-header">
+                <div class="drawer-title">เมนูระบบ</div>
+                <button class="drawer-close-btn" onclick="toggleMobileMenu()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="drawerAuthArea" class="drawer-auth-area">
+                <!-- Will be dynamically populated -->
+            </div>
+            <div class="drawer-divider"></div>
+            <nav class="drawer-nav">
+                <a href="/enged" class="drawer-nav-link"><i class="fa-solid fa-house"></i>หน้าหลัก</a>
+                <a href="/enged/checkup" class="drawer-nav-link"><i class="fa-solid fa-user-check"></i>บันทึกกิจกรรม</a>
+                <a href="/enged/sys" class="drawer-nav-link"><i class="fa-solid fa-key"></i>ค้นหา Token Key</a>
+                <a href="/enged/budget" class="drawer-nav-link active"><i
+                        class="fa-solid fa-wallet"></i>บริหารงบประมาณ</a>
+                <a href="/enged/vote" class="drawer-nav-link"><i
+                        class="fa-solid fa-check-to-slot"></i>ลงคะแนนเลือกตั้ง</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ════ PROFILE MODAL ════ -->
+    <div id="profileModal" class="profile-modal" onclick="if(event.target===this)closeProfileModal()">
+        <div class="profile-modal-card">
+            <div class="profile-modal-top">
+                <div class="profile-modal-avatar-wrap">
+                    <img id="profileModalAvatar" src="" alt="Profile Picture">
+                </div>
+                <h3 class="profile-modal-title">แก้ไขข้อมูลส่วนตัว</h3>
+                <p class="profile-modal-sub" id="profileModalEmail"></p>
+            </div>
+            <div class="profile-modal-body">
+                <div class="profile-field" style="margin-bottom: 16px; text-align: center;">
+                    <label for="profileUploadInput"
+                        style="cursor: pointer; display: inline-block; padding: 6px 12px; background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: 6px; font-size: 12px; font-weight: 600; color: var(--ink-70); transition: var(--transition);">
+                        <i class="fa-solid fa-camera" style="margin-right: 4px;"></i> เปลี่ยนรูปโปรไฟล์
+                    </label>
+                    <input type="file" id="profileUploadInput" accept="image/*" style="display: none;"
+                        onchange="previewProfileImage(event)">
+                </div>
+                <div class="profile-field">
+                    <label class="profile-label">ชื่อ–นามสกุล</label>
+                    <input type="text" id="profileInputName" placeholder="กรอกชื่อจริง-นามสกุล">
+                </div>
+                <div class="profile-field">
+                    <label class="profile-label">รหัสนักศึกษา</label>
+                    <input type="text" id="profileInputId" readonly
+                        style="background: var(--ink-07); cursor: not-allowed;">
+                    <div class="profile-field-hint">รหัสนักศึกษาดึงอัตโนมัติจากอีเมลและแก้ไขไม่ได้</div>
+                </div>
+                <div class="profile-modal-actions">
+                    <button class="profile-btn save" onclick="saveProfileData()">บันทึกข้อมูล</button>
+                    <button class="profile-btn cancel" onclick="closeProfileModal()">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="copy-toast" id="copyToast">
+        <i class="fa-solid fa-check"></i>
+        <span id="copyToastText">คัดลอกแล้ว</span>
+    </div>
 
     <div id="loginPage" class="show">
         <div class="login-wrapper">
@@ -1293,8 +2112,8 @@
                 <div class="grid-overlay"></div>
                 <div class="brand-content">
                     <div class="brand-logo-wrap">
-                        <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="ENGED Logo"
-                            style="height:52px;width:auto;border-radius:8px;">
+                        <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico"
+                            alt="ENGED Logo" style="height:52px;width:auto;border-radius:8px;">
                         <div class="brand-logo-text">
                             <div class="brand-logo-name">English Education</div>
                             <div class="brand-logo-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
@@ -1302,7 +2121,8 @@
                     </div>
                     <div class="brand-tagline">
                         <h2>ระบบบริหาร<br>งบประมาณโครงการ</h2>
-                        <p>สำหรับจัดเก็บข้อมูลค่าใช้จ่ายโครงการ เอกสารแนบ และหลักฐานประกอบงบประมาณอย่างเป็นระบบและปลอดภัย</p>
+                        <p>สำหรับจัดเก็บข้อมูลค่าใช้จ่ายโครงการ เอกสารแนบ
+                            และหลักฐานประกอบงบประมาณอย่างเป็นระบบและปลอดภัย</p>
                     </div>
                     <ul class="brand-features">
                         <li>
@@ -1326,8 +2146,8 @@
             <div class="login-form-side">
                 <div class="login-form-container">
                     <div class="mobile-brand">
-                        <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="ENGED Logo"
-                            style="height:40px;width:auto;border-radius:6px;">
+                        <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico"
+                            alt="ENGED Logo" style="height:40px;width:auto;border-radius:6px;">
                         <div>
                             <div class="mobile-brand-name">English Education</div>
                             <div class="mobile-brand-sub">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
@@ -1342,7 +2162,8 @@
                     <div id="authScreen" style="display: none;">
                         <div class="login-eyebrow">Budget Management</div>
                         <h1 class="login-title">เข้าสู่ระบบ</h1>
-                        <p class="login-subtitle">กรุณาลงชื่อเข้าใช้งานด้วยบัญชีอีเมลมหาวิทยาลัยเพื่อบันทึกข้อมูลและใช้จ่ายงบประมาณโครงการ</p>
+                        <p class="login-subtitle">
+                            กรุณาลงชื่อเข้าใช้งานด้วยบัญชีอีเมลมหาวิทยาลัยเพื่อบันทึกข้อมูลและใช้จ่ายงบประมาณโครงการ</p>
                         <div class="login-card">
                             <div class="login-card-header">
                                 <div class="login-card-icon"><i class="fa-solid fa-shield-halved"></i></div>
@@ -1390,21 +2211,35 @@
     <div id="mainApp">
         <header class="site-header">
             <div class="header-inner">
-                <a class="header-brand" href="#">
-                    <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="Logo"
-                        style="height:32px;width:auto;border-radius:4px;">
+                <a class="header-brand" href="/enged">
+                    <div class="header-logo">
+                        <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico"
+                            alt="Logo">
+                    </div>
                     <div class="header-brand-text">
                         <div class="header-brand-name">English Education</div>
                         <div class="header-brand-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
                     </div>
                 </a>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="header-nav">
+                    <a href="/enged" class="nav-link">หน้าหลัก</a>
+                    <a href="/enged/checkup" class="nav-link">บันทึกกิจกรรม</a>
+                    <a href="/enged/sys" class="nav-link">ค้นหา Token Key</a>
+                    <a href="/enged/budget" class="nav-link active">บริหารงบประมาณ</a>
+                    <a href="/enged/vote" class="nav-link">ลงคะแนนเลือกตั้ง</a>
+                </nav>
+
                 <div class="header-right">
-                    <div class="header-badge">
-                        <span style="color: var(--ink-50); font-weight: 500;">สิทธิ์การใช้งาน: </span>
-                        <strong style="margin-left: 5px; color: var(--ink);" id="userEmailDisplay">sb6740102220@lru.ac.th</strong>
+                    <div id="authHeaderArea" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="header-spinner">
+                            <div class="loader-mini"></div> กำลังตรวจสอบสิทธิ์...
+                        </div>
                     </div>
-                    <button class="logout-btn" onclick="logoutUser()">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
+                    <!-- Hamburger Button -->
+                    <button class="hamburger-btn" onclick="toggleMobileMenu(event)" aria-label="Menu">
+                        <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
             </div>
@@ -1414,7 +2249,8 @@
             <aside class="info-panel">
                 <div class="info-eyebrow">Budget Control</div>
                 <h1 class="info-heading">ระบบบริหาร<br>งบประมาณโครงการ</h1>
-                <p class="info-desc">สำหรับบันทึกรายงานการใช้จ่ายงบประมาณ แนบหลักฐานการจ่าย และจัดประเภทโครงการเพื่อความโปร่งใสและตรวจสอบได้</p>
+                <p class="info-desc">สำหรับบันทึกรายงานการใช้จ่ายงบประมาณ แนบหลักฐานการจ่าย
+                    และจัดประเภทโครงการเพื่อความโปร่งใสและตรวจสอบได้</p>
                 <div class="steps-overview">
                     <div class="steps-overview-title"><i class="fa-solid fa-list-check"></i>ขั้นตอนการส่งบันทึก</div>
                     <div class="ov-step">
@@ -1451,7 +2287,8 @@
                         <div class="notice-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
                         <div>
                             <div class="notice-title">ข้อแนะนำการแนบไฟล์</div>
-                            <div class="notice-text">ภาพถ่ายหรือ PDF ใบเสร็จรับเงินจะต้องมีรายละเอียดผู้รับเงิน รายการชัดเจน และขนาดไฟล์ไม่เกิน 10MB</div>
+                            <div class="notice-text">ภาพถ่ายหรือ PDF ใบเสร็จรับเงินจะต้องมีรายละเอียดผู้รับเงิน
+                                รายการชัดเจน และขนาดไฟล์ไม่เกิน 10MB</div>
                         </div>
                     </div>
                 </div>
@@ -1476,7 +2313,8 @@
                     <div class="form-body">
                         <form id="budgetForm">
                             <div class="section-label">
-                                <span class="section-label-text"><i class="fa-solid fa-circle-info" style="margin-right:5px"></i>ข้อมูลทั่วไป</span>
+                                <span class="section-label-text"><i class="fa-solid fa-circle-info"
+                                        style="margin-right:5px"></i>ข้อมูลทั่วไป</span>
                                 <div class="section-label-line"></div>
                             </div>
                             <div class="field">
@@ -1490,20 +2328,44 @@
                                     <i class="fa-solid fa-layer-group"></i> หมวดเงิน <span class="req">*</span>
                                 </div>
                                 <div class="custom-select-wrap" id="selectWrap">
-                                    <div class="custom-select-trigger" id="selectTrigger" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+                                    <div class="custom-select-trigger" id="selectTrigger" tabindex="0" role="combobox"
+                                        aria-haspopup="listbox" aria-expanded="false">
                                         <span class="trigger-text" id="triggerText">กรุณาเลือกหมวดเงิน</span>
                                         <i class="fa-solid fa-chevron-down trigger-icon"></i>
                                     </div>
                                     <div class="custom-dropdown" id="customDropdown" role="listbox">
-                                        <div class="dropdown-option" data-value="- ค่าจ้างชั่วคราว"><i class="fa-solid fa-check option-check"></i> <span>ค่าจ้างชั่วคราว</span> <span class="option-tag">บุคลากร</span></div>
-                                        <div class="dropdown-option" data-value="- ค่าตอบแทน"><i class="fa-solid fa-check option-check"></i> <span>ค่าตอบแทน</span> <span class="option-tag">ดำเนินงาน</span></div>
-                                        <div class="dropdown-option" data-value="- ค่าใช้สอย"><i class="fa-solid fa-check option-check"></i> <span>ค่าใช้สอย</span> <span class="option-tag">ดำเนินงาน</span></div>
-                                        <div class="dropdown-option" data-value="- ค่าวัสดุ"><i class="fa-solid fa-check option-check"></i> <span>ค่าวัสดุ</span> <span class="option-tag">ดำเนินงาน</span></div>
-                                        <div class="dropdown-option" data-value="- ค่าสาธารณูปโภค"><i class="fa-solid fa-check option-check"></i> <span>ค่าสาธารณูปโภค</span> <span class="option-tag">ดำเนินงาน</span></div>
-                                        <div class="dropdown-option" data-value="- ค่าครุภัณฑ์"><i class="fa-solid fa-check option-check"></i> <span>ค่าครุภัณฑ์</span> <span class="option-tag">ลงทุน</span></div>
-                                        <div class="dropdown-option" data-value="- ที่ดิน , สิ่งก่อสร้าง"><i class="fa-solid fa-check option-check"></i> <span>ที่ดิน / สิ่งก่อสร้าง</span> <span class="option-tag">ลงทุน</span></div>
-                                        <div class="dropdown-option" data-value="งบเงินอุดหนุน"><i class="fa-solid fa-check option-check"></i> <span>งบเงินอุดหนุน</span> <span class="option-tag">อุดหนุน</span></div>
-                                        <div class="dropdown-option" data-value="งบรายจ่ายอื่นๆ"><i class="fa-solid fa-check option-check"></i> <span>งบรายจ่ายอื่นๆ</span> <span class="option-tag">อื่นๆ</span></div>
+                                        <div class="dropdown-option" data-value="- ค่าจ้างชั่วคราว"><i
+                                                class="fa-solid fa-check option-check"></i> <span>ค่าจ้างชั่วคราว</span>
+                                            <span class="option-tag">บุคลากร</span>
+                                        </div>
+                                        <div class="dropdown-option" data-value="- ค่าตอบแทน"><i
+                                                class="fa-solid fa-check option-check"></i> <span>ค่าตอบแทน</span> <span
+                                                class="option-tag">ดำเนินงาน</span></div>
+                                        <div class="dropdown-option" data-value="- ค่าใช้สอย"><i
+                                                class="fa-solid fa-check option-check"></i> <span>ค่าใช้สอย</span> <span
+                                                class="option-tag">ดำเนินงาน</span></div>
+                                        <div class="dropdown-option" data-value="- ค่าวัสดุ"><i
+                                                class="fa-solid fa-check option-check"></i> <span>ค่าวัสดุ</span> <span
+                                                class="option-tag">ดำเนินงาน</span></div>
+                                        <div class="dropdown-option" data-value="- ค่าสาธารณูปโภค"><i
+                                                class="fa-solid fa-check option-check"></i> <span>ค่าสาธารณูปโภค</span>
+                                            <span class="option-tag">ดำเนินงาน</span>
+                                        </div>
+                                        <div class="dropdown-option" data-value="- ค่าครุภัณฑ์"><i
+                                                class="fa-solid fa-check option-check"></i> <span>ค่าครุภัณฑ์</span>
+                                            <span class="option-tag">ลงทุน</span>
+                                        </div>
+                                        <div class="dropdown-option" data-value="- ที่ดิน , สิ่งก่อสร้าง"><i
+                                                class="fa-solid fa-check option-check"></i> <span>ที่ดิน /
+                                                สิ่งก่อสร้าง</span> <span class="option-tag">ลงทุน</span></div>
+                                        <div class="dropdown-option" data-value="งบเงินอุดหนุน"><i
+                                                class="fa-solid fa-check option-check"></i> <span>งบเงินอุดหนุน</span>
+                                            <span class="option-tag">อุดหนุน</span>
+                                        </div>
+                                        <div class="dropdown-option" data-value="งบรายจ่ายอื่นๆ"><i
+                                                class="fa-solid fa-check option-check"></i> <span>งบรายจ่ายอื่นๆ</span>
+                                            <span class="option-tag">อื่นๆ</span>
+                                        </div>
                                     </div>
                                     <select id="category" class="real-select" required>
                                         <option value="" disabled selected></option>
@@ -1521,12 +2383,14 @@
                             </div>
                             <div class="field">
                                 <div class="field-label">
-                                    <i class="fa-regular fa-pen-to-square"></i> รายการ / รายละเอียด <span class="req">*</span>
+                                    <i class="fa-regular fa-pen-to-square"></i> รายการ / รายละเอียด <span
+                                        class="req">*</span>
                                 </div>
                                 <input type="text" id="details" required placeholder="เช่น ค่าอุปกรณ์ประกอบกิจกรรม" />
                             </div>
                             <div class="section-label">
-                                <span class="section-label-text"><i class="fa-solid fa-calculator" style="margin-right:5px"></i>คำนวณยอดเงิน</span>
+                                <span class="section-label-text"><i class="fa-solid fa-calculator"
+                                        style="margin-right:5px"></i>คำนวณยอดเงิน</span>
                                 <div class="section-label-line"></div>
                             </div>
                             <div class="row-2">
@@ -1534,13 +2398,15 @@
                                     <div class="field-label">
                                         <i class="fa-solid fa-hashtag"></i> จำนวนหน่วย <span class="req">*</span>
                                     </div>
-                                    <input type="number" id="qty" min="1" required placeholder="0" oninput="calculateTotal()" />
+                                    <input type="number" id="qty" min="1" required placeholder="0"
+                                        oninput="calculateTotal()" />
                                 </div>
                                 <div class="field" style="margin-bottom:0">
                                     <div class="field-label">
                                         <i class="fa-solid fa-coins"></i> ราคาต่อหน่วย (บาท) <span class="req">*</span>
                                     </div>
-                                    <input type="number" id="price" step="0.01" required placeholder="0.00" oninput="calculateTotal()" />
+                                    <input type="number" id="price" step="0.01" required placeholder="0.00"
+                                        oninput="calculateTotal()" />
                                 </div>
                             </div>
                             <div class="field" style="margin-top:16px">
@@ -1551,7 +2417,8 @@
                                 </div>
                             </div>
                             <div class="section-label">
-                                <span class="section-label-text"><i class="fa-solid fa-paperclip" style="margin-right:5px"></i>ข้อมูลเพิ่มเติม</span>
+                                <span class="section-label-text"><i class="fa-solid fa-paperclip"
+                                        style="margin-right:5px"></i>ข้อมูลเพิ่มเติม</span>
                                 <div class="section-label-line"></div>
                             </div>
                             <div class="field">
@@ -1693,6 +2560,242 @@
         const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";
         const ALLOWED_EMAIL = "sb6740102220@lru.ac.th";
         let auth0Client = null;
+        let userProfile = null;
+        let isAuthenticated = false;
+        let extractedStudentId = '';
+
+        function escHtml(str) {
+            const d = document.createElement('div');
+            d.textContent = str || '';
+            return d.innerHTML;
+        }
+
+        function getCookie(name) {
+            const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return v ? decodeURIComponent(v.pop()) : '';
+        }
+
+        function setCookie(name, value, days) {
+            const d = new Date();
+            d.setTime(d.getTime() + (days * 86400000));
+            document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/';
+        }
+
+        function toast(text) {
+            const t = document.getElementById('copyToast');
+            const txt = document.getElementById('copyToastText');
+            if (!t || !txt) return;
+            txt.textContent = text;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('userDropdownMenu');
+            const btn = document.querySelector('.user-profile-btn');
+            if (!menu) return;
+            const isOpen = menu.classList.contains('show');
+            if (isOpen) {
+                menu.classList.remove('show');
+                if (btn) btn.classList.remove('open');
+            } else {
+                menu.classList.add('show');
+                if (btn) btn.classList.add('open');
+            }
+        }
+
+        function closeDropdowns() {
+            const menu = document.getElementById('userDropdownMenu');
+            const btn = document.querySelector('.user-profile-btn');
+            if (menu) menu.classList.remove('show');
+            if (btn) btn.classList.remove('open');
+        }
+
+        document.addEventListener('click', () => {
+            closeDropdowns();
+        });
+
+        function toggleMobileMenu(event) {
+            if (event) event.stopPropagation();
+            const drawer = document.getElementById('mobileMenuDrawer');
+            if (!drawer) return;
+            const isOpen = drawer.classList.contains('open');
+            if (isOpen) {
+                drawer.classList.remove('open');
+                setTimeout(() => { drawer.style.display = 'none'; }, 250);
+            } else {
+                drawer.style.display = 'flex';
+                drawer.offsetHeight;
+                drawer.classList.add('open');
+            }
+        }
+
+        function openProfileModal() {
+            closeDropdowns();
+            const modal = document.getElementById('profileModal');
+            const avatar = document.getElementById('profileModalAvatar');
+            const email = document.getElementById('profileModalEmail');
+            const inputName = document.getElementById('profileInputName');
+            const inputId = document.getElementById('profileInputId');
+
+            if (modal && userProfile) {
+                avatar.src = userProfile.picture || 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
+                email.textContent = userProfile.email || '—';
+
+                const regex = /^sb(\d+)@lru\.ac\.th$/i;
+                const match = (userProfile.email || '').match(regex);
+                extractedStudentId = match ? match[1] : '';
+                inputId.value = extractedStudentId || '—';
+
+                const savedName = getCookie('att_name') || userProfile.name || userProfile.nickname || '';
+                inputName.value = savedName;
+
+                modal.classList.add('visible');
+            }
+        }
+
+        function closeProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal) modal.classList.remove('visible');
+        }
+
+        const GAS_PROFILE_UPDATE_URL = "https://script.google.com/macros/s/AKfycbxz6ZQpBN-JcfA3eY0yaIQobiSTFiXRMl-SDWXLTaQMI5mvBUw81KlU0uC7NwPDkgqD/exec";
+
+        async function saveProfileData() {
+            const saveBtn = document.querySelector('.profile-btn.save');
+            const origBtnText = saveBtn.innerHTML;
+
+            const inputName = document.getElementById('profileInputName');
+            const fileInput = document.getElementById('profileUploadInput');
+
+            const nameVal = inputName ? inputName.value.trim() : '';
+            if (!nameVal) {
+                alert('กรุณากรอกชื่อ-นามสกุล');
+                return;
+            }
+
+            saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
+            saveBtn.disabled = true;
+
+            try {
+                let imageBase64 = null;
+                let imageMimeType = null;
+                let imageFileName = null;
+
+                if (fileInput && fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    imageMimeType = file.type;
+                    imageFileName = file.name;
+
+                    imageBase64 = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                }
+
+                // ดึง Token ของผู้ใช้ปัจจุบันเพื่อยืนยันตัวตน
+                const token = await auth0Client.getTokenSilently();
+
+
+
+                const payload = {
+                    access_token: token,
+                    name: nameVal,
+                    imageBase64: imageBase64,
+                    imageMimeType: imageMimeType,
+                    imageFileName: imageFileName
+                };
+
+                const res = await fetch(GAS_PROFILE_UPDATE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+
+                setCookie('att_name', nameVal, 30);
+                if (userProfile) {
+                    userProfile.name = nameVal;
+                    if (data.picture) userProfile.picture = data.picture;
+                }
+
+                updateAuthUI();
+                closeProfileModal();
+                toast('อัปเดตโปรไฟล์สำเร็จแล้ว');
+
+            } catch (err) {
+                console.error(err);
+                alert('เกิดข้อผิดพลาดในการอัปเดตโปรไฟล์: ' + err.message);
+            } finally {
+                saveBtn.innerHTML = origBtnText;
+                saveBtn.disabled = false;
+            }
+        }
+
+        function previewProfileImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profileModalAvatar').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateAuthUI() {
+            const authArea = document.getElementById('authHeaderArea');
+            const drawerAuth = document.getElementById('drawerAuthArea');
+            if (!authArea || !userProfile) return;
+
+            const displayName = getCookie('att_name') || userProfile.name || userProfile.nickname || 'ผู้ดูแลระบบ';
+            const avatarUrl = userProfile.picture || 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
+
+            authArea.innerHTML = `
+                <div class="user-dropdown-container">
+                    <button class="user-profile-btn" onclick="toggleUserDropdown(event)">
+                        <img src="${avatarUrl}" alt="Avatar" class="user-avatar-mini">
+                        <span class="user-name-mini">${escHtml(displayName)}</span>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                    </button>
+                    <div class="user-dropdown-menu" id="userDropdownMenu">
+                        <div class="user-dropdown-header">
+                            <img src="${avatarUrl}" alt="Avatar" class="user-avatar-large">
+                            <div class="user-info-text">
+                                <div class="user-name-full">${escHtml(displayName)}</div>
+                                <div class="user-email-full">${escHtml(userProfile.email)}</div>
+                            </div>
+                        </div>
+                        <div class="dd-divider"></div>
+                        <button class="dd-item" onclick="openProfileModal()">
+                            <i class="fa-solid fa-user-gear"></i>แก้ไขข้อมูลส่วนตัว
+                        </button>
+                        <button class="dd-item logout" onclick="logoutUser()">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>ออกจากระบบ
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            if (drawerAuth) {
+                drawerAuth.innerHTML = `
+                    <img src="${avatarUrl}" alt="Avatar" class="drawer-avatar">
+                    <div class="drawer-username">${escHtml(displayName)}</div>
+                    <div class="drawer-email">${escHtml(userProfile.email)}</div>
+                    <button class="drawer-auth-btn secondary" onclick="openProfileModal()">
+                        <i class="fa-solid fa-user-gear"></i>แก้ไขข้อมูลส่วนตัว
+                    </button>
+                    <button class="drawer-auth-btn logout" onclick="logoutUser()">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>ออกจากระบบ
+                    </button>
+                `;
+            }
+        }
 
         async function initAuth() {
             try {
@@ -1702,14 +2805,14 @@
                     await auth0Client.handleRedirectCallback();
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }
-                const isAuthenticated = await auth0Client.isAuthenticated();
+                isAuthenticated = await auth0Client.isAuthenticated();
                 if (isAuthenticated) {
-                    const user = await auth0Client.getUser();
-                    if (user.email === ALLOWED_EMAIL) {
-                        document.getElementById('userEmailDisplay').textContent = user.email;
+                    userProfile = await auth0Client.getUser();
+                    if (userProfile.email === ALLOWED_EMAIL) {
                         showScreen('appScreen');
+                        updateAuthUI();
                     } else {
-                        document.getElementById('currentEmail').textContent = user.email;
+                        document.getElementById('currentEmail').textContent = userProfile.email;
                         showScreen('deniedScreen');
                     }
                 } else {
@@ -1743,6 +2846,7 @@
 
         async function logoutUser() {
             if (auth0Client) {
+                document.cookie = 'att_name=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                 await auth0Client.logout({
                     logoutParams: { returnTo: window.location.origin + window.location.pathname }
                 });
