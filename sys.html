@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0d1117">
     <title>ระบบค้นหา Token Key | English Education</title>
+    <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
     <meta property="og:type" content="website">
     <meta property="og:title" content="ระบบค้นหา Token Key | English Education">
     <meta property="og:url" content="https://sorasukt.github.io/enged/sys">
@@ -14,9 +15,14 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.auth0.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.auth0.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js" defer></script>
 
     <style>
         *,
@@ -1629,7 +1635,7 @@
                 gap: 22px;
             }
 
-            .header-brand-sub {
+            .header-brand-faculty {
                 display: none;
             }
 
@@ -1727,6 +1733,760 @@
         .hidden {
             display: none !important;
         }
+
+        /* ════ AUTH0 & HEADER STYLES ════ */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: 100px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink-50);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .02);
+        }
+
+        .header-badge strong {
+            color: var(--ink);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #16a34a;
+            flex-shrink: 0;
+            animation: blink 2s ease infinite;
+        }
+
+        .logout-btn {
+            background: none;
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            padding: 8px 14px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            color: #dc2626;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            background: rgba(220, 38, 38, 0.05);
+            border-color: rgba(220, 38, 38, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .login-header-btn {
+            background: var(--ink);
+            color: var(--white) !important;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+            text-decoration: none;
+        }
+
+        .login-header-btn:hover {
+            background: var(--ink-70);
+            transform: translateY(-1px);
+        }
+
+        .header-spinner {
+            color: var(--ink-50);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .loader-mini {
+            width: 30px;
+            height: 14px;
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .loader-mini:before {
+            content: "";
+            position: absolute;
+            border-radius: 50px;
+            box-shadow: 0 0 0 2px inset currentColor;
+            animation: l3-mini 0.75s infinite alternate;
+        }
+
+        @keyframes l3-mini {
+            0% {
+                inset: 0 16px 0 0;
+            }
+
+            50% {
+                inset: 0 0 0 0;
+            }
+
+            100% {
+                inset: 0 0 0 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-inner {
+                height: auto;
+                padding: 12px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .header-badge {
+                padding: 4px 10px;
+                font-size: 11px;
+                max-width: 150px;
+            }
+
+            .header-badge span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display: inline-block;
+            }
+
+            .logout-btn,
+            .login-header-btn {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+        }
+
+        /* Desktop navigation menu */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 20px;
+            margin-right: auto; /* Push the auth area to the right! */
+        }
+
+        .nav-link {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--ink-50);
+            text-decoration: none;
+            transition: var(--transition);
+            padding: 8px 12px;
+            border-radius: var(--r-sm);
+        }
+
+        .nav-link:hover {
+            color: var(--ink);
+            background: var(--ink-07);
+        }
+
+        .nav-link.active {
+            color: var(--ink);
+            background: var(--ink-07);
+        }
+
+        @media (max-width: 900px) {
+            .header-nav {
+                display: none;
+            }
+        }
+
+        /* ════ USER DROPDOWN & MENU ════ */
+        .user-dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: 100px;
+            padding: 5px 12px 5px 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .02);
+            font-family: inherit;
+        }
+
+        .user-profile-btn:hover {
+            border-color: var(--ink-30);
+            background: var(--ink-07);
+        }
+
+        .user-avatar-mini {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--ink-15);
+        }
+
+        .user-name-mini {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--ink-70);
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dropdown-arrow {
+            font-size: 9px;
+            color: var(--ink-30);
+            transition: transform .2s;
+        }
+
+        .user-profile-btn.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .user-dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-md);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            z-index: 1000;
+            overflow: hidden;
+            transform-origin: top right;
+        }
+
+        .user-dropdown-menu.show {
+            display: block;
+            animation: dropIn .2s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .user-dropdown-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--ink-07);
+        }
+
+        .user-avatar-large {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid var(--white);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .user-info-text {
+            min-width: 0;
+            flex: 1;
+            text-align: left;
+        }
+
+        .user-name-full {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--ink);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .user-email-full {
+            font-size: 11px;
+            color: var(--ink-50);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-top: 2px;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: var(--ink-15);
+        }
+
+        .dropdown-section-title {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--ink-30);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            padding: 10px 16px 4px;
+            text-align: left;
+        }
+
+        .dropdown-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--ink-70);
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .dropdown-item:hover {
+            background: var(--ink-07);
+            color: var(--ink);
+        }
+
+        .dropdown-item.active {
+            background: var(--ink-07);
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .dropdown-item i {
+            font-size: 12px;
+            color: var(--ink-50);
+            width: 16px;
+            text-align: center;
+        }
+
+        .dropdown-item.logout {
+            color: #dc2626;
+        }
+
+        .dropdown-item.logout:hover {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .dropdown-item.logout i {
+            color: #ef4444;
+        }
+
+        .mobile-nav-section {
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .mobile-nav-section {
+                display: block;
+            }
+        }
+
+        /* ════ PROFILE MODAL ════ */
+        .profile-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 17, 23, .6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s ease;
+        }
+
+        .profile-modal.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .profile-modal-card {
+            background: var(--white);
+            border-radius: var(--r-lg);
+            border: 1px solid var(--ink-15);
+            box-shadow: 0 24px 64px rgba(0, 0, 0, .2);
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+            transform: translateY(16px) scale(.96);
+            transition: transform .3s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .profile-modal.visible .profile-modal-card {
+            transform: translateY(0) scale(1);
+        }
+
+        .profile-modal-top {
+            background: var(--ink);
+            padding: 32px 24px 24px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .profile-modal-avatar-wrap {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin: 0 auto 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        #profileModalAvatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-modal-title {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -.01em;
+        }
+
+        .profile-modal-sub {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+        }
+
+        .profile-modal-body {
+            padding: 24px;
+        }
+
+        .profile-field {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .profile-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--ink-70);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            margin-bottom: 6px;
+        }
+
+        .profile-field input {
+            width: 100%;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            padding: 10px 12px;
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--ink);
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .profile-field input:focus {
+            border-color: var(--accent);
+        }
+
+        .profile-field-hint {
+            font-size: 10.5px;
+            color: var(--ink-30);
+            margin-top: 5px;
+        }
+
+        .profile-modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .profile-btn {
+            flex: 1;
+            border: none;
+            border-radius: var(--r-sm);
+            padding: 11px;
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .15s, border-color .15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-btn.save {
+            background: var(--ink);
+            color: var(--white);
+        }
+
+        .profile-btn.save:hover {
+            background: var(--ink-70);
+        }
+
+        .profile-btn.cancel {
+            background: none;
+            border: 1px solid var(--ink-15);
+            color: var(--ink-50);
+        }
+
+        .profile-btn.cancel:hover {
+            border-color: var(--ink-30);
+            color: var(--ink);
+        }
+
+        /* ════ HAMBURGER MENU & DRAWER ════ */
+        .hamburger-btn {
+            display: none;
+            background: none;
+            border: 1px solid var(--ink-15);
+            border-radius: var(--r-sm);
+            width: 36px;
+            height: 36px;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--ink-70);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .hamburger-btn:hover {
+            background: var(--ink-07);
+            color: var(--ink);
+            border-color: var(--ink-30);
+        }
+
+        .mobile-menu-drawer {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 17, 23, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 9999;
+            display: none;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .mobile-menu-drawer.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .drawer-content {
+            background: var(--white);
+            width: 280px;
+            height: 100%;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-menu-drawer.open .drawer-content {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--ink-15);
+        }
+
+        .drawer-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--ink);
+            text-transform: uppercase;
+            letter-spacing: .03em;
+        }
+
+        .drawer-close-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--ink-50);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .drawer-close-btn:hover {
+            color: var(--ink);
+        }
+
+        .drawer-auth-area {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .drawer-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--ink-15);
+            margin: 0 auto 12px;
+        }
+
+        .drawer-username {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink);
+            word-break: break-all;
+        }
+
+        .drawer-email {
+            font-size: 11.5px;
+            color: var(--ink-50);
+            margin-top: 3px;
+            word-break: break-all;
+        }
+
+        .drawer-auth-btn {
+            width: 100%;
+            margin-top: 12px;
+            border-radius: var(--r-sm);
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .drawer-auth-btn.primary {
+            background: var(--ink);
+            color: var(--white);
+            border: none;
+        }
+
+        .drawer-auth-btn.primary:hover {
+            background: var(--ink-70);
+        }
+
+        .drawer-auth-btn.secondary {
+            background: none;
+            border: 1px solid var(--ink-15);
+            color: var(--ink-70);
+        }
+
+        .drawer-auth-btn.secondary:hover {
+            border-color: var(--ink-30);
+            background: var(--ink-07);
+        }
+
+        .drawer-auth-btn.logout {
+            background: none;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            margin-top: 8px;
+        }
+
+        .drawer-auth-btn.logout:hover {
+            background: #fef2f2;
+            border-color: #fca5a5;
+        }
+
+        .drawer-divider {
+            height: 1px;
+            background: var(--ink-15);
+            margin: 0 20px;
+        }
+
+        .drawer-nav {
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .drawer-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: var(--r-sm);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink-70);
+            text-decoration: none;
+            transition: var(--transition);
+            text-align: left;
+        }
+
+        .drawer-nav-link:hover,
+        .drawer-nav-link.active {
+            background: var(--ink-07);
+            color: var(--ink);
+        }
+
+        .drawer-nav-link.active {
+            font-weight: 700;
+        }
+
+        .drawer-nav-link i {
+            font-size: 14px;
+            color: var(--ink-50);
+            width: 18px;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .hamburger-btn {
+                display: flex;
+            }
+            .header-right .user-dropdown-container, 
+            .header-right .login-header-btn {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
@@ -1769,6 +2529,35 @@
         </div>
     </div>
 
+    <!-- ════ PROFILE MODAL ════ -->
+    <div id="profileModal" class="profile-modal" onclick="if(event.target===this)closeProfileModal()">
+        <div class="profile-modal-card">
+            <div class="profile-modal-top">
+                <div class="profile-modal-avatar-wrap">
+                    <img id="profileModalAvatar" src="" alt="Profile Picture">
+                </div>
+                <h3 class="profile-modal-title">แก้ไขข้อมูลส่วนตัว</h3>
+                <p class="profile-modal-sub" id="profileModalEmail"></p>
+            </div>
+            <div class="profile-modal-body">
+                <div class="profile-field">
+                    <label class="profile-label">ชื่อ–นามสกุล</label>
+                    <input type="text" id="profileInputName" placeholder="กรอกชื่อจริง-นามสกุล">
+                </div>
+                <div class="profile-field">
+                    <label class="profile-label">รหัสนักศึกษา</label>
+                    <input type="text" id="profileInputId" readonly style="background: var(--ink-07); cursor: not-allowed;">
+                    <div class="profile-field-hint">รหัสนักศึกษาดึงอัตโนมัติจากอีเมลและแก้ไขไม่ได้</div>
+                </div>
+                
+                <div class="profile-modal-actions">
+                    <button class="profile-btn save" onclick="saveProfileData()">บันทึกข้อมูล</button>
+                    <button class="profile-btn cancel" onclick="closeProfileModal()">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="copy-toast" id="copyToast">
         <i class="fa-solid fa-check"></i>
         <span id="copyToastText">คัดลอกแล้ว</span>
@@ -1778,18 +2567,65 @@
         <div class="header-inner">
             <a class="header-brand" href="/enged">
                 <div class="header-logo">
-                    <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" alt="Logo">
+                    <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico"
+                        alt="Logo">
                 </div>
                 <div class="header-brand-text">
                     <div class="header-brand-name">English Education</div>
                     <div class="header-brand-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
                 </div>
             </a>
-            <a href="/enged" class="header-back">
-                <i class="fa-solid fa-chevron-left"></i>กลับหน้าหลัก
-            </a>
+            
+            <!-- Desktop Navigation Menu -->
+            <nav class="header-nav" id="desktopNav">
+                <a href="/enged/checkup" class="nav-link">บันทึกกิจกรรม</a>
+                <a href="/enged/sys" class="nav-link active">ค้นหา Token Key</a>
+                <a href="/enged/budget" class="nav-link">บริหารงบประมาณ</a>
+                <a href="/enged/vote" class="nav-link">ลงคะแนนเลือกตั้ง</a>
+            </nav>
+
+            <div class="header-right">
+                <div id="authHeaderArea" style="display: flex; align-items: center; gap: 12px;">
+                    <div class="header-spinner">
+                        <div class="loader-mini"></div> กำลังตรวจสอบสิทธิ์...
+                    </div>
+                </div>
+                <a href="/enged" class="header-back">
+                    <i class="fa-solid fa-chevron-left"></i>กลับหน้าหลัก
+                </a>
+                <!-- Hamburger Button -->
+                <button class="hamburger-btn" onclick="toggleMobileMenu(event)" aria-label="Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </div>
     </header>
+
+    <!-- ════ MOBILE MENU DRAWER ════ -->
+    <div id="mobileMenuDrawer" class="mobile-menu-drawer" onclick="if(event.target===this)toggleMobileMenu()">
+        <div class="drawer-content">
+            <div class="drawer-header">
+                <div class="drawer-title">เมนูระบบ</div>
+                <button class="drawer-close-btn" onclick="toggleMobileMenu()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div id="drawerAuthArea" class="drawer-auth-area">
+                <!-- Will be dynamically populated -->
+            </div>
+
+            <div class="drawer-divider"></div>
+            
+            <nav class="drawer-nav">
+                <a href="/enged/" class="drawer-nav-link" id="drawerNavLinkHome"><i class="fa-solid fa-house"></i>หน้าแรก</a>
+                <a href="/enged/checkup" class="drawer-nav-link" id="drawerNavLinkCheckup"><i class="fa-solid fa-user-check"></i>บันทึกกิจกรรม</a>
+                <a href="/enged/sys" class="drawer-nav-link active" id="drawerNavLinkSys"><i class="fa-solid fa-key"></i>ค้นหา Token Key</a>
+                <a href="/enged/budget" class="drawer-nav-link" id="drawerNavLinkBudget"><i class="fa-solid fa-wallet"></i>บริหารงบประมาณ</a>
+                <a href="/enged/vote" class="drawer-nav-link" id="drawerNavLinkVote"><i class="fa-solid fa-check-to-slot"></i>ลงคะแนนเลือกตั้ง</a>
+            </nav>
+        </div>
+    </div>
 
     <main class="page-layout">
 
@@ -1879,7 +2715,7 @@
                             </div>
                         </div>
 
-                        <div class="field">
+                        <div class="field" id="studentIdField">
                             <div class="field-label">
                                 <i class="fa-solid fa-id-card"></i>รหัสนักศึกษา
                                 <span class="field-label-right" id="idCounter">0 / 10</span>
@@ -2034,6 +2870,15 @@
         /* ════ CONFIG ════ */
         const GAS_URL = "https://script.google.com/macros/s/AKfycbxNif4pv3SL70z-xSRNHoU1fwvAEOwp7QmgqQZbH7yITzeWycZPKcbb0cSCu7g2TJiWog/exec";
 
+        /* ════ AUTH0 CONFIG ════ */
+        const AUTH0_DOMAIN = "litalkeducation.us.auth0.com";
+        const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";
+
+        let auth0Client = null;
+        let isAuthenticated = false;
+        let userProfile = null;
+        let extractedStudentId = null;
+
         let _sid = '', _act = '', _monitorTimer;
 
         /* ════ LOADING SCREEN ════ */
@@ -2049,37 +2894,73 @@
         }
 
         /* ════ INIT ════ */
-        window.addEventListener('load', async () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             lsUpdate('กำลังเชื่อมต่อระบบ...', 'spin');
-            lsProgress(20);
+            lsProgress(15);
 
-            let activities = [];
-            try {
-                lsUpdate('กำลังโหลดรายการกิจกรรม...', 'spin');
-                lsProgress(50);
-                activities = await fetchActivitiesData();
-                lsProgress(85);
-                lsUpdate('พร้อมใช้งาน', 'ok');
-                populateActivities(activities);
-            } catch (e) {
-                lsUpdate('โหลดข้อมูลไม่สำเร็จ', 'err');
-                showConfigAlert(`เชื่อมต่อล้มเหลว: ${e.message}`);
-            }
+            // Parallel loading of Auth0 configuration and activities data
+            const auth0Promise = (async () => {
+                try {
+                    await configureAuth0();
+                    const query = window.location.search;
+                    if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
+                        await auth0Client.handleRedirectCallback();
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }
+                    await updateAuthUI();
+                } catch (authError) {
+                    console.error("Auth0 Init Error:", authError);
+                    const authArea = document.getElementById('authHeaderArea');
+                    if (authArea) {
+                        authArea.innerHTML = `
+                            <button class="login-header-btn" onclick="loginUser()">
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i> เข้าสู่ระบบ
+                            </button>
+                        `;
+                    }
+                    showStudentIdInput(true);
+                }
+            })();
+
+            const activitiesPromise = (async () => {
+                try {
+                    const activities = await fetchActivitiesData();
+                    populateActivities(activities);
+                } catch (e) {
+                    console.error("Activities Load Error:", e);
+                    showConfigAlert(`เชื่อมต่อล้มเหลว: ${e.message}`);
+                }
+            })();
+
+            // Wait for both tasks to complete concurrently
+            await Promise.all([auth0Promise, activitiesPromise]);
 
             lsProgress(100);
+            lsUpdate('พร้อมใช้งาน', 'ok');
 
-            await delay(500);
+            await delay(200);
 
             const ls = document.getElementById('loadScreen');
-            ls.classList.add('fade-out');
-            document.body.classList.add('visible');
-            ls.addEventListener('animationend', () => ls.remove(), { once: true });
+            if (ls) {
+                ls.classList.add('fade-out');
+                document.body.classList.add('visible');
+                ls.addEventListener('animationend', () => ls.remove(), { once: true });
+            } else {
+                document.body.classList.add('visible');
+            }
 
-            setTimeout(() => document.getElementById('infoModal').classList.add('visible'), 300);
+            setTimeout(() => {
+                const infoModal = document.getElementById('infoModal');
+                if (infoModal) infoModal.classList.add('visible');
+            }, 300);
 
             const p = new URLSearchParams(location.search);
-            const act = p.get('a') || p.get('name') || p.get('activity');
-            const sid = p.get('s') || p.get('id');
+            const act = p.get('ActiviteCode') || p.get('a') || p.get('name') || p.get('activity');
+            let sid = p.get('ID') || p.get('s') || p.get('id');
+
+            if (isAuthenticated && extractedStudentId) {
+                sid = extractedStudentId;
+            }
 
             if (act && sid) {
                 document.getElementById('studentId').value = sid;
@@ -2091,6 +2972,249 @@
                 setTimeout(() => performSearch(sid, act), 800);
             }
         });
+
+        /* ════ AUTH0 FUNCTIONS ════ */
+        async function configureAuth0() {
+            auth0Client = await auth0.createAuth0Client({
+                domain: AUTH0_DOMAIN,
+                clientId: AUTH0_CLIENT_ID,
+                authorizationParams: {
+                    redirect_uri: window.location.origin + window.location.pathname
+                }
+            });
+        }
+
+        async function loginUser() {
+            if (!auth0Client) return;
+            try {
+                await auth0Client.loginWithRedirect();
+            } catch (error) {
+                console.error("Login Error:", error);
+            }
+        }
+
+        async function logoutUser() {
+            if (!auth0Client) return;
+            await auth0Client.logout({
+                logoutParams: { returnTo: window.location.origin + window.location.pathname }
+            });
+        }
+
+        async function updateAuthUI() {
+            const authArea = document.getElementById('authHeaderArea');
+            const drawerAuth = document.getElementById('drawerAuthArea');
+            if (!authArea) return;
+
+            try {
+                isAuthenticated = await auth0Client.isAuthenticated();
+                if (isAuthenticated) {
+                    userProfile = await auth0Client.getUser();
+                    
+                    const displayName = getCookie('att_name') || userProfile.name || userProfile.nickname || 'นักศึกษา';
+                    const avatarUrl = userProfile.picture || 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
+
+                    authArea.innerHTML = `
+                        <div class="user-dropdown-container">
+                            <button class="user-profile-btn" onclick="toggleUserDropdown(event)">
+                                <img src="${avatarUrl}" alt="Avatar" class="user-avatar-mini">
+                                <span class="user-name-mini">${escHtml(displayName)}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                            </button>
+                            <div class="user-dropdown-menu" id="userDropdownMenu">
+                                <div class="user-dropdown-header">
+                                    <img src="${avatarUrl}" alt="Avatar" class="user-avatar-large">
+                                    <div class="user-info-text">
+                                        <div class="user-name-full">${escHtml(displayName)}</div>
+                                        <div class="user-email-full">${escHtml(userProfile.email)}</div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item" onclick="openProfileModal()">
+                                    <i class="fa-solid fa-user-gear"></i>แก้ไขข้อมูลส่วนตัว
+                                </button>
+                                <button class="dropdown-item logout" onclick="logoutUser()">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>ออกจากระบบ
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    if (drawerAuth) {
+                        drawerAuth.innerHTML = `
+                            <img src="${avatarUrl}" alt="Avatar" class="drawer-avatar">
+                            <div class="drawer-username">${escHtml(displayName)}</div>
+                            <div class="drawer-email">${escHtml(userProfile.email)}</div>
+                            <button class="drawer-auth-btn secondary" onclick="openProfileModal()">
+                                <i class="fa-solid fa-user-gear"></i>แก้ไขข้อมูลส่วนตัว
+                            </button>
+                            <button class="drawer-auth-btn logout" onclick="logoutUser()">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>ออกจากระบบ
+                            </button>
+                        `;
+                    }
+
+                    verifyUserEmail(userProfile.email);
+                } else {
+                    const loginBtnHtml = `
+                        <button class="login-header-btn" onclick="loginUser()">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i> เข้าสู่ระบบด้วย LRU Mail
+                        </button>
+                    `;
+                    authArea.innerHTML = loginBtnHtml;
+
+                    if (drawerAuth) {
+                        drawerAuth.innerHTML = `
+                            <div style="font-size:12px;color:var(--ink-50);margin-bottom:12px;">กรุณาเข้าสู่ระบบเพื่อใช้งานเมนูเต็มรูปแบบ</div>
+                            <button class="drawer-auth-btn primary" onclick="loginUser()">
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i>เข้าสู่ระบบด้วย LRU Mail
+                            </button>
+                        `;
+                    }
+
+                    showStudentIdInput(true);
+                }
+            } catch (error) {
+                console.error("Error updating Auth UI:", error);
+                const fallbackLogin = `
+                    <button class="login-header-btn" onclick="loginUser()">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> เข้าสู่ระบบ
+                    </button>
+                `;
+                authArea.innerHTML = fallbackLogin;
+
+                if (drawerAuth) {
+                    drawerAuth.innerHTML = `
+                        <button class="drawer-auth-btn primary" onclick="loginUser()">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i>เข้าสู่ระบบ
+                        </button>
+                    `;
+                }
+
+                showStudentIdInput(true);
+            }
+        }
+
+        function verifyUserEmail(email) {
+            const regex = /^sb(\d+)@lru\.ac\.th$/i;
+            const match = email.match(regex);
+
+            if (match) {
+                extractedStudentId = match[1];
+                const studentIdInput = document.getElementById('studentId');
+                studentIdInput.value = extractedStudentId;
+                onIdInput(studentIdInput);
+                showStudentIdInput(false);
+            } else {
+                showStudentIdInput(true);
+            }
+        }
+
+        function showStudentIdInput(show) {
+            const studentIdField = document.getElementById('studentIdField');
+            if (studentIdField) {
+                if (show) {
+                    studentIdField.classList.remove('hidden');
+                } else {
+                    studentIdField.classList.add('hidden');
+                }
+            }
+        }
+
+        /* ════ DROPDOWN & PROFILE FUNCTIONS ════ */
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('userDropdownMenu');
+            const btn = document.querySelector('.user-profile-btn');
+            if (!menu || !btn) return;
+            const isShown = menu.classList.contains('show');
+            closeDropdowns();
+            if (!isShown) {
+                menu.classList.add('show');
+                btn.classList.add('open');
+            }
+        }
+
+        function closeDropdowns() {
+            const menu = document.getElementById('userDropdownMenu');
+            const btn = document.querySelector('.user-profile-btn');
+            if (menu) menu.classList.remove('show');
+            if (btn) btn.classList.remove('open');
+        }
+
+        document.addEventListener('click', () => {
+            closeDropdowns();
+        });
+
+        function toggleMobileMenu(event) {
+            if (event) event.stopPropagation();
+            const drawer = document.getElementById('mobileMenuDrawer');
+            if (!drawer) return;
+            const isOpen = drawer.classList.contains('open');
+            if (isOpen) {
+                drawer.classList.remove('open');
+                setTimeout(() => {
+                    drawer.style.display = 'none';
+                }, 250);
+            } else {
+                drawer.style.display = 'flex';
+                drawer.offsetHeight;
+                drawer.classList.add('open');
+            }
+        }
+
+        function openProfileModal() {
+            closeDropdowns();
+            const modal = document.getElementById('profileModal');
+            const avatar = document.getElementById('profileModalAvatar');
+            const email = document.getElementById('profileModalEmail');
+            const inputName = document.getElementById('profileInputName');
+            const inputId = document.getElementById('profileInputId');
+
+            if (modal && userProfile) {
+                avatar.src = userProfile.picture || 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
+                email.textContent = userProfile.email || '—';
+                inputId.value = extractedStudentId || '—';
+                
+                const savedName = getCookie('att_name') || userProfile.name || userProfile.nickname || '';
+                inputName.value = savedName;
+
+                modal.classList.add('visible');
+            }
+        }
+
+        function closeProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal) modal.classList.remove('visible');
+        }
+
+        function saveProfileData() {
+            const inputName = document.getElementById('profileInputName');
+            const nameVal = inputName ? inputName.value.trim() : '';
+            if (!nameVal) {
+                alert('กรุณากรอกชื่อ-นามสกุล');
+                return;
+            }
+
+            setCookie('att_name', nameVal, 30);
+            
+            if (userProfile) {
+                userProfile.name = nameVal;
+            }
+            updateAuthUI();
+            closeProfileModal();
+            toast('บันทึกข้อมูลส่วนตัวสำเร็จ');
+        }
+
+        /* ════ COOKIE HELPERS ════ */
+        function setCookie(name, value, days) {
+            const exp = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = `${name}=${encodeURIComponent(value)};expires=${exp};path=/;SameSite=Strict`;
+        }
+
+        function getCookie(name) {
+            const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+            return m ? decodeURIComponent(m[1]) : '';
+        }
 
         async function fetchActivitiesData() {
             const r = await fetch(`${GAS_URL}?action=getActivities`);
@@ -2346,14 +3470,20 @@
             document.getElementById('shareBtn').style.display = 'none';
 
             document.getElementById('searchSection').classList.remove('hidden');
-            document.getElementById('studentId').value = '';
-            document.getElementById('idCounter').textContent = '0 / 10';
-            document.getElementById('idCounter').className = 'field-label-right';
 
-            /* แก้ Bug สีของ progress bar ค้างตอน reset */
-            document.getElementById('idBar').style.width = '0';
-            document.getElementById('idBar').style.background = 'var(--ink-30)';
-            document.getElementById('studentId').classList.remove('complete', 'invalid');
+            if (isAuthenticated && extractedStudentId) {
+                document.getElementById('studentId').value = extractedStudentId;
+                onIdInput(document.getElementById('studentId'));
+            } else {
+                document.getElementById('studentId').value = '';
+                document.getElementById('idCounter').textContent = '0 / 10';
+                document.getElementById('idCounter').className = 'field-label-right';
+
+                /* แก้ Bug สีของ progress bar ค้างตอน reset */
+                document.getElementById('idBar').style.width = '0';
+                document.getElementById('idBar').style.background = 'var(--ink-30)';
+                document.getElementById('studentId').classList.remove('complete', 'invalid');
+            }
             refreshSearchBtn();
 
             if (window.history.pushState) {
@@ -2382,7 +3512,7 @@
         }
 
         function copyResultLink() {
-            const url = `${location.protocol}//${location.host}${location.pathname}?a=${encodeURIComponent(_act)}&s=${encodeURIComponent(_sid)}`;
+            const url = `${location.protocol}//${location.host}${location.pathname}?ActiviteCode=${encodeURIComponent(_act)}&ID=${encodeURIComponent(_sid)}`;
             navigator.clipboard.writeText(url).then(() => {
                 const btn = document.getElementById('shareBtn');
                 const orig = btn.innerHTML;
