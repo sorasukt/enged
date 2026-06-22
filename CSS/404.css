@@ -7,6 +7,16 @@
             --accent: #0a0a0a;
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #09090b;
+                --text: #ffffff;
+                --muted: #a1a1aa;
+                --border: #27272a;
+                --accent: #ffffff;
+            }
+        }
+
         *,
         *::before,
         *::after {
@@ -217,7 +227,7 @@
 
         .btn-primary {
             background: var(--accent);
-            color: white;
+            color: var(--bg);
             box-shadow: 0 4px 20px rgba(0, 0, 0, .18);
         }
 
@@ -229,13 +239,13 @@
         .btn-outline {
             border: 1.5px solid var(--border);
             color: var(--text);
-            background: white;
+            background: var(--bg);
         }
 
         .btn-outline:hover {
             border-color: var(--text);
             background: var(--text);
-            color: white;
+            color: var(--bg);
         }
 
         /* blinking cursor */

@@ -65,33 +65,44 @@
     <!-- ════ PROFILE MODAL ════ -->
     <div id="profileModal" class="profile-modal" onclick="if(event.target===this)closeProfileModal()">
         <div class="profile-modal-card">
-            <div class="profile-modal-top">
-                <div class="profile-modal-avatar-wrap">
-                    <img id="profileModalAvatar" src="" alt="Profile Picture">
-                </div>
-                <h3 class="profile-modal-title">แก้ไขข้อมูลส่วนตัว</h3>
-                <p class="profile-modal-sub" id="profileModalEmail"></p>
+            <div class="profile-modal-header">
+                <div class="profile-modal-title">แก้ไขข้อมูลส่วนตัว</div>
+                <div class="profile-modal-email" id="profileModalEmail"></div>
             </div>
-            <div class="profile-modal-body">
-                <div class="profile-field" style="margin-bottom: 16px; text-align: center;">
-                    <label for="profileUploadInput" style="cursor: pointer; display: inline-block; padding: 6px 12px; background: var(--ink-07); border: 1px solid var(--ink-15); border-radius: 6px; font-size: 12px; font-weight: 600; color: var(--ink-70); transition: var(--transition);">
-                        <i class="fa-solid fa-camera" style="margin-right: 4px;"></i> เปลี่ยนรูปโปรไฟล์
+            <div class="profile-modal-content-grid">
+                <div class="profile-modal-avatar-section">
+                    <div class="profile-modal-avatar-wrap-new">
+                        <img id="profileModalAvatar" class="avatar-preview-img" src="" alt="Profile Picture">
+                        <button class="avatar-remove-btn" onclick="removeProfileImage()" title="ลบรูปโปรไฟล์">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="avatar-section-title">รูปประจำตัว</div>
+                    <div class="avatar-section-sub">ขนาดแนะนำ 1:1, ไม่เกิน 2MB</div>
+                    <label for="profileUploadInput" class="avatar-upload-btn-label">
+                        <i class="fa-solid fa-upload" style="margin-right: 4px;"></i> อัปโหลดรูปภาพ
                     </label>
-                    <input type="file" id="profileUploadInput" accept="image/*" style="display: none;" onchange="previewProfileImage(event)">
+                    <input type="file" id="profileUploadInput" accept="image/*" style="display: none;"
+                        onchange="previewProfileImage(event)">
+                    <div class="avatar-error-msg" id="profileModalAvatarError" style="display: none;"></div>
                 </div>
-                <div class="profile-field">
-                    <label class="profile-label">ชื่อ–นามสกุล</label>
-                    <input type="text" id="profileInputName" placeholder="กรอกชื่อจริง-นามสกุล">
-                </div>
-                <div class="profile-field">
-                    <label class="profile-label">รหัสนักศึกษา</label>
-                    <input type="text" id="profileInputId" readonly style="background: var(--ink-07); cursor: not-allowed;">
-                    <div class="profile-field-hint">รหัสนักศึกษาดึงอัตโนมัติจากอีเมลและแก้ไขไม่ได้</div>
-                </div>
-                
-                <div class="profile-modal-actions">
-                    <button class="profile-btn save" onclick="saveProfileData()">บันทึกข้อมูล</button>
-                    <button class="profile-btn cancel" onclick="closeProfileModal()">ยกเลิก</button>
+                <div class="profile-modal-fields-section">
+                    <div>
+                        <div class="profile-field">
+                            <label class="profile-label">ชื่อ–นามสกุล<span class="required-star">*</span></label>
+                            <input type="text" id="profileInputName" placeholder="กรอกชื่อจริง-นามสกุล">
+                        </div>
+                        <div class="profile-field">
+                            <label class="profile-label">รหัสนักศึกษา</label>
+                            <input type="text" id="profileInputId" readonly
+                                style="background: var(--ink-07); cursor: not-allowed;">
+                            <div class="profile-field-hint">รหัสนักศึกษาดึงอัตโนมัติจากอีเมลและแก้ไขไม่ได้</div>
+                        </div>
+                    </div>
+                    <div class="profile-modal-actions">
+                        <button class="profile-btn cancel" onclick="closeProfileModal()">ยกเลิก</button>
+                        <button class="profile-btn save" onclick="saveProfileData()">บันทึกข้อมูล</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,25 +5,25 @@
             --dark-red: #C62828;
             --accent-red: #FF5252;
             --white: #FFFFFF;
-            --text-dark: #1a1a2e;
-            --text-grey: #64748b;
-            --chat-bg: #f8fafc;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --shadow-soft: 0 8px 32px rgba(229, 57, 53, 0.12);
-            --shadow-glow: 0 0 60px rgba(229, 57, 53, 0.15);
+            --text-dark: #000000;
+            --text-grey: #52525b;
+            --chat-bg: #f4f4f5;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --shadow-glow: 0 0 60px rgba(229, 57, 53, 0.1);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --white: #1e1e23;
-                --text-dark: #f0f0f5;
-                --text-grey: #94a3b8;
-                --chat-bg: #121212;
-                --glass-bg: rgba(30, 30, 35, 0.85);
-                --glass-border: rgba(255, 255, 255, 0.1);
+                --white: #09090b;
+                --text-dark: #ffffff;
+                --text-grey: #a1a1aa;
+                --chat-bg: #18181b;
+                --glass-bg: rgba(9, 9, 11, 0.95);
+                --glass-border: rgba(255, 255, 255, 0.08);
                 --light-red: rgba(229, 57, 53, 0.15);
-                --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+                --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
             }
 
             body {
@@ -87,7 +87,7 @@
 
         body {
             font-family: 'IBM Plex Sans Thai', 'Inter', sans-serif;
-            background: linear-gradient(135deg, #fff5f5 0%, #ffffff 50%, #fef2f2 100%);
+            background: var(--white);
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
@@ -99,27 +99,12 @@
 
         /* Animated Background */
         .bg-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                radial-gradient(ellipse at 20% 20%, rgba(229, 57, 53, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(229, 57, 53, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(255, 82, 82, 0.03) 0%, transparent 70%);
-            z-index: -2;
-            pointer-events: none;
+            display: none;
         }
 
         /* Floating Blobs */
         .floating-blob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: -1;
-            animation: float 20s ease-in-out infinite;
-            pointer-events: none;
+            display: none;
         }
 
         .blob-1 {

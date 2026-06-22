@@ -1,23 +1,26 @@
         :root {
-            --primary-color: #d32f2f;
-            --primary-gradient: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
-            --ai-gradient: linear-gradient(135deg, #EF5350 0%, #C62828 100%);
-            --bg-gradient: radial-gradient(circle at 10% 20%, rgb(255, 240, 240) 0%, rgb(255, 255, 255) 90%);
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.9);
-            --text-main: #2c3e50;
-            --text-muted: #636e72;
+            --primary-color: #000000;
+            --primary-gradient: linear-gradient(135deg, #000000 0%, #27272a 100%);
+            --ai-gradient: linear-gradient(135deg, #27272a 0%, #000000 100%);
+            --bg-gradient: none;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: 1px solid rgba(0, 0, 0, 0.1);
+            --text-main: #000000;
+            --text-muted: #52525b;
             --radius-lg: 24px;
             --radius-md: 16px;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-gradient: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
-                --glass-bg: rgba(30, 30, 35, 0.85);
-                --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-                --text-main: #e0e0e0;
-                --text-muted: #a0a0a0;
+                --primary-color: #ffffff;
+                --primary-gradient: linear-gradient(135deg, #ffffff 0%, #e4e4e7 100%);
+                --ai-gradient: linear-gradient(135deg, #e4e4e7 0%, #ffffff 100%);
+                --bg-gradient: none;
+                --glass-bg: rgba(9, 9, 11, 0.95);
+                --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+                --text-main: #ffffff;
+                --text-muted: #a1a1aa;
             }
 
             .logo-container {

@@ -8,31 +8,31 @@
         }
 
         :root {
-            --ink: #0d1117;
-            --ink-70: #3d4451;
-            --ink-50: #6b7280;
-            --ink-30: #9ca3af;
-            --ink-15: #d1d5db;
-            --ink-07: #f8fafc;
+            --ink: #000000;
+            --ink-70: #27272a;
+            --ink-50: #52525b;
+            --ink-30: #a1a1aa;
+            --ink-15: #e4e4e7;
+            --ink-07: #f4f4f5;
             --white: #ffffff;
-            --accent: #0d1117;
-            --success: #065f46;
-            --success-bg: #ecfdf5;
-            --success-bd: #a7f3d0;
-            --error: #991b1b;
+            --accent: #000000;
+            --success: #000000;
+            --success-bg: #f4f4f5;
+            --success-bd: #e4e4e7;
+            --error: #dc2626;
             --error-bg: #fef2f2;
             --error-bd: #fecaca;
-            --warn: #92400e;
-            --warn-bg: #fffbeb;
-            --warn-bd: #fde68a;
+            --warn: #dc2626;
+            --warn-bg: #fef2f2;
+            --warn-bd: #fecaca;
             --r-xs: 6px;
             --r-sm: 10px;
             --r-md: 14px;
             --r-lg: 20px;
             --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --card-shadow: 0 10px 30px -10px rgba(13, 17, 23, 0.05), 0 1px 3px rgba(13, 17, 23, 0.02);
-            --card-shadow-hover: 0 20px 40px -15px rgba(13, 17, 23, 0.1), 0 2px 8px rgba(13, 17, 23, 0.04);
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --card-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         html {
@@ -44,8 +44,8 @@
             font-family: 'Noto Sans Thai', sans-serif;
             background: #f8fafc;
             background-image:
-                radial-gradient(circle at top right, rgba(99, 102, 241, 0.03) 0%, transparent 60%),
-                radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.03) 0%, transparent 60%);
+                radial-gradient(circle at top right, rgba(0, 0, 0, 0.015) 0%, transparent 60%),
+                radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.02) 0%, transparent 60%);
             color: var(--ink);
             min-height: 100vh;
             overflow-x: hidden;
@@ -116,7 +116,7 @@
 
         .header-brand-faculty {
             font-size: 11px;
-            color: #2563eb;
+            color: var(--ink-50);
             font-weight: 600;
             margin-top: 2px;
         }

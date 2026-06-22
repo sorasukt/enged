@@ -8,31 +8,31 @@
         }
 
         :root {
-            --ink: #0d1117;
-            --ink-70: #3d4451;
-            --ink-50: #6b7280;
-            --ink-30: #9ca3af;
-            --ink-15: #d1d5db;
-            --ink-07: #f8fafc;
+            --ink: #000000;
+            --ink-70: #27272a;
+            --ink-50: #52525b;
+            --ink-30: #a1a1aa;
+            --ink-15: #e4e4e7;
+            --ink-07: #f4f4f5;
             --white: #ffffff;
-            --accent: #0d1117;
-            --success: #065f46;
-            --success-bg: #ecfdf5;
-            --success-bd: #a7f3d0;
-            --error: #991b1b;
+            --accent: #000000;
+            --success: #000000;
+            --success-bg: #f4f4f5;
+            --success-bd: #e4e4e7;
+            --error: #dc2626;
             --error-bg: #fef2f2;
             --error-bd: #fecaca;
-            --warn: #92400e;
-            --warn-bg: #fffbeb;
-            --warn-bd: #fde68a;
+            --warn: #dc2626;
+            --warn-bg: #fef2f2;
+            --warn-bd: #fecaca;
             --r-xs: 6px;
             --r-sm: 10px;
             --r-md: 14px;
             --r-lg: 20px;
             --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --card-shadow: 0 10px 30px -10px rgba(13, 17, 23, 0.05), 0 1px 3px rgba(13, 17, 23, 0.02);
-            --card-shadow-hover: 0 20px 40px -15px rgba(13, 17, 23, 0.1), 0 2px 8px rgba(13, 17, 23, 0.04);
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --card-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         html {
@@ -551,7 +551,7 @@
 
         .header-brand-faculty {
             font-size: 11px;
-            color: #2563eb;
+            color: var(--ink-50);
             font-weight: 600;
             margin-top: 2px;
         }
@@ -2034,7 +2034,7 @@
         .profile-modal {
             position: fixed;
             inset: 0;
-            background: rgba(13, 17, 23, .6);
+            background: rgba(0, 0, 0, .4);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             z-index: 9999;
@@ -2058,7 +2058,7 @@
             border: 1px solid var(--ink-15);
             box-shadow: 0 24px 64px rgba(0, 0, 0, .2);
             width: 100%;
-            max-width: 400px;
+            max-width: 520px;
             overflow: hidden;
             transform: translateY(16px) scale(.96);
             transition: transform .3s cubic-bezier(.22, 1, .36, 1);
@@ -2068,66 +2068,160 @@
             transform: translateY(0) scale(1);
         }
 
-        .profile-modal-top {
-            background: var(--ink);
-            padding: 32px 24px 24px;
-            text-align: center;
-            color: var(--white);
-        }
-
-        .profile-modal-avatar-wrap {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            margin: 0 auto 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        #profileModalAvatar {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .profile-modal-header {
+            border-bottom: 1px solid var(--ink-15);
+            padding: 16px 24px;
+            text-align: left;
         }
 
         .profile-modal-title {
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: -.01em;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink);
         }
 
-        .profile-modal-sub {
+        .profile-modal-email {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-top: 4px;
+            color: var(--ink-50);
+            margin-top: 2px;
         }
 
-        .profile-modal-body {
+        .profile-modal-content-grid {
+            display: grid;
+            grid-template-columns: 1.8fr 3fr;
+            gap: 24px;
             padding: 24px;
+        }
+
+        @media (max-width: 580px) {
+            .profile-modal-content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        .profile-modal-avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-modal-avatar-wrap-new {
+            position: relative;
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: 1px solid var(--ink-15);
+            margin-bottom: 8px;
+            background: var(--ink-07);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .avatar-remove-btn {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            color: var(--error);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: var(--transition);
+        }
+
+        .avatar-remove-btn:hover {
+            background: var(--error-bg);
+            border-color: var(--error);
+        }
+
+        .avatar-section-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--ink);
+            margin-top: 8px;
+        }
+
+        .avatar-section-sub {
+            font-size: 12px;
+            color: var(--ink-50);
+            margin-top: 2px;
+        }
+
+        .avatar-upload-btn-label {
+            margin-top: 12px;
+            cursor: pointer;
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink);
+            transition: var(--transition);
+        }
+
+        .avatar-upload-btn-label:hover {
+            background: var(--ink-07);
+            border-color: var(--ink-50);
+        }
+
+        .avatar-error-msg {
+            font-size: 11px;
+            color: var(--error);
+            background: var(--error-bg);
+            border: 1px solid var(--error-bd);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        .profile-modal-fields-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .profile-field {
             margin-bottom: 16px;
-            text-align: left;
         }
 
         .profile-label {
             display: block;
-            font-size: 11px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 500;
             color: var(--ink-70);
-            text-transform: uppercase;
-            letter-spacing: .05em;
             margin-bottom: 6px;
+        }
+
+        .required-star {
+            color: var(--error);
+            font-weight: bold;
+            margin-left: 2px;
         }
 
         .profile-field input {
             width: 100%;
             background: var(--white);
             border: 1px solid var(--ink-15);
-            border-radius: var(--r-sm);
-            padding: 10px 12px;
+            border-radius: 8px;
+            padding: 10px 14px;
             font-family: inherit;
             font-size: 14px;
             color: var(--ink);
@@ -2136,34 +2230,42 @@
         }
 
         .profile-field input:focus {
-            border-color: var(--accent);
+            border-color: var(--ink-70);
+            box-shadow: 0 0 0 2px var(--ink-15);
         }
 
         .profile-field-hint {
-            font-size: 10.5px;
-            color: var(--ink-30);
-            margin-top: 5px;
+            font-size: 11px;
+            color: var(--ink-50);
+            margin-top: 4px;
         }
 
         .profile-modal-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 24px;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 16px;
         }
 
         .profile-btn {
-            flex: 1;
             border: none;
-            border-radius: var(--r-sm);
-            padding: 11px;
+            border-radius: 8px;
+            padding: 8px 16px;
             font-family: inherit;
             font-size: 13.5px;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
-            transition: background .15s, border-color .15s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .profile-btn.cancel {
+            background: var(--white);
+            border: 1px solid var(--ink-15);
+            color: var(--ink);
+        }
+
+        .profile-btn.cancel:hover {
+            background: var(--ink-07);
         }
 
         .profile-btn.save {
@@ -2173,17 +2275,6 @@
 
         .profile-btn.save:hover {
             background: var(--ink-70);
-        }
-
-        .profile-btn.cancel {
-            background: none;
-            border: 1px solid var(--ink-15);
-            color: var(--ink-50);
-        }
-
-        .profile-btn.cancel:hover {
-            border-color: var(--ink-30);
-            color: var(--ink);
         }
 
         /* ════ HAMBURGER MENU & DRAWER ════ */

@@ -170,6 +170,8 @@
                         reader.onerror = reject;
                         reader.readAsDataURL(file);
                     });
+                } else if (isAvatarRemoved) {
+                    imageBase64 = 'DELETE';
                 }
 
                 // ดึง Token ของผู้ใช้ปัจจุบันเพื่อยืนยันตัวตน
@@ -216,11 +218,44 @@
         function previewProfileImage(event) {
             const file = event.target.files[0];
             if (file) {
+                const errorMsgEl = document.getElementById('profileModalAvatarError');
+                if (errorMsgEl) {
+                    errorMsgEl.style.display = 'none';
+                    errorMsgEl.textContent = '';
+                }
+                if (file.size > 2 * 1024 * 1024) {
+                    if (errorMsgEl) {
+                        errorMsgEl.textContent = 'ขนาดไฟล์เกิน 2MB';
+                        errorMsgEl.style.display = 'block';
+                    } else {
+                        alert('ขนาดไฟล์เกิน 2MB');
+                    }
+                    event.target.value = '';
+                    return;
+                }
+                isAvatarRemoved = false;
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     document.getElementById('profileModalAvatar').src = e.target.result;
                 }
                 reader.readAsDataURL(file);
+            }
+        }
+
+        function removeProfileImage() {
+            const avatar = document.getElementById('profileModalAvatar');
+            const fileInput = document.getElementById('profileUploadInput');
+            if (avatar) {
+                avatar.src = 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
+            }
+            if (fileInput) {
+                fileInput.value = '';
+            }
+            isAvatarRemoved = true;
+            const errorMsgEl = document.getElementById('profileModalAvatarError');
+            if (errorMsgEl) {
+                errorMsgEl.style.display = 'none';
+                errorMsgEl.textContent = '';
             }
         }
 
@@ -274,6 +309,7 @@
         let isAuthenticated = false;
         let userProfile = null;
         let extractedStudentId = '';
+        let isAvatarRemoved = false;
 
         function escHtml(str) {
             if (!str) return '';
@@ -347,6 +383,12 @@
 
         function openProfileModal() {
             closeDropdowns();
+            isAvatarRemoved = false;
+            const errorMsgEl = document.getElementById('profileModalAvatarError');
+            if (errorMsgEl) {
+                errorMsgEl.style.display = 'none';
+                errorMsgEl.textContent = '';
+            }
             const modal = document.getElementById('profileModal');
             const avatar = document.getElementById('profileModalAvatar');
             const email = document.getElementById('profileModalEmail');
