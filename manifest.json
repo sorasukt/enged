@@ -1,7 +1,7 @@
 {
   "name": "English Education, LRU App",
   "short_name": "EngEd App",
-  "start_url": "/enged/index",
+  "start_url": "/enged",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#d32f2f",
