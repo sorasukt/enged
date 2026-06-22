@@ -1,0 +1,280 @@
+
+        :root {
+            --bg: #ffffff;
+            --text: #0a0a0a;
+            --muted: #888;
+            --border: #e8e8e8;
+            --accent: #0a0a0a;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Anuphan', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            border-bottom: 1px solid var(--border);
+            padding: 0 28px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo em {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        /* ─── GRID BG ─── */
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+            opacity: .35;
+            z-index: 0;
+        }
+
+        /* ─── MAIN ─── */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            padding: 28px;
+        }
+
+        .content {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        /* big 404 */
+        .four-o-four {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .num {
+            font-size: clamp(7rem, 22vw, 14rem);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -8px;
+            color: var(--text);
+            opacity: .07;
+            user-select: none;
+            animation: fadeIn .6s ease both;
+        }
+
+        .num-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .n {
+            font-size: clamp(5rem, 14vw, 9rem);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -4px;
+            animation: slideUp .5s cubic-bezier(.16, 1, .3, 1) both;
+        }
+
+        .n:nth-child(1) {
+            animation-delay: .1s;
+        }
+
+        .n:nth-child(2) {
+            color: var(--accent);
+            animation-delay: .2s;
+        }
+
+        .n:nth-child(3) {
+            animation-delay: .3s;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: .07;
+            }
+        }
+
+        /* slash divider */
+        .slash-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 20px 0 24px;
+            animation: slideUp .5s cubic-bezier(.16, 1, .3, 1) .35s both;
+        }
+
+        .slash-line::before,
+        .slash-line::after {
+            content: '';
+            flex: 1;
+            max-width: 80px;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .slash {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        /* text */
+        .title {
+            font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            animation: slideUp .5s cubic-bezier(.16, 1, .3, 1) .4s both;
+        }
+
+        .desc {
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            animation: slideUp .5s cubic-bezier(.16, 1, .3, 1) .45s both;
+        }
+
+        /* buttons */
+        .btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideUp .5s cubic-bezier(.16, 1, .3, 1) .5s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            padding: 13px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: 'Anuphan', sans-serif;
+            font-size: .95rem;
+            transition: all .25s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .18);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .28);
+        }
+
+        .btn-outline {
+            border: 1.5px solid var(--border);
+            color: var(--text);
+            background: white;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text);
+            background: var(--text);
+            color: white;
+        }
+
+        /* blinking cursor */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.1em;
+            background: var(--accent);
+            border-radius: 2px;
+            vertical-align: text-bottom;
+            margin-left: 4px;
+            animation: blink 1.1s step-end infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 20px 28px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .82rem;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer strong {
+            color: var(--accent);
+        }
+    

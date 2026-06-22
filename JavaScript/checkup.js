@@ -1,0 +1,703 @@
+
+        /* ════════════════════════════════════════
+           ตั้งค่าระบบหลัก (Google Apps Script)
+        ════════════════════════════════════════ */
+        const TARGET_LAT = 17.5398426;
+        const TARGET_LNG = 101.7219437;
+        const MAX_DISTANCE_METERS = 100;
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
+
+        /* ════════════════════════════════════════
+           ตั้งค่า AUTH0
+        ════════════════════════════════════════ */
+        const AUTH0_DOMAIN = "litalkeducation.us.auth0.com";
+        const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";
+
+        let auth0Client = null;
+        let isAuthenticated = false;
+        let userProfile = null;
+        let extractedStudentId = null;
+        let SCHEDULE = [];
+
+        /* ────────────────────────────────────────
+           ฟังก์ชัน Auth0
+        ──────────────────────────────────────── */
+        async function configureAuth0() {
+            auth0Client = await auth0.createAuth0Client({
+                domain: AUTH0_DOMAIN,
+                clientId: AUTH0_CLIENT_ID,
+                cacheLocation: 'localstorage',
+                useRefreshTokens: true,
+                authorizationParams: {
+                    redirect_uri: window.location.origin + window.location.pathname
+                }
+            });
+        }
+
+        async function loginUser() {
+            if (!auth0Client) {
+                alert("ระบบขัดข้อง กรุณารีเฟรชหน้าเว็บ หรือตรวจสอบว่าไม่ได้เปิดจากไฟล์ตรงๆ (file://)");
+                return;
+            }
+            try {
+                await auth0Client.loginWithRedirect();
+            } catch (error) {
+                console.error("Login Error:", error);
+            }
+        }
+
+        async function logoutUser() {
+            setCookie('att_name', '', -1);
+            await auth0Client.logout({
+                logoutParams: { returnTo: window.location.origin + window.location.pathname }
+            });
+        }
+
+        async function updateAuthUI() {
+            const authArea = document.getElementById('authHeaderArea');
+            const drawerAuth = document.getElementById('drawerAuthArea');
+            if (!authArea) return;
+
+            try {
+                isAuthenticated = await auth0Client.isAuthenticated();
+                if (isAuthenticated) {
+                    userProfile = await auth0Client.getUser();
+                    
+                    const displayName = getCookie('att_name') || userProfile.name || userProfile.nickname || 'นักศึกษา';
+                    const avatarUrl = userProfile.picture || 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
+
+                    authArea.innerHTML = `
+                        <div class="user-dropdown-container">
+                            <button class="user-profile-btn" onclick="toggleUserDropdown(event)">
+                                <img src="${avatarUrl}" alt="Avatar" class="user-avatar-mini">
+                                <span class="user-name-mini">${escHtml(displayName)}</span>
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                            </button>
+                            <div class="user-dropdown-menu" id="userDropdownMenu">
+                                <div class="user-dropdown-header">
+                                    <img src="${avatarUrl}" alt="Avatar" class="user-avatar-large">
+                                    <div class="user-info-text">
+                                        <div class="user-name-full">${escHtml(displayName)}</div>
+                                        <div class="user-email-full">${escHtml(userProfile.email)}</div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item" onclick="openProfileModal()">
+                                    <i class="fa-solid fa-user-gear"></i>แก้ไขข้อมูลส่วนตัว
+                                </button>
+                                <button class="dropdown-item logout" onclick="logoutUser()">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>ออกจากระบบ
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    if (drawerAuth) {
+                        drawerAuth.innerHTML = `
+                            <img src="${avatarUrl}" alt="Avatar" class="drawer-avatar">
+                            <div class="drawer-username">${escHtml(displayName)}</div>
+                            <div class="drawer-email">${escHtml(userProfile.email)}</div>
+                            <button class="drawer-auth-btn secondary" onclick="openProfileModal()">
+                                <i class="fa-solid fa-user-gear"></i>แก้ไขข้อมูลส่วนตัว
+                            </button>
+                            <button class="drawer-auth-btn logout" onclick="logoutUser()">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>ออกจากระบบ
+                            </button>
+                        `;
+                    }
+
+                    // Also make sure to update the input field for name in checkup.html
+                    const nameInput = document.getElementById('name');
+                    if (nameInput) {
+                        nameInput.value = displayName;
+                    }
+
+                    verifyUserEmail(userProfile.email);
+                } else {
+                    const loginBtnHtml = `
+                        <button class="login-header-btn" onclick="loginUser()">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i> เข้าสู่ระบบด้วย LRU Mail
+                        </button>
+                    `;
+                    authArea.innerHTML = loginBtnHtml;
+
+                    if (drawerAuth) {
+                        drawerAuth.innerHTML = `
+                            <div style="font-size:12px;color:var(--ink-50);margin-bottom:12px;">กรุณาเข้าสู่ระบบเพื่อใช้งานเมนูเต็มรูปแบบ</div>
+                            <button class="drawer-auth-btn primary" onclick="loginUser()">
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i>เข้าสู่ระบบด้วย LRU Mail
+                            </button>
+                        `;
+                    }
+
+                    showAuthScreen();
+                }
+            } catch (error) {
+                console.error("Error updating Auth UI:", error);
+                const fallbackLogin = `
+                    <button class="login-header-btn" onclick="loginUser()">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> เข้าสู่ระบบ
+                    </button>
+                `;
+                authArea.innerHTML = fallbackLogin;
+
+                if (drawerAuth) {
+                    drawerAuth.innerHTML = `
+                        <button class="drawer-auth-btn primary" onclick="loginUser()">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i>เข้าสู่ระบบ
+                        </button>
+                    `;
+                }
+
+                showAuthScreen();
+            }
+        }
+
+        function verifyUserEmail(email) {
+            const regex = /^sb(\d+)@lru\.ac\.th$/i;
+            const match = email.match(regex);
+
+            if (match) {
+                extractedStudentId = match[1];
+                document.getElementById('studentId').value = extractedStudentId;
+                document.getElementById('userEmailDisplay').textContent = "ล็อกอินด้วย: " + email;
+
+                const savedName = getCookie('att_name') || (userProfile && (userProfile.name || userProfile.nickname)) || '';
+                if (savedName) document.getElementById('name').value = savedName;
+
+                showLoginPage(false);
+                showMainApp(true);
+                updateStatusUI();
+            } else {
+                document.getElementById('invalidEmailDisplay').textContent = email;
+                showInvalidEmail();
+            }
+        }
+
+        /* ════ DROPDOWN & PROFILE FUNCTIONS ════ */
+        function toggleUserDropdown(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('userDropdownMenu');
+            const btn = document.querySelector('.user-profile-btn');
+            if (!menu || !btn) return;
+            const isShown = menu.classList.contains('show');
+            closeDropdowns();
+            if (!isShown) {
+                menu.classList.add('show');
+                btn.classList.add('open');
+            }
+        }
+
+        function closeDropdowns() {
+            const menu = document.getElementById('userDropdownMenu');
+            const btn = document.querySelector('.user-profile-btn');
+            if (menu) menu.classList.remove('show');
+            if (btn) btn.classList.remove('open');
+        }
+
+        document.addEventListener('click', () => {
+            closeDropdowns();
+        });
+
+        function toggleMobileMenu(event) {
+            if (event) event.stopPropagation();
+            const drawer = document.getElementById('mobileMenuDrawer');
+            if (!drawer) return;
+            const isOpen = drawer.classList.contains('open');
+            if (isOpen) {
+                drawer.classList.remove('open');
+                setTimeout(() => {
+                    drawer.style.display = 'none';
+                }, 250);
+            } else {
+                drawer.style.display = 'flex';
+                drawer.offsetHeight;
+                drawer.classList.add('open');
+            }
+        }
+
+        function openProfileModal() {
+            closeDropdowns();
+            const modal = document.getElementById('profileModal');
+            const avatar = document.getElementById('profileModalAvatar');
+            const email = document.getElementById('profileModalEmail');
+            const inputName = document.getElementById('profileInputName');
+            const inputId = document.getElementById('profileInputId');
+
+            if (modal && userProfile) {
+                avatar.src = userProfile.picture || 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
+                email.textContent = userProfile.email || '—';
+                inputId.value = extractedStudentId || '—';
+                
+                const savedName = getCookie('att_name') || userProfile.name || userProfile.nickname || '';
+                inputName.value = savedName;
+
+                modal.classList.add('visible');
+            }
+        }
+
+        function closeProfileModal() {
+            const modal = document.getElementById('profileModal');
+            if (modal) modal.classList.remove('visible');
+        }
+
+        const GAS_PROFILE_UPDATE_URL = "https://script.google.com/macros/s/AKfycbxz6ZQpBN-JcfA3eY0yaIQobiSTFiXRMl-SDWXLTaQMI5mvBUw81KlU0uC7NwPDkgqD/exec";
+
+        async function saveProfileData() {
+            const saveBtn = document.querySelector('.profile-btn.save');
+            const origBtnText = saveBtn.innerHTML;
+            
+            const inputName = document.getElementById('profileInputName');
+            const fileInput = document.getElementById('profileUploadInput');
+            
+            const nameVal = inputName ? inputName.value.trim() : '';
+            if (!nameVal) {
+                alert('กรุณากรอกชื่อ-นามสกุล');
+                return;
+            }
+
+            saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
+            saveBtn.disabled = true;
+
+            try {
+                let imageBase64 = null;
+                let imageMimeType = null;
+                let imageFileName = null;
+
+                if (fileInput && fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    imageMimeType = file.type;
+                    imageFileName = file.name;
+                    
+                    imageBase64 = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(file);
+                    });
+                }
+
+                // ดึง Token ของผู้ใช้ปัจจุบันเพื่อยืนยันตัวตน
+                const token = await auth0Client.getTokenSilently();
+
+
+
+                const payload = {
+                    access_token: token,
+                    name: nameVal,
+                    imageBase64: imageBase64,
+                    imageMimeType: imageMimeType,
+                    imageFileName: imageFileName
+                };
+
+                const res = await fetch(GAS_PROFILE_UPDATE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+
+                setCookie('att_name', nameVal, 30);
+                if (userProfile) {
+                    userProfile.name = nameVal;
+                    if (data.picture) userProfile.picture = data.picture;
+                }
+                
+                updateAuthUI();
+                closeProfileModal();
+                toast('อัปเดตโปรไฟล์สำเร็จแล้ว');
+                
+            } catch (err) {
+                console.error(err);
+                alert('เกิดข้อผิดพลาดในการอัปเดตโปรไฟล์: ' + err.message);
+            } finally {
+                saveBtn.innerHTML = origBtnText;
+                saveBtn.disabled = false;
+            }
+        }
+        
+        function previewProfileImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profileModalAvatar').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        let _toastTimer;
+        function toast(msg) {
+            const el = document.getElementById('copyToast');
+            const toastText = document.getElementById('copyToastText');
+            if (toastText) toastText.textContent = msg;
+            if (el) {
+                el.classList.add('show');
+                clearTimeout(_toastTimer);
+                _toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+            }
+        }
+
+        function escHtml(s) { return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+        /* ────────────────────────────────────────
+           จัดการการแสดงหน้า
+        ──────────────────────────────────────── */
+        function showLoginPage(show) {
+            const el = document.getElementById('loginPage');
+            el.style.display = show ? 'block' : 'none';
+        }
+
+        function showMainApp(show) {
+            const el = document.getElementById('mainApp');
+            el.style.display = show ? 'block' : 'none';
+        }
+
+        function showAuthScreen() {
+            document.getElementById('authScreen').style.display = 'block';
+            document.getElementById('invalidEmailScreen').style.display = 'none';
+            showLoginPage(true);
+            showMainApp(false);
+        }
+
+        function showInvalidEmail() {
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('invalidEmailScreen').style.display = 'block';
+            showLoginPage(true);
+            showMainApp(false);
+        }
+
+        /* Show content within main app */
+        function showScreen(screenId) {
+            document.getElementById('closedScreen').classList.remove('show');
+            document.getElementById('formContents').style.display = 'none';
+
+            if (screenId === 'formContents') {
+                document.getElementById('formContents').style.display = 'block';
+            } else {
+                document.getElementById(screenId).classList.add('show');
+            }
+        }
+
+        /* ────────────────────────────────────────
+           HELPERS & SCHEDULE
+        ──────────────────────────────────────── */
+        function parseGMT7(str) {
+            const [date, time] = str.split(' ');
+            const [y, mo, d] = date.split('-').map(Number);
+            const [h, m] = time.split(':').map(Number);
+            return new Date(y, mo - 1, d, h, m, 0).getTime();
+        }
+        function fmtTime(tsMs) {
+            return new Date(tsMs).toLocaleTimeString('th-TH', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit', hour12: false }) + ' น.';
+        }
+        function fmtDate(tsMs) {
+            return new Intl.DateTimeFormat('th-TH', { weekday: 'short', day: 'numeric', month: 'short' }).format(new Date(tsMs));
+        }
+
+        function slotStatus(slot) {
+            const now = new Date().getTime();
+            const open = parseGMT7(slot.open);
+            const close = parseGMT7(slot.close);
+            if (now >= open && now < close) return 'active';
+            if (now < open) return 'upcoming';
+            return 'closed';
+        }
+
+        function anySlotActive() { return SCHEDULE.some(s => slotStatus(s) === 'active'); }
+
+        function renderSchedule() {
+            const body = document.getElementById('scheduleBody');
+            if (!body) return;
+            if (SCHEDULE.length === 0) {
+                body.innerHTML = `<div style="padding: 16px 18px; font-size: 13px; color: var(--ink-50); text-align: center;">ไม่มีตารางเวลาในระบบ</div>`;
+                return;
+            }
+            body.innerHTML = SCHEDULE.map(slot => {
+                const st = slotStatus(slot);
+                const open = parseGMT7(slot.open);
+                const close = parseGMT7(slot.close);
+                const rowClass = st === 'active' ? 'active-slot' : st === 'upcoming' ? 'upcoming-slot' : 'closed-slot';
+                const badgeClass = st === 'active' ? 'badge-open' : st === 'upcoming' ? 'badge-upcoming' : 'badge-closed';
+                const badgeText = st === 'active' ? 'เปิดอยู่' : st === 'upcoming' ? 'กำลังจะเปิด' : 'ปิดแล้ว';
+                return `
+        <div class="schedule-row ${rowClass}">
+            <div class="schedule-row-dot"></div>
+            <div class="schedule-row-info">
+                <div class="schedule-row-name">${slot.name}</div>
+                <div class="schedule-row-time">${fmtDate(open)} &nbsp;·&nbsp; ${fmtTime(open)} – ${fmtTime(close)}</div>
+            </div>
+            <span class="schedule-row-badge ${badgeClass}">${badgeText}</span>
+        </div>`;
+            }).join('');
+        }
+
+        let _wasOpen = null;
+        function updateStatusUI() {
+            if (!isAuthenticated || !extractedStudentId) return;
+
+            const isOpen = anySlotActive();
+            const headerBadgeText = document.getElementById('headerBadgeText');
+            const headerDot = document.getElementById('headerDot');
+
+            if (isOpen) {
+                showScreen('formContents');
+                const active = SCHEDULE.find(s => slotStatus(s) === 'active');
+                const closeTs = parseGMT7(active.close);
+                document.getElementById('sbText').textContent = `เปิดถึง ${fmtTime(closeTs)} — กรุณากรอกข้อมูลให้ครบถ้วน`;
+                document.getElementById('submitBtn').disabled = false;
+
+                headerDot.style.background = '#16a34a';
+                headerDot.style.animation = 'blink 2.4s ease infinite';
+                headerBadgeText.textContent = 'ระบบเปิด';
+                _wasOpen = true;
+            } else {
+                if (_wasOpen === true) {
+                    document.getElementById('processOverlay').classList.remove('visible');
+                }
+                const upcoming = SCHEDULE.filter(s => slotStatus(s) === 'upcoming').sort((a, b) => parseGMT7(a.open) - parseGMT7(b.open));
+                if (upcoming.length > 0) {
+                    const next = upcoming[0];
+                    const nextOpen = parseGMT7(next.open);
+                    document.getElementById('closedTitle').textContent = 'ยังไม่ถึงเวลา';
+                    document.getElementById('closedSub').textContent = 'ระบบยังไม่เปิดรับในขณะนี้ กรุณารอจนถึงเวลาที่กำหนด';
+                    const nextBox = document.getElementById('nextSlotBox');
+                    nextBox.style.display = 'flex';
+                    document.getElementById('nextSlotName').textContent = next.name;
+                    document.getElementById('nextSlotTime').textContent = `${fmtDate(nextOpen)} เวลา ${fmtTime(nextOpen)}`;
+                } else {
+                    const allClosed = SCHEDULE.length > 0 && SCHEDULE.every(s => slotStatus(s) === 'closed');
+                    document.getElementById('closedTitle').textContent = allClosed ? 'หมดเวลากรอกข้อมูล' : 'ระบบปิดรับบันทึก';
+                    document.getElementById('closedSub').textContent = 'ระบบปิดรับบันทึกการเข้าร่วมแล้วในขณะนี้';
+                    const nextBox = document.getElementById('nextSlotBox');
+                    nextBox.style.display = 'none';
+                }
+                showScreen('closedScreen');
+                document.getElementById('submitBtn').disabled = true;
+
+                headerDot.style.background = '#9ca3af';
+                headerDot.style.animation = 'none';
+                headerBadgeText.textContent = 'ระบบปิด';
+                _wasOpen = false;
+            }
+        }
+
+        function updateClock() {
+            const el = document.getElementById('liveClock');
+            if (el) el.textContent = new Date().toLocaleTimeString('th-TH', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }) + ' น.';
+        }
+
+        /* ────────────────────────────────────────
+           COOKIES
+        ──────────────────────────────────────── */
+        const COOKIE_DAYS = 30;
+        function setCookie(name, value, days) { const exp = new Date(Date.now() + days * 864e5).toUTCString(); document.cookie = `${name}=${encodeURIComponent(value)};expires=${exp};path=/;SameSite=Strict`; }
+        function getCookie(name) { const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : ''; }
+
+        /* ────────────────────────────────────────
+           INIT FLOW
+        ──────────────────────────────────────── */
+        window.addEventListener('load', async () => {
+            updateClock();
+
+            // 1. ซิงค์ตารางเวลา
+            try {
+                const response = await fetch(GAS_URL);
+                const result = await response.json();
+                if (result.status === 'success') SCHEDULE = result.data;
+            } catch (error) {
+                console.error("Network Error (GAS Time Table):", error);
+            }
+
+            renderSchedule();
+
+            // 2. Auth0
+            try {
+                await configureAuth0();
+
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('test') === 'true') {
+                    isAuthenticated = true;
+                    verifyUserEmail('sb55555@lru.ac.th');
+                } else {
+                    const query = window.location.search;
+                    if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
+                        await auth0Client.handleRedirectCallback();
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    }
+
+                    isAuthenticated = await auth0Client.isAuthenticated();
+
+                    if (isAuthenticated) {
+                        userProfile = await auth0Client.getUser();
+                        verifyUserEmail(userProfile.email);
+                    } else {
+                        showAuthScreen();
+                    }
+                }
+            } catch (error) {
+                console.error("Auth0 Initialization Error:", error);
+                showAuthScreen();
+            }
+
+            // 3. Real-time loop
+            setInterval(() => {
+                updateClock();
+                renderSchedule();
+                if (isAuthenticated && extractedStudentId) {
+                    updateStatusUI();
+                }
+            }, 1000);
+
+
+        });
+
+        /* ────────────────────────────────────────
+           PROCESS OVERLAY & SUBMIT
+        ──────────────────────────────────────── */
+        function openOverlay() {
+            [1, 2, 3, 4].forEach(n => setStep(n, 'idle'));
+            document.getElementById('processResult').className = 'process-result';
+            document.getElementById('processResult').innerHTML = '';
+            document.getElementById('processClose').classList.remove('show');
+            document.getElementById('processClose').innerHTML = '<i class="fa-solid fa-check"></i><span>ตกลง</span>';
+            document.getElementById('processOverlay').classList.add('visible');
+        }
+        function closeOverlay() { document.getElementById('processOverlay').classList.remove('visible'); updateStatusUI(); }
+        function setStep(n, state, descText) {
+            const el = document.getElementById('step-' + n);
+            const dot = el.querySelector('.step-dot');
+            const desc = document.getElementById('desc-' + n);
+            el.className = 'step-item' + (state !== 'idle' ? ' ' + state : '');
+            const icons = { active: 'fa-ellipsis', done: 'fa-check', error: 'fa-xmark' };
+            dot.innerHTML = state === 'idle' ? `<span style="font-size:9px;font-weight:700;color:var(--ink-30)">${n}</span>` : `<i class="fa-solid ${icons[state]}"></i><div class="step-ring"></div>`;
+            if (descText) desc.textContent = descText;
+        }
+        function showResult(msg, type) {
+            const el = document.getElementById('processResult');
+            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+            el.className = 'process-result ' + type;
+            el.innerHTML = `<i class="fa-solid ${icon}"></i><span>${msg}</span>`;
+            const btn = document.getElementById('processClose');
+            btn.classList.add('show');
+            if (type === 'error') btn.innerHTML = '<i class="fa-solid fa-rotate-left"></i><span>ลองใหม่</span>';
+        }
+
+        function startAttendanceProcess() {
+            if (!anySlotActive() || !extractedStudentId) return;
+
+            const name = document.getElementById('name').value.trim();
+            if (!name) {
+                const el = document.getElementById('name');
+                el.style.borderColor = '#dc2626';
+                el.style.boxShadow = '0 0 0 3px rgba(220,38,38,.15)';
+                setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 2000);
+                return;
+            }
+
+            document.getElementById('submitBtn').disabled = true;
+            setCookie('att_name', name, COOKIE_DAYS);
+            openOverlay();
+
+            setStep(1, 'active');
+            setTimeout(() => {
+                setStep(1, 'done', 'ข้อมูลถูกต้องและครบถ้วน');
+                setStep(2, 'active');
+
+                if (!('geolocation' in navigator)) {
+                    setStep(2, 'error', 'เบราว์เซอร์นี้ไม่รองรับ GPS');
+                    showResult('อุปกรณ์ไม่รองรับการระบุตำแหน่ง', 'error');
+                    return;
+                }
+                navigator.geolocation.getCurrentPosition(
+                    pos => onGotPosition(pos, extractedStudentId, name),
+                    err => {
+                        const msgs = { 1: 'ปฏิเสธสิทธิ์ Location — กรุณาเปิดสิทธิ์แล้วลองใหม่', 2: 'รับสัญญาณ GPS ไม่ได้ในขณะนี้', 3: 'หมดเวลาค้นหาตำแหน่ง — กรุณาลองใหม่' };
+                        setStep(2, 'error', msgs[err.code] ?? 'ไม่สามารถระบุตำแหน่งได้');
+                        showResult(msgs[err.code] ?? 'เกิดข้อผิดพลาด GPS', 'error');
+                    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+                );
+            }, 600);
+        }
+
+        function onGotPosition(position, studentId, name) {
+            const { latitude: lat, longitude: lng } = position.coords;
+            setStep(2, 'done', `พิกัด ${lat.toFixed(5)}, ${lng.toFixed(5)}`);
+            setStep(3, 'active');
+
+            setTimeout(() => {
+                const dist = haversine(lat, lng, TARGET_LAT, TARGET_LNG);
+                if (dist > MAX_DISTANCE_METERS) {
+                    setStep(3, 'error', `ระยะห่าง ${Math.round(dist)} ม. — เกินรัศมีที่กำหนด`);
+                    showResult(`ตำแหน่งอยู่ห่างจากสถานที่ ${Math.round(dist)} ม. (อนุญาตไม่เกิน ${MAX_DISTANCE_METERS} ม.)`, 'error');
+                    return;
+                }
+
+                setStep(3, 'done', `ระยะห่าง ${Math.round(dist)} ม. — อยู่ในพื้นที่กิจกรรม`);
+                setStep(4, 'active');
+
+                fetch(GAS_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ studentId, name, lat, lng, distance: Math.round(dist) })
+                }).then(r => r.json()).then(result => {
+                    if (result.status === 'success') {
+                        setStep(4, 'done', 'บันทึกข้อมูลเรียบร้อยแล้ว');
+                        showResult('บันทึกการเข้าร่วมกิจกรรมสำเร็จ', 'success');
+                        document.getElementById('name').value = '';
+                    } else {
+                        setStep(4, 'error', 'เซิร์ฟเวอร์ตอบกลับผิดพลาด');
+                        showResult('เกิดข้อผิดพลาดจากเซิร์ฟเวอร์: ' + result.message, 'error');
+                    }
+                }).catch(() => {
+                    setStep(4, 'error', 'ไม่สามารถเชื่อมต่อได้');
+                    showResult('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่', 'error');
+                });
+            }, 500);
+        }
+
+        function haversine(lat1, lon1, lat2, lon2) {
+            const R = 6_371_000;
+            const rad = v => v * Math.PI / 180;
+            const dLat = rad(lat2 - lat1), dLon = rad(lon2 - lon1);
+            const a = Math.sin(dLat / 2) ** 2 + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLon / 2) ** 2;
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        }
+
+        /* ────────────────────────────────────────
+           GPS ACCORDION & TABS (UX Redesign Helper)
+           ──────────────────────────────────────── */
+        function toggleGPSGuide(event) {
+            if (event) event.preventDefault();
+            const content = document.getElementById('gpsGuideContent');
+            const chevron = document.getElementById('gpsChevron');
+            if (content.style.maxHeight === '0px' || content.style.maxHeight === '' || !content.style.maxHeight) {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                chevron.classList.add('rotated');
+            } else {
+                content.style.maxHeight = '0px';
+                chevron.classList.remove('rotated');
+            }
+        }
+
+        function switchGPSTab(event, tabId) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            const buttons = document.querySelectorAll('.gps-tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+            const panes = document.querySelectorAll('.gps-pane');
+            panes.forEach(pane => pane.classList.remove('active'));
+            document.getElementById('pane-' + tabId).classList.add('active');
+
+            const content = document.getElementById('gpsGuideContent');
+            content.style.maxHeight = content.scrollHeight + 'px';
+        }
+    
