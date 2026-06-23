@@ -835,7 +835,7 @@
         input[type="number"],
         textarea {
             width: 100%;
-            background: #f8fafc;
+            background: var(--white);
             border: 1.5px solid var(--ink-15);
             border-radius: var(--r-sm);
             padding: 12px 16px;
@@ -900,7 +900,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            background: #f8fafc;
+            background: var(--white);
             border: 1.5px solid var(--ink-15);
             border-radius: var(--r-sm);
             padding: 12px 16px;
