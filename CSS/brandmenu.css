@@ -6,6 +6,7 @@
 
 /* ── Design Tokens (light mode defaults) ── */
 :root {
+            color-scheme: light dark;
     --bm-ink:     #000000;
     --bm-ink-70:  #27272a;
     --bm-ink-50:  #52525b;
