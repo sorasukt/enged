@@ -2,15 +2,7 @@
         /* ════ CONFIG ════ */
         const GAS_URL = "https://script.google.com/macros/s/AKfycbxNif4pv3SL70z-xSRNHoU1fwvAEOwp7QmgqQZbH7yITzeWycZPKcbb0cSCu7g2TJiWog/exec";
 
-        /* ════ AUTH0 CONFIG ════ */
-        const AUTH0_DOMAIN = "litalkeducation.us.auth0.com";
-        const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";
 
-        let auth0Client = null;
-        let isAuthenticated = false;
-        let userProfile = null;
-        let extractedStudentId = null;
-        let isAvatarRemoved = false;
 
         let _sid = '', _act = '', _monitorTimer;
 
@@ -31,29 +23,7 @@
             lsUpdate('กำลังเชื่อมต่อระบบ...', 'spin');
             lsProgress(15);
 
-            // Parallel loading of Auth0 configuration and activities data
-            const auth0Promise = (async () => {
-                try {
-                    await configureAuth0();
-                    const query = window.location.search;
-                    if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
-                        await auth0Client.handleRedirectCallback();
-                        window.history.replaceState({}, document.title, window.location.pathname);
-                    }
-                    await updateAuthUI();
-                } catch (authError) {
-                    console.error("Auth0 Init Error:", authError);
-                    const authArea = document.getElementById('authHeaderArea');
-                    if (authArea) {
-                        authArea.innerHTML = `
-                            <button class="login-header-btn" onclick="loginUser()">
-                                <i class="fa-solid fa-arrow-right-to-bracket"></i> เข้าสู่ระบบ
-                            </button>
-                        `;
-                    }
-                    showStudentIdInput(true);
-                }
-            })();
+            const auth0Promise = initAuth();
 
             const activitiesPromise = (async () => {
                 try {
@@ -106,143 +76,25 @@
             }
         });
 
-        /* ════ AUTH0 FUNCTIONS ════ */
-        async function configureAuth0() {
-            auth0Client = await auth0.createAuth0Client({
-                domain: AUTH0_DOMAIN,
-                clientId: AUTH0_CLIENT_ID,
-                cacheLocation: 'localstorage',
-                useRefreshTokens: true,
-                authorizationParams: {
-                    redirect_uri: window.location.origin + window.location.pathname
-                }
-            });
-        }
+        document.addEventListener('authStateChanged', (e) => {
+            if (e.detail.isAuthenticated) {
+                const email = e.detail.userProfile.email;
+                const regex = /^sb(\d+)@lru\.ac\.th$/i;
+                const match = email.match(regex);
 
-        async function loginUser() {
-            if (!auth0Client) return;
-            try {
-                await auth0Client.loginWithRedirect();
-            } catch (error) {
-                console.error("Login Error:", error);
-            }
-        }
-
-        async function logoutUser() {
-            if (!auth0Client) return;
-            await auth0Client.logout({
-                logoutParams: { returnTo: window.location.origin + window.location.pathname }
-            });
-        }
-
-        async function updateAuthUI() {
-            const authArea = document.getElementById('authHeaderArea');
-            const drawerAuth = document.getElementById('drawerAuthArea');
-            if (!authArea) return;
-
-            try {
-                isAuthenticated = await auth0Client.isAuthenticated();
-                if (isAuthenticated) {
-                    userProfile = await auth0Client.getUser();
-                    
-                    const displayName = getCookie('att_name') || userProfile.name || userProfile.nickname || 'นักศึกษา';
-                    const avatarUrl = userProfile.picture || 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
-
-                    authArea.innerHTML = `
-                        <div class="user-dropdown-container">
-                            <button class="user-profile-btn" onclick="toggleUserDropdown(event)">
-                                <img src="${avatarUrl}" alt="Avatar" class="user-avatar-mini">
-                                <span class="user-name-mini">${escHtml(displayName)}</span>
-                                <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
-                            </button>
-                            <div class="user-dropdown-menu" id="userDropdownMenu">
-                                <div class="user-dropdown-header">
-                                    <img src="${avatarUrl}" alt="Avatar" class="user-avatar-large">
-                                    <div class="user-info-text">
-                                        <div class="user-name-full">${escHtml(displayName)}</div>
-                                        <div class="user-email-full">${escHtml(userProfile.email)}</div>
-                                    </div>
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <button class="dropdown-item" onclick="openProfileModal()">
-                                    <i class="fa-solid fa-user-gear"></i>แก้ไขข้อมูลส่วนตัว
-                                </button>
-                                <button class="dropdown-item logout" onclick="logoutUser()">
-                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>ออกจากระบบ
-                                </button>
-                            </div>
-                        </div>
-                    `;
-
-                    if (drawerAuth) {
-                        drawerAuth.innerHTML = `
-                            <img src="${avatarUrl}" alt="Avatar" class="drawer-avatar">
-                            <div class="drawer-username">${escHtml(displayName)}</div>
-                            <div class="drawer-email">${escHtml(userProfile.email)}</div>
-                            <button class="drawer-auth-btn secondary" onclick="openProfileModal()">
-                                <i class="fa-solid fa-user-gear"></i>แก้ไขข้อมูลส่วนตัว
-                            </button>
-                            <button class="drawer-auth-btn logout" onclick="logoutUser()">
-                                <i class="fa-solid fa-arrow-right-from-bracket"></i>ออกจากระบบ
-                            </button>
-                        `;
-                    }
-
-                    verifyUserEmail(userProfile.email);
+                if (match) {
+                    const extractedId = match[1];
+                    const studentIdInput = document.getElementById('studentId');
+                    studentIdInput.value = extractedId;
+                    onIdInput(studentIdInput);
+                    showStudentIdInput(false);
                 } else {
-                    const loginBtnHtml = `
-                        <button class="login-header-btn" onclick="loginUser()">
-                            <i class="fa-solid fa-arrow-right-to-bracket"></i> เข้าสู่ระบบด้วย LRU Mail
-                        </button>
-                    `;
-                    authArea.innerHTML = loginBtnHtml;
-
-                    if (drawerAuth) {
-                        drawerAuth.innerHTML = `
-                            <div style="font-size:12px;color:var(--ink-50);margin-bottom:12px;">กรุณาเข้าสู่ระบบเพื่อใช้งานเมนูเต็มรูปแบบ</div>
-                            <button class="drawer-auth-btn primary" onclick="loginUser()">
-                                <i class="fa-solid fa-arrow-right-to-bracket"></i>เข้าสู่ระบบด้วย LRU Mail
-                            </button>
-                        `;
-                    }
-
                     showStudentIdInput(true);
                 }
-            } catch (error) {
-                console.error("Error updating Auth UI:", error);
-                const fallbackLogin = `
-                    <button class="login-header-btn" onclick="loginUser()">
-                        <i class="fa-solid fa-arrow-right-to-bracket"></i> เข้าสู่ระบบ
-                    </button>
-                `;
-                authArea.innerHTML = fallbackLogin;
-
-                if (drawerAuth) {
-                    drawerAuth.innerHTML = `
-                        <button class="drawer-auth-btn primary" onclick="loginUser()">
-                            <i class="fa-solid fa-arrow-right-to-bracket"></i>เข้าสู่ระบบ
-                        </button>
-                    `;
-                }
-
-                showStudentIdInput(true);
-            }
-        }
-
-        function verifyUserEmail(email) {
-            const regex = /^sb(\d+)@lru\.ac\.th$/i;
-            const match = email.match(regex);
-
-            if (match) {
-                extractedStudentId = match[1];
-                const studentIdInput = document.getElementById('studentId');
-                studentIdInput.value = extractedStudentId;
-                onIdInput(studentIdInput);
-                showStudentIdInput(false);
             } else {
                 showStudentIdInput(true);
             }
-        }
+        });
 
         function showStudentIdInput(show) {
             const studentIdField = document.getElementById('studentIdField');
@@ -253,210 +105,6 @@
                     studentIdField.classList.add('hidden');
                 }
             }
-        }
-
-        /* ════ DROPDOWN & PROFILE FUNCTIONS ════ */
-        function toggleUserDropdown(event) {
-            event.stopPropagation();
-            const menu = document.getElementById('userDropdownMenu');
-            const btn = document.querySelector('.user-profile-btn');
-            if (!menu || !btn) return;
-            const isShown = menu.classList.contains('show');
-            closeDropdowns();
-            if (!isShown) {
-                menu.classList.add('show');
-                btn.classList.add('open');
-            }
-        }
-
-        function closeDropdowns() {
-            const menu = document.getElementById('userDropdownMenu');
-            const btn = document.querySelector('.user-profile-btn');
-            if (menu) menu.classList.remove('show');
-            if (btn) btn.classList.remove('open');
-        }
-
-        document.addEventListener('click', () => {
-            closeDropdowns();
-        });
-
-        function toggleMobileMenu(event) {
-            if (event) event.stopPropagation();
-            const drawer = document.getElementById('mobileMenuDrawer');
-            if (!drawer) return;
-            const isOpen = drawer.classList.contains('open');
-            if (isOpen) {
-                drawer.classList.remove('open');
-                setTimeout(() => {
-                    drawer.style.display = 'none';
-                }, 250);
-            } else {
-                drawer.style.display = 'flex';
-                drawer.offsetHeight;
-                drawer.classList.add('open');
-            }
-        }
-
-        function openProfileModal() {
-            closeDropdowns();
-            isAvatarRemoved = false;
-            const errorMsgEl = document.getElementById('profileModalAvatarError');
-            if (errorMsgEl) {
-                errorMsgEl.style.display = 'none';
-                errorMsgEl.textContent = '';
-            }
-            const modal = document.getElementById('profileModal');
-            const avatar = document.getElementById('profileModalAvatar');
-            const email = document.getElementById('profileModalEmail');
-            const inputName = document.getElementById('profileInputName');
-            const inputId = document.getElementById('profileInputId');
-
-            if (modal && userProfile) {
-                avatar.src = userProfile.picture || 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
-                email.textContent = userProfile.email || '—';
-                inputId.value = extractedStudentId || '—';
-                
-                const savedName = getCookie('att_name') || userProfile.name || userProfile.nickname || '';
-                inputName.value = savedName;
-
-                modal.classList.add('visible');
-            }
-        }
-
-        function closeProfileModal() {
-            const modal = document.getElementById('profileModal');
-            if (modal) modal.classList.remove('visible');
-        }
-
-        const GAS_PROFILE_UPDATE_URL = "https://script.google.com/macros/s/AKfycbxz6ZQpBN-JcfA3eY0yaIQobiSTFiXRMl-SDWXLTaQMI5mvBUw81KlU0uC7NwPDkgqD/exec";
-
-        async function saveProfileData() {
-            const saveBtn = document.querySelector('.profile-btn.save');
-            const origBtnText = saveBtn.innerHTML;
-            
-            const inputName = document.getElementById('profileInputName');
-            const fileInput = document.getElementById('profileUploadInput');
-            
-            const nameVal = inputName ? inputName.value.trim() : '';
-            if (!nameVal) {
-                alert('กรุณากรอกชื่อ-นามสกุล');
-                return;
-            }
-
-            saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
-            saveBtn.disabled = true;
-
-            try {
-                let imageBase64 = null;
-                let imageMimeType = null;
-                let imageFileName = null;
-
-                if (fileInput && fileInput.files.length > 0) {
-                    const file = fileInput.files[0];
-                    imageMimeType = file.type;
-                    imageFileName = file.name;
-                    
-                    imageBase64 = await new Promise((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result);
-                        reader.onerror = reject;
-                        reader.readAsDataURL(file);
-                    });
-                } else if (isAvatarRemoved) {
-                    imageBase64 = 'DELETE';
-                }
-
-                const token = await auth0Client.getTokenSilently();
-
-                const payload = {
-                    access_token: token,
-                    name: nameVal,
-                    imageBase64: imageBase64,
-                    imageMimeType: imageMimeType,
-                    imageFileName: imageFileName
-                };
-
-                const res = await fetch(GAS_PROFILE_UPDATE_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify(payload)
-                });
-                
-                const data = await res.json();
-                if (data.error) throw new Error(data.error);
-
-                setCookie('att_name', nameVal, 30);
-                if (userProfile) {
-                    userProfile.name = nameVal;
-                    if (data.picture) userProfile.picture = data.picture;
-                }
-                
-                updateAuthUI();
-                closeProfileModal();
-                toast('อัปเดตโปรไฟล์สำเร็จแล้ว');
-                
-            } catch (err) {
-                console.error(err);
-                alert('เกิดข้อผิดพลาดในการอัปเดตโปรไฟล์: ' + err.message);
-            } finally {
-                saveBtn.innerHTML = origBtnText;
-                saveBtn.disabled = false;
-            }
-        }
-        
-        function previewProfileImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const errorMsgEl = document.getElementById('profileModalAvatarError');
-                if (errorMsgEl) {
-                    errorMsgEl.style.display = 'none';
-                    errorMsgEl.textContent = '';
-                }
-                if (file.size > 2 * 1024 * 1024) {
-                    if (errorMsgEl) {
-                        errorMsgEl.textContent = 'ขนาดไฟล์เกิน 2MB';
-                        errorMsgEl.style.display = 'block';
-                    } else {
-                        alert('ขนาดไฟล์เกิน 2MB');
-                    }
-                    event.target.value = '';
-                    return;
-                }
-                isAvatarRemoved = false;
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profileModalAvatar').src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function removeProfileImage() {
-            const avatar = document.getElementById('profileModalAvatar');
-            const fileInput = document.getElementById('profileUploadInput');
-            if (avatar) {
-                avatar.src = 'https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico';
-            }
-            if (fileInput) {
-                fileInput.value = '';
-            }
-            isAvatarRemoved = true;
-            const errorMsgEl = document.getElementById('profileModalAvatarError');
-            if (errorMsgEl) {
-                errorMsgEl.style.display = 'none';
-                errorMsgEl.textContent = '';
-            }
-        }
-
-        /* ════ COOKIE HELPERS ════ */
-        function setCookie(name, value, days) {
-            const exp = new Date(Date.now() + days * 864e5).toUTCString();
-            document.cookie = `${name}=${encodeURIComponent(value)};expires=${exp};path=/;SameSite=Strict`;
-        }
-
-        function getCookie(name) {
-            const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
-            return m ? decodeURIComponent(m[1]) : '';
         }
 
         async function fetchActivitiesData() {

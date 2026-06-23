@@ -7,53 +7,29 @@
         const MAX_DISTANCE_METERS = 100;
         const GAS_URL = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
 
-        /* ════════════════════════════════════════
-           ตั้งค่า AUTH0
-        ════════════════════════════════════════ */
-        const AUTH0_DOMAIN = "litalkeducation.us.auth0.com";
-        const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";
-
-        let auth0Client = null;
         let isAuthenticated = false;
-        let userProfile = null;
         let extractedStudentId = null;
         let SCHEDULE = [];
 
-        /* ────────────────────────────────────────
-           ฟังก์ชัน Auth0
-        ──────────────────────────────────────── */
-        async function configureAuth0() {
-            auth0Client = await auth0.createAuth0Client({
-                domain: AUTH0_DOMAIN,
-                clientId: AUTH0_CLIENT_ID,
-                cacheLocation: 'localstorage',
-                useRefreshTokens: true,
-                authorizationParams: {
-                    redirect_uri: window.location.origin + window.location.pathname
-                }
-            });
-        }
-
-        async function loginUser() {
-            if (!auth0Client) {
-                alert("ระบบขัดข้อง กรุณารีเฟรชหน้าเว็บ หรือตรวจสอบว่าไม่ได้เปิดจากไฟล์ตรงๆ (file://)");
+        document.addEventListener('authStateChanged', (e) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('test') === 'true') {
+                isAuthenticated = true;
+                verifyUserEmail('sb55555@lru.ac.th', 'นักศึกษาทดสอบ');
                 return;
             }
-            try {
-                await auth0Client.loginWithRedirect();
-            } catch (error) {
-                console.error("Login Error:", error);
+
+            isAuthenticated = e.detail.isAuthenticated;
+            
+            if (isAuthenticated) {
+                extractedStudentId = e.detail.extractedStudentId;
+                verifyUserEmail(e.detail.userProfile.email, e.detail.displayName);
+            } else {
+                showAuthScreen();
             }
-        }
+        });
 
-        async function logoutUser() {
-            setCookie('att_name', '', -1);
-            await auth0Client.logout({
-                logoutParams: { returnTo: window.location.origin + window.location.pathname }
-            });
-        }
-
-        function verifyUserEmail(email) {
+        function verifyUserEmail(email, displayName = '') {
             const regex = /^sb(\d+)@lru\.ac\.th$/i;
             const match = email.match(regex);
 
@@ -62,8 +38,7 @@
                 document.getElementById('studentId').value = extractedStudentId;
                 document.getElementById('userEmailDisplay').textContent = "ล็อกอินด้วย: " + email;
 
-                const savedName = getCookie('att_name');
-                if (savedName) document.getElementById('name').value = savedName;
+                if (displayName) document.getElementById('name').value = displayName;
 
                 showLoginPage(false);
                 showMainApp(true);
@@ -246,33 +221,7 @@
             renderSchedule();
 
             // 2. Auth0
-            try {
-                await configureAuth0();
-
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('test') === 'true') {
-                    isAuthenticated = true;
-                    verifyUserEmail('sb55555@lru.ac.th');
-                } else {
-                    const query = window.location.search;
-                    if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
-                        await auth0Client.handleRedirectCallback();
-                        window.history.replaceState({}, document.title, window.location.pathname);
-                    }
-
-                    isAuthenticated = await auth0Client.isAuthenticated();
-
-                    if (isAuthenticated) {
-                        userProfile = await auth0Client.getUser();
-                        verifyUserEmail(userProfile.email);
-                    } else {
-                        showAuthScreen();
-                    }
-                }
-            } catch (error) {
-                console.error("Auth0 Initialization Error:", error);
-                showAuthScreen();
-            }
+            initAuth();
 
             // 3. Real-time loop
             setInterval(() => {

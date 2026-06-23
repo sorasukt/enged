@@ -149,50 +149,21 @@
             }
         });
 
-        /* ─── Auth0 Integration ─── */
-        const AUTH0_DOMAIN = "litalkeducation.us.auth0.com";
-        const AUTH0_CLIENT_ID = "PGqozL94LzOwstm4pD39W5kvalYRiK7w";
         const ALLOWED_EMAIL = "sb6740102220@lru.ac.th";
 
-        let auth0Client = null;
-
-        async function initAuth() {
-            try {
-                auth0Client = await auth0.createAuth0Client({
-                    domain: AUTH0_DOMAIN,
-                    clientId: AUTH0_CLIENT_ID,
-                    cacheLocation: 'localstorage',
-                    useRefreshTokens: true,
-                    authorizationParams: {
-                        redirect_uri: window.location.origin + window.location.pathname
-                    }
-                });
-
-                // Handle Auth0 callback redirects
-                const query = window.location.search;
-                if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
-                    await auth0Client.handleRedirectCallback();
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                }
-
-                const isAuthenticated = await auth0Client.isAuthenticated();
-                if (isAuthenticated) {
-                    const user = await auth0Client.getUser();
-                    if (user.email === ALLOWED_EMAIL) {
-                        document.getElementById('userEmailDisplay').textContent = user.email;
-                        showScreen('appScreen');
-                    } else {
-                        document.getElementById('currentEmail').textContent = user.email;
-                        showScreen('deniedScreen');
-                    }
+        document.addEventListener('authStateChanged', (e) => {
+            if (e.detail.isAuthenticated) {
+                if (e.detail.userProfile.email === ALLOWED_EMAIL) {
+                    document.getElementById('userEmailDisplay').textContent = e.detail.userProfile.email;
+                    showScreen('appScreen');
                 } else {
-                    showScreen('authScreen');
+                    document.getElementById('currentEmail').textContent = e.detail.userProfile.email;
+                    showScreen('deniedScreen');
                 }
-            } catch (err) {
-                console.error("Auth0 init error:", err);
+            } else {
                 showScreen('authScreen');
             }
-        }
+        });
 
         function showScreen(screenId) {
             document.getElementById('loadingScreen').style.display = 'none';
@@ -206,20 +177,4 @@
                 document.getElementById(screenId).style.display = 'block';
             }
         }
-
-        async function loginUser() {
-            if (auth0Client) await auth0Client.loginWithRedirect();
-        }
-
-        async function logoutUser() {
-            if (auth0Client) {
-                await auth0Client.logout({
-                    logoutParams: { returnTo: window.location.origin + window.location.pathname }
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initAuth();
-        });
     
