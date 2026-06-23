@@ -35,6 +35,30 @@
             --card-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --ink: #ffffff;
+                --ink-70: #e4e4e7;
+                --ink-50: #a1a1aa;
+                --ink-30: #52525b;
+                --ink-15: #27272a;
+                --ink-07: #18181b;
+                --white: #09090b;
+                --accent: #ffffff;
+                --success: #ffffff;
+                --success-bg: #18181b;
+                --success-bd: #27272a;
+                --error: #f87171;
+                --error-bg: rgba(239, 68, 68, 0.12);
+                --error-bd: rgba(239, 68, 68, 0.3);
+                --warn: #f87171;
+                --warn-bg: rgba(239, 68, 68, 0.12);
+                --warn-bd: rgba(239, 68, 68, 0.3);
+                --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+                --card-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.6);
+            }
+        }
+
         html {
             -webkit-font-smoothing: antialiased;
             scroll-behavior: smooth;
@@ -50,6 +74,14 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #000000;
+                background-image: none;
+            }
         }
 
         /* ════ LOGIN PAGE ════ */
