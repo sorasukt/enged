@@ -1,0 +1,136 @@
+/* ============================================================
+   terms.css
+   ============================================================ */
+
+body {
+    font-family: 'Anuphan', sans-serif;
+    background: #f8fafc;
+    color: var(--bm-ink);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #09090b;
+    }
+}
+
+.page-layout {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px 80px;
+}
+
+.terms-container {
+    max-width: 800px;
+    width: 100%;
+    background: var(--bm-white);
+    border: 1px solid var(--bm-ink-15);
+    border-radius: 16px;
+    padding: 48px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+}
+
+.terms-header {
+    border-bottom: 2px solid var(--bm-ink-15);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+}
+
+.terms-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--bm-error);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.terms-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+    color: var(--bm-ink);
+    letter-spacing: -0.02em;
+}
+
+.terms-header h2 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--bm-ink-70);
+    margin: 0 0 16px 0;
+}
+
+.last-updated {
+    font-size: 13px;
+    color: var(--bm-ink-50);
+    display: inline-block;
+    background: var(--bm-ink-07);
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.terms-content {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--bm-ink-70);
+}
+
+.terms-content h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--bm-ink);
+    margin: 32px 0 12px 0;
+}
+
+.terms-content p {
+    margin: 0 0 16px 0;
+}
+
+.terms-content ul {
+    margin: 0 0 24px 0;
+    padding-left: 24px;
+}
+
+.terms-content li {
+    margin-bottom: 8px;
+}
+
+.terms-content a {
+    color: var(--bm-error);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.terms-content a:hover {
+    text-decoration: underline;
+}
+
+.effective-date {
+    margin-top: 40px;
+    font-weight: 600;
+    color: var(--bm-ink);
+    font-size: 14px;
+    text-align: center;
+    border-top: 1px dashed var(--bm-ink-15);
+    padding-top: 24px;
+}
+
+@media (max-width: 600px) {
+    .terms-container {
+        padding: 24px;
+    }
+
+    .terms-header h1 {
+        font-size: 22px;
+    }
+
+    .terms-header h2 {
+        font-size: 14px;
+    }
+}

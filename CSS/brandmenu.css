@@ -1105,3 +1105,44 @@
     color: var(--bm-error);
     font-style: normal;
 }
+
+.footer-links {
+    margin-top: 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+}
+
+.footer-links a {
+    color: var(--bm-ink-50);
+    text-decoration: none;
+    transition: var(--bm-transition);
+}
+
+.footer-links a:hover {
+    color: var(--bm-ink);
+    text-decoration: underline;
+}
+
+.footer-links .sep {
+    margin: 0 6px;
+    color: var(--bm-ink-30);
+}
+
+.login-disclaimer {
+    font-size: 11px;
+    color: var(--bm-ink-50);
+    margin-top: 12px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.login-disclaimer a {
+    color: var(--bm-ink-70);
+    text-decoration: underline;
+    font-weight: 600;
+    transition: var(--bm-transition);
+}
+
+.login-disclaimer a:hover {
+    color: var(--bm-ink);
+}
