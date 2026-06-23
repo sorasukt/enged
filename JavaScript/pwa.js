@@ -46,29 +46,31 @@ window.addEventListener('beforeinstallprompt', (e) => {
         position: fixed;
         bottom: 24px;
         right: 24px;
-        background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+        background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
         color: white;
         border: none;
         border-radius: 50px;
-        padding: 12px 24px;
-        font-family: 'IBM Plex Sans Thai', sans-serif;
+        padding: 14px 28px;
+        font-family: 'Noto Sans Thai', 'IBM Plex Sans Thai', 'Inter', sans-serif;
         font-weight: 600;
-        font-size: 14px;
-        box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4);
+        font-size: 15px;
+        box-shadow: 0 8px 25px rgba(255, 65, 108, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3);
         z-index: 9999;
         cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 8px;
-        transition: transform 0.2s, box-shadow 0.2s;
+        gap: 10px;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         animation: slideInUp 0.5s ease-out 1s both;
+        backdrop-filter: blur(10px);
       }
       .ios-pwa-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(211, 47, 47, 0.5);
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 12px 30px rgba(255, 65, 108, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4);
       }
       .ios-pwa-btn:active {
-        transform: scale(0.98);
+        transform: scale(0.95);
+        box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
       }
       
       .ios-modal-overlay {
