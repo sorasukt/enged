@@ -83,6 +83,133 @@
                 background-image: none;
             }
         }
+        
+        /* ════ LOADING SCREEN ════ */
+        #loadScreen {
+            position: fixed;
+            inset: 0;
+            background: #f8fafc; /* Light mode background */
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            transition: background-color 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            #loadScreen {
+                background: #000000;
+            }
+        }
+
+        .ls-logo {
+            width: 64px;
+            height: 64px;
+            border: 1.5px solid var(--ink-15);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ls-wordmark {
+            text-align: center;
+        }
+
+        .ls-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .ls-sub {
+            font-size: 11px;
+            color: var(--ink-50);
+            margin-top: 4px;
+            letter-spacing: .05em;
+        }
+
+        .ls-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 100px;
+            padding: 8px 18px;
+            min-width: 220px;
+            justify-content: center;
+        }
+
+        .ls-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .4);
+            flex-shrink: 0;
+        }
+
+        .ls-status-dot.spin {
+            width: 65px;
+            height: 30px;
+            position: relative;
+            background: none;
+            border-radius: 0;
+            border: none;
+            animation: none;
+        }
+
+        .ls-status-dot.spin:before {
+            content: "";
+            position: absolute;
+            border-radius: 50px;
+            box-shadow: 0 0 0 3px inset #fff;
+            animation: l3 0.75s infinite alternate;
+        }
+
+        @keyframes l3 {
+            0% { inset: 0 35px 0 0; }
+            50% { inset: 0 0 0 0; }
+            100% { inset: 0 0 0 35px; }
+        }
+
+        .ls-status-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .55);
+        }
+
+        .ls-progress-wrap {
+            width: 200px;
+        }
+
+        .ls-bar {
+            height: 2px;
+            background: rgba(255, 255, 255, .08);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .ls-bar-fill {
+            height: 100%;
+            background: rgba(255, 255, 255, .5);
+            border-radius: 2px;
+            width: 0;
+            transition: width .4s ease;
+        }
+
+        #loadScreen.fade-out {
+            animation: fadeOut .4s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; visibility: visible; }
+            to { opacity: 0; visibility: hidden; }
+        }
 
         /* ══════════════════════════════════════
            LOGIN PAGE  (Split Panel Redesign)
@@ -393,6 +520,19 @@
             color: var(--error);
             border: 1.5px solid var(--error-bd);
             box-shadow: none;
+        }
+
+        .auth-btn.secondary {
+            background: transparent;
+            color: var(--ink-70);
+            border: 1.5px solid var(--ink-15);
+            box-shadow: none;
+        }
+
+        .auth-btn.secondary:hover {
+            background: var(--ink-07);
+            border-color: var(--ink-30);
+            transform: translateY(-2px);
         }
 
         .auth-btn.danger:hover {

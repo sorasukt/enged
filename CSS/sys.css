@@ -71,8 +71,7 @@
                 radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.02) 0%, transparent 60%);
             color: var(--ink);
             min-height: 100vh;
-            opacity: 0;
-            transition: opacity .3s ease, background-color 0.3s ease;
+            transition: background-color 0.3s ease;
             word-break: keep-all;
             overflow-wrap: break-word;
         }
@@ -92,7 +91,7 @@
         #loadScreen {
             position: fixed;
             inset: 0;
-            background: var(--ink);
+            background: #0a0a0c;
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -109,8 +108,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 26px;
-            color: rgba(255, 255, 255, .8);
         }
 
         .ls-wordmark {
@@ -129,6 +126,7 @@
             font-size: 11.5px;
             color: rgba(255, 255, 255, .35);
             margin-top: 5px;
+            letter-spacing: .05em;
         }
 
         .ls-status {

@@ -4,13 +4,8 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('/enged/service-worker.js')
       .then((registration) => {
-        console.log(
-          'ServiceWorker registration successful with scope: ',
-          registration.scope
-        );
       })
       .catch((err) => {
-        console.log('ServiceWorker registration failed: ', err);
       });
   });
 }
@@ -23,7 +18,6 @@ window.addEventListener('beforeinstallprompt', (e) => {
   // Stash the event so it can be triggered later.
   deferredPrompt = e;
   // Update UI notify the user they can install the PWA
-  console.log('PWA Install Triggered');
 });
 
 // iOS PWA Install Prompt Logic

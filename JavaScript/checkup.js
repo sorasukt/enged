@@ -43,6 +43,7 @@
                 showLoginPage(false);
                 showMainApp(true);
                 updateStatusUI();
+                hideLoadScreen();
             } else {
                 document.getElementById('invalidEmailDisplay').textContent = email;
                 showInvalidEmail();
@@ -83,6 +84,7 @@
             document.getElementById('invalidEmailScreen').style.display = 'none';
             showLoginPage(true);
             showMainApp(false);
+            hideLoadScreen();
         }
 
         function showInvalidEmail() {
@@ -90,6 +92,15 @@
             document.getElementById('invalidEmailScreen').style.display = 'block';
             showLoginPage(true);
             showMainApp(false);
+            hideLoadScreen();
+        }
+
+        function hideLoadScreen() {
+            const ls = document.getElementById('loadScreen');
+            if (ls && !ls.classList.contains('fade-out')) {
+                ls.classList.add('fade-out');
+                ls.addEventListener('animationend', () => ls.style.display = 'none', { once: true });
+            }
         }
 
         /* Show content within main app */
@@ -222,47 +233,42 @@
         /* ────────────────────────────────────────
            INIT FLOW
         ──────────────────────────────────────── */
-        window.addEventListener('load', async () => {
+        window.addEventListener('load', () => {
             updateClock();
 
-            // 1. ซิงค์ตารางเวลา
-            try {
-                const response = await fetch(GAS_URL);
-                const result = await response.json();
-                if (result.status === 'success') SCHEDULE = result.data;
-            } catch (error) {
-                console.error("Network Error (GAS Time Table):", error);
-            }
+            // 1. ซิงค์ตารางเวลา (Non-blocking)
+            fetch(GAS_URL)
+                .then(r => r.json())
+                .then(result => {
+                    if (result.status === 'success') {
+                        SCHEDULE = result.data;
+                        renderSchedule();
+                    }
+                })
+                .catch(e => console.warn('Schedule sync error:', e));
 
             renderSchedule();
 
+            window.skipLogin = function() {
+                extractedStudentId = ''; 
+                document.getElementById('studentId').value = '';
+                document.getElementById('userEmailDisplay').textContent = "โหมดใช้งานโดยไม่เข้าสู่ระบบ";
+                
+                showLoginPage(false);
+                showMainApp(true);
+                updateStatusUI();
+                hideLoadScreen();
+            };
+
             // 2. Auth0
-            try {
-                await configureAuth0();
-
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('test') === 'true') {
-                    isAuthenticated = true;
-                    verifyUserEmail('sb55555@lru.ac.th');
-                } else {
-                    const query = window.location.search;
-                    if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
-                        await auth0Client.handleRedirectCallback();
-                        window.history.replaceState({}, document.title, window.location.pathname);
-                    }
-
-                    isAuthenticated = await auth0Client.isAuthenticated();
-
-                    if (isAuthenticated) {
-                        userProfile = await auth0Client.getUser();
-                        verifyUserEmail(userProfile.email);
-                    } else {
-                        showAuthScreen();
-                    }
-                }
-            } catch (error) {
-                console.error("Auth0 Initialization Error:", error);
-                showAuthScreen();
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('test') === 'true') {
+                isAuthenticated = true;
+                verifyUserEmail('sb55555@lru.ac.th');
+            } else if (urlParams.get('skip') === 'true') {
+                window.skipLogin();
+            } else {
+                initAuth();
             }
 
             // 3. Real-time loop
@@ -340,7 +346,7 @@
                         const msgs = { 1: 'ปฏิเสธสิทธิ์ Location — กรุณาเปิดสิทธิ์แล้วลองใหม่', 2: 'รับสัญญาณ GPS ไม่ได้ในขณะนี้', 3: 'หมดเวลาค้นหาตำแหน่ง — กรุณาลองใหม่' };
                         setStep(2, 'error', msgs[err.code] ?? 'ไม่สามารถระบุตำแหน่งได้');
                         showResult(msgs[err.code] ?? 'เกิดข้อผิดพลาด GPS', 'error');
-                    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+                    }, { enableHighAccuracy: true, timeout: 5000, maximumAge: 60000 }
                 );
             }, 600);
         }

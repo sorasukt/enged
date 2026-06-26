@@ -12,17 +12,11 @@
             const now = new Date();
             const systemModal = document.getElementById('systemModal');
 
-            console.log("Checking System Status:", now);
-            console.log("Start:", SYSTEM_MAINTENANCE_START);
-            console.log("End:", SYSTEM_MAINTENANCE_END);
-
             if (now >= SYSTEM_MAINTENANCE_START && now <= SYSTEM_MAINTENANCE_END) {
-                console.log("System should be CLOSED (Modal Visible)");
                 if (systemModal.style.display !== 'flex') {
                     systemModal.style.display = 'flex';
                 }
             } else {
-                console.log("System within Normal Operation");
                 // Auto-close if time passed and user hasn't closed it manually (optional, but good UX)
                 if (systemModal.style.display === 'flex') {
                     systemModal.style.display = 'none';

@@ -1,16 +1,17 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.auth0.com https://cdn.jsdelivr.net https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://*.auth0.com https://script.google.com;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ผลการเลือกตั้ง (ผู้ดูแลระบบ) | English Education</title>
+    <title>เธเธฅเธเธฒเธฃเน€เธฅเธทเธญเธเธ•เธฑเนเธ (เธเธนเนเธ”เธนเนเธฅเธฃเธฐเธเธ) | English Education</title>
     <meta property="og:type" content="website">
-    <meta property="og:title" content="ผลการเลือกตั้ง (ผู้ดูแลระบบ) | English Education">
+    <meta property="og:title" content="เธเธฅเธเธฒเธฃเน€เธฅเธทเธญเธเธ•เธฑเนเธ (เธเธนเนเธ”เธนเนเธฅเธฃเธฐเธเธ) | English Education">
     <meta property="og:url" content="https://sorasukt.github.io/enged/vote/backend">
     <meta property="og:image" content="https://sorasukt.github.io/enged/img/og/vote.png">
     <meta property="og:description"
-        content="ผลการเลือกตั้ง (ผู้ดูแลระบบ) | English Education สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย">
+        content="เธเธฅเธเธฒเธฃเน€เธฅเธทเธญเธเธ•เธฑเนเธ (เธเธนเนเธ”เธนเนเธฅเธฃเธฐเธเธ) | English Education เธชเธฒเธเธฒเธงเธดเธเธฒเธ เธฒเธฉเธฒเธญเธฑเธเธเธคเธฉ เธเธ“เธฐเธเธฃเธธเธจเธฒเธชเธ•เธฃเน เธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธขเธฃเธฒเธเธ เธฑเธเน€เธฅเธข">
     <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
     
     <!-- Fonts -->
@@ -37,30 +38,30 @@
             <div class="time-status-icon">
                 <i class="fas fa-clock"></i>
             </div>
-            <h2 class="time-status-title">ยังไม่หมดเวลาลงคะแนน</h2>
-            <p class="time-status-subtitle">ผลการเลือกตั้งจะแสดงเมื่อปิดการลงคะแนนแล้ว</p>
+            <h2 class="time-status-title">เธขเธฑเธเนเธกเนเธซเธกเธ”เน€เธงเธฅเธฒเธฅเธเธเธฐเนเธเธ</h2>
+            <p class="time-status-subtitle">เธเธฅเธเธฒเธฃเน€เธฅเธทเธญเธเธ•เธฑเนเธเธเธฐเนเธชเธ”เธเน€เธกเธทเนเธญเธเธดเธ”เธเธฒเธฃเธฅเธเธเธฐเนเธเธเนเธฅเนเธง</p>
 
             <div class="time-status-countdown" id="timeStatusCountdown">
                 <div class="time-status-box">
                     <span class="time-status-value" id="statusDays">00</span>
-                    <span class="time-status-label">วัน</span>
+                    <span class="time-status-label">เธงเธฑเธ</span>
                 </div>
                 <div class="time-status-box">
                     <span class="time-status-value" id="statusHours">00</span>
-                    <span class="time-status-label">ชม.</span>
+                    <span class="time-status-label">เธเธก.</span>
                 </div>
                 <div class="time-status-box">
                     <span class="time-status-value" id="statusMinutes">00</span>
-                    <span class="time-status-label">นาที</span>
+                    <span class="time-status-label">เธเธฒเธ—เธต</span>
                 </div>
                 <div class="time-status-box">
                     <span class="time-status-value" id="statusSeconds">00</span>
-                    <span class="time-status-label">วิ</span>
+                    <span class="time-status-label">เธงเธด</span>
                 </div>
             </div>
 
             <a href="index" class="btn btn-primary" style="display: inline-flex; width: auto; margin: 0 auto;">
-                หน้าหลัก
+                เธซเธเนเธฒเธซเธฅเธฑเธ
             </a>
         </div>
     </div>
@@ -73,11 +74,11 @@
                 </div>
                 <div class="header-brand-text">
                     <div class="header-brand-name">English Education</div>
-                    <div class="header-brand-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                    <div class="header-brand-faculty">เธเธ“เธฐเธเธฃเธธเธจเธฒเธชเธ•เธฃเน เธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธขเธฃเธฒเธเธ เธฑเธเน€เธฅเธข</div>
                 </div>
             </a>
             <a href="/enged" class="header-back">
-                หน้าหลัก
+                เธซเธเนเธฒเธซเธฅเธฑเธ
             </a>
         </div>
     </header>
@@ -87,12 +88,12 @@
         <!-- Left Panel: Info and Blockchain Integrity -->
         <aside class="info-panel">
             <div class="info-eyebrow">Realtime Results (Admin)</div>
-            <h1 class="info-heading">ผลการเลือกตั้ง<br>และสถิติภาพรวม</h1>
-            <p class="info-desc">สถิติคะแนนเสียงและสถานะความถูกต้องของระบบการเลือกตั้งผู้แทนสาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย (ช่องทางผู้ดูแลระบบ)</p>
+            <h1 class="info-heading">เธเธฅเธเธฒเธฃเน€เธฅเธทเธญเธเธ•เธฑเนเธ<br>เนเธฅเธฐเธชเธ–เธดเธ•เธดเธ เธฒเธเธฃเธงเธก</h1>
+            <p class="info-desc">เธชเธ–เธดเธ•เธดเธเธฐเนเธเธเน€เธชเธตเธขเธเนเธฅเธฐเธชเธ–เธฒเธเธฐเธเธงเธฒเธกเธ–เธนเธเธ•เนเธญเธเธเธญเธเธฃเธฐเธเธเธเธฒเธฃเน€เธฅเธทเธญเธเธ•เธฑเนเธเธเธนเนเนเธ—เธเธชเธฒเธเธฒเธงเธดเธเธฒเธ เธฒเธฉเธฒเธญเธฑเธเธเธคเธฉ เธเธ“เธฐเธเธฃเธธเธจเธฒเธชเธ•เธฃเน เธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธขเธฃเธฒเธเธ เธฑเธเน€เธฅเธข (เธเนเธญเธเธ—เธฒเธเธเธนเนเธ”เธนเนเธฅเธฃเธฐเธเธ)</p>
 
             <!-- Blockchain / Integrity status bar card -->
             <div class="steps-overview" style="padding: 20px;">
-                <div class="steps-overview-title" style="margin-bottom: 16px;"><i class="fa-solid fa-server"></i>สถานะระบบและการเข้ารหัส</div>
+                <div class="steps-overview-title" style="margin-bottom: 16px;"><i class="fa-solid fa-server"></i>เธชเธ–เธฒเธเธฐเธฃเธฐเธเธเนเธฅเธฐเธเธฒเธฃเน€เธเนเธฒเธฃเธซเธฑเธช</div>
                 
                 <div class="status-bar" id="statusBar">
                     <div class="status-item">
@@ -110,7 +111,7 @@
 
                 <div class="info-btn-wrapper" style="margin-bottom: 0;">
                     <a href="base44" class="info-btn">
-                        <i class="fa-solid fa-circle-question"></i> เกี่ยวกับระบบตรวจสอบ (Base 44)
+                        <i class="fa-solid fa-circle-question"></i> เน€เธเธตเนเธขเธงเธเธฑเธเธฃเธฐเธเธเธ•เธฃเธงเธเธชเธญเธ (Base 44)
                     </a>
                 </div>
             </div>
@@ -118,7 +119,7 @@
             <!-- Disclaimer Notice -->
             <div class="disclaimer">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span>ผลการเลือกตั้งนี้เป็นผลอย่างไม่เป็นทางการ</span>
+                <span>เธเธฅเธเธฒเธฃเน€เธฅเธทเธญเธเธ•เธฑเนเธเธเธตเนเน€เธเนเธเธเธฅเธญเธขเนเธฒเธเนเธกเนเน€เธเนเธเธ—เธฒเธเธเธฒเธฃ</span>
             </div>
         </aside>
 
@@ -130,7 +131,7 @@
                         <div class="card-bar-icon"><i class="fa-solid fa-chart-bar"></i></div>
                         <div class="card-bar-text">
                             <div class="card-bar-label">Live Election Tally (Admin)</div>
-                            <div class="card-bar-title">ผลการนับคะแนนล่าสุด</div>
+                            <div class="card-bar-title">เธเธฅเธเธฒเธฃเธเธฑเธเธเธฐเนเธเธเธฅเนเธฒเธชเธธเธ”</div>
                         </div>
                     </div>
                 </div>
@@ -144,7 +145,7 @@
                     <div id="totalVotes" class="total-votes" style="display:none"></div>
                     
                     <a href="index" class="btn btn-primary" style="margin-top: 24px;">
-                        หน้าหลัก
+                        เธซเธเนเธฒเธซเธฅเธฑเธ
                     </a>
                 </div>
             </div>
@@ -152,14 +153,14 @@
             <footer class="site-footer">
                 <div class="footer-logo"><em>/</em>sorasukt</div>
                 <div>
-                    © 2026 
+                    ยฉ 2026 
                     <span data-en>All Rights Reserved.</span>
-                    <span data-th>สงวนลิขสิทธิ์ทุกประการ</span>
+                    <span data-th>เธชเธเธงเธเธฅเธดเธเธชเธดเธ—เธเธดเนเธ—เธธเธเธเธฃเธฐเธเธฒเธฃ</span>
                 </div>
                 <div class="footer-links">
-                    <a href="/enged/terms.html">ข้อกำหนดการใช้งาน</a>
-                    <span class="sep">•</span>
-                    <a href="/enged/privacy.html">นโยบายความเป็นส่วนตัว</a>
+                    <a href="/enged/terms.html">เธเนเธญเธเธณเธซเธเธ”เธเธฒเธฃเนเธเนเธเธฒเธ</a>
+                    <span class="sep">โ€ข</span>
+                    <a href="/enged/privacy.html">เธเนเธขเธเธฒเธขเธเธงเธฒเธกเน€เธเนเธเธชเนเธงเธเธ•เธฑเธง</a>
                 </div>
             </footer>
         </section>
@@ -169,3 +170,4 @@
 </body>
 
 </html>
+

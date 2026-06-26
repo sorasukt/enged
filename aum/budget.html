@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 
 <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.auth0.com https://cdn.jsdelivr.net https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://*.auth0.com https://script.google.com;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ระบบบันทึกงบประมาณโครงการ - sorasukt</title>
+    <title>เธฃเธฐเธเธเธเธฑเธเธ—เธถเธเธเธเธเธฃเธฐเธกเธฒเธ“เนเธเธฃเธเธเธฒเธฃ - sorasukt</title>
     <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
 
     <!-- Noto Sans Thai -->
@@ -14,9 +15,9 @@
         rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous" />
     <!-- Auth0 SPA SDK -->
-    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js" integrity="sha384-zVM3YoOThNVWy1csEJq5Hbk+eeS0XrkL2lCADHb8HnFew6raF21cbOCcMgedS7HO" crossorigin="anonymous" defer></script>
 
     <link rel="stylesheet" href="CSS/budget.css">
 
@@ -31,17 +32,17 @@
         <div class="header">
             <div class="badge">
                 <div class="badge-dot"></div>
-                ระบบบริหารงบประมาณ
+                เธฃเธฐเธเธเธเธฃเธดเธซเธฒเธฃเธเธเธเธฃเธฐเธกเธฒเธ“
             </div>
-            <h1>บันทึกรายการ<br>ใช้จ่ายโครงการ</h1>
-            <p>สำหรับจัดเก็บข้อมูลค่าใช้จ่าย เอกสารแนบ และหลักฐานประกอบโครงการอย่างเป็นระบบ</p>
+            <h1>เธเธฑเธเธ—เธถเธเธฃเธฒเธขเธเธฒเธฃ<br>เนเธเนเธเนเธฒเธขเนเธเธฃเธเธเธฒเธฃ</h1>
+            <p>เธชเธณเธซเธฃเธฑเธเธเธฑเธ”เน€เธเนเธเธเนเธญเธกเธนเธฅเธเนเธฒเนเธเนเธเนเธฒเธข เน€เธญเธเธชเธฒเธฃเนเธเธ เนเธฅเธฐเธซเธฅเธฑเธเธเธฒเธเธเธฃเธฐเธเธญเธเนเธเธฃเธเธเธฒเธฃเธญเธขเนเธฒเธเน€เธเนเธเธฃเธฐเธเธ</p>
         </div>
 
         <!-- Card -->
         <!-- Loading Screen -->
         <div id="loadingScreen" class="form-card" style="padding: 48px; text-align: center;">
             <div class="loader-mini" style="margin-left: auto; margin-right: auto; margin-bottom: 16px;"></div>
-            <p style="color: var(--gray-50); font-weight: 600;">กำลังตรวจสอบสิทธิ์...</p>
+            <p style="color: var(--gray-50); font-weight: 600;">เธเธณเธฅเธฑเธเธ•เธฃเธงเธเธชเธญเธเธชเธดเธ—เธเธดเน...</p>
         </div>
 
         <!-- Auth Screen -->
@@ -50,16 +51,16 @@
                 style="background: var(--black); margin: 0 auto 24px; width: 64px; height: 64px; border-radius: 14px; font-size: 24px; display: flex; align-items: center; justify-content: center;">
                 <i class="fa-solid fa-lock" style="color: var(--white);"></i>
             </div>
-            <h2 style="font-weight: 800; font-size: 22px; margin-bottom: 8px;">ระบบนี้ถูกจำกัดสิทธิ์</h2>
+            <h2 style="font-weight: 800; font-size: 22px; margin-bottom: 8px;">เธฃเธฐเธเธเธเธตเนเธ–เธนเธเธเธณเธเธฑเธ”เธชเธดเธ—เธเธดเน</h2>
             <p style="color: var(--gray-50); font-size: 13.5px; line-height: 1.6; margin-bottom: 28px;">
-                เฉพาะเจ้าหน้าที่ระบบบริหารงบประมาณที่ได้รับอนุญาตเท่านั้น<br>กรุณาลงชื่อเข้าใช้งานด้วยบัญชีอีเมลมหาวิทยาลัย
+                เน€เธเธเธฒเธฐเน€เธเนเธฒเธซเธเนเธฒเธ—เธตเนเธฃเธฐเธเธเธเธฃเธดเธซเธฒเธฃเธเธเธเธฃเธฐเธกเธฒเธ“เธ—เธตเนเนเธ”เนเธฃเธฑเธเธญเธเธธเธเธฒเธ•เน€เธ—เนเธฒเธเธฑเนเธ<br>เธเธฃเธธเธ“เธฒเธฅเธเธเธทเนเธญเน€เธเนเธฒเนเธเนเธเธฒเธเธ”เนเธงเธขเธเธฑเธเธเธตเธญเธตเน€เธกเธฅเธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธข
             </p>
             <button onclick="loginUser()"
                 style="width: 100%; background: var(--black); color: var(--white); border: none; padding: 14px 20px; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14.5px;">
-                <i class="fa-solid fa-arrow-right-to-bracket"></i> ลงชื่อเข้าใช้งานด้วย LRU Mail
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> เธฅเธเธเธทเนเธญเน€เธเนเธฒเนเธเนเธเธฒเธเธ”เนเธงเธข LRU Mail
             </button>
             <div class="login-disclaimer">
-                การเข้าสู่ระบบด้วย LRU Mail ถือเป็นการยอมรับ <a href="/enged/terms.html" target="_blank">ข้อกำหนดการใช้งาน</a> และ <a href="/enged/privacy.html" target="_blank">นโยบายความเป็นส่วนตัว</a>
+                เธเธฒเธฃเน€เธเนเธฒเธชเธนเนเธฃเธฐเธเธเธ”เนเธงเธข LRU Mail เธ–เธทเธญเน€เธเนเธเธเธฒเธฃเธขเธญเธกเธฃเธฑเธ <a href="/enged/terms.html" target="_blank">เธเนเธญเธเธณเธซเธเธ”เธเธฒเธฃเนเธเนเธเธฒเธ</a> เนเธฅเธฐ <a href="/enged/privacy.html" target="_blank">เธเนเธขเธเธฒเธขเธเธงเธฒเธกเน€เธเนเธเธชเนเธงเธเธ•เธฑเธง</a>
             </div>
         </div>
 
@@ -70,23 +71,23 @@
                 style="background: #ef4444; margin: 0 auto 24px; width: 64px; height: 64px; border-radius: 14px; font-size: 24px; display: flex; align-items: center; justify-content: center;">
                 <i class="fa-solid fa-shield-halved" style="color: var(--white);"></i>
             </div>
-            <h2 style="font-weight: 800; font-size: 22px; margin-bottom: 8px; color: #dc2626;">ไม่มีสิทธิ์เข้าใช้งาน
+            <h2 style="font-weight: 800; font-size: 22px; margin-bottom: 8px; color: #dc2626;">เนเธกเนเธกเธตเธชเธดเธ—เธเธดเนเน€เธเนเธฒเนเธเนเธเธฒเธ
             </h2>
             <p style="color: var(--gray-50); font-size: 13.5px; line-height: 1.6; margin-bottom: 28px;">
-                บัญชีของคุณไม่มีสิทธิ์เข้าใช้งานระบบนี้ ระบบนี้อนุญาตให้ใช้เฉพาะผู้รับผิดชอบระบบงบประมาณเท่านั้น
+                เธเธฑเธเธเธตเธเธญเธเธเธธเธ“เนเธกเนเธกเธตเธชเธดเธ—เธเธดเนเน€เธเนเธฒเนเธเนเธเธฒเธเธฃเธฐเธเธเธเธตเน เธฃเธฐเธเธเธเธตเนเธญเธเธธเธเธฒเธ•เนเธซเนเนเธเนเน€เธเธเธฒเธฐเธเธนเนเธฃเธฑเธเธเธดเธ”เธเธญเธเธฃเธฐเธเธเธเธเธเธฃเธฐเธกเธฒเธ“เน€เธ—เนเธฒเธเธฑเนเธ
             </p>
             <div
                 style="background: var(--gray-07); padding: 12px; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-15); text-align: left; margin-bottom: 28px;">
                 <div
                     style="font-size: 10px; font-weight: 700; color: var(--gray-50); text-transform: uppercase; letter-spacing: 0.05em;">
-                    บัญชีปัจจุบันของคุณ</div>
+                    เธเธฑเธเธเธตเธเธฑเธเธเธธเธเธฑเธเธเธญเธเธเธธเธ“</div>
                 <div id="currentEmail"
                     style="font-size: 14px; font-weight: 700; color: var(--black); margin-top: 3px; word-break: break-all;">
-                    —</div>
+                    โ€”</div>
             </div>
             <button onclick="logoutUser()"
                 style="width: 100%; background: #dc2626; color: var(--white); border: none; padding: 14px 20px; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14.5px;">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบและเปลี่ยนบัญชี
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> เธญเธญเธเธเธฒเธเธฃเธฐเธเธเนเธฅเธฐเน€เธเธฅเธตเนเธขเธเธเธฑเธเธเธต
             </button>
         </div>
 
@@ -95,14 +96,14 @@
             <!-- Auth Bar -->
             <div
                 style="display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.04); padding: 10px 16px; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-15); margin-bottom: 20px; font-size: 13px;">
-                <span style="color: var(--gray-70); font-weight: 500;">เข้าใช้งานโดย: <strong
+                <span style="color: var(--gray-70); font-weight: 500;">เน€เธเนเธฒเนเธเนเธเธฒเธเนเธ”เธข: <strong
                         style="color: var(--black); font-weight: 700;"
                         id="userEmailDisplay">sb6740102220@lru.ac.th</strong></span>
                 <button onclick="logoutUser()"
                     style="background: none; border: 1px solid var(--gray-30); color: var(--gray-70); padding: 5px 12px; border-radius: var(--radius-sm); font-size: 11px; cursor: pointer; font-weight: 700; transition: all 0.15s;"
                     onmouseover="this.style.borderColor='var(--black)';this.style.color='var(--black)'"
                     onmouseout="this.style.borderColor='var(--gray-30)';this.style.color='var(--gray-70)'">
-                    <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 4px;"></i>ออกจากระบบ
+                    <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 4px;"></i>เธญเธญเธเธเธฒเธเธฃเธฐเธเธ
                 </button>
             </div>
 
@@ -112,8 +113,8 @@
                 <div class="card-bar">
                     <div class="card-bar-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
                     <div class="card-bar-text">
-                        <div class="card-bar-label">New Entry &nbsp;·&nbsp; รายการใหม่</div>
-                        <div class="card-bar-title">กรอกรายละเอียดค่าใช้จ่าย</div>
+                        <div class="card-bar-label">New Entry &nbsp;ยท&nbsp; เธฃเธฒเธขเธเธฒเธฃเนเธซเธกเน</div>
+                        <div class="card-bar-title">เธเธฃเธญเธเธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เธเนเธฒเนเธเนเธเนเธฒเธข</div>
                     </div>
                     <div class="step-pills">
                         <div class="step-pill active"></div>
@@ -126,116 +127,116 @@
                 <div class="form-body">
                     <form id="budgetForm">
 
-                        <!-- ── ข้อมูลทั่วไป ── -->
+                        <!-- โ”€โ”€ เธเนเธญเธกเธนเธฅเธ—เธฑเนเธงเนเธ โ”€โ”€ -->
                         <div class="section-label">
                             <span class="section-label-text"><i class="fa-solid fa-circle-info"
-                                    style="margin-right:5px"></i>ข้อมูลทั่วไป</span>
+                                    style="margin-right:5px"></i>เธเนเธญเธกเธนเธฅเธ—เธฑเนเธงเนเธ</span>
                             <div class="section-label-line"></div>
                         </div>
 
-                        <!-- วันที่ -->
+                        <!-- เธงเธฑเธเธ—เธตเน -->
                         <div class="field">
                             <div class="field-label">
                                 <i class="fa-regular fa-calendar"></i>
-                                วันที่ทำรายการ
+                                เธงเธฑเธเธ—เธตเนเธ—เธณเธฃเธฒเธขเธเธฒเธฃ
                                 <span class="req">*</span>
                             </div>
                             <input type="date" id="date" required />
                         </div>
 
-                        <!-- หมวดเงิน — custom dropdown -->
+                        <!-- เธซเธกเธงเธ”เน€เธเธดเธ โ€” custom dropdown -->
                         <div class="field">
                             <div class="field-label">
                                 <i class="fa-solid fa-layer-group"></i>
-                                หมวดเงิน
+                                เธซเธกเธงเธ”เน€เธเธดเธ
                                 <span class="req">*</span>
                             </div>
 
                             <div class="custom-select-wrap" id="selectWrap">
                                 <div class="custom-select-trigger" id="selectTrigger" tabindex="0" role="combobox"
                                     aria-haspopup="listbox" aria-expanded="false">
-                                    <span class="trigger-text" id="triggerText">กรุณาเลือกหมวดเงิน</span>
+                                    <span class="trigger-text" id="triggerText">เธเธฃเธธเธ“เธฒเน€เธฅเธทเธญเธเธซเธกเธงเธ”เน€เธเธดเธ</span>
                                     <i class="fa-solid fa-chevron-down trigger-icon"></i>
                                 </div>
 
                                 <div class="custom-dropdown" id="customDropdown" role="listbox">
-                                    <div class="dropdown-option" data-value="- ค่าจ้างชั่วคราว">
+                                    <div class="dropdown-option" data-value="- เธเนเธฒเธเนเธฒเธเธเธฑเนเธงเธเธฃเธฒเธง">
                                         <i class="fa-solid fa-check option-check"></i>
-                                        <span>ค่าจ้างชั่วคราว</span>
-                                        <span class="option-tag">บุคลากร</span>
+                                        <span>เธเนเธฒเธเนเธฒเธเธเธฑเนเธงเธเธฃเธฒเธง</span>
+                                        <span class="option-tag">เธเธธเธเธฅเธฒเธเธฃ</span>
                                     </div>
-                                    <div class="dropdown-option" data-value="- ค่าตอบแทน">
+                                    <div class="dropdown-option" data-value="- เธเนเธฒเธ•เธญเธเนเธ—เธ">
                                         <i class="fa-solid fa-check option-check"></i>
-                                        <span>ค่าตอบแทน</span>
-                                        <span class="option-tag">ดำเนินงาน</span>
+                                        <span>เธเนเธฒเธ•เธญเธเนเธ—เธ</span>
+                                        <span class="option-tag">เธ”เธณเน€เธเธดเธเธเธฒเธ</span>
                                     </div>
-                                    <div class="dropdown-option" data-value="- ค่าใช้สอย">
+                                    <div class="dropdown-option" data-value="- เธเนเธฒเนเธเนเธชเธญเธข">
                                         <i class="fa-solid fa-check option-check"></i>
-                                        <span>ค่าใช้สอย</span>
-                                        <span class="option-tag">ดำเนินงาน</span>
+                                        <span>เธเนเธฒเนเธเนเธชเธญเธข</span>
+                                        <span class="option-tag">เธ”เธณเน€เธเธดเธเธเธฒเธ</span>
                                     </div>
-                                    <div class="dropdown-option" data-value="- ค่าวัสดุ">
+                                    <div class="dropdown-option" data-value="- เธเนเธฒเธงเธฑเธชเธ”เธธ">
                                         <i class="fa-solid fa-check option-check"></i>
-                                        <span>ค่าวัสดุ</span>
-                                        <span class="option-tag">ดำเนินงาน</span>
+                                        <span>เธเนเธฒเธงเธฑเธชเธ”เธธ</span>
+                                        <span class="option-tag">เธ”เธณเน€เธเธดเธเธเธฒเธ</span>
                                     </div>
-                                    <div class="dropdown-option" data-value="- ค่าสาธารณูปโภค">
+                                    <div class="dropdown-option" data-value="- เธเนเธฒเธชเธฒเธเธฒเธฃเธ“เธนเธเนเธ เธ">
                                         <i class="fa-solid fa-check option-check"></i>
-                                        <span>ค่าสาธารณูปโภค</span>
-                                        <span class="option-tag">ดำเนินงาน</span>
+                                        <span>เธเนเธฒเธชเธฒเธเธฒเธฃเธ“เธนเธเนเธ เธ</span>
+                                        <span class="option-tag">เธ”เธณเน€เธเธดเธเธเธฒเธ</span>
                                     </div>
-                                    <div class="dropdown-option" data-value="- ค่าครุภัณฑ์">
+                                    <div class="dropdown-option" data-value="- เธเนเธฒเธเธฃเธธเธ เธฑเธ“เธ‘เน">
                                         <i class="fa-solid fa-check option-check"></i>
-                                        <span>ค่าครุภัณฑ์</span>
-                                        <span class="option-tag">ลงทุน</span>
+                                        <span>เธเนเธฒเธเธฃเธธเธ เธฑเธ“เธ‘เน</span>
+                                        <span class="option-tag">เธฅเธเธ—เธธเธ</span>
                                     </div>
-                                    <div class="dropdown-option" data-value="- ที่ดิน , สิ่งก่อสร้าง">
+                                    <div class="dropdown-option" data-value="- เธ—เธตเนเธ”เธดเธ , เธชเธดเนเธเธเนเธญเธชเธฃเนเธฒเธ">
                                         <i class="fa-solid fa-check option-check"></i>
-                                        <span>ที่ดิน / สิ่งก่อสร้าง</span>
-                                        <span class="option-tag">ลงทุน</span>
+                                        <span>เธ—เธตเนเธ”เธดเธ / เธชเธดเนเธเธเนเธญเธชเธฃเนเธฒเธ</span>
+                                        <span class="option-tag">เธฅเธเธ—เธธเธ</span>
                                     </div>
-                                    <div class="dropdown-option" data-value="งบเงินอุดหนุน">
+                                    <div class="dropdown-option" data-value="เธเธเน€เธเธดเธเธญเธธเธ”เธซเธเธธเธ">
                                         <i class="fa-solid fa-check option-check"></i>
-                                        <span>งบเงินอุดหนุน</span>
-                                        <span class="option-tag">อุดหนุน</span>
+                                        <span>เธเธเน€เธเธดเธเธญเธธเธ”เธซเธเธธเธ</span>
+                                        <span class="option-tag">เธญเธธเธ”เธซเธเธธเธ</span>
                                     </div>
-                                    <div class="dropdown-option" data-value="งบรายจ่ายอื่นๆ">
+                                    <div class="dropdown-option" data-value="เธเธเธฃเธฒเธขเธเนเธฒเธขเธญเธทเนเธเน">
                                         <i class="fa-solid fa-check option-check"></i>
-                                        <span>งบรายจ่ายอื่นๆ</span>
-                                        <span class="option-tag">อื่นๆ</span>
+                                        <span>เธเธเธฃเธฒเธขเธเนเธฒเธขเธญเธทเนเธเน</span>
+                                        <span class="option-tag">เธญเธทเนเธเน</span>
                                     </div>
                                 </div>
 
                                 <!-- hidden real select for native form handling -->
                                 <select id="category" class="real-select" required>
                                     <option value="" disabled selected></option>
-                                    <option value="- ค่าจ้างชั่วคราว">- ค่าจ้างชั่วคราว</option>
-                                    <option value="- ค่าตอบแทน">- ค่าตอบแทน</option>
-                                    <option value="- ค่าใช้สอย">- ค่าใช้สอย</option>
-                                    <option value="- ค่าวัสดุ">- ค่าวัสดุ</option>
-                                    <option value="- ค่าสาธารณูปโภค">- ค่าสาธารณูปโภค</option>
-                                    <option value="- ค่าครุภัณฑ์">- ค่าครุภัณฑ์</option>
-                                    <option value="- ที่ดิน , สิ่งก่อสร้าง">- ที่ดิน , สิ่งก่อสร้าง</option>
-                                    <option value="งบเงินอุดหนุน">งบเงินอุดหนุน</option>
-                                    <option value="งบรายจ่ายอื่นๆ">งบรายจ่ายอื่นๆ</option>
+                                    <option value="- เธเนเธฒเธเนเธฒเธเธเธฑเนเธงเธเธฃเธฒเธง">- เธเนเธฒเธเนเธฒเธเธเธฑเนเธงเธเธฃเธฒเธง</option>
+                                    <option value="- เธเนเธฒเธ•เธญเธเนเธ—เธ">- เธเนเธฒเธ•เธญเธเนเธ—เธ</option>
+                                    <option value="- เธเนเธฒเนเธเนเธชเธญเธข">- เธเนเธฒเนเธเนเธชเธญเธข</option>
+                                    <option value="- เธเนเธฒเธงเธฑเธชเธ”เธธ">- เธเนเธฒเธงเธฑเธชเธ”เธธ</option>
+                                    <option value="- เธเนเธฒเธชเธฒเธเธฒเธฃเธ“เธนเธเนเธ เธ">- เธเนเธฒเธชเธฒเธเธฒเธฃเธ“เธนเธเนเธ เธ</option>
+                                    <option value="- เธเนเธฒเธเธฃเธธเธ เธฑเธ“เธ‘เน">- เธเนเธฒเธเธฃเธธเธ เธฑเธ“เธ‘เน</option>
+                                    <option value="- เธ—เธตเนเธ”เธดเธ , เธชเธดเนเธเธเนเธญเธชเธฃเนเธฒเธ">- เธ—เธตเนเธ”เธดเธ , เธชเธดเนเธเธเนเธญเธชเธฃเนเธฒเธ</option>
+                                    <option value="เธเธเน€เธเธดเธเธญเธธเธ”เธซเธเธธเธ">เธเธเน€เธเธดเธเธญเธธเธ”เธซเธเธธเธ</option>
+                                    <option value="เธเธเธฃเธฒเธขเธเนเธฒเธขเธญเธทเนเธเน">เธเธเธฃเธฒเธขเธเนเธฒเธขเธญเธทเนเธเน</option>
                                 </select>
                             </div>
                         </div>
 
-                        <!-- รายละเอียด -->
+                        <!-- เธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ” -->
                         <div class="field">
                             <div class="field-label">
                                 <i class="fa-regular fa-pen-to-square"></i>
-                                รายการ / รายละเอียด
+                                เธฃเธฒเธขเธเธฒเธฃ / เธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”
                                 <span class="req">*</span>
                             </div>
-                            <input type="text" id="details" required placeholder="เช่น ค่าอุปกรณ์ประกอบกิจกรรม" />
+                            <input type="text" id="details" required placeholder="เน€เธเนเธ เธเนเธฒเธญเธธเธเธเธฃเธ“เนเธเธฃเธฐเธเธญเธเธเธดเธเธเธฃเธฃเธก" />
                         </div>
 
-                        <!-- ── คำนวณยอด ── -->
+                        <!-- โ”€โ”€ เธเธณเธเธงเธ“เธขเธญเธ” โ”€โ”€ -->
                         <div class="section-label">
                             <span class="section-label-text"><i class="fa-solid fa-calculator"
-                                    style="margin-right:5px"></i>คำนวณยอดเงิน</span>
+                                    style="margin-right:5px"></i>เธเธณเธเธงเธ“เธขเธญเธ”เน€เธเธดเธ</span>
                             <div class="section-label-line"></div>
                         </div>
 
@@ -243,7 +244,7 @@
                             <div class="field" style="margin-bottom:0">
                                 <div class="field-label">
                                     <i class="fa-solid fa-hashtag"></i>
-                                    จำนวนหน่วย
+                                    เธเธณเธเธงเธเธซเธเนเธงเธข
                                     <span class="req">*</span>
                                 </div>
                                 <input type="number" id="qty" min="1" required placeholder="0"
@@ -252,7 +253,7 @@
                             <div class="field" style="margin-bottom:0">
                                 <div class="field-label">
                                     <i class="fa-solid fa-coins"></i>
-                                    ราคาต่อหน่วย (บาท)
+                                    เธฃเธฒเธเธฒเธ•เนเธญเธซเธเนเธงเธข (เธเธฒเธ—)
                                     <span class="req">*</span>
                                 </div>
                                 <input type="number" id="price" step="0.01" required placeholder="0.00"
@@ -263,35 +264,35 @@
                         <div class="field" style="margin-top:16px">
                             <div class="field-label">
                                 <i class="fa-solid fa-money-bill-wave"></i>
-                                จำนวนเงินรวม
+                                เธเธณเธเธงเธเน€เธเธดเธเธฃเธงเธก
                             </div>
                             <div class="total-wrap">
                                 <input type="text" id="total" class="total-input" readonly placeholder="0.00" />
-                                <span class="total-suffix">บาท</span>
+                                <span class="total-suffix">เธเธฒเธ—</span>
                             </div>
                         </div>
 
-                        <!-- ── ข้อมูลเพิ่มเติม ── -->
+                        <!-- โ”€โ”€ เธเนเธญเธกเธนเธฅเน€เธเธดเนเธกเน€เธ•เธดเธก โ”€โ”€ -->
                         <div class="section-label">
                             <span class="section-label-text"><i class="fa-solid fa-paperclip"
-                                    style="margin-right:5px"></i>ข้อมูลเพิ่มเติม</span>
+                                    style="margin-right:5px"></i>เธเนเธญเธกเธนเธฅเน€เธเธดเนเธกเน€เธ•เธดเธก</span>
                             <div class="section-label-line"></div>
                         </div>
 
-                        <!-- หมายเหตุ -->
+                        <!-- เธซเธกเธฒเธขเน€เธซเธ•เธธ -->
                         <div class="field">
                             <div class="field-label">
                                 <i class="fa-regular fa-comment-dots"></i>
-                                หมายเหตุ
+                                เธซเธกเธฒเธขเน€เธซเธ•เธธ
                             </div>
-                            <textarea id="note" rows="3" placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)"></textarea>
+                            <textarea id="note" rows="3" placeholder="เธฃเธฒเธขเธฅเธฐเน€เธญเธตเธขเธ”เน€เธเธดเนเธกเน€เธ•เธดเธก (เธ–เนเธฒเธกเธต)"></textarea>
                         </div>
 
-                        <!-- ไฟล์ -->
+                        <!-- เนเธเธฅเน -->
                         <div class="field">
                             <div class="field-label">
                                 <i class="fa-solid fa-file-arrow-up"></i>
-                                แนบไฟล์หลักฐาน
+                                เนเธเธเนเธเธฅเนเธซเธฅเธฑเธเธเธฒเธ
                             </div>
                             <div class="file-zone" id="fileZone">
                                 <input type="file" id="file" accept="image/*,.pdf" onchange="onFileChange(this)" />
@@ -299,8 +300,8 @@
                                     <div class="file-zone-icon">
                                         <i class="fa-regular fa-file-image"></i>
                                     </div>
-                                    <div class="file-zone-label" id="fileLabel">คลิกหรือลากไฟล์มาวางที่นี่</div>
-                                    <div class="file-zone-hint">รองรับ รูปภาพ และ PDF ขนาดไม่เกิน 10 MB</div>
+                                    <div class="file-zone-label" id="fileLabel">เธเธฅเธดเธเธซเธฃเธทเธญเธฅเธฒเธเนเธเธฅเนเธกเธฒเธงเธฒเธเธ—เธตเนเธเธตเน</div>
+                                    <div class="file-zone-hint">เธฃเธญเธเธฃเธฑเธ เธฃเธนเธเธ เธฒเธ เนเธฅเธฐ PDF เธเธเธฒเธ”เนเธกเนเน€เธเธดเธ 10 MB</div>
                                 </div>
                             </div>
                         </div>
@@ -308,7 +309,7 @@
                         <!-- Submit -->
                         <button type="submit" id="submitBtn" class="submit-btn">
                             <i class="fa-solid fa-floppy-disk"></i>
-                            <span id="submitText">บันทึกข้อมูล</span>
+                            <span id="submitText">เธเธฑเธเธ—เธถเธเธเนเธญเธกเธนเธฅ</span>
                         </button>
 
                         <div id="statusMessage" class="status-msg"></div>
@@ -320,14 +321,14 @@
                 <footer class="site-footer">
                     <div class="footer-logo"><em>/</em>sorasukt</div>
                     <div>
-                        © 2026 
+                        ยฉ 2026 
                         <span data-en>All Rights Reserved.</span>
-                        <span data-th>สงวนลิขสิทธิ์ทุกประการ</span>
+                        <span data-th>เธชเธเธงเธเธฅเธดเธเธชเธดเธ—เธเธดเนเธ—เธธเธเธเธฃเธฐเธเธฒเธฃ</span>
                     </div>
                     <div class="footer-links">
-                        <a href="/enged/terms.html">ข้อกำหนดการใช้งาน</a>
-                        <span class="sep">•</span>
-                        <a href="/enged/privacy.html">นโยบายความเป็นส่วนตัว</a>
+                        <a href="/enged/terms.html">เธเนเธญเธเธณเธซเธเธ”เธเธฒเธฃเนเธเนเธเธฒเธ</a>
+                        <span class="sep">โ€ข</span>
+                        <a href="/enged/privacy.html">เธเนเธขเธเธฒเธขเธเธงเธฒเธกเน€เธเนเธเธชเนเธงเธเธ•เธฑเธง</a>
                     </div>
                 </footer>
             </div>
@@ -339,3 +340,4 @@
 </body>
 
 </html>
+

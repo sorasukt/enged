@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.auth0.com https://cdn.jsdelivr.net https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://*.auth0.com https://script.google.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ระบบบันทึกการเข้าร่วมกิจกรรม | English Education</title>
     <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
@@ -11,12 +12,12 @@
 
     <meta property="og:type" content="website">
     <meta property="og:title" content="เช็คชื่อนักศึกษาเข้าร่วมกิจกรรม | English Education">
-    <meta property="og:url" content="https://sorasukt.github.io/enged/">
-    <meta property="og:image" content="https://sorasukt.github.io/enged/img/og/cheackup.png">
+    <meta property="og:url" content="https://sorasukt.github.io/enged/checkup">
+    <meta property="og:image" content="https://sorasukt.github.io/enged/img/og/checkup.png">
     <meta property="og:description" content="สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย">
 
-    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js" integrity="sha384-zVM3YoOThNVWy1csEJq5Hbk+eeS0XrkL2lCADHb8HnFew6raF21cbOCcMgedS7HO" crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap"
@@ -29,6 +30,26 @@
 </head>
 
 <body>
+
+    <!-- ════ LOADING SCREEN ════ -->
+    <div id="loadScreen">
+        <div class="ls-logo">
+            <img src="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico" width="42" style="border-radius:10px" alt="ENGED Logo">
+        </div>
+        <div class="ls-wordmark">
+            <div class="ls-title">ENGED</div>
+            <div class="ls-sub">System Initialization</div>
+        </div>
+        <div class="ls-status">
+            <div class="ls-status-dot spin" id="lsDot"></div>
+            <div class="ls-status-text" id="lsText">กำลังเตรียมระบบ...</div>
+        </div>
+        <div class="ls-progress-wrap">
+            <div class="ls-bar">
+                <div class="ls-bar-fill" id="lsFill" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
 
     <!-- ════ MOBILE MENU DRAWER ════ -->
     <div id="mobileMenuDrawer" class="mobile-menu-drawer" onclick="if(event.target===this)toggleMobileMenu()">
@@ -248,6 +269,10 @@
                             <button class="auth-btn" id="loginBtn" onclick="loginUser()">
                                 <i class="fa-solid fa-arrow-right-to-bracket"></i>
                                 เข้าสู่ระบบด้วย LRU Mail
+                            </button>
+                            <button class="auth-btn secondary" id="skipLoginBtn" onclick="skipLogin()" style="margin-top: 8px;">
+                                <i class="fa-solid fa-forward-step"></i>
+                                ดำเนินการต่อโดยไม่ต้องเข้าสู่ระบบ
                             </button>
                             <div class="login-disclaimer" style="margin-top: 16px;">
                                 การเข้าสู่ระบบด้วย LRU Mail ถือเป็นการยอมรับ <a href="/enged/terms.html" target="_blank">ข้อกำหนดการใช้งาน</a> และ <a href="/enged/privacy.html" target="_blank">นโยบายความเป็นส่วนตัว</a>
@@ -558,8 +583,8 @@
 
     </div><!-- #mainApp -->
 
-    <script src="JavaScript/auth.js"></script>
-    <script src="JavaScript/checkup.js"></script>
+    <script src="JavaScript/auth.js" defer></script>
+    <script src="JavaScript/checkup.js" defer></script>
 
 </body>
 

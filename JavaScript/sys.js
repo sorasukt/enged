@@ -30,13 +30,12 @@
                     const activities = await fetchActivitiesData();
                     populateActivities(activities);
                 } catch (e) {
-                    console.error("Activities Load Error:", e);
                     showConfigAlert(`เชื่อมต่อล้มเหลว: ${e.message}`);
                 }
             })();
 
-            // Wait for both tasks to complete concurrently
-            await Promise.all([auth0Promise, activitiesPromise]);
+            // Wait for Auth0 to complete before showing UI
+            await auth0Promise;
 
             lsProgress(100);
             lsUpdate('พร้อมใช้งาน', 'ok');
@@ -51,6 +50,9 @@
             } else {
                 document.body.classList.add('visible');
             }
+
+            // Let activitiesPromise resolve in the background
+            activitiesPromise.then(() => {});
 
             setTimeout(() => {
                 const infoModal = document.getElementById('infoModal');
@@ -434,7 +436,8 @@
                             hide('pendingCard');
                             showResult(d);
                         }
-                    });
+                    })
+                    .catch(e => console.warn('Monitor fetch failed:', e));
             }, 60000);
         }
 

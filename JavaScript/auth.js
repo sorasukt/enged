@@ -14,17 +14,17 @@ let isAvatarRemoved = false;
 /* ════ INIT AUTH0 ════ */
 async function initAuth() {
     try {
-        await configureAuth0();
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('AuthTimeout')), 1500));
+        await Promise.race([configureAuth0(), timeoutPromise]);
 
         const query = window.location.search;
         if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
-            await auth0Client.handleRedirectCallback();
+            await Promise.race([auth0Client.handleRedirectCallback(), timeoutPromise]);
             window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        await updateAuthUI();
+        await Promise.race([updateAuthUI(), timeoutPromise]);
     } catch (error) {
-        console.error("Auth0 Init Error:", error);
         fallbackAuthUI();
     }
 }
@@ -49,7 +49,6 @@ async function loginUser() {
     try {
         await auth0Client.loginWithRedirect();
     } catch (error) {
-        console.error("Login Error:", error);
     }
 }
 
@@ -129,7 +128,6 @@ async function updateAuthUI() {
             fallbackAuthUI();
         }
     } catch (error) {
-        console.error("Error updating Auth UI:", error);
         fallbackAuthUI(true);
     }
 }
@@ -274,7 +272,6 @@ async function saveProfileData() {
         const token = await auth0Client.getTokenSilently();
 
         const payload = {
-            access_token: token,
             name: nameVal,
             imageBase64: imageBase64,
             imageMimeType: imageMimeType,
@@ -283,7 +280,10 @@ async function saveProfileData() {
 
         const res = await fetch(GAS_PROFILE_UPDATE_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
+            headers: { 
+                'Content-Type': 'text/plain',
+                'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify(payload)
         });
         
@@ -309,7 +309,6 @@ async function saveProfileData() {
         }
         
     } catch (err) {
-        console.error(err);
         alert('เกิดข้อผิดพลาดในการอัปเดตโปรไฟล์: ' + err.message);
     } finally {
         saveBtn.innerHTML = origBtnText;

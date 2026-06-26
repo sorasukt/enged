@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Countdown Logic
-    const countDownDate = new Date("Jan 15, 2026 08:00:00").getTime();
+    const countDownDate = new Date("2026-01-15T08:00:00+07:00").getTime();
     const x = setInterval(function () {
         const now = new Date().getTime();
         const distance = countDownDate - now;
@@ -186,7 +186,6 @@ async function sendMessage() {
         typeWriterMessage(parsedResponse, 'ai');
 
     } catch (error) {
-        console.error('Final Error:', error);
         const loadingEl = document.getElementById(loadingId);
         if (loadingEl) loadingEl.remove();
 
@@ -205,8 +204,8 @@ async function sendMessage() {
 // Helper function for exponential backoff and API Key management
 async function callGeminiAPI(userMessage) {
 
-    // 1. Try to get key from code (Preview env) or LocalStorage (Public env)
-    let apiKey = "AIzaSyAVnHFCrWdeB1SsUymal-nvENSqvYnPMWw";
+    // 1. Try to get key from LocalStorage
+    let apiKey = "";
     const storedKey = localStorage.getItem('gemini_api_key');
 
     if (apiKey === "") {
@@ -270,10 +269,8 @@ async function callGeminiAPI(userMessage) {
             return data.candidates[0].content.parts[0].text;
 
         } catch (error) {
-            // Don't retry if it's an API Key issue
             if (error.message.includes("API Key")) throw error;
 
-            console.warn(`Attempt ${i + 1} failed: ${error.message}`);
             if (i === maxRetries - 1) throw error;
             await new Promise(resolve => setTimeout(resolve, delay));
             delay *= 2;

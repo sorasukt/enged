@@ -1,22 +1,23 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="th">
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.auth0.com https://cdn.jsdelivr.net https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://*.auth0.com https://script.google.com;">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบบันทึกการเข้าร่วมกิจกรรม | English Education</title>
+    <title>เธฃเธฐเธเธเธเธฑเธเธ—เธถเธเธเธฒเธฃเน€เธเนเธฒเธฃเนเธงเธกเธเธดเธเธเธฃเธฃเธก | English Education</title>
     <link rel="icon" href="https://s3.ap-southeast-1.amazonaws.com/files.stnetradio.com/logo/ENGEDLOGO.ico">
     <meta name="description"
-        content="ระบบเช็คชื่อนักศึกษาเข้าร่วมกิจกรรม สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย">
+        content="เธฃเธฐเธเธเน€เธเนเธเธเธทเนเธญเธเธฑเธเธจเธถเธเธฉเธฒเน€เธเนเธฒเธฃเนเธงเธกเธเธดเธเธเธฃเธฃเธก เธชเธฒเธเธฒเธงเธดเธเธฒเธ เธฒเธฉเธฒเธญเธฑเธเธเธคเธฉ เธเธ“เธฐเธเธฃเธธเธจเธฒเธชเธ•เธฃเน เธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธขเธฃเธฒเธเธ เธฑเธเน€เธฅเธข">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="เช็คชื่อนักศึกษาเข้าร่วมกิจกรรม | English Education">
+    <meta property="og:title" content="เน€เธเนเธเธเธทเนเธญเธเธฑเธเธจเธถเธเธฉเธฒเน€เธเนเธฒเธฃเนเธงเธกเธเธดเธเธเธฃเธฃเธก | English Education">
     <meta property="og:url" content="https://sorasukt.github.io/enged/">
     <meta property="og:image" content="https://sorasukt.github.io/enged/img/og/cheackup.png">
-    <meta property="og:description" content="สาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย">
+    <meta property="og:description" content="เธชเธฒเธเธฒเธงเธดเธเธฒเธ เธฒเธฉเธฒเธญเธฑเธเธเธคเธฉ เธเธ“เธฐเธเธฃเธธเธจเธฒเธชเธ•เธฃเน เธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธขเธฃเธฒเธเธ เธฑเธเน€เธฅเธข">
 
-    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js" integrity="sha384-zVM3YoOThNVWy1csEJq5Hbk+eeS0XrkL2lCADHb8HnFew6raF21cbOCcMgedS7HO" crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap"
@@ -31,16 +32,16 @@
 
 
 
-    <!-- ════════════════════════════════════
+    <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•
      PROCESS OVERLAY
-════════════════════════════════════ -->
+โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
     <div id="processOverlay">
         <div class="process-card">
             <div class="process-head">
                 <div class="ph-icon"><i class="fa-solid fa-arrows-rotate"></i></div>
                 <div>
                     <div class="ph-eyebrow">Processing Request</div>
-                    <div class="ph-title">กำลังดำเนินการ</div>
+                    <div class="ph-title">เธเธณเธฅเธฑเธเธ”เธณเน€เธเธดเธเธเธฒเธฃ</div>
                 </div>
             </div>
             <div class="process-body">
@@ -51,8 +52,8 @@
                             <div class="step-ring"></div>
                         </div>
                         <div class="step-text">
-                            <div class="step-title">ตรวจสอบข้อมูลผู้ใช้</div>
-                            <div class="step-desc" id="desc-1">ตรวจสอบรหัสนักศึกษาและชื่อ–สกุล</div>
+                            <div class="step-title">เธ•เธฃเธงเธเธชเธญเธเธเนเธญเธกเธนเธฅเธเธนเนเนเธเน</div>
+                            <div class="step-desc" id="desc-1">เธ•เธฃเธงเธเธชเธญเธเธฃเธซเธฑเธชเธเธฑเธเธจเธถเธเธฉเธฒเนเธฅเธฐเธเธทเนเธญโ€“เธชเธเธธเธฅ</div>
                         </div>
                     </div>
                     <div class="step-item" id="step-2">
@@ -61,8 +62,8 @@
                             <div class="step-ring"></div>
                         </div>
                         <div class="step-text">
-                            <div class="step-title">ระบุพิกัด GPS</div>
-                            <div class="step-desc" id="desc-2">กำลังขอสิทธิ์และรับสัญญาณตำแหน่ง</div>
+                            <div class="step-title">เธฃเธฐเธเธธเธเธดเธเธฑเธ” GPS</div>
+                            <div class="step-desc" id="desc-2">เธเธณเธฅเธฑเธเธเธญเธชเธดเธ—เธเธดเนเนเธฅเธฐเธฃเธฑเธเธชเธฑเธเธเธฒเธ“เธ•เธณเนเธซเธเนเธ</div>
                         </div>
                     </div>
                     <div class="step-item" id="step-3">
@@ -71,8 +72,8 @@
                             <div class="step-ring"></div>
                         </div>
                         <div class="step-text">
-                            <div class="step-title">ตรวจสอบพื้นที่กิจกรรม</div>
-                            <div class="step-desc" id="desc-3">เปรียบเทียบพิกัดกับสถานที่กิจกรรม</div>
+                            <div class="step-title">เธ•เธฃเธงเธเธชเธญเธเธเธทเนเธเธ—เธตเนเธเธดเธเธเธฃเธฃเธก</div>
+                            <div class="step-desc" id="desc-3">เน€เธเธฃเธตเธขเธเน€เธ—เธตเธขเธเธเธดเธเธฑเธ”เธเธฑเธเธชเธ–เธฒเธเธ—เธตเนเธเธดเธเธเธฃเธฃเธก</div>
                         </div>
                     </div>
                     <div class="step-item" id="step-4">
@@ -81,22 +82,22 @@
                             <div class="step-ring"></div>
                         </div>
                         <div class="step-text">
-                            <div class="step-title">บันทึกข้อมูล</div>
-                            <div class="step-desc" id="desc-4">ส่งข้อมูลและบันทึกลงฐานข้อมูล</div>
+                            <div class="step-title">เธเธฑเธเธ—เธถเธเธเนเธญเธกเธนเธฅ</div>
+                            <div class="step-desc" id="desc-4">เธชเนเธเธเนเธญเธกเธนเธฅเนเธฅเธฐเธเธฑเธเธ—เธถเธเธฅเธเธเธฒเธเธเนเธญเธกเธนเธฅ</div>
                         </div>
                     </div>
                 </div>
                 <div class="process-result" id="processResult"></div>
                 <button class="process-close" id="processClose" onclick="closeOverlay()">
-                    <i class="fa-solid fa-check"></i><span>ตกลง</span>
+                    <i class="fa-solid fa-check"></i><span>เธ•เธเธฅเธ</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ════════════════════════════════════
+    <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•
      LOGIN PAGE  (split-panel)
-════════════════════════════════════ -->
+โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
     <div id="loginPage">
         <div class="login-wrapper">
 
@@ -109,28 +110,28 @@
                             style="height:52px;width:auto;filter:brightness(0) invert(1);">
                         <div class="brand-logo-text">
                             <div class="brand-logo-name">English Education</div>
-                            <div class="brand-logo-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                            <div class="brand-logo-faculty">เธเธ“เธฐเธเธฃเธธเธจเธฒเธชเธ•เธฃเน เธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธขเธฃเธฒเธเธ เธฑเธเน€เธฅเธข</div>
                         </div>
                     </div>
 
                     <div class="brand-tagline">
-                        <h2>ระบบบันทึก<br>การเข้าร่วมกิจกรรม</h2>
-                        <p>ยืนยันตัวตนด้วยอีเมลมหาวิทยาลัย เพื่อบันทึกเวลาเข้าร่วมกิจกรรมด้วยระบบ GPS อัตโนมัติ</p>
+                        <h2>เธฃเธฐเธเธเธเธฑเธเธ—เธถเธ<br>เธเธฒเธฃเน€เธเนเธฒเธฃเนเธงเธกเธเธดเธเธเธฃเธฃเธก</h2>
+                        <p>เธขเธทเธเธขเธฑเธเธ•เธฑเธงเธ•เธเธ”เนเธงเธขเธญเธตเน€เธกเธฅเธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธข เน€เธเธทเนเธญเธเธฑเธเธ—เธถเธเน€เธงเธฅเธฒเน€เธเนเธฒเธฃเนเธงเธกเธเธดเธเธเธฃเธฃเธกเธ”เนเธงเธขเธฃเธฐเธเธ GPS เธญเธฑเธ•เนเธเธกเธฑเธ•เธด</p>
                     </div>
 
                     <ul class="brand-features">
                         <li>
                             <div class="brand-feat-icon"><i class="fa-solid fa-shield-halved"></i></div>
                             <div>
-                                <div class="brand-feat-label">ยืนยันตัวตนปลอดภัย</div>
-                                <div class="brand-feat-sub">เชื่อมต่อผ่านอีเมล @lru.ac.th</div>
+                                <div class="brand-feat-label">เธขเธทเธเธขเธฑเธเธ•เธฑเธงเธ•เธเธเธฅเธญเธ”เธ เธฑเธข</div>
+                                <div class="brand-feat-sub">เน€เธเธทเนเธญเธกเธ•เนเธญเธเนเธฒเธเธญเธตเน€เธกเธฅ @lru.ac.th</div>
                             </div>
                         </li>
                         <li>
                             <div class="brand-feat-icon"><i class="fa-solid fa-location-dot"></i></div>
                             <div>
-                                <div class="brand-feat-label">ตรวจสอบตำแหน่ง GPS</div>
-                                <div class="brand-feat-sub">ต้องอยู่ในรัศมี 100 เมตรจากสถานที่</div>
+                                <div class="brand-feat-label">เธ•เธฃเธงเธเธชเธญเธเธ•เธณเนเธซเธเนเธ GPS</div>
+                                <div class="brand-feat-sub">เธ•เนเธญเธเธญเธขเธนเนเนเธเธฃเธฑเธจเธกเธต 100 เน€เธกเธ•เธฃเธเธฒเธเธชเธ–เธฒเธเธ—เธตเน</div>
                             </div>
                         </li>
                     </ul>
@@ -147,64 +148,64 @@
                             style="height:40px;width:auto;">
                         <div>
                             <div class="mobile-brand-name">English Education</div>
-                            <div class="mobile-brand-sub">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                            <div class="mobile-brand-sub">เธเธ“เธฐเธเธฃเธธเธจเธฒเธชเธ•เธฃเน เธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธขเธฃเธฒเธเธ เธฑเธเน€เธฅเธข</div>
                         </div>
                     </div>
 
                     <!-- Auth screen (default) -->
                     <div id="authScreen">
                         <div class="login-eyebrow">Attendance System</div>
-                        <h1 class="login-title">เข้าสู่ระบบ</h1>
+                        <h1 class="login-title">เน€เธเนเธฒเธชเธนเนเธฃเธฐเธเธ</h1>
                         <p class="login-subtitle">
-                            ใช้บัญชีอีเมลมหาวิทยาลัยเพื่อยืนยันตัวตน<br>และบันทึกเวลาเข้าร่วมกิจกรรม</p>
+                            เนเธเนเธเธฑเธเธเธตเธญเธตเน€เธกเธฅเธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธขเน€เธเธทเนเธญเธขเธทเธเธขเธฑเธเธ•เธฑเธงเธ•เธ<br>เนเธฅเธฐเธเธฑเธเธ—เธถเธเน€เธงเธฅเธฒเน€เธเนเธฒเธฃเนเธงเธกเธเธดเธเธเธฃเธฃเธก</p>
 
                         <div class="login-card">
                             <div class="login-card-header">
                                 <div class="login-card-icon"><i class="fa-solid fa-envelope"></i></div>
                                 <div>
-                                    <div class="login-card-label">เข้าสู่ระบบด้วยบัญชี LRU Email</div>
-                                    <div class="login-card-sub">เฉพาะบัญชีนักศึกษา</div>
+                                    <div class="login-card-label">เน€เธเนเธฒเธชเธนเนเธฃเธฐเธเธเธ”เนเธงเธขเธเธฑเธเธเธต LRU Email</div>
+                                    <div class="login-card-sub">เน€เธเธเธฒเธฐเธเธฑเธเธเธตเธเธฑเธเธจเธถเธเธฉเธฒ</div>
                                 </div>
                             </div>
 
                             <button class="sys-btn sys-primary" id="loginBtn" onclick="loginUser()">
-                                <i class="fa-solid fa-arrow-right-to-bracket"></i> เข้าสู่ระบบด้วย LRU Mail
+                                <i class="fa-solid fa-arrow-right-to-bracket"></i> เน€เธเนเธฒเธชเธนเนเธฃเธฐเธเธเธ”เนเธงเธข LRU Mail
                             </button>
                             <div class="login-disclaimer">
-                                การเข้าสู่ระบบด้วย LRU Mail ถือเป็นการยอมรับ <a href="/enged/terms.html" target="_blank">ข้อกำหนดการใช้งาน</a> และ <a href="/enged/privacy.html" target="_blank">นโยบายความเป็นส่วนตัว</a>
+                                เธเธฒเธฃเน€เธเนเธฒเธชเธนเนเธฃเธฐเธเธเธ”เนเธงเธข LRU Mail เธ–เธทเธญเน€เธเนเธเธเธฒเธฃเธขเธญเธกเธฃเธฑเธ <a href="/enged/terms.html" target="_blank">เธเนเธญเธเธณเธซเธเธ”เธเธฒเธฃเนเธเนเธเธฒเธ</a> เนเธฅเธฐ <a href="/enged/privacy.html" target="_blank">เธเนเธขเธเธฒเธขเธเธงเธฒเธกเน€เธเนเธเธชเนเธงเธเธ•เธฑเธง</a>
                             </div>
 
                             <div class="auth-hint">
-                                หากไม่เคยเข้าใช้งานระบบของสาขาวิชาฯ<br>
-                                ระบบจะนำคุณไปสร้างบัญชีอัตโนมัติเมื่อกดเข้าสู่ระบบ<br><br>
-                                (รองรับเฉพาะอีเมลรูปแบบ <strong>sb[รหัสนักศึกษา]@lru.ac.th</strong>)
+                                เธซเธฒเธเนเธกเนเน€เธเธขเน€เธเนเธฒเนเธเนเธเธฒเธเธฃเธฐเธเธเธเธญเธเธชเธฒเธเธฒเธงเธดเธเธฒเธฏ<br>
+                                เธฃเธฐเธเธเธเธฐเธเธณเธเธธเธ“เนเธเธชเธฃเนเธฒเธเธเธฑเธเธเธตเธญเธฑเธ•เนเธเธกเธฑเธ•เธดเน€เธกเธทเนเธญเธเธ”เน€เธเนเธฒเธชเธนเนเธฃเธฐเธเธ<br><br>
+                                (เธฃเธญเธเธฃเธฑเธเน€เธเธเธฒเธฐเธญเธตเน€เธกเธฅเธฃเธนเธเนเธเธ <strong>sb[เธฃเธซเธฑเธชเธเธฑเธเธจเธถเธเธฉเธฒ]@lru.ac.th</strong>)
                             </div>
                         </div>
 
                         <div class="login-support">
-                            มีปัญหาการเข้าใช้งาน? <a href="mailto:support@lru.ac.th">ติดต่อฝ่ายสนับสนุน</a>
+                            เธกเธตเธเธฑเธเธซเธฒเธเธฒเธฃเน€เธเนเธฒเนเธเนเธเธฒเธ? <a href="mailto:support@lru.ac.th">เธ•เธดเธ”เธ•เนเธญเธเนเธฒเธขเธชเธเธฑเธเธชเธเธธเธ</a>
                         </div>
                     </div>
 
                     <!-- Invalid email screen -->
                     <div id="invalidEmailScreen" style="display:none;">
                         <div class="login-eyebrow">Authentication Error</div>
-                        <h1 class="login-title">อีเมลไม่ถูกต้อง</h1>
-                        <p class="login-subtitle">บัญชีที่คุณใช้ล็อกอินไม่ใช่อีเมลนักศึกษาที่ถูกต้อง</p>
+                        <h1 class="login-title">เธญเธตเน€เธกเธฅเนเธกเนเธ–เธนเธเธ•เนเธญเธ</h1>
+                        <p class="login-subtitle">เธเธฑเธเธเธตเธ—เธตเนเธเธธเธ“เนเธเนเธฅเนเธญเธเธญเธดเธเนเธกเนเนเธเนเธญเธตเน€เธกเธฅเธเธฑเธเธจเธถเธเธฉเธฒเธ—เธตเนเธ–เธนเธเธ•เนเธญเธ</p>
 
                         <div class="invalid-card">
                             <div class="invalid-top">
                                 <div class="invalid-top-icon"><i class="fa-solid fa-user-xmark"></i></div>
-                                <div class="invalid-top-title">ไม่มีสิทธิ์เข้าใช้งาน</div>
-                                <div class="invalid-top-sub">บัญชีที่ใช้ไม่ตรงกับเงื่อนไข</div>
+                                <div class="invalid-top-title">เนเธกเนเธกเธตเธชเธดเธ—เธเธดเนเน€เธเนเธฒเนเธเนเธเธฒเธ</div>
+                                <div class="invalid-top-sub">เธเธฑเธเธเธตเธ—เธตเนเนเธเนเนเธกเนเธ•เธฃเธเธเธฑเธเน€เธเธทเนเธญเธเนเธ</div>
                             </div>
                             <div class="invalid-body">
                                 <div class="invalid-email-box">
-                                    <div class="invalid-email-label">อีเมลปัจจุบันของคุณ</div>
-                                    <div class="invalid-email-value" id="invalidEmailDisplay">—</div>
+                                    <div class="invalid-email-label">เธญเธตเน€เธกเธฅเธเธฑเธเธเธธเธเธฑเธเธเธญเธเธเธธเธ“</div>
+                                    <div class="invalid-email-value" id="invalidEmailDisplay">โ€”</div>
                                 </div>
                                 <button class="auth-btn danger" onclick="logoutUser()">
-                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบและลองใหม่
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> เธญเธญเธเธเธฒเธเธฃเธฐเธเธเนเธฅเธฐเธฅเธญเธเนเธซเธกเน
                                 </button>
                             </div>
                         </div>
@@ -216,9 +217,9 @@
         </div>
     </div>
 
-    <!-- ════════════════════════════════════
+    <!-- โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•
      MAIN APP  (shown after auth)
-════════════════════════════════════ -->
+โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ• -->
     <div id="mainApp">
 
         <header class="site-header">
@@ -228,16 +229,16 @@
                         style="height:32px;width:auto;">
                     <div class="header-brand-text">
                         <div class="header-brand-name">English Education</div>
-                        <div class="header-brand-faculty">คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</div>
+                        <div class="header-brand-faculty">เธเธ“เธฐเธเธฃเธธเธจเธฒเธชเธ•เธฃเน เธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธขเธฃเธฒเธเธ เธฑเธเน€เธฅเธข</div>
                     </div>
                 </a>
                 <div class="header-right">
                     <div class="header-badge" id="headerBadge">
                         <div class="live-dot" id="headerDot"></div>
-                        <span id="headerBadgeText">กำลังตรวจสอบ...</span>
+                        <span id="headerBadgeText">เธเธณเธฅเธฑเธเธ•เธฃเธงเธเธชเธญเธ...</span>
                     </div>
                     <button id="logoutBtn" class="logout-btn" onclick="logoutUser()">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> เธญเธญเธเธเธฒเธเธฃเธฐเธเธ
                     </button>
                 </div>
             </div>
@@ -247,47 +248,47 @@
 
             <aside class="info-panel">
                 <div class="info-eyebrow animate-in delay-1">Attendance System</div>
-                <h1 class="info-heading animate-in delay-2">ระบบบันทึก<br>การเข้าร่วมกิจกรรม</h1>
-                <p class="info-desc animate-in delay-3">สำหรับนักศึกษาสาขาวิชาภาษาอังกฤษ
-                    คณะครุศาสตร์<br>มหาวิทยาลัยราชภัฏเลย ใช้ยืนยันการเข้าร่วมกิจกรรม</p>
+                <h1 class="info-heading animate-in delay-2">เธฃเธฐเธเธเธเธฑเธเธ—เธถเธ<br>เธเธฒเธฃเน€เธเนเธฒเธฃเนเธงเธกเธเธดเธเธเธฃเธฃเธก</h1>
+                <p class="info-desc animate-in delay-3">เธชเธณเธซเธฃเธฑเธเธเธฑเธเธจเธถเธเธฉเธฒเธชเธฒเธเธฒเธงเธดเธเธฒเธ เธฒเธฉเธฒเธญเธฑเธเธเธคเธฉ
+                    เธเธ“เธฐเธเธฃเธธเธจเธฒเธชเธ•เธฃเน<br>เธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธขเธฃเธฒเธเธ เธฑเธเน€เธฅเธข เนเธเนเธขเธทเธเธขเธฑเธเธเธฒเธฃเน€เธเนเธฒเธฃเนเธงเธกเธเธดเธเธเธฃเธฃเธก</p>
 
                 <div class="schedule-card animate-in delay-3">
                     <div class="schedule-head">
                         <div class="schedule-head-icon"><i class="fa-regular fa-clock"></i></div>
-                        <div class="schedule-head-title">ตารางเปิด–ปิดระบบ</div>
+                        <div class="schedule-head-title">เธ•เธฒเธฃเธฒเธเน€เธเธดเธ”โ€“เธเธดเธ”เธฃเธฐเธเธ</div>
                         <div class="schedule-head-clock" id="liveClock">--:--:--</div>
                     </div>
                     <div class="schedule-body" id="scheduleBody"></div>
                 </div>
 
                 <div class="steps-overview animate-in delay-4">
-                    <div class="steps-overview-title"><i class="fa-solid fa-list-check"></i>ขั้นตอนการลงทะเบียน</div>
+                    <div class="steps-overview-title"><i class="fa-solid fa-list-check"></i>เธเธฑเนเธเธ•เธญเธเธเธฒเธฃเธฅเธเธ—เธฐเน€เธเธตเธขเธ</div>
                     <div class="ov-step">
                         <div class="ov-num">1</div>
                         <div>
-                            <div class="ov-label">ล็อกอินยืนยันตัวตน</div>
-                            <div class="ov-sub">ใช้บัญชีอีเมลมหาวิทยาลัย (@lru.ac.th)</div>
+                            <div class="ov-label">เธฅเนเธญเธเธญเธดเธเธขเธทเธเธขเธฑเธเธ•เธฑเธงเธ•เธ</div>
+                            <div class="ov-sub">เนเธเนเธเธฑเธเธเธตเธญเธตเน€เธกเธฅเธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธข (@lru.ac.th)</div>
                         </div>
                     </div>
                     <div class="ov-step">
                         <div class="ov-num">2</div>
                         <div>
-                            <div class="ov-label">อนุญาตการเข้าถึง Location</div>
-                            <div class="ov-sub">เลือก "อนุญาต" เมื่อเบราว์เซอร์ถาม</div>
+                            <div class="ov-label">เธญเธเธธเธเธฒเธ•เธเธฒเธฃเน€เธเนเธฒเธ–เธถเธ Location</div>
+                            <div class="ov-sub">เน€เธฅเธทเธญเธ "เธญเธเธธเธเธฒเธ•" เน€เธกเธทเนเธญเน€เธเธฃเธฒเธงเนเน€เธเธญเธฃเนเธ–เธฒเธก</div>
                         </div>
                     </div>
                     <div class="ov-step">
                         <div class="ov-num">3</div>
                         <div>
-                            <div class="ov-label">ระบบตรวจสอบพิกัด</div>
-                            <div class="ov-sub">ต้องอยู่ในรัศมี 100 เมตรจากสถานที่</div>
+                            <div class="ov-label">เธฃเธฐเธเธเธ•เธฃเธงเธเธชเธญเธเธเธดเธเธฑเธ”</div>
+                            <div class="ov-sub">เธ•เนเธญเธเธญเธขเธนเนเนเธเธฃเธฑเธจเธกเธต 100 เน€เธกเธ•เธฃเธเธฒเธเธชเธ–เธฒเธเธ—เธตเน</div>
                         </div>
                     </div>
                     <div class="ov-step">
                         <div class="ov-num">4</div>
                         <div>
-                            <div class="ov-label">บันทึกเวลาเข้าร่วม</div>
-                            <div class="ov-sub">ข้อมูลถูกบันทึกลงระบบทันที</div>
+                            <div class="ov-label">เธเธฑเธเธ—เธถเธเน€เธงเธฅเธฒเน€เธเนเธฒเธฃเนเธงเธก</div>
+                            <div class="ov-sub">เธเนเธญเธกเธนเธฅเธ–เธนเธเธเธฑเธเธ—เธถเธเธฅเธเธฃเธฐเธเธเธ—เธฑเธเธ—เธต</div>
                         </div>
                     </div>
                 </div>
@@ -299,8 +300,8 @@
                     <div class="alt-main-card">
                         <div class="alt-top">
                             <div class="alt-top-icon"><i class="fa-solid fa-lock"></i></div>
-                            <div class="alt-top-title" id="closedTitle">หมดเวลากรอกข้อมูล</div>
-                            <div class="alt-top-sub" id="closedSub">ระบบปิดรับบันทึกการเข้าร่วมแล้วในขณะนี้</div>
+                            <div class="alt-top-title" id="closedTitle">เธซเธกเธ”เน€เธงเธฅเธฒเธเธฃเธญเธเธเนเธญเธกเธนเธฅ</div>
+                            <div class="alt-top-sub" id="closedSub">เธฃเธฐเธเธเธเธดเธ”เธฃเธฑเธเธเธฑเธเธ—เธถเธเธเธฒเธฃเน€เธเนเธฒเธฃเนเธงเธกเนเธฅเนเธงเนเธเธเธ“เธฐเธเธตเน</div>
                         </div>
                         <div class="alt-body">
                             <div id="nextSlotBox"
@@ -312,11 +313,11 @@
                                 <div>
                                     <div
                                         style="font-size:10px; font-weight:700; color:var(--ink-50); text-transform:uppercase; margin-bottom:3px;">
-                                        รอบถัดไป</div>
+                                        เธฃเธญเธเธ–เธฑเธ”เนเธ</div>
                                     <div id="nextSlotName" style="font-size:14.5px; font-weight:700; color:var(--ink);">
-                                        —</div>
+                                        โ€”</div>
                                     <div id="nextSlotTime" style="font-size:12px; color:var(--ink-50); margin-top:2px;">
-                                        —</div>
+                                        โ€”</div>
                                 </div>
                             </div>
                         </div>
@@ -328,50 +329,50 @@
                         <div class="status-banner-inner">
                             <div class="sb-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
                             <div>
-                                <div class="sb-title" id="sbTitle">ระบบเปิดรับบันทึกข้อมูล</div>
-                                <div class="sb-text" id="sbText">กรุณากรอกข้อมูลและกดยืนยันเพื่อบันทึกการเข้าร่วม</div>
+                                <div class="sb-title" id="sbTitle">เธฃเธฐเธเธเน€เธเธดเธ”เธฃเธฑเธเธเธฑเธเธ—เธถเธเธเนเธญเธกเธนเธฅ</div>
+                                <div class="sb-text" id="sbText">เธเธฃเธธเธ“เธฒเธเธฃเธญเธเธเนเธญเธกเธนเธฅเนเธฅเธฐเธเธ”เธขเธทเธเธขเธฑเธเน€เธเธทเนเธญเธเธฑเธเธ—เธถเธเธเธฒเธฃเน€เธเนเธฒเธฃเนเธงเธก</div>
                             </div>
                         </div>
                     </div>
 
-                    <p class="section-label animate-in delay-1">ข้อมูลนักศึกษา</p>
+                    <p class="section-label animate-in delay-1">เธเนเธญเธกเธนเธฅเธเธฑเธเธจเธถเธเธฉเธฒ</p>
                     <div class="form-card animate-in delay-1">
                         <div class="form-card-head">
                             <div class="fch-icon"><i class="fa-solid fa-user-check"></i></div>
                             <div>
-                                <div class="fch-title">ข้อมูลผู้ใช้</div>
-                                <div class="fch-sub" id="userEmailDisplay">ดึงข้อมูลสำเร็จ</div>
+                                <div class="fch-title">เธเนเธญเธกเธนเธฅเธเธนเนเนเธเน</div>
+                                <div class="fch-sub" id="userEmailDisplay">เธ”เธถเธเธเนเธญเธกเธนเธฅเธชเธณเน€เธฃเนเธ</div>
                             </div>
                         </div>
                         <div class="form-card-body">
                             <div class="field">
                                 <div class="field-label">
-                                    <i class="fa-solid fa-id-card"></i>รหัสนักศึกษา<span class="req">*</span>
+                                    <i class="fa-solid fa-id-card"></i>เธฃเธซเธฑเธชเธเธฑเธเธจเธถเธเธฉเธฒ<span class="req">*</span>
                                 </div>
-                                <input type="text" id="studentId" placeholder="กำลังโหลด..." autocomplete="off"
+                                <input type="text" id="studentId" placeholder="เธเธณเธฅเธฑเธเนเธซเธฅเธ”..." autocomplete="off"
                                     readonly />
-                                <div class="field-hint"><i class="fa-solid fa-lock"></i>ดึงอัตโนมัติจากอีเมล</div>
+                                <div class="field-hint"><i class="fa-solid fa-lock"></i>เธ”เธถเธเธญเธฑเธ•เนเธเธกเธฑเธ•เธดเธเธฒเธเธญเธตเน€เธกเธฅ</div>
                             </div>
                             <div class="field">
                                 <div class="field-label">
-                                    <i class="fa-regular fa-user"></i>ชื่อ–นามสกุล<span class="req">*</span>
+                                    <i class="fa-regular fa-user"></i>เธเธทเนเธญโ€“เธเธฒเธกเธชเธเธธเธฅ<span class="req">*</span>
                                 </div>
-                                <input type="text" id="name" placeholder="เช่น พลอยชมพู คำมวล" autocomplete="off" />
-                                <div class="field-hint"><i class="fa-solid fa-circle-info"></i>ชื่อจริง–นามสกุล
-                                    ไม่ต้องใส่คำนำหน้า</div>
+                                <input type="text" id="name" placeholder="เน€เธเนเธ เธเธฅเธญเธขเธเธกเธเธน เธเธณเธกเธงเธฅ" autocomplete="off" />
+                                <div class="field-hint"><i class="fa-solid fa-circle-info"></i>เธเธทเนเธญเธเธฃเธดเธโ€“เธเธฒเธกเธชเธเธธเธฅ
+                                    เนเธกเนเธ•เนเธญเธเนเธชเนเธเธณเธเธณเธซเธเนเธฒ</div>
                             </div>
                         </div>
                     </div>
 
-                    <p class="section-label animate-in delay-2">ข้อกำหนดการเข้าร่วม</p>
+                    <p class="section-label animate-in delay-2">เธเนเธญเธเธณเธซเธเธ”เธเธฒเธฃเน€เธเนเธฒเธฃเนเธงเธก</p>
                     <div class="notice-card animate-in delay-2">
                         <div class="notice-inner">
                             <div class="notice-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
                             <div>
-                                <div class="notice-title">การตรวจสอบตำแหน่ง GPS</div>
+                                <div class="notice-title">เธเธฒเธฃเธ•เธฃเธงเธเธชเธญเธเธ•เธณเนเธซเธเนเธ GPS</div>
                                 <div class="notice-text">
-                                    ระบบจะขอสิทธิ์เข้าถึง Location เพื่อยืนยันว่าคุณอยู่ในพื้นที่กิจกรรม
-                                    กรุณาเลือก "อนุญาต" และต้องอยู่ในรัศมีไม่เกิน 100 เมตร
+                                    เธฃเธฐเธเธเธเธฐเธเธญเธชเธดเธ—เธเธดเนเน€เธเนเธฒเธ–เธถเธ Location เน€เธเธทเนเธญเธขเธทเธเธขเธฑเธเธงเนเธฒเธเธธเธ“เธญเธขเธนเนเนเธเธเธทเนเธเธ—เธตเนเธเธดเธเธเธฃเธฃเธก
+                                    เธเธฃเธธเธ“เธฒเน€เธฅเธทเธญเธ "เธญเธเธธเธเธฒเธ•" เนเธฅเธฐเธ•เนเธญเธเธญเธขเธนเนเนเธเธฃเธฑเธจเธกเธตเนเธกเนเน€เธเธดเธ 100 เน€เธกเธ•เธฃ
                                 </div>
                             </div>
                         </div>
@@ -382,7 +383,7 @@
                         <button class="gps-guide-header" onclick="toggleGPSGuide(event)">
                             <div class="ggh-left">
                                 <i class="fa-solid fa-circle-question"></i>
-                                <span>พบปัญหาในการระบุตำแหน่ง GPS? (คลิกดูวิธีแก้ไข)</span>
+                                <span>เธเธเธเธฑเธเธซเธฒเนเธเธเธฒเธฃเธฃเธฐเธเธธเธ•เธณเนเธซเธเนเธ GPS? (เธเธฅเธดเธเธ”เธนเธงเธดเธเธตเนเธเนเนเธ)</span>
                             </div>
                             <i class="fa-solid fa-chevron-down ggh-chevron" id="gpsChevron"></i>
                         </button>
@@ -400,36 +401,36 @@
                                 <div class="gps-tab-panes">
                                     <div class="gps-pane active" id="pane-safari">
                                         <ol>
-                                            <li>ไปที่แอป <strong>การตั้งค่า (Settings)</strong> >
-                                                <strong>ความเป็นส่วนตัวและความปลอดภัย (Privacy & Security)</strong>
+                                            <li>เนเธเธ—เธตเนเนเธญเธ <strong>เธเธฒเธฃเธ•เธฑเนเธเธเนเธฒ (Settings)</strong> >
+                                                <strong>เธเธงเธฒเธกเน€เธเนเธเธชเนเธงเธเธ•เธฑเธงเนเธฅเธฐเธเธงเธฒเธกเธเธฅเธญเธ”เธ เธฑเธข (Privacy & Security)</strong>
                                             </li>
-                                            <li>เลือก <strong>บริการหาตำแหน่งที่ตั้ง (Location Services)</strong>
-                                                และเปิดใช้งาน</li>
-                                            <li>เลื่อนลงมาที่ <strong> Safari Websites</strong> และเลือก
-                                                <strong>"ในขณะใช้แอป" (While Using the App)</strong>
+                                            <li>เน€เธฅเธทเธญเธ <strong>เธเธฃเธดเธเธฒเธฃเธซเธฒเธ•เธณเนเธซเธเนเธเธ—เธตเนเธ•เธฑเนเธ (Location Services)</strong>
+                                                เนเธฅเธฐเน€เธเธดเธ”เนเธเนเธเธฒเธ</li>
+                                            <li>เน€เธฅเธทเนเธญเธเธฅเธเธกเธฒเธ—เธตเน <strong> Safari Websites</strong> เนเธฅเธฐเน€เธฅเธทเธญเธ
+                                                <strong>"เนเธเธเธ“เธฐเนเธเนเนเธญเธ" (While Using the App)</strong>
                                             </li>
-                                            <li>หากยังไม่ได้ผล: ให้รีเฟรชหน้าเว็บนี้ และกด <strong>"อนุญาต"
-                                                    (Allow)</strong> เมื่อหน้าจอถามสิทธิ์เข้าถึงตำแหน่ง</li>
+                                            <li>เธซเธฒเธเธขเธฑเธเนเธกเนเนเธ”เนเธเธฅ: เนเธซเนเธฃเธตเน€เธเธฃเธเธซเธเนเธฒเน€เธงเนเธเธเธตเน เนเธฅเธฐเธเธ” <strong>"เธญเธเธธเธเธฒเธ•"
+                                                    (Allow)</strong> เน€เธกเธทเนเธญเธซเธเนเธฒเธเธญเธ–เธฒเธกเธชเธดเธ—เธเธดเนเน€เธเนเธฒเธ–เธถเธเธ•เธณเนเธซเธเนเธ</li>
                                         </ol>
                                     </div>
                                     <div class="gps-pane" id="pane-chrome">
                                         <ol>
-                                            <li>ไปที่แอป <strong>การตั้งค่า (Settings)</strong> ของอุปกรณ์ > <strong>แอป
+                                            <li>เนเธเธ—เธตเนเนเธญเธ <strong>เธเธฒเธฃเธ•เธฑเนเธเธเนเธฒ (Settings)</strong> เธเธญเธเธญเธธเธเธเธฃเธ“เน > <strong>เนเธญเธ
                                                     (Apps)</strong></li>
-                                            <li>เลือกแอป <strong>Chrome</strong> > <strong>การอนุญาต
+                                            <li>เน€เธฅเธทเธญเธเนเธญเธ <strong>Chrome</strong> > <strong>เธเธฒเธฃเธญเธเธธเธเธฒเธ•
                                                     (Permissions)</strong></li>
-                                            <li>เลือก <strong>ตำแหน่งที่ตั้ง (Location)</strong> และเลือก
-                                                <strong>"อนุญาตเฉพาะในขณะที่ใช้แอปเท่านั้น"</strong>
+                                            <li>เน€เธฅเธทเธญเธ <strong>เธ•เธณเนเธซเธเนเธเธ—เธตเนเธ•เธฑเนเธ (Location)</strong> เนเธฅเธฐเน€เธฅเธทเธญเธ
+                                                <strong>"เธญเธเธธเธเธฒเธ•เน€เธเธเธฒเธฐเนเธเธเธ“เธฐเธ—เธตเนเนเธเนเนเธญเธเน€เธ—เนเธฒเธเธฑเนเธ"</strong>
                                             </li>
-                                            <li>เปิดหน้าเว็บนี้ใน Chrome, รีเฟรชหน้าจอ และกด <strong>"อนุญาต"
-                                                    (Allow)</strong> เมื่อมีกล่องข้อความถามสิทธิ์</li>
+                                            <li>เน€เธเธดเธ”เธซเธเนเธฒเน€เธงเนเธเธเธตเนเนเธ Chrome, เธฃเธตเน€เธเธฃเธเธซเธเนเธฒเธเธญ เนเธฅเธฐเธเธ” <strong>"เธญเธเธธเธเธฒเธ•"
+                                                    (Allow)</strong> เน€เธกเธทเนเธญเธกเธตเธเธฅเนเธญเธเธเนเธญเธเธงเธฒเธกเธ–เธฒเธกเธชเธดเธ—เธเธดเน</li>
                                         </ol>
                                     </div>
                                 </div>
                                 <div class="gps-distance-info">
                                     <i class="fa-solid fa-map-location-dot"></i>
-                                    <span><strong>คำเตือน:</strong> คุณจำเป็นต้องอยู่ในระยะ 100 เมตรจากอาคารเรียน
-                                        เพื่อยืนยันการเข้าร่วมได้สำเร็จ</span>
+                                    <span><strong>เธเธณเน€เธ•เธทเธญเธ:</strong> เธเธธเธ“เธเธณเน€เธเนเธเธ•เนเธญเธเธญเธขเธนเนเนเธเธฃเธฐเธขเธฐ 100 เน€เธกเธ•เธฃเธเธฒเธเธญเธฒเธเธฒเธฃเน€เธฃเธตเธขเธ
+                                        เน€เธเธทเนเธญเธขเธทเธเธขเธฑเธเธเธฒเธฃเน€เธเนเธฒเธฃเนเธงเธกเนเธ”เนเธชเธณเน€เธฃเนเธ</span>
                                 </div>
                             </div>
                         </div>
@@ -437,7 +438,7 @@
 
                     <div class="submit-wrap animate-in delay-4">
                         <button class="submit-btn" id="submitBtn" onclick="startAttendanceProcess()">
-                            <i class="fa-solid fa-paper-plane"></i><span>ยืนยันและบันทึกการเข้าร่วม</span>
+                            <i class="fa-solid fa-paper-plane"></i><span>เธขเธทเธเธขเธฑเธเนเธฅเธฐเธเธฑเธเธ—เธถเธเธเธฒเธฃเน€เธเนเธฒเธฃเนเธงเธก</span>
                         </button>
                     </div>
                 </div>
@@ -449,7 +450,7 @@
         <footer class="site-footer">
             <div class="footer-inner">
                 <div class="footer-left"><strong>English Education</strong>
-                    <div class="footer-sep"></div><span>คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย</span>
+                    <div class="footer-sep"></div><span>เธเธ“เธฐเธเธฃเธธเธจเธฒเธชเธ•เธฃเน เธกเธซเธฒเธงเธดเธ—เธขเธฒเธฅเธฑเธขเธฃเธฒเธเธ เธฑเธเน€เธฅเธข</span>
                 </div>
                 <div class="footer-right"><i class="fa-regular fa-copyright"></i> 2026 sorasukt</div>
             </div>
@@ -463,3 +464,4 @@
 </body>
 
 </html>
+
