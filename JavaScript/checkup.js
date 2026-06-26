@@ -44,7 +44,14 @@
 
             if (match) {
                 extractedStudentId = match[1];
-                document.getElementById('studentId').value = extractedStudentId;
+                const studentIdInput = document.getElementById('studentId');
+                studentIdInput.value = extractedStudentId;
+                studentIdInput.readOnly = true;
+                studentIdInput.placeholder = 'กำลังโหลด...';
+                const fieldHint = studentIdInput.nextElementSibling;
+                if (fieldHint) {
+                    fieldHint.innerHTML = '<i class="fa-solid fa-lock"></i>ดึงอัตโนมัติจากอีเมล';
+                }
                 document.getElementById('userEmailDisplay').textContent = "ล็อกอินด้วย: " + email;
 
                 if (displayName) document.getElementById('name').value = displayName;
@@ -257,7 +264,17 @@
             // ใช้ flag พิเศษแทน extractedStudentId เพื่อให้ updateStatusUI ทำงาน
             isAuthenticated = true;
             extractedStudentId = 'GUEST';
-            document.getElementById('studentId').value = '';
+            
+            const studentIdInput = document.getElementById('studentId');
+            studentIdInput.value = '';
+            studentIdInput.readOnly = false;
+            studentIdInput.placeholder = 'กรอกรหัสนักศึกษา เช่น 6610111222';
+            
+            const fieldHint = studentIdInput.nextElementSibling;
+            if (fieldHint) {
+                fieldHint.innerHTML = '<i class="fa-solid fa-pen"></i>กรอกรหัสนักศึกษาด้วยตนเอง';
+            }
+
             document.getElementById('userEmailDisplay').textContent = 'โหมดใช้งานโดยไม่เข้าสู่ระบบ';
 
             showLoginPage(false);
@@ -341,12 +358,23 @@
             const isGuest = (extractedStudentId === 'GUEST');
             if (!anySlotActive() || (!extractedStudentId)) return;
 
+            const studentIdVal = document.getElementById('studentId').value.trim();
+            if (isGuest && !studentIdVal) {
+                const el = document.getElementById('studentId');
+                el.style.borderColor = '#dc2626';
+                el.style.boxShadow = '0 0 0 3px rgba(220,38,38,.15)';
+                setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 2000);
+                toast('กรุณากรอกรหัสนักศึกษา');
+                return;
+            }
+
             const name = document.getElementById('name').value.trim();
             if (!name) {
                 const el = document.getElementById('name');
                 el.style.borderColor = '#dc2626';
                 el.style.boxShadow = '0 0 0 3px rgba(220,38,38,.15)';
                 setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 2000);
+                toast('กรุณากรอกชื่อ–นามสกุล');
                 return;
             }
 
@@ -365,7 +393,7 @@
                     return;
                 }
                 navigator.geolocation.getCurrentPosition(
-                    pos => onGotPosition(pos, isGuest ? '' : extractedStudentId, name),
+                    pos => onGotPosition(pos, isGuest ? studentIdVal : extractedStudentId, name),
                     err => {
                         const msgs = { 1: 'ปฏิเสธสิทธิ์ Location — กรุณาเปิดสิทธิ์แล้วลองใหม่', 2: 'รับสัญญาณ GPS ไม่ได้ในขณะนี้', 3: 'หมดเวลาค้นหาตำแหน่ง — กรุณาลองใหม่' };
                         setStep(2, 'error', msgs[err.code] ?? 'ไม่สามารถระบุตำแหน่งได้');
