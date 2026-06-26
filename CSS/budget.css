@@ -1,63 +1,8 @@
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        :root {
-            --ink: #000000;
-            --ink-70: #27272a;
-            --ink-50: #52525b;
-            --ink-30: #a1a1aa;
-            --ink-15: #e4e4e7;
-            --ink-07: #f4f4f5;
-            --white: #ffffff;
-            --accent: #000000;
-            --success: #000000;
-            --success-bg: #f4f4f5;
-            --success-bd: #e4e4e7;
-            --error: #dc2626;
-            --error-bg: #fef2f2;
-            --error-bd: #fecaca;
-            --warn: #dc2626;
-            --warn-bg: #fef2f2;
-            --warn-bd: #fecaca;
-            --r-xs: 6px;
-            --r-sm: 10px;
-            --r-md: 14px;
-            --r-lg: 20px;
-            --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            --card-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --ink: #ffffff;
-                --ink-70: #e4e4e7;
-                --ink-50: #a1a1aa;
-                --ink-30: #52525b;
-                --ink-15: #27272a;
-                --ink-07: #18181b;
-                --white: #09090b;
-                --accent: #ffffff;
-                --success: #ffffff;
-                --success-bg: #18181b;
-                --success-bd: #27272a;
-                --error: #f87171;
-                --error-bg: rgba(239, 68, 68, 0.12);
-                --error-bd: rgba(239, 68, 68, 0.3);
-                --warn: #f87171;
-                --warn-bg: rgba(239, 68, 68, 0.12);
-                --warn-bd: rgba(239, 68, 68, 0.3);
-                --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-                --card-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.6);
-            }
-        }
+        /* =================================================================
+           budget.css — Page-specific styles
+           Design tokens (colors, shadows, radius) —— มาจาก theme.css
+           โหลดผ่าน brandmenu.css → @import theme.css อัตโนมัติ
+           ================================================================= */
 
         html {
             -webkit-font-smoothing: antialiased;
@@ -65,24 +10,15 @@
         }
 
         body {
-            font-family: 'Noto Sans Thai', sans-serif;
-            background: #f8fafc;
-            background-image:
-                radial-gradient(circle at top right, rgba(0, 0, 0, 0.015) 0%, transparent 60%),
-                radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.02) 0%, transparent 60%);
+            font-family: var(--font-sans);
+            background: var(--bg);
             color: var(--ink);
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: #000000;
-                background-image: none;
-            }
-        }
 
         /* ════ LOGIN PAGE ════ */
         #loginPage {
@@ -309,7 +245,7 @@
 
         .login-card {
             background: var(--white);
-            border: 1px solid rgba(13, 17, 23, 0.08);
+            border: 1px solid var(--ink-15);
             border-radius: var(--r-lg);
             padding: 32px;
             box-shadow: var(--card-shadow);
@@ -318,7 +254,7 @@
 
         .login-card:hover {
             box-shadow: var(--card-shadow-hover);
-            border-color: rgba(13, 17, 23, 0.12);
+            border-color: var(--ink-30);
         }
 
         .login-card-header {
@@ -676,7 +612,7 @@
         .steps-overview,
         .notice-card {
             background: var(--white);
-            border: 1px solid rgba(13, 17, 23, 0.06);
+            border: 1px solid var(--ink-15);
             border-radius: var(--r-lg);
             overflow: hidden;
             margin-bottom: 20px;
@@ -688,7 +624,7 @@
         .steps-overview:hover,
         .notice-card:hover {
             box-shadow: var(--card-shadow-hover);
-            border-color: rgba(13, 17, 23, 0.12);
+            border-color: var(--ink-30);
         }
 
         /* card top bar */
@@ -698,7 +634,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(13, 17, 23, 0.05);
+            border-bottom: 1px solid var(--ink-15);
         }
 
         .card-bar-left {
@@ -852,7 +788,7 @@
         textarea:focus {
             border-color: var(--ink);
             background: var(--white);
-            box-shadow: 0 0 0 4px rgba(13, 17, 23, 0.08);
+            box-shadow: 0 0 0 4px var(--ink-15);
         }
 
         input::placeholder,
@@ -886,7 +822,8 @@
             transform: translateY(-50%);
             font-size: 12px;
             font-weight: 700;
-            color: rgba(255, 255, 255, 0.45);
+            color: var(--white);
+            opacity: 0.55;
             pointer-events: none;
         }
 
@@ -924,7 +861,7 @@
         }
 
         .custom-select-trigger.open {
-            box-shadow: 0 0 0 4px rgba(13, 17, 23, 0.08);
+            box-shadow: 0 0 0 4px var(--ink-15);
             border-radius: var(--r-sm) var(--r-sm) 0 0;
         }
 
@@ -953,7 +890,7 @@
             border: 1.5px solid var(--ink);
             border-top: none;
             border-radius: 0 0 var(--r-sm) var(--r-sm);
-            box-shadow: 0 12px 32px rgba(13, 17, 23, 0.1);
+            box-shadow: var(--shadow-lg);
             z-index: 999;
             overflow: hidden;
         }
@@ -1183,14 +1120,14 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: 0 4px 18px rgba(13, 17, 23, 0.22);
+            box-shadow: var(--shadow-md);
             transition: var(--transition);
         }
 
         .submit-btn:hover:not(:disabled) {
             background: var(--ink-70);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(13, 17, 23, 0.28);
+            box-shadow: var(--shadow-lg);
         }
 
         .submit-btn:disabled {
@@ -1309,7 +1246,7 @@
             display: flex;
             gap: 16px;
             align-items: flex-start;
-            background: rgba(13, 17, 23, 0.01);
+            background: var(--ink-07);
         }
 
         .notice-icon {

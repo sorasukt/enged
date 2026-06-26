@@ -10,21 +10,37 @@ let isAuthenticated = false;
 let userProfile = null;
 let extractedStudentId = '';
 let isAvatarRemoved = false;
+let authInitError = null;
 
 /* ════ INIT AUTH0 ════ */
 async function initAuth() {
+    const withTimeout = (promise, ms, description) => {
+        let timeoutId;
+        const timeoutPromise = new Promise((_, reject) => {
+            timeoutId = setTimeout(() => reject(new Error(`${description} Timeout`)), ms);
+        });
+        return Promise.race([
+            promise.then(val => {
+                clearTimeout(timeoutId);
+                return val;
+            }),
+            timeoutPromise
+        ]);
+    };
+
     try {
-        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('AuthTimeout')), 1500));
-        await Promise.race([configureAuth0(), timeoutPromise]);
+        await withTimeout(configureAuth0(), 8000, 'ConfigureAuth0');
 
         const query = window.location.search;
         if (query.includes("state=") && (query.includes("code=") || query.includes("error="))) {
-            await Promise.race([auth0Client.handleRedirectCallback(), timeoutPromise]);
+            await withTimeout(auth0Client.handleRedirectCallback(), 15000, 'HandleRedirect');
             window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        await Promise.race([updateAuthUI(), timeoutPromise]);
+        await withTimeout(updateAuthUI(), 8000, 'UpdateAuthUI');
     } catch (error) {
+        console.warn("Auth0 Init/Timeout Error:", error);
+        authInitError = error;
         fallbackAuthUI();
     }
 }
@@ -43,7 +59,11 @@ async function configureAuth0() {
 
 async function loginUser() {
     if (!auth0Client) {
-        alert("ระบบขัดข้อง กรุณารีเฟรชหน้าเว็บ");
+        if (!window.isSecureContext) {
+            alert("ระบบยืนยันตัวตน (Auth0) ไม่สามารถทำงานบน HTTP บนมือถือได้เนื่องจากข้อจำกัดด้านความปลอดภัยของเบราว์เซอร์\n\nกรุณาทดสอบผ่านการเชื่อมต่อแบบปลอดภัย (HTTPS) เช่น ลิงก์ GitHub Pages หรือผ่าน tunneling (เช่น ngrok)");
+        } else {
+            alert("ระบบขัดข้อง: " + (authInitError ? authInitError.message : "ไม่สามารถเริ่มต้นระบบล็อกอินได้") + "\nกรุณารีเฟรชหน้าเว็บ");
+        }
         return;
     }
     try {

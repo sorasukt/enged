@@ -1,23 +1,19 @@
 /* ============================================================
-   terms.css
+   terms.css — ใช้ tokens จาก theme.css (โหลดผ่าน brandmenu.css)
    ============================================================ */
 
 body {
-    font-family: 'Anuphan', sans-serif;
-    background: #f8fafc;
-    color: var(--bm-ink);
+    font-family: 'Anuphan', var(--font-sans);
+    background: var(--bg);
+    color: var(--ink);
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-    body {
-        background: #09090b;
-    }
-}
 
 .page-layout {
     flex: 1;

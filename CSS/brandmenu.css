@@ -4,43 +4,16 @@
    ใช้ร่วมกันทุกหน้า: /enged, /vote, /budget, /checkup, /sys
    ============================================================ */
 
-/* ── Design Tokens (light mode defaults) ── */
-:root {
-            color-scheme: light dark;
-    --bm-ink:     #000000;
-    --bm-ink-70:  #27272a;
-    --bm-ink-50:  #52525b;
-    --bm-ink-30:  #a1a1aa;
-    --bm-ink-15:  #e4e4e7;
-    --bm-ink-07:  #f4f4f5;
-    --bm-white:   #ffffff;
-    --bm-error:   #dc2626;
-    --bm-error-bg: #fef2f2;
-    --bm-error-bd: #fecaca;
-    --bm-r-sm:    10px;
-    --bm-r-md:    14px;
-    --bm-transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    --bm-transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    --bm-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
-    --bm-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
+/* ── Import Master Design Tokens ─────────────────────────────
+   theme.css กำหนดสีพื้นฐานทั้งหมด (light + dark mode)
+   ทุกหน้าที่ใช้ brandmenu.css จะได้รับ token เหล่านี้อัตโนมัติ
+   ─────────────────────────────────────────────────────────── */
+@import url("theme.css");
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bm-ink:     #ffffff;
-        --bm-ink-70:  #e4e4e7;
-        --bm-ink-50:  #a1a1aa;
-        --bm-ink-30:  #52525b;
-        --bm-ink-15:  #27272a;
-        --bm-ink-07:  #18181b;
-        --bm-white:   #09090b;
-        --bm-error:   #f87171;
-        --bm-error-bg: rgba(239, 68, 68, 0.12);
-        --bm-error-bd: rgba(239, 68, 68, 0.3);
-        --bm-shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
-        --bm-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.6);
-    }
-}
+
+/* ── Design tokens มาจาก theme.css (import ด้านบน) ── */
+/* --bm-* aliases ถูกกำหนดใน theme.css แล้ว */
+
 
 /* ============================================================
    SITE HEADER (Glassmorphism Sticky Bar)

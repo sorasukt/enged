@@ -1,113 +1,56 @@
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        :root {
-            --ink: #000000;
-            --ink-70: #27272a;
-            --ink-50: #52525b;
-            --ink-30: #a1a1aa;
-            --ink-15: #e4e4e7;
-            --ink-07: #f4f4f5;
-            --white: #ffffff;
-            --accent: #000000;
-            --success: #000000;
-            --success-bg: #f4f4f5;
-            --success-bd: #e4e4e7;
-            --error: #dc2626;
-            --error-bg: #fef2f2;
-            --error-bd: #fecaca;
-            --warn: #dc2626;
-            --warn-bg: #fef2f2;
-            --warn-bd: #fecaca;
-            --r-xs: 6px;
-            --r-sm: 10px;
-            --r-md: 14px;
-            --r-lg: 20px;
-            --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            --card-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --ink: #ffffff;
-                --ink-70: #e4e4e7;
-                --ink-50: #a1a1aa;
-                --ink-30: #52525b;
-                --ink-15: #27272a;
-                --ink-07: #18181b;
-                --white: #09090b;
-                --accent: #ffffff;
-                --success: #ffffff;
-                --success-bg: #18181b;
-                --success-bd: #27272a;
-                --error: #f87171;
-                --error-bg: rgba(239, 68, 68, 0.12);
-                --error-bd: rgba(239, 68, 68, 0.3);
-                --warn: #f87171;
-                --warn-bg: rgba(239, 68, 68, 0.12);
-                --warn-bd: rgba(239, 68, 68, 0.3);
-                --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-                --card-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.6);
-            }
-        }
+        /* =================================================================
+           sys.css — Page-specific styles
+           Design tokens (colors, shadows, radius) —— มาจาก theme.css
+           โหลดผ่าน brandmenu.css → @import theme.css อัตโนมัติ
+           ================================================================= */
 
         html {
             -webkit-font-smoothing: antialiased;
         }
 
         body {
-            font-family: 'Noto Sans Thai', sans-serif;
-            background: #f8fafc;
-            background-image:
-                radial-gradient(circle at top right, rgba(0, 0, 0, 0.015) 0%, transparent 60%),
-                radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.02) 0%, transparent 60%);
+            font-family: var(--font-sans);
+            background: var(--bg);
             color: var(--ink);
             min-height: 100vh;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
             word-break: keep-all;
             overflow-wrap: break-word;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: #000000;
-                background-image: none;
-            }
         }
 
         body.visible {
             opacity: 1;
         }
 
+
         /* ════ LOADING SCREEN ════ */
         #loadScreen {
             position: fixed;
             inset: 0;
-            background: #0a0a0c;
+            background: #f8fafc;
             z-index: 9999;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 28px;
+            transition: background-color 0.3s ease;
+        }
+        @media (prefers-color-scheme: dark) {
+            #loadScreen { background: #000000; }
         }
 
         .ls-logo {
             width: 64px;
             height: 64px;
-            border: 1.5px solid rgba(255, 255, 255, .15);
+            border: 1.5px solid rgba(0, 0, 0, 0.15);
             border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        @media (prefers-color-scheme: dark) {
+            .ls-logo { border-color: rgba(255, 255, 255, 0.15); }
         }
 
         .ls-wordmark {
@@ -117,36 +60,51 @@
         .ls-title {
             font-size: 14px;
             font-weight: 700;
-            color: rgba(255, 255, 255, .9);
+            color: #000000;
             letter-spacing: .1em;
             text-transform: uppercase;
+        }
+        @media (prefers-color-scheme: dark) {
+            .ls-title { color: rgba(255, 255, 255, .9); }
         }
 
         .ls-sub {
             font-size: 11.5px;
-            color: rgba(255, 255, 255, .35);
+            color: #52525b;
             margin-top: 5px;
             letter-spacing: .05em;
+        }
+        @media (prefers-color-scheme: dark) {
+            .ls-sub { color: rgba(255, 255, 255, .35); }
         }
 
         .ls-status {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(255, 255, 255, .06);
-            border: 1px solid rgba(255, 255, 255, .1);
+            background: rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 100px;
             padding: 8px 18px;
             min-width: 220px;
             justify-content: center;
+        }
+        @media (prefers-color-scheme: dark) {
+            .ls-status {
+                background: rgba(255, 255, 255, .06);
+                border-color: rgba(255, 255, 255, .1);
+            }
         }
 
         .ls-status-dot {
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, .4);
+            background: rgba(0, 0, 0, 0.4);
             flex-shrink: 0;
+        }
+        @media (prefers-color-scheme: dark) {
+            .ls-status-dot { background: rgba(255, 255, 255, .4); }
         }
 
         .ls-status-dot.spin {
@@ -163,12 +121,15 @@
             content: "";
             position: absolute;
             border-radius: 50px;
-            box-shadow: 0 0 0 3px inset #fff;
+            box-shadow: 0 0 0 3px inset #000;
             animation: l3 0.75s infinite alternate;
+        }
+        @media (prefers-color-scheme: dark) {
+            .ls-status-dot.spin:before { box-shadow: 0 0 0 3px inset #fff; }
         }
 
         .ls-status-dot.ok {
-            background: #4ade80;
+            background: #16a34a;
             animation: none;
             width: 6px;
             height: 6px;
@@ -176,31 +137,30 @@
         }
 
         .ls-status-dot.err {
-            background: #f87171;
+            background: #dc2626;
             animation: none;
             width: 6px;
             height: 6px;
             border-radius: 50%;
         }
+        @media (prefers-color-scheme: dark) {
+            .ls-status-dot.ok { background: #4ade80; }
+            .ls-status-dot.err { background: #f87171; }
+        }
 
         @keyframes l3 {
-            0% {
-                inset: 0 35px 0 0;
-            }
-
-            50% {
-                inset: 0 0 0 0;
-            }
-
-            100% {
-                inset: 0 0 0 35px;
-            }
+            0% { inset: 0 35px 0 0; }
+            50% { inset: 0 0 0 0; }
+            100% { inset: 0 0 0 35px; }
         }
 
         .ls-status-text {
             font-size: 12px;
             font-weight: 600;
-            color: rgba(255, 255, 255, .55);
+            color: rgba(0, 0, 0, 0.5);
+        }
+        @media (prefers-color-scheme: dark) {
+            .ls-status-text { color: rgba(255, 255, 255, .55); }
         }
 
         .ls-progress-wrap {
@@ -209,22 +169,29 @@
 
         .ls-bar {
             height: 2px;
-            background: rgba(255, 255, 255, .08);
+            background: rgba(0, 0, 0, 0.08);
             border-radius: 2px;
             overflow: hidden;
+        }
+        @media (prefers-color-scheme: dark) {
+            .ls-bar { background: rgba(255, 255, 255, .08); }
         }
 
         .ls-bar-fill {
             height: 100%;
-            background: rgba(255, 255, 255, .5);
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 2px;
             width: 0;
             transition: width .4s ease;
+        }
+        @media (prefers-color-scheme: dark) {
+            .ls-bar-fill { background: rgba(255, 255, 255, .5); }
         }
 
         #loadScreen.fade-out {
             animation: fadeOut .4s ease forwards;
         }
+
 
         /* ════ INFO MODAL ════ */
         #infoModal {

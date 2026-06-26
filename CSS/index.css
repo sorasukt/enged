@@ -1,62 +1,31 @@
+/* =================================================================
+   index.css — Page-specific styles
+   Design tokens (colors, shadows, radius) —— มาจาก theme.css
+   โหลดผ่าน brandmenu.css → @import theme.css อัตโนมัติ
+   ================================================================= */
+
+/* ── index-specific tokens เท่านั้น (ไม่ซ้ำกับ theme.css) ── */
 :root {
-            color-scheme: light dark;
-    --ink: #000000;
-    --ink-70: #27272a;
-    --ink-50: #52525b;
-    --ink-30: #a1a1aa;
-    --ink-15: #e4e4e7;
-    --ink-07: #f4f4f5;
-    --white: #ffffff;
-
     --primary-gradient: linear-gradient(135deg, #000000 0%, #27272a 100%);
-    --accent-gradient: linear-gradient(135deg, #27272a 0%, #000000 100%);
-    --bg-gradient: none;
-
-    --glass-bg: rgba(255, 255, 255, 0.95);
-    --glass-border: 1px solid rgba(0, 0, 0, 0.1);
-
-    --text-main: #000000;
-    --text-muted: #52525b;
-
-    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
-    --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.1);
-
-    --radius-lg: 20px;
-    --radius-md: 14px;
-    --radius-sm: 10px;
-    --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --accent-gradient:  linear-gradient(135deg, #27272a 0%, #000000 100%);
+    --glass-bg:         rgba(255, 255, 255, 0.95);
+    --glass-border:     1px solid rgba(0, 0, 0, 0.1);
+    --text-main:        var(--ink);
+    --text-muted:       var(--ink-50);
+    --shadow-soft:      var(--shadow-md);
+    --shadow-hover:     var(--shadow-lg);
+    --radius-lg:        var(--r-lg);
+    --radius-md:        var(--r-md);
+    --radius-sm:        var(--r-sm);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --ink: #ffffff;
-        --ink-70: #e4e4e7;
-        --ink-50: #a1a1aa;
-        --ink-30: #52525b;
-        --ink-15: #27272a;
-        --ink-07: #18181b;
-        --white: #09090b;
-
         --primary-gradient: linear-gradient(135deg, #ffffff 0%, #e4e4e7 100%);
-        --accent-gradient: linear-gradient(135deg, #e4e4e7 0%, #ffffff 100%);
-        --bg-gradient: none;
-
-        --glass-bg: rgba(9, 9, 11, 0.95);
-        --glass-border: 1px solid rgba(255, 255, 255, 0.08);
-
-        --text-main: #ffffff;
-        --text-muted: #e4e4e7;
-
-        --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
-        --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.8);
+        --accent-gradient:  linear-gradient(135deg, #e4e4e7 0%, #ffffff 100%);
+        --glass-bg:         rgba(9, 9, 11, 0.95);
+        --glass-border:     1px solid rgba(255, 255, 255, 0.08);
     }
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
 html {
@@ -65,27 +34,19 @@ html {
 }
 
 body {
-    font-family: 'Noto Sans Thai', 'IBM Plex Sans Thai', 'Inter', sans-serif;
-    background-color: #f8fafc;
-    background-image: var(--bg-gradient);
+    font-family: var(--font-sans);
+    background-color: var(--bg);
     min-height: 100vh;
-    color: var(--text-main);
+    color: var(--ink);
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
     position: relative;
     padding: 0 0 2.5rem;
-    /* Removed top padding for sticky header */
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #000000;
-        background-image: none;
-    }
-}
 
 /* Animated Background Shapes */
 .bg-shape {
