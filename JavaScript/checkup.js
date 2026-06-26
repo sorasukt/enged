@@ -7,9 +7,18 @@
         const MAX_DISTANCE_METERS = 100;
         const GAS_URL = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
 
-        let isAuthenticated = false;
-        let extractedStudentId = null;
+        // isAuthenticated และ extractedStudentId ประกาศใน auth.js แล้ว (global scope ร่วมกัน)
         let SCHEDULE = [];
+
+        // แสดง loginPage เบื้องต้น (pre-auth state) พร้อมกัน fallback ซ่อน loadScreen
+        document.addEventListener('DOMContentLoaded', () => {
+            // ถ้าไม่มี skip/test mode ให้แสดง loginPage นอกจาก loadScreen
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('test') !== 'true' && urlParams.get('skip') !== 'true') {
+                // auth0 จะเป็นคนซ่อน loadscreen แต่ให้บังคับซ่อนไว้เป็น safety fallback 5 วินาที
+                setTimeout(() => hideLoadScreen(), 5000);
+            }
+        });
 
         document.addEventListener('authStateChanged', (e) => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -71,12 +80,14 @@
         ──────────────────────────────────────── */
         function showLoginPage(show) {
             const el = document.getElementById('loginPage');
-            el.style.display = show ? 'block' : 'none';
+            if (show) { el.classList.add('show'); }
+            else { el.classList.remove('show'); }
         }
 
         function showMainApp(show) {
             const el = document.getElementById('mainApp');
-            el.style.display = show ? 'block' : 'none';
+            if (show) { el.classList.add('show'); }
+            else { el.classList.remove('show'); }
         }
 
         function showAuthScreen() {
@@ -97,9 +108,15 @@
 
         function hideLoadScreen() {
             const ls = document.getElementById('loadScreen');
-            if (ls && !ls.classList.contains('fade-out')) {
+            if (!ls || ls.style.display === 'none') return;
+            if (!ls.classList.contains('fade-out')) {
                 ls.classList.add('fade-out');
-                ls.addEventListener('animationend', () => ls.style.display = 'none', { once: true });
+                // Fallback: บังคับซ่อนหลัง 500ms ถึงแม้ animationend ไม่ fire
+                const forceHide = setTimeout(() => { ls.style.display = 'none'; }, 500);
+                ls.addEventListener('animationend', () => {
+                    clearTimeout(forceHide);
+                    ls.style.display = 'none';
+                }, { once: true });
             }
         }
 
@@ -233,6 +250,22 @@
         /* ────────────────────────────────────────
            INIT FLOW
         ──────────────────────────────────────── */
+        /* ────────────────────────────────────────
+           SKIP LOGIN (global — ต้องเรียกได้จาก inline onclick)
+        ──────────────────────────────────────── */
+        function skipLogin() {
+            // ใช้ flag พิเศษแทน extractedStudentId เพื่อให้ updateStatusUI ทำงาน
+            isAuthenticated = true;
+            extractedStudentId = 'GUEST';
+            document.getElementById('studentId').value = '';
+            document.getElementById('userEmailDisplay').textContent = 'โหมดใช้งานโดยไม่เข้าสู่ระบบ';
+
+            showLoginPage(false);
+            showMainApp(true);
+            updateStatusUI();
+            hideLoadScreen();
+        }
+
         window.addEventListener('load', () => {
             updateClock();
 
@@ -243,22 +276,13 @@
                     if (result.status === 'success') {
                         SCHEDULE = result.data;
                         renderSchedule();
+                        // อัพเดต UI ทันทีที่ตารางเวลาโหลดเสร็จ
+                        if (isAuthenticated && extractedStudentId) updateStatusUI();
                     }
                 })
                 .catch(e => console.warn('Schedule sync error:', e));
 
             renderSchedule();
-
-            window.skipLogin = function() {
-                extractedStudentId = ''; 
-                document.getElementById('studentId').value = '';
-                document.getElementById('userEmailDisplay').textContent = "โหมดใช้งานโดยไม่เข้าสู่ระบบ";
-                
-                showLoginPage(false);
-                showMainApp(true);
-                updateStatusUI();
-                hideLoadScreen();
-            };
 
             // 2. Auth0
             const urlParams = new URLSearchParams(window.location.search);
@@ -266,7 +290,7 @@
                 isAuthenticated = true;
                 verifyUserEmail('sb55555@lru.ac.th');
             } else if (urlParams.get('skip') === 'true') {
-                window.skipLogin();
+                skipLogin();
             } else {
                 initAuth();
             }
@@ -279,8 +303,6 @@
                     updateStatusUI();
                 }
             }, 1000);
-
-
         });
 
         /* ────────────────────────────────────────
@@ -315,7 +337,9 @@
         }
 
         function startAttendanceProcess() {
-            if (!anySlotActive() || !extractedStudentId) return;
+            // GUEST mode: ต้องการชื่อแต่ไม่มี studentId จริง
+            const isGuest = (extractedStudentId === 'GUEST');
+            if (!anySlotActive() || (!extractedStudentId)) return;
 
             const name = document.getElementById('name').value.trim();
             if (!name) {
@@ -341,7 +365,7 @@
                     return;
                 }
                 navigator.geolocation.getCurrentPosition(
-                    pos => onGotPosition(pos, extractedStudentId, name),
+                    pos => onGotPosition(pos, isGuest ? '' : extractedStudentId, name),
                     err => {
                         const msgs = { 1: 'ปฏิเสธสิทธิ์ Location — กรุณาเปิดสิทธิ์แล้วลองใหม่', 2: 'รับสัญญาณ GPS ไม่ได้ในขณะนี้', 3: 'หมดเวลาค้นหาตำแหน่ง — กรุณาลองใหม่' };
                         setStep(2, 'error', msgs[err.code] ?? 'ไม่สามารถระบุตำแหน่งได้');
