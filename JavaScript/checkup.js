@@ -2,8 +2,8 @@
         /* ════════════════════════════════════════
            ตั้งค่าระบบหลัก (Google Apps Script)
         ════════════════════════════════════════ */
-        const TARGET_LAT = 17.5398426;
-        const TARGET_LNG = 101.7219437;
+        const TARGET_LAT = 17.5393285;
+        const TARGET_LNG = 101.7193514;
         const MAX_DISTANCE_METERS = 100;
         const GAS_URL = "https://script.google.com/macros/s/AKfycbyUeKvVrU6Ut0S8hEFuWzCtBi4epI_PPrK-HW3QOWwe2OyhBkWQ8qUJGwpCDL8UKVRS/exec";
 
