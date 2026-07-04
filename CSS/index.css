@@ -278,7 +278,7 @@ h1 {
     width: 54px;
     height: 54px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    background: linear-gradient(135deg, var(--ink-07) 0%, var(--ink-15) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1849,16 +1849,16 @@ footer {
 }
 
 .dropdown-item.logout {
-    color: #dc2626;
+    color: var(--error);
 }
 
 .dropdown-item.logout:hover {
-    background: #fef2f2;
-    color: #b91c1c;
+    background: var(--error-bg);
+    color: var(--error);
 }
 
 .dropdown-item.logout i {
-    color: #ef4444;
+    color: var(--error);
 }
 
 /* ════ PROFILE MODAL ════ */
@@ -2274,14 +2274,14 @@ footer {
 
 .drawer-auth-btn.logout {
     background: none;
-    border: 1px solid #fecaca;
-    color: #dc2626;
+    border: 1px solid var(--error-bd);
+    color: var(--error);
     margin-top: 8px;
 }
 
 .drawer-auth-btn.logout:hover {
-    background: #fef2f2;
-    border-color: #fca5a5;
+    background: var(--error-bg);
+    border-color: var(--error-bd);
 }
 
 .drawer-divider {

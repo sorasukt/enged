@@ -34,12 +34,6 @@
             transition: background-color 0.3s ease;
         }
 
-        @media (prefers-color-scheme: dark) {
-            #loadScreen {
-                background: #000000;
-            }
-        }
-
         .ls-logo {
             width: 64px;
             height: 64px;
@@ -48,12 +42,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .ls-logo {
-                border-color: rgba(255, 255, 255, 0.15);
-            }
         }
 
         .ls-wordmark {
@@ -68,23 +56,11 @@
             text-transform: uppercase;
         }
 
-        @media (prefers-color-scheme: dark) {
-            .ls-title {
-                color: rgba(255, 255, 255, 0.9);
-            }
-        }
-
         .ls-sub {
             font-size: 11px;
             color: #52525b;
             margin-top: 4px;
             letter-spacing: .05em;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .ls-sub {
-                color: rgba(255, 255, 255, 0.35);
-            }
         }
 
         .ls-status {
@@ -99,25 +75,12 @@
             justify-content: center;
         }
 
-        @media (prefers-color-scheme: dark) {
-            .ls-status {
-                background: rgba(255, 255, 255, 0.06);
-                border-color: rgba(255, 255, 255, 0.1);
-            }
-        }
-
         .ls-status-dot {
             width: 6px;
             height: 6px;
             border-radius: 50%;
             background: rgba(0, 0, 0, 0.4);
             flex-shrink: 0;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .ls-status-dot {
-                background: rgba(255, 255, 255, 0.4);
-            }
         }
 
         .ls-status-dot.spin {
@@ -136,12 +99,6 @@
             border-radius: 50px;
             box-shadow: 0 0 0 3px inset #000;
             animation: l3 0.75s infinite alternate;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .ls-status-dot.spin:before {
-                box-shadow: 0 0 0 3px inset #fff;
-            }
         }
 
         @keyframes l3 {
@@ -164,12 +121,6 @@
             color: rgba(0, 0, 0, 0.5);
         }
 
-        @media (prefers-color-scheme: dark) {
-            .ls-status-text {
-                color: rgba(255, 255, 255, 0.55);
-            }
-        }
-
         .ls-progress-wrap {
             width: 200px;
         }
@@ -181,24 +132,12 @@
             overflow: hidden;
         }
 
-        @media (prefers-color-scheme: dark) {
-            .ls-bar {
-                background: rgba(255, 255, 255, 0.08);
-            }
-        }
-
         .ls-bar-fill {
             height: 100%;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 2px;
             width: 0;
             transition: width .4s ease;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .ls-bar-fill {
-                background: rgba(255, 255, 255, 0.5);
-            }
         }
 
         #loadScreen.fade-out {
@@ -241,7 +180,7 @@
 
         /* Brand Left Side */
         .login-brand-side {
-            background: radial-gradient(circle at top right, #1e293b, #0f172a, var(--ink));
+            background: radial-gradient(circle at top right, #1e293b, #0f172a, #000000);
             position: relative;
             display: flex;
             align-items: center;
@@ -598,7 +537,7 @@
             background: var(--error);
             padding: 32px 24px;
             text-align: center;
-            color: #fff;
+            color: var(--error-fg);
         }
 
         .invalid-top-icon {
@@ -610,7 +549,7 @@
             align-items: center;
             justify-content: center;
             font-size: 22px;
-            color: #fff;
+            color: var(--error-fg);
             margin: 0 auto 16px;
         }
 
@@ -623,6 +562,18 @@
         .invalid-top-sub {
             font-size: 13px;
             color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Dark mode: --error is a light red, so the banner text flips to
+           black (--error-fg); flip the white-alpha details to black-alpha */
+        @media (prefers-color-scheme: dark) {
+            .invalid-top-icon {
+                border-color: rgba(0, 0, 0, .3);
+            }
+
+            .invalid-top-sub {
+                color: rgba(0, 0, 0, .65);
+            }
         }
 
         .invalid-body {
@@ -921,6 +872,51 @@
             border-color: var(--ink-30);
         }
 
+/* Force light theme for login/auth elements even when user prefers dark mode */
+@media (prefers-color-scheme: dark) {
+    #loginPage,
+    .login-wrapper,
+    .login-form-side,
+    .login-form-container,
+    .login-card {
+        background: var(--white) !important;
+        color: var(--ink) !important;
+        border-color: var(--ink-15) !important;
+        box-shadow: var(--card-shadow) !important;
+    }
+
+    .login-brand-side {
+        background: radial-gradient(circle at top right, #1e293b, #0f172a, #000000);
+        color: #fff !important;
+    }
+
+    .auth-btn,
+    .auth-btn.danger,
+    .auth-btn.secondary {
+        background: var(--ink) !important;
+        color: var(--white) !important;
+        border-color: var(--ink-15) !important;
+        box-shadow: 0 4px 18px rgba(13, 17, 23, .22) !important;
+    }
+
+    .auth-btn.secondary {
+        background: transparent !important;
+        color: var(--ink-70) !important;
+    }
+
+    .auth-btn.danger {
+        background: var(--white) !important;
+        color: var(--error) !important;
+        border-color: var(--error-bd) !important;
+        box-shadow: none !important;
+    }
+
+    .auth-hint,
+    .login-support {
+        color: var(--ink-50) !important;
+    }
+}
+
         .schedule-head {
             padding: 16px 20px;
             border-bottom: 1px solid var(--ink-15);
@@ -965,42 +961,6 @@
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
         }
 
-        @media (prefers-color-scheme: dark) {
-            .schedule-head {
-                background: var(--ink-90);
-            }
-
-            .schedule-head-icon {
-                background: var(--ink);
-            }
-
-            .schedule-head-title {
-                color: var(--ink-07);
-            }
-
-            .schedule-head-clock {
-                background: var(--ink);
-                color: var(--ink-07);
-            }
-
-            .schedule-card,
-            .steps-overview,
-            .form-card,
-            .notice-card,
-            .status-card {
-                background: var(--ink-90);
-                border-color: var(--ink);
-            }
-
-            .notice-card {
-                color: var(--ink-07);
-            }
-
-            .steps-overview {
-                background: var(--ink-90);
-            }
-        }
-
         .schedule-body {
             padding: 8px 0;
         }
@@ -1031,8 +991,8 @@
         }
 
         .schedule-row.active-slot .schedule-row-dot {
-            background: #16a34a;
-            box-shadow: 0 0 0 4px rgba(22, 163, 74, .15);
+            background: var(--success);
+            box-shadow: 0 0 0 4px var(--success-bg);
             animation: blink 1.8s ease infinite;
         }
 
@@ -1080,7 +1040,7 @@
         }
 
         .badge-upcoming {
-            background: #f1f5f9;
+            background: var(--ink-07);
             color: var(--ink-70);
             border: 1.5px solid var(--ink-15);
         }
@@ -1586,7 +1546,7 @@
             background: var(--ink);
             padding: 44px 28px;
             text-align: center;
-            color: #fff;
+            color: var(--white);
         }
 
         .alt-top.error-bg {
@@ -1622,6 +1582,19 @@
         .alt-body {
             padding: 24px;
             background: var(--ink-07);
+        }
+
+        /* Dark mode: .alt-top inverts to a light banner (--ink becomes
+           white), so the white-alpha details must flip to black-alpha */
+        @media (prefers-color-scheme: dark) {
+            .alt-top-icon {
+                border-color: rgba(0, 0, 0, .2);
+                color: rgba(0, 0, 0, .75);
+            }
+
+            .alt-top-sub {
+                color: rgba(0, 0, 0, .6);
+            }
         }
 
         /* ══════════════════════════════════════
@@ -1698,6 +1671,18 @@
             font-weight: 800;
             color: var(--white);
             margin-top: 2px;
+        }
+
+        /* Dark mode: .process-head inverts to a light banner, flip the
+           white-alpha icon border and eyebrow text to black-alpha */
+        @media (prefers-color-scheme: dark) {
+            .ph-icon {
+                border-color: rgba(0, 0, 0, .25);
+            }
+
+            .ph-eyebrow {
+                color: rgba(0, 0, 0, .45);
+            }
         }
 
         .process-body {
@@ -2256,16 +2241,16 @@
         }
 
         .dropdown-item.logout {
-            color: #dc2626;
+            color: var(--error);
         }
 
         .dropdown-item.logout:hover {
-            background: #fef2f2;
-            color: #b91c1c;
+            background: var(--error-bg);
+            color: var(--error);
         }
 
         .dropdown-item.logout i {
-            color: #ef4444;
+            color: var(--error);
         }
 
         /* ════ PROFILE MODAL ════ */
@@ -2670,14 +2655,14 @@
 
         .drawer-auth-btn.logout {
             background: none;
-            border: 1px solid #fecaca;
-            color: #dc2626;
+            border: 1px solid var(--error-bd);
+            color: var(--error);
             margin-top: 8px;
         }
 
         .drawer-auth-btn.logout:hover {
-            background: #fef2f2;
-            border-color: #fca5a5;
+            background: var(--error-bg);
+            border-color: var(--error-bd);
         }
 
         .drawer-divider {

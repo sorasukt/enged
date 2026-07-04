@@ -6,7 +6,8 @@
 
 const CONFIG = {
   // ตั้งค่าข้อมูลจาก Auth0 (Machine to Machine Application)
-  AUTH0_DOMAIN: "dev-your-tenant.auth0.com",
+  // AUTH0_DOMAIN ต้องตรงกับ tenant เดียวกับที่ Frontend ใช้ (JavaScript/auth.js)
+  AUTH0_DOMAIN: "litalkeducation.us.auth0.com",
   CLIENT_ID: "YOUR_M2M_CLIENT_ID",
   CLIENT_SECRET: "YOUR_M2M_CLIENT_SECRET",
   
@@ -118,13 +119,13 @@ function doPost(e) {
   }
 }
 
-// ฟังก์ชันสำหรับรองรับ CORS (เวลา Frontend ยิงแบบ Preflight)
+// หมายเหตุ CORS: Google Apps Script ไม่รองรับ CORS preflight (OPTIONS)
+// และ TextOutput ไม่มีเมธอด setHeader — Frontend จึงต้องยิงแบบ "simple request"
+// (Content-Type: text/plain + ส่ง access_token ใน body ไม่ใช่ Authorization header)
+// เมื่อ Deploy เป็น Web App แบบ "Anyone" GAS จะใส่ Access-Control-Allow-Origin: * ให้เอง
 function doOptions(e) {
   return ContentService.createTextOutput("")
-    .setMimeType(ContentService.MimeType.JSON)
-    .setHeader("Access-Control-Allow-Origin", "*")
-    .setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-    .setHeader("Access-Control-Allow-Headers", "Content-Type");
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 // Helper สำหรับตอบกลับ JSON

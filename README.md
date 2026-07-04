@@ -2,7 +2,7 @@
 
 ยินดีต้อนรับสู่ระบบสารสนเทศและบริการออนไลน์ของสาขาวิชาภาษาอังกฤษ คณะครุศาสตร์ มหาวิทยาลัยราชภัฏเลย พัฒนาขึ้นโดย **Sorasuk Thongkum (@sorasukt)** เพื่ออำนวยความสะดวกแก่นักศึกษาและบุคลากรในสาขาวิชาในการดำเนินกิจกรรมต่าง ๆ ได้อย่างสะดวก รวดเร็ว และโปร่งใส
 
-🌐 **เว็บไซต์:** [https://sorasukt.github.io/enged/](https://sorasukt.github.io/enged/)
+🌐 **เว็บไซต์:** [https://solution.litalkeducation.com/](https://solution.litalkeducation.com/)
 
 ---
 
@@ -108,7 +108,7 @@ enged/
 ### 1. การเรียกใช้งานหน้าเว็บหลัก (Root static site)
 โปรเจกต์หลักเป็นแบบ Static Web Page (HTML/CSS/JS) คุณสามารถเปิดใช้งานบนคอมพิวเตอร์ของคุณได้โดยไม่ต้องติดตั้ง Node.js หรือผ่าน Build Tools ใด ๆ
 *   ใช้ Extension เช่น **Live Server** บน VS Code
-*   หรือเปิดผ่านหน้าเว็บ GitHub Pages ที่เชื่อมไว้: `https://sorasukt.github.io/enged/`
+*   หรือเปิดผ่านหน้าเว็บ GitHub Pages ที่เชื่อมไว้: `https://solution.litalkeducation.com/`
 
 ### 2. การเปิดใช้งานระบบย่อย React (`blocks-app`)
 หากต้องการพัฒนาหรือรันระบบในโฟลเดอร์ `blocks-app` ให้ใช้คำสั่งผ่าน Terminal ดังนี้:

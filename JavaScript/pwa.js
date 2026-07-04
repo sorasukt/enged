@@ -2,7 +2,7 @@
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('/enged/service-worker.js')
+      .register('https://solution.litalkeducation.com/service-worker.js')
       .then((registration) => {
       })
       .catch((err) => {

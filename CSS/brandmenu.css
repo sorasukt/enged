@@ -1,7 +1,7 @@
 /* ============================================================
    brandmenu.css — Shared Brand Navigation Bar
    English Education, Loei Rajabhat University
-   ใช้ร่วมกันทุกหน้า: /enged, /vote, /budget, /checkup, /sys
+   ใช้ร่วมกันทุกหน้า: https://solution.litalkeducation.com, /vote, /budget, /checkup, /sys
    ============================================================ */
 
 /* ── Import Master Design Tokens ─────────────────────────────
@@ -481,23 +481,16 @@
 }
 
 .dropdown-item.logout {
-    color: #dc2626;
+    color: var(--bm-error);
 }
 
 .dropdown-item.logout:hover {
-    background: #fef2f2;
-    color: #b91c1c;
+    background: var(--bm-error-bg);
+    color: var(--bm-error);
 }
 
 .dropdown-item.logout i {
-    color: #ef4444;
-}
-
-@media (prefers-color-scheme: dark) {
-    .dropdown-item.logout:hover {
-        background: rgba(239, 68, 68, 0.12);
-        color: #f87171;
-    }
+    color: var(--bm-error);
 }
 
 /* ============================================================

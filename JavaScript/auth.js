@@ -45,7 +45,27 @@ async function initAuth() {
     }
 }
 
+async function ensureAuth0Sdk() {
+    if (window.auth0 && typeof window.auth0.createAuth0Client === 'function') return;
+
+    // SDK จาก CDN โหลดไม่สำเร็จ (เช่น เครือข่ายหลุด, SRI hash ไม่ตรง, ตัวบล็อกสคริปต์)
+    // ลองโหลดซ้ำอีกครั้งแบบ dynamic
+    await new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js';
+        s.async = true;
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('โหลด Auth0 SDK ไม่สำเร็จ กรุณาตรวจสอบอินเทอร์เน็ตแล้วรีเฟรชหน้าเว็บ'));
+        document.head.appendChild(s);
+    });
+
+    if (!(window.auth0 && typeof window.auth0.createAuth0Client === 'function')) {
+        throw new Error('ไม่พบตัวแปร auth0 (Auth0 SDK ไม่ถูกโหลด) กรุณารีเฟรชหน้าเว็บ');
+    }
+}
+
 async function configureAuth0() {
+    await ensureAuth0Sdk();
     auth0Client = await auth0.createAuth0Client({
         domain: AUTH0_DOMAIN,
         clientId: AUTH0_CLIENT_ID,
@@ -289,9 +309,21 @@ async function saveProfileData() {
             imageBase64 = 'DELETE';
         }
 
-        const token = await auth0Client.getTokenSilently();
+        if (!auth0Client) {
+            throw new Error('ระบบยืนยันตัวตนยังไม่พร้อม กรุณารีเฟรชหน้าเว็บแล้วลองใหม่');
+        }
 
+        let token;
+        try {
+            token = await auth0Client.getTokenSilently();
+        } catch (tokenErr) {
+            throw new Error('เซสชันหมดอายุ กรุณาออกจากระบบแล้วเข้าสู่ระบบใหม่');
+        }
+
+        // ส่ง access_token ใน body เพราะ Google Apps Script ไม่รองรับ
+        // Authorization header (จะทำให้เกิด CORS preflight แล้ว fetch ล้มเหลว)
         const payload = {
+            access_token: token,
             name: nameVal,
             imageBase64: imageBase64,
             imageMimeType: imageMimeType,
@@ -300,13 +332,11 @@ async function saveProfileData() {
 
         const res = await fetch(GAS_PROFILE_UPDATE_URL, {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'text/plain',
-                'Authorization': `Bearer ${token}`
-            },
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(payload)
         });
-        
+
+        if (!res.ok) throw new Error(`เซิร์ฟเวอร์ตอบกลับผิดพลาด (${res.status})`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
 
